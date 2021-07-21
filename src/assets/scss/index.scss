@@ -1,8 +1,12 @@
+@import url('../css/font-awesome.min.css');
 
-$a:"30px";
-$color:"red";
-.b{
-    width: $a;
-    height: $a;
-    background-color: $color;
+
+.test{
+    font-family: 'FontAwesome';
+    width: 50px;
+    height: 50px;
+    &::before{
+        font-size: 50px;
+        content: '\f17a';
+    }
 }

@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Test from './components/Test';
 import reportWebVitals from './reportWebVitals';
-import './assets/scss/index.scss';
 
 ReactDOM.render(
     <React.StrictMode>
-
-        <div className='b'>
-            OK
-        </div>
+        <Test />
     </React.StrictMode>,
     document.getElementById('root')
 );
