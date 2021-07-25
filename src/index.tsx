@@ -1,11 +1,26 @@
+import 'antd/dist/antd.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Test from './components/Test';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
+import route, { RouteType } from './route/router';
+
 
 ReactDOM.render(
     <React.StrictMode>
-        <Test />
+        <Router>
+            <Switch>
+                {
+                    route.map((item: RouteType, index: number) =>
+                    {
+                        return (
+                            <Route key={index} path={item.path} component={item.components} />
+                        );
+                    })
+                }
+            </Switch>
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );

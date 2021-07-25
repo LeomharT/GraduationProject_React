@@ -14,5 +14,9 @@
     "typescript.format.semicolons": "insert",
     "javascript.format.semicolons": "insert",
     "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    //保存时
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+    }
 }

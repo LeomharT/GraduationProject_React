@@ -1,0 +1,40 @@
+.HomeEntry{
+    width: 100%;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: no-repeat url('../img/homePage.jpg') ;
+    background-size: 100% 100%;
+    div{
+        box-sizing: border-box;
+        justify-content: flex-end;
+        align-content: center;
+    }
+    .HomeNavegate{
+        width: 100%;
+        display: flex;
+        padding: 5px 20px;
+        .ant-menu-horizontal > .ant-menu-item a{
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .ant-menu-item-icon{
+            font-size: 18px;
+            color: white;
+        }
+    }
+    .HomeSearch{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 280px;
+        padding-left: 100px;
+        >span{
+            display: inline;
+            font-size: 50px;
+            color: white;
+            font-weight: bold;
+        }
+    }
+}
