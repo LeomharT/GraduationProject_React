@@ -6,7 +6,7 @@ import Navigate from './Navigate';
 import SearchBar from './SearchBar';
 
 
-const Wrapper = styled.div`
+const HomeWrapper = styled.div`
 display: flex;
 justify-content: space-between;
 align-items: center;
@@ -22,12 +22,12 @@ class Home extends Component<HomeProps, {}>
     render()
     {
         return (
-            <Wrapper>
+            <HomeWrapper>
                 <div className="HomeEntry" >
                     <Navigate />
                     <SearchBar />
                 </div>
-            </Wrapper>
+            </HomeWrapper>
         );
     }
 }
