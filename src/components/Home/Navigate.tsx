@@ -4,8 +4,8 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { MenuType } from '../../interfaces/HomeInterface';
 import LoginStroe from '../../redux/LoginStore';
-import { MenuType } from './HomeInterface';
 
 
 @observer
