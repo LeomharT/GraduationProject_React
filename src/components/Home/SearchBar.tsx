@@ -8,11 +8,6 @@ export default class SearchBar extends Component
 
     render()
     {
-        const options = [
-            { value: '鼓楼' },
-            { value: '台江' },
-            { value: 'Wall Street' },
-        ];
         return (
             <div className='HomeSearch'>
                 <span>

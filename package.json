@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.8.3",
     "@types/react": "^17.0.14",
     "antd": "^4.16.8",
+    "authing-js-sdk": "^4.21.9",
     "customize-cra": "^1.0.0",
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.1",
