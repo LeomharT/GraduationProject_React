@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import '../../assets/scss/User.scss';
 import UserStore from '../../redux/UserStore';
+import HeadNavigate from '../Common/HeadNavigate';
 
 const UserWrapper = styled.div`
 display: flex;
-justify-content: center;
+flex-direction: column;
+justify-content: space-between;
 align-items: center;
-width: 100vw;
-height: 100vh;
 `;
 
 
@@ -26,6 +26,7 @@ export default class User extends Component<{}, {}>
     {
         return (
             <UserWrapper>
+                <HeadNavigate />
                 <div className='User'>
                     <input type="text" id='userName' />
                     <button onClick={() => { this.UserStore.UpdateUserProfile(); }}>
@@ -36,7 +37,6 @@ export default class User extends Component<{}, {}>
                     </button>
                 </div>
             </UserWrapper>
-
         );
     }
 }

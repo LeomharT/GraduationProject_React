@@ -4,8 +4,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: no-repeat url('../img/homePage.jpg') ;
-    background-size: 100% 100%;
     div{
         box-sizing: border-box;
         justify-content: flex-end;
@@ -14,27 +12,92 @@
     .HomeNavegate{
         width: 100%;
         display: flex;
-        padding: 5px 20px;
+        justify-content: space-between;
+        padding: 5px 100px;
+        background-color: #f8f9ff;
+        border-bottom: 2px solid #ECF2FF;
         .ant-menu-horizontal > .ant-menu-item a{
-            color: white;
             font-size: 18px;
             font-weight: bold;
         }
         .ant-menu-item-icon{
             font-size: 18px;
-            color: white;
+        }
+        >i{
+            &::before{
+                content: '\f236';
+            }
+            font-style: normal;
+            line-height: 40px;
+            color: lightgrey;
+            font-size: 50px;
         }
     }
     .HomeSearch{
         display: flex;
-        flex-direction: column;
-        margin-bottom: 280px;
-        padding-left: 100px;
-        >span{
-            display: inline;
-            font-size: 50px;
-            color: white;
-            font-weight: bold;
+        justify-content: space-between;
+        padding: 0 170px;
+        .SearchBar{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding-left: 40px;
+            .SearchTxt{
+                width: 600px;
+                >span{
+                    display: inline;
+                    font-size: 30px;
+                    color: #407BFF;
+                    font-weight: bold;
+                }
+            }
+            .SearchImg{
+                // display: flex;
+                >img{
+                    height: 300px;
+                    width: 300px;
+                }
+            }
+        }
+        >img{
+            width: 500px;
         }
     }
+}
+
+.HomeRecommend{
+    width: 100%;
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    div{
+        box-sizing: border-box;
+    }
+    .RecommendTitle{
+        padding: 0 210px;
+        >p{
+            font-size: 30px;
+            font-weight: bold;
+            color: #407BFF;
+            margin-bottom: 0;
+        }
+        >span{
+            color: #9399A5;
+            font-size: 20px;
+        }
+    }
+    .RecommendContent{
+        padding:0 210px;
+        .Content_Img{
+            width: 100%;
+            background-color: #F4F8FF;
+            >img{
+                width: 330px;
+                height: 150px;
+            }
+        }
+
+    }
+
 }

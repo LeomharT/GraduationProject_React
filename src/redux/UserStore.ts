@@ -5,7 +5,7 @@ import LoginStroe from "./LoginStore";
 
 export default class UserStore
 {
-    loginStore: LoginStroe = new LoginStroe();
+    loginStore: LoginStroe = LoginStroe.GetInstance();
     authInfo: any = {};
     @observable authenticationClient!: AuthenticationClient;
     InitAuth = async () =>

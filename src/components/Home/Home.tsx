@@ -3,11 +3,12 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 import '../../assets/scss/Home.scss';
 import Navigate from './Navigate';
+import Recommend from './Recommend';
 import SearchBar from './SearchBar';
-
 
 const HomeWrapper = styled.div`
 display: flex;
+flex-wrap: wrap;
 justify-content: space-between;
 align-items: center;
 `;
@@ -27,6 +28,7 @@ class Home extends Component<HomeProps, {}>
                     <Navigate />
                     <SearchBar />
                 </div>
+                <Recommend />
             </HomeWrapper>
         );
     }

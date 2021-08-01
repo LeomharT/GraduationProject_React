@@ -8,27 +8,28 @@ import { MenuType } from '../../interfaces/HomeInterface';
 import LoginStroe from '../../redux/LoginStore';
 
 
+const menuItem: MenuType[] = [
+    { title: '租房', link: '/HomeList', icon: <HomeOutlined /> },
+    { title: '出租', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
+];
+
 @observer
 export default class Navigate extends Component<{}, {}>
 {
-    loginStore: LoginStroe = new LoginStroe();
+    loginStore: LoginStroe = LoginStroe.GetInstance();
     @observable authInfo: any = {};
-    @observable menuItem: MenuType[] = [
-        { title: '租房', link: '/HomeList', icon: <HomeOutlined /> },
-        { title: '出租', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
-    ];
     async componentDidMount()
     {
-
         this.authInfo = await this.loginStore.getAuthInfo();
-        console.log(await this.authInfo);
+        console.log(this.authInfo);
     }
     render()
     {
         return (
             <div className="HomeNavegate">
+                <i />
                 <Menu mode='horizontal' style={{ backgroundColor: 'rgba(0,0,0,0)', borderBottom: "none" }}>
-                    {this.menuItem.map((item: MenuType) =>
+                    {menuItem.map((item: MenuType) =>
                     {
                         return (
                             <Menu.Item icon={item.icon} key={item.title}>
