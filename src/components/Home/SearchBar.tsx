@@ -23,6 +23,7 @@ export default class SearchBar extends Component
                         <Search
                             size='large'
                             placeholder="请输入区域开始找房"
+                            enterButton
                             onSearch={() => { console.log('ok'); }}
                         />
                     </div>

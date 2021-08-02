@@ -52,7 +52,8 @@
                 }
             }
             .SearchImg{
-                // display: flex;
+                display: flex;
+                justify-content: center;
                 >img{
                     height: 300px;
                     width: 300px;

@@ -2,5 +2,5 @@ export interface MenuType
 {
     title: string;
     link: string;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
 }

@@ -1,13 +1,26 @@
-import { HomeOutlined } from '@ant-design/icons';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../../assets/scss/Common.scss';
+import { MenuType } from '../../interfaces/HomeInterface';
 export default class HeadNavigate extends Component<{}, {}>
 {
     render()
     {
+        const menuItem: MenuType[] = [
+            { title: "主页", link: "/Home" }
+        ];
         return (
             <div className="HeadNavi">
-                <HomeOutlined color={'#ffffff'} />
+                <ul>
+                    {menuItem.map((menu: MenuType, index: number) =>
+                    {
+                        return (
+                            <li>
+                                <Link to={menu.link}>{menu.title}</Link>
+                            </li>
+                        );
+                    })}
+                </ul>
             </div>
         );
     }
