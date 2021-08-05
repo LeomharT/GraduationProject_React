@@ -1,15 +1,20 @@
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/User.scss';
 import UserStore from '../../redux/UserStore';
+import route, { RouteType } from '../../route/router';
 import HeadNavigate from '../Common/HeadNavigate';
+import SideNavi from './SideNavi';
 
 const UserWrapper = styled.div`
+height: 100vh;
 display: flex;
 flex-direction: column;
-justify-content: space-between;
+/* justify-content: space-between; */
 align-items: center;
+background: #f8f9ff;
 `;
 
 
@@ -28,13 +33,23 @@ export default class User extends Component<{}, {}>
             <UserWrapper>
                 <HeadNavigate />
                 <div className='User'>
-                    <input type="text" id='userName' />
-                    <button onClick={() => { this.UserStore.UpdateUserProfile(); }}>
-                        update
-                    </button>
-                    <button onClick={() => { this.UserStore.Logout(); }}>
-                        logout
-                    </button>
+                    <SideNavi />
+                    <div className='User_MainContent'>
+
+                        <Switch>
+                            {route[2].childRoute?.map((route: RouteType, index: number) =>
+                            {
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        component={route.components}
+                                    />
+                                );
+                            })}
+                        </Switch>
+
+                    </div>
                 </div>
             </UserWrapper>
         );

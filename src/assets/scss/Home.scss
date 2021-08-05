@@ -1,23 +1,23 @@
 .HomeEntry{
-    width: 100%;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
+    width          : 100%;
+    height         : 600px;
+    display        : flex;
+    flex-direction : column;
     justify-content: space-between;
     div{
-        box-sizing: border-box;
+        box-sizing     : border-box;
         justify-content: flex-end;
-        align-content: center;
+        align-content  : center;
     }
     .HomeNavegate{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 5px 100px;
+        width           : 100%;
+        display         : flex;
+        justify-content : space-between;
+        padding         : 5px 100px;
         background-color: #f8f9ff;
-        border-bottom: 2px solid #ECF2FF;
+        border-bottom   : 2px solid #ECF2FF;
         .ant-menu-horizontal > .ant-menu-item a{
-            font-size: 18px;
+            font-size  : 18px;
             font-weight: bold;
         }
         .ant-menu-item-icon{
@@ -27,36 +27,36 @@
             &::before{
                 content: '\f236';
             }
-            font-style: normal;
+            font-style : normal;
             line-height: 40px;
-            color: lightgrey;
-            font-size: 50px;
+            color      : lightgrey;
+            font-size  : 50px;
         }
     }
     .HomeSearch{
-        display: flex;
+        display        : flex;
         justify-content: space-between;
-        padding: 0 170px;
+        padding        : 0 10rem;
         .SearchBar{
-            display: flex;
-            flex-direction: column;
+            display        : flex;
+            flex-direction : column;
             justify-content: space-around;
-            padding-left: 40px;
+            padding-left   : 40px;
             .SearchTxt{
                 width: 600px;
                 >span{
-                    display: inline;
-                    font-size: 30px;
-                    color: #407BFF;
+                    display    : inline;
+                    font-size  : 30px;
+                    color      : #407BFF;
                     font-weight: bold;
                 }
             }
             .SearchImg{
-                display: flex;
+                display        : flex;
                 justify-content: center;
                 >img{
                     height: 300px;
-                    width: 300px;
+                    width : 300px;
                 }
             }
         }
@@ -67,10 +67,10 @@
 }
 
 .HomeRecommend{
-    width: 100%;
-    padding: 100px 0;
-    display: flex;
-    flex-direction: column;
+    width          : 100%;
+    padding        : 100px 0;
+    display        : flex;
+    flex-direction : column;
     justify-content: space-between;
     div{
         box-sizing: border-box;
@@ -78,23 +78,25 @@
     .RecommendTitle{
         padding: 0 210px;
         >p{
-            font-size: 30px;
-            font-weight: bold;
-            color: #407BFF;
+            font-size    : 30px;
+            font-weight  : bold;
+            color        : #407BFF;
             margin-bottom: 0;
         }
         >span{
-            color: #9399A5;
+            color    : #9399A5;
             font-size: 20px;
         }
     }
     .RecommendContent{
-        padding:0 210px;
+        padding       : 0 210px;
+        display       : flex;
+        flex-direction: column;
         .Content_Img{
-            width: 100%;
+            width           : 100%;
             background-color: #F4F8FF;
             >img{
-                width: 330px;
+                width : 330px;
                 height: 150px;
             }
         }

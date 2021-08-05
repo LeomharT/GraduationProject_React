@@ -15,7 +15,7 @@ export default class HeadNavigate extends Component<{}, {}>
                     {menuItem.map((menu: MenuType, index: number) =>
                     {
                         return (
-                            <li>
+                            <li key={index}>
                                 <Link to={menu.link}>{menu.title}</Link>
                             </li>
                         );

@@ -15,7 +15,11 @@ ReactDOM.render(
                     route.map((item: RouteType, index: number) =>
                     {
                         return (
-                            <Route key={index} path={item.path} component={item.components} />
+                            <Route
+                                key={index}
+                                path={item.path}
+                                component={item.components}
+                            />
                         );
                     })
                 }
