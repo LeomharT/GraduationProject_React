@@ -1,3 +1,5 @@
+import { Spin } from 'antd';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -24,10 +26,12 @@ export default class User extends Component<{}, {}>
 {
     AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore = UserStore.GetInstance();
+    @observable loadingAuthInfo: boolean = false;
     async componentDidMount()
     {
         if (this.UserStore.authInfo.session === null)
         {
+            this.loadingAuthInfo = true;
             this.AuthStore.auth.login();
             return;
         }
@@ -36,26 +40,28 @@ export default class User extends Component<{}, {}>
     render()
     {
         return (
-            <UserWrapper>
-                <HeadNavigate />
-                <div className='User'>
-                    <SideNavi />
-                    <div className='User_MainContent'>
-                        <Switch>
-                            {route[2].childRoute?.map((route: RouteType, index: number) =>
-                            {
-                                return (
-                                    <Route
-                                        key={index}
-                                        path={route.path}
-                                        component={route.components}
-                                    />
-                                );
-                            })}
-                        </Switch>
+            <Spin spinning={this.loadingAuthInfo} size='large'>
+                <UserWrapper>
+                    <HeadNavigate />
+                    <div className='User'>
+                        <SideNavi />
+                        <div className='User_MainContent'>
+                            <Switch>
+                                {route[2].childRoute?.map((route: RouteType, index: number) =>
+                                {
+                                    return (
+                                        <Route
+                                            key={index}
+                                            path={route.path}
+                                            component={route.components}
+                                        />
+                                    );
+                                })}
+                            </Switch>
+                        </div>
                     </div>
-                </div>
-            </UserWrapper>
+                </UserWrapper>
+            </Spin>
         );
     }
 }
