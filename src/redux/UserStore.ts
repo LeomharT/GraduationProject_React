@@ -1,54 +1,49 @@
-import { message } from "antd";
 import { AuthenticationClient } from "authing-js-sdk";
 import { observable } from "mobx";
-import LoginStroe from "./LoginStore";
+import AuthStore from "./AuthStore";
 
 export default class UserStore
 {
-    loginStore: LoginStroe = LoginStroe.GetInstance();
-    authInfo: any = {};
-    @observable authenticationClient!: AuthenticationClient;
-    InitAuth = async () =>
+    constructor()
     {
-        this.authInfo = await this.loginStore.getAuthInfo();
-        if (this.authInfo.session === null)
-        {
-            this.loginStore.auth.login();
-        }
+        this.InitAuthInfo();
+    }
+    AuthStore: AuthStore = AuthStore.GetInstance();
+    @observable authInfo: any = {};
+    authenticationClient!: AuthenticationClient;
+    InitAuthInfo = async () =>
+    {
+        this.authInfo = await this.AuthStore.GetAuthInfo();
+    };
+    InitAuthClien = async () =>
+    {
+        if (this.authInfo.session === null) return;
+        this.authenticationClient = await this.AuthStore.InitAuthenticationClient();
+        this.authenticationClient.getCurrentUser();  //需要获取当前用户才能修改信息,合理
+    };
+    RenderUserName = (): String =>
+    {
+        let authInfo = this.authInfo;
+        if (authInfo.session === null)
+        { return "注册/登录"; }
         else
         {
-            this.authenticationClient = new AuthenticationClient({
-                appId: '5fc0a9285330540d530ceb86',
-                appHost: "https://house-domain.authing.cn",
-                token: this.authInfo.userInfo.token
-            });
-            this.authenticationClient.getCurrentUser();  //需要获取当前用户才能修改信息,合理
+            if (!authInfo.userInfo) return "注册/登录";
+            if (authInfo.userInfo.username)
+            { return authInfo.userInfo.username; }
+            else
+            {
+                if (authInfo.userInfo.email) return authInfo.userInfo.email;
+                if (authInfo.userInfo.phone) return authInfo.userInfo.phone;
+            }
         }
+        return '';
     };
-    Logout = () =>
+    private static _SingleInstance: UserStore;
+    static GetInstance()
     {
-        this.loginStore.auth.logout().then(() =>
-        {
-            window.location.reload();
-        });
+        if (this._SingleInstance) return this._SingleInstance;
+        this._SingleInstance = new UserStore();
+        return this._SingleInstance;
     };
-    async UpdateUserProfile()
-    {
-        try
-        {
-            let input = document.getElementById("userName") as HTMLInputElement;
-            this.authenticationClient.updateProfile({
-                username: input.value
-            })
-                .then(() =>
-                {
-                    message.success("修改成功了");
-                });
-        }
-        catch (e)
-        {
-            console.log(e);
-        }
-
-    }
 }

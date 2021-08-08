@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/User.scss';
+import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
 import route, { RouteType } from '../../route/router';
 import HeadNavigate from '../Common/HeadNavigate';
@@ -21,11 +22,16 @@ background: #f8f9ff;
 @observer
 export default class User extends Component<{}, {}>
 {
-    UserStore = new UserStore();
-
+    AuthStore: AuthStore = AuthStore.GetInstance();
+    UserStore = UserStore.GetInstance();
     async componentDidMount()
     {
-        this.UserStore.InitAuth();
+        if (this.UserStore.authInfo.session === null)
+        {
+            this.AuthStore.auth.login();
+            return;
+        }
+        await this.UserStore.InitAuthClien();
     }
     render()
     {
@@ -35,7 +41,6 @@ export default class User extends Component<{}, {}>
                 <div className='User'>
                     <SideNavi />
                     <div className='User_MainContent'>
-
                         <Switch>
                             {route[2].childRoute?.map((route: RouteType, index: number) =>
                             {
@@ -48,7 +53,6 @@ export default class User extends Component<{}, {}>
                                 );
                             })}
                         </Switch>
-
                     </div>
                 </div>
             </UserWrapper>

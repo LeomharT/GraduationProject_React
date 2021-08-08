@@ -1,29 +1,52 @@
-import { AuditOutlined, FormOutlined, TagOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu } from 'antd';
+import { AuditOutlined, FormOutlined, TagOutlined } from '@ant-design/icons';
+import { Avatar, Menu, message } from 'antd';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { MenuType } from '../../interfaces/HomeInterface';
+import AuthStore from '../../redux/AuthStore';
+import UserStore from '../../redux/UserStore';
 
+const UserNaviMenu: MenuType[] = [
+    { title: "关注的房源", link: "/User/UserCollection", icon: <TagOutlined /> },
+    { title: "我的委托", link: "/User/UserRents", icon: <AuditOutlined /> },
+    { title: "编辑资料", link: "/User/EditUserInfo", icon: <FormOutlined /> }
+];
+
+@observer
 export default class SideNavi extends Component<{}, {}>
 {
-    UserNaviMenu: MenuType[] = [
-        { title: "关注的房源", link: "/User/UserCollection", icon: <TagOutlined /> },
-        { title: "我的委托", link: "/User/UserRents", icon: <AuditOutlined /> },
-        { title: "编辑资料", link: "/User/EditUserInfo", icon: <FormOutlined /> }
-    ];
+    AuthStore: AuthStore = AuthStore.GetInstance();
+    UserStore: UserStore = UserStore.GetInstance();
     render()
     {
         return (
             <div className='SideNavi'>
-                <div className="Avatar">
-                    <Avatar shape='square' size={64} icon={<UserOutlined />} />
+                <div className="Avatar"
+                    onClick={() =>
+                    {
+                        this.UserStore.authenticationClient.uploadAvatar().then((userInfo) =>
+                        {
+                            this.UserStore.authInfo.userInfo = userInfo;
+                            message.success("上传成功");
+                        });
+                    }}
+                >
+                    <Avatar shape='square' size={64}
+                        src={this.UserStore.authInfo.userInfo
+                            ? this.UserStore.authInfo.userInfo.photo
+                            : 'https://files.authing.co/authing-console/default-user-avatar.png'
+                        }
+                    />
                 </div>
-                <span>UserName</span>
+                <span>
+                    {this.UserStore.RenderUserName()}
+                </span>
                 <Menu mode='inline'
-                    defaultSelectedKeys={[(this.UserNaviMenu.length - 1).toString()]}
+                    defaultSelectedKeys={[(UserNaviMenu.length - 1).toString()]}
                     style={{ width: "200px" }}
                 >
-                    {this.UserNaviMenu.map((menu: MenuType, index: number) =>
+                    {UserNaviMenu.map((menu: MenuType, index: number) =>
                     {
                         return (
                             <Menu.Item key={index} icon={menu.icon}>

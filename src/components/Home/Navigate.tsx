@@ -1,11 +1,11 @@
 import { HomeOutlined, MoneyCollectOutlined, UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { MenuType } from '../../interfaces/HomeInterface';
-import LoginStroe from '../../redux/LoginStore';
+import AuthStore from '../../redux/AuthStore';
+import UserStore from '../../redux/UserStore';
 
 
 const menuItem: MenuType[] = [
@@ -16,13 +16,8 @@ const menuItem: MenuType[] = [
 @observer
 export default class Navigate extends Component<{}, {}>
 {
-    loginStore: LoginStroe = LoginStroe.GetInstance();
-    @observable authInfo: any = {};
-    async componentDidMount()
-    {
-        this.authInfo = await this.loginStore.getAuthInfo();
-        console.log(this.authInfo);
-    }
+    AuthStore: AuthStore = AuthStore.GetInstance();
+    UserStore: UserStore = UserStore.GetInstance();
     render()
     {
         return (
@@ -42,13 +37,10 @@ export default class Navigate extends Component<{}, {}>
                     <Menu.Item
                         key={'Login'}
                         icon={<UserOutlined />}
-                        onClick={() => { }}
                     >
-                        <Link to="/User">
+                        <Link to="/User/EditUserInfo">
                             {
-                                this.authInfo.session === null
-                                    ? "登录/注册"
-                                    : "okok你登录廖"
+                                this.UserStore.RenderUserName()
                             }
                         </Link>
 
