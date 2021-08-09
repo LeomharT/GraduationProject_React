@@ -18,9 +18,10 @@ export default class UserStore
     InitAuthClien = async () =>
     {
         if (this.authInfo.session === null) return;
-        console.log(this.authInfo);
         this.authenticationClient = await this.AuthStore.InitAuthenticationClient();
-        this.authenticationClient.getCurrentUser();  //需要获取当前用户才能修改信息,合理
+        if (this.authenticationClient)
+            this.authenticationClient.getCurrentUser();  //需要获取当前用户才能修改信息,合理
+
     };
     RenderUserName = (): String =>
     {
