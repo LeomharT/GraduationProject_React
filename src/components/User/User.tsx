@@ -24,23 +24,19 @@ background: #f8f9ff;
 @observer
 export default class User extends Component<{}, {}>
 {
-    // constructor(props: any)
-    // {
-    //     super(props);
-    //     console.log(this.UserStore.authInfo.session);
-    // }
     AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore = UserStore.GetInstance();
     @observable loadingAuthInfo: boolean = false;
     async componentDidMount()
     {
         await this.UserStore.InitAuthClien();
-        if (this.UserStore.authInfo.session === null)
+        if (this.UserStore.authInfo.session == null)
         {
             this.loadingAuthInfo = true;
             this.AuthStore.auth.login();
             return;
         }
+        console.log(this.UserStore.authInfo.userInfo);
     }
     render()
     {

@@ -1,5 +1,7 @@
-import { Button, Input, message } from 'antd';
-import { action } from 'mobx';
+import { FormOutlined, SaveOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Skeleton } from 'antd';
+import { action, observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -10,10 +12,13 @@ interface U_EditUserInfoProps extends RouteComponentProps
 {
 
 }
+@observer
 class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
 {
     AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
+    @observable isEdit: boolean = false;
+    @observable submiting: boolean = false;
 
     @action
     UpdateUserProfile = async () =>
@@ -43,13 +48,61 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
             this.props.history.push('/Home');
         });
     };
-    componentDidMount()
-    {
-    }
     render()
     {
+        const userInfo = this.UserStore.authInfo.userInfo;
+        if (!userInfo) return (<Skeleton active />);
         return (
-            <div>
+            <div className='U_EditUserInfo'>
+                {/* 操作是否编辑、保存按钮 */}
+                <div className='UserInfoOption'>
+                    {!this.isEdit &&
+                        <Button
+                            type='link'
+                            icon={<FormOutlined />}
+                            onClick={action(() =>
+                            {
+                                this.isEdit = true;
+                            })}
+                        >编辑</Button>
+                    }
+                    {this.isEdit &&
+                        <Button type='link'
+                            icon={<SaveOutlined />}
+                            loading={this.submiting}
+                            onClick={action(() =>
+                            {
+
+                            })}
+                        >保存</Button>
+                    }
+                    {this.isEdit &&
+                        <Button type='link'
+                            onClick={action(() => { this.isEdit = false; })}>
+                            取消</Button>
+                    }
+                </div>
+                {/* 表单 */}
+                <Form
+                    layout='inline'
+                >
+                    <Form.Item label="姓名">
+                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {!this.isEdit && <label>{userInfo.name ? userInfo.name : "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="用户名">
+                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {!this.isEdit && <label>{userInfo.username}</label>}
+                    </Form.Item>
+                    <Form.Item label="性别">
+                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="性别">
+                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
+                    </Form.Item>
+                </Form>
                 <Input autoComplete='off' id='userName' placeholder='用户名' />
                 <Button
                     onClick={() =>
