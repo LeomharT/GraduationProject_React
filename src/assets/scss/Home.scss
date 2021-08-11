@@ -34,9 +34,10 @@
         }
     }
     .HomeSearch{
+        width: 1200px;
         display        : flex;
         justify-content: space-between;
-        padding        : 0 10rem;
+        margin: 0 auto;
         .SearchBar{
             display        : flex;
             flex-direction : column;
@@ -57,6 +58,20 @@
                 >img{
                     height: 300px;
                     width : 300px;
+                }
+            }
+            .SearchInput
+            {
+                position: relative;
+                .MapIcon{
+                    position  : absolute;
+                    font-size : 30px;
+                    margin-top: -15px;
+                    top       : 50%;
+                    right     : 70px;
+                    color     : #407BFF;
+                    z-index   : 3;
+                    cursor    : pointer;
                 }
             }
         }

@@ -19,8 +19,6 @@ flex-direction: column;
 align-items: center;
 background: #f8f9ff;
 `;
-
-
 @observer
 export default class User extends Component<{}, {}>
 {

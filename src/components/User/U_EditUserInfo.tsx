@@ -87,23 +87,22 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     layout='inline'
                 >
                     <Form.Item label="姓名">
-                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {this.isEdit && <Input placeholder={userInfo.name} />}
                         {!this.isEdit && <label>{userInfo.name ? userInfo.name : "-"}</label>}
                     </Form.Item>
                     <Form.Item label="用户名">
-                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {this.isEdit && <Input placeholder={userInfo.username} />}
                         {!this.isEdit && <label>{userInfo.username}</label>}
                     </Form.Item>
                     <Form.Item label="性别">
-                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {this.isEdit && <Input placeholder={userInfo.gender} />}
                         {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
                     </Form.Item>
                     <Form.Item label="性别">
-                        {this.isEdit && <Input placeholder="input placeholder" />}
+                        {this.isEdit && <Input placeholder={userInfo.gender} />}
                         {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
                     </Form.Item>
                 </Form>
-                <Input autoComplete='off' id='userName' placeholder='用户名' />
                 <Button
                     onClick={() =>
                     {
