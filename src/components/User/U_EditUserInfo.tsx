@@ -1,5 +1,5 @@
 import { FormOutlined, SaveOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Skeleton } from 'antd';
+import { Button, DatePicker, Form, Input, message, Select, Skeleton } from 'antd';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
 
+const { Option } = Select;
 interface U_EditUserInfoProps extends RouteComponentProps
 {
 
@@ -88,29 +89,35 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                 >
                     <Form.Item label="姓名">
                         {this.isEdit && <Input placeholder={userInfo.name} />}
-                        {!this.isEdit && <label>{userInfo.name ? userInfo.name : "-"}</label>}
+                        {!this.isEdit && <label>{userInfo.name ?? "-"}</label>}
                     </Form.Item>
                     <Form.Item label="用户名">
                         {this.isEdit && <Input placeholder={userInfo.username} />}
                         {!this.isEdit && <label>{userInfo.username}</label>}
                     </Form.Item>
                     <Form.Item label="性别">
-                        {this.isEdit && <Input placeholder={userInfo.gender} />}
+                        {this.isEdit &&
+                            <Select defaultValue={userInfo.gender} style={{ width: "250px" }}>
+                                <Option value='男'>男</Option>
+                                <Option value='女'>女</Option>
+                                <Option value='未分类'>未分类</Option>
+                            </Select>
+                        }
                         {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
                     </Form.Item>
-                    <Form.Item label="性别">
-                        {this.isEdit && <Input placeholder={userInfo.gender} />}
-                        {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
+                    <Form.Item label="生日">
+                        {this.isEdit && <DatePicker style={{ width: '250px' }} onChange={(data, dataStr) => { console.log(data, dataStr); }} />}
+                        {!this.isEdit && <label>{userInfo.birthdate ? userInfo.birthdate : "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="个人信息">
+                        {this.isEdit && <Input placeholder={userInfo.profile} />}
+                        {!this.isEdit && <label>{userInfo.profile ?? '-'}</label>}
+                    </Form.Item>
+                    <Form.Item label="个人博客">
+                        {this.isEdit && <Input placeholder={userInfo.website} />}
+                        {!this.isEdit && <label>{userInfo.website ?? "-"}</label>}
                     </Form.Item>
                 </Form>
-                <Button
-                    onClick={() =>
-                    {
-                        this.UpdateUserProfile();
-                    }}
-                >
-                    确认
-                </Button>
                 <Button
                     danger
                     onClick={() =>

@@ -47,7 +47,7 @@ export default class Navigate extends Component<{}, {}>
                         </Menu.Item>
                     </Menu>
                     <Avatar
-                        size={40}
+                        size={46}
                         style={{ verticalAlign: "middle" }}
                         shape='circle'
                         src={

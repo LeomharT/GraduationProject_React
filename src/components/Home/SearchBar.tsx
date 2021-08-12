@@ -7,9 +7,8 @@ import HouseSearchBar from '../../assets/img/HouseSearchBar.gif';
 
 
 const { Search } = Input;
-export default class SearchBar extends Component
+export default class SearchBar extends Component<{}, {}>
 {
-
     render()
     {
         return (

@@ -16,10 +16,8 @@ interface HomeProps extends RouteComponentProps
 {
 
 }
-
 class Home extends Component<HomeProps, {}>
 {
-
     render()
     {
         return (
@@ -33,6 +31,4 @@ class Home extends Component<HomeProps, {}>
         );
     }
 }
-
-
 export default withRouter(Home);
