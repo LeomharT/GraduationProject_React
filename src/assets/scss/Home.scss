@@ -13,16 +13,21 @@
         width           : 100%;
         display         : flex;
         justify-content : space-between;
-        padding         : 5px 100px;
+        padding         : 5px 150px;
         background-color: #f8f9ff;
         border-bottom   : 2px solid #ECF2FF;
-        .ant-menu-horizontal > .ant-menu-item a{
-            font-size  : 18px;
-            font-weight: bold;
+        div:nth-child(2)
+        {
+            display: flex;
+            .ant-menu-horizontal > .ant-menu-item a{
+                font-size  : 18px;
+                font-weight: bold;
+            }
+            .ant-menu-item-icon{
+                font-size: 18px;
+            }
         }
-        .ant-menu-item-icon{
-            font-size: 18px;
-        }
+
         >i{
             &::before{
                 content: '\f236';
@@ -54,8 +59,29 @@
             }
             .SearchImg{
                 display        : flex;
-                justify-content: center;
+                overflow       : hidden;
+                justify-content: space-between;
+                >div
+                {
+                    padding-top: 50px;
+                    span:nth-child(1)
+                    {
+                        display      : block;
+                        font-size    : 40px;
+                        font-weight  : bold;
+                        margin-bottom: 20px;
+                    }
+                    span:nth-child(2)
+                    {
+                        display      : block;
+                        color        : #545968;
+                        line-height  : 2rem;
+                        font-size    : 17px
+                    }
+                }
+
                 >img{
+                    margin-left: -50px;
                     height: 300px;
                     width : 300px;
                 }
@@ -65,8 +91,8 @@
                 position: relative;
                 .MapIcon{
                     position  : absolute;
-                    font-size : 30px;
-                    margin-top: -15px;
+                    font-size : 20px;
+                    margin-top: -10px;
                     top       : 50%;
                     right     : 70px;
                     color     : #407BFF;

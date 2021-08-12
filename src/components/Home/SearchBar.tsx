@@ -16,7 +16,15 @@ export default class SearchBar extends Component
             <div className='HomeSearch'>
                 <main className='SearchBar'>
                     <div className='SearchImg' >
-                        <img src={HouseSearchBar} alt="searching" />
+                        <img draggable={false} src={HouseSearchBar} alt="searching" />
+                        <div >
+                            <span>
+                                连接全球人与社区
+                            </span>
+                            <span>
+                                快速的找到真实的、可靠的房源信息。连接每一个家的故事。让房子再次回到居住的基本属性。
+                            </span>
+                        </div>
                     </div>
                     <div className='SearchTxt'>
                         <span>
@@ -39,7 +47,7 @@ export default class SearchBar extends Component
                         </div>
                     </div>
                 </main>
-                <img alt='HouseSearch' src={HouseSearch} />
+                <img draggable={false} alt='HouseSearch' src={HouseSearch} />
             </div>
         );
     }

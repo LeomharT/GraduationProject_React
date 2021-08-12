@@ -34,7 +34,6 @@ export default class User extends Component<{}, {}>
             this.AuthStore.auth.login();
             return;
         }
-        console.log(this.UserStore.authInfo.userInfo);
     }
     render()
     {

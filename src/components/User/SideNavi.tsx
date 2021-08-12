@@ -54,7 +54,6 @@ export default class SideNavi extends Component<{}, {}>
                             </Menu.Item>
                         );
                     })}
-
                 </Menu>
             </div>
         );

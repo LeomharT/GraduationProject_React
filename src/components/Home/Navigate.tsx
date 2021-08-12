@@ -1,5 +1,5 @@
 import { HomeOutlined, MoneyCollectOutlined, UserOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import { Avatar, Menu } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -23,29 +23,40 @@ export default class Navigate extends Component<{}, {}>
         return (
             <div className="HomeNavegate">
                 <i />
-                <Menu mode='horizontal' style={{ backgroundColor: 'rgba(0,0,0,0)', borderBottom: "none" }}>
-                    {menuItem.map((item: MenuType) =>
-                    {
-                        return (
-                            <Menu.Item icon={item.icon} key={item.title}>
-                                <Link to={item.link}>
-                                    {item.title}
-                                </Link>
-                            </Menu.Item>
-                        );
-                    })}
-                    <Menu.Item
-                        key={'Login'}
-                        icon={<UserOutlined />}
-                    >
-                        <Link to="/User/EditUserInfo">
-                            {
-                                this.UserStore.RenderUserName()
-                            }
-                        </Link>
-
-                    </Menu.Item>
-                </Menu>
+                <div>
+                    <Menu mode='horizontal' style={{ backgroundColor: 'rgba(0,0,0,0)', borderBottom: "none" }}>
+                        {menuItem.map((item: MenuType) =>
+                        {
+                            return (
+                                <Menu.Item icon={item.icon} key={item.title}>
+                                    <Link to={item.link}>
+                                        {item.title}
+                                    </Link>
+                                </Menu.Item>
+                            );
+                        })}
+                        <Menu.Item
+                            key={'Login'}
+                            icon={<UserOutlined />}
+                        >
+                            <Link to="/User/EditUserInfo">
+                                {
+                                    this.UserStore.RenderUserName()
+                                }
+                            </Link>
+                        </Menu.Item>
+                    </Menu>
+                    <Avatar
+                        size={40}
+                        style={{ verticalAlign: "middle" }}
+                        shape='circle'
+                        src={
+                            this.UserStore.authInfo.userInfo
+                                ? this.UserStore.authInfo.userInfo.photo
+                                : 'https://files.authing.co/authing-console/default-user-avatar.png'
+                        }
+                    />
+                </div>
             </div>
         );
     }
