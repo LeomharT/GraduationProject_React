@@ -2,6 +2,7 @@ import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Form, Input, message, Select, Skeleton } from 'antd';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -93,7 +94,7 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     </Form.Item>
                     <Form.Item label="用户名">
                         {this.isEdit && <Input placeholder={userInfo.username} />}
-                        {!this.isEdit && <label>{userInfo.username}</label>}
+                        {!this.isEdit && <label>{userInfo.username ?? "-"}</label>}
                     </Form.Item>
                     <Form.Item label="性别">
                         {this.isEdit &&
@@ -103,11 +104,11 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                                 <Option value='未分类'>未分类</Option>
                             </Select>
                         }
-                        {!this.isEdit && <label>{userInfo.gender ? userInfo.gender : "-"}</label>}
+                        {!this.isEdit && <label>{userInfo.gender ?? "-"}</label>}
                     </Form.Item>
                     <Form.Item label="生日">
                         {this.isEdit && <DatePicker style={{ width: '250px' }} onChange={(data, dataStr) => { console.log(data, dataStr); }} />}
-                        {!this.isEdit && <label>{userInfo.birthdate ? userInfo.birthdate : "-"}</label>}
+                        {!this.isEdit && <label>{userInfo.birthdate ?? "-"}</label>}
                     </Form.Item>
                     <Form.Item label="个人信息">
                         {this.isEdit && <Input placeholder={userInfo.profile} />}
@@ -116,6 +117,33 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     <Form.Item label="个人博客">
                         {this.isEdit && <Input placeholder={userInfo.website} />}
                         {!this.isEdit && <label>{userInfo.website ?? "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="国家">
+                        {this.isEdit &&
+                            <Select defaultValue={userInfo.country} style={{ width: "250px" }}>
+
+                            </Select>
+                        }
+                        {!this.isEdit && <label>{userInfo.country ?? "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="省/区">
+                        {this.isEdit &&
+                            <Select defaultValue={userInfo.province} style={{ width: "250px" }}>
+
+                            </Select>
+                        }
+                        {!this.isEdit && <label>{userInfo.province ?? "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="城市">
+                        {this.isEdit &&
+                            <Select defaultValue={userInfo.city} style={{ width: "250px" }}>
+
+                            </Select>
+                        }
+                        {!this.isEdit && <label>{userInfo.city ?? "-"}</label>}
+                    </Form.Item>
+                    <Form.Item label="注册日期">
+                        <label>{moment(userInfo.signedUp).format("YYYY-MM-DD") ?? "-"}</label>
                     </Form.Item>
                 </Form>
                 <Button

@@ -25,6 +25,7 @@ export default class SideNavi extends Component<{}, {}>
                 <div className="Avatar"
                     onClick={() =>
                     {
+                        if (!this.UserStore.authenticationClient) return;
                         this.UserStore.authenticationClient.uploadAvatar().then((userInfo) =>
                         {
                             this.UserStore.authInfo.userInfo = userInfo;
