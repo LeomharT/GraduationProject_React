@@ -9,7 +9,7 @@ import UserStore from '../../redux/UserStore';
 
 
 const menuItem: MenuType[] = [
-    { title: '租房', link: '/HomeList', icon: <HomeOutlined /> },
+    { title: '租房', link: '/HouseList', icon: <HomeOutlined /> },
     { title: '出租', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
 ];
 
@@ -48,7 +48,6 @@ export default class Navigate extends Component<{}, {}>
                     </Menu>
                     <Avatar
                         size={46}
-                        style={{ verticalAlign: "middle" }}
                         shape='circle'
                         src={
                             this.UserStore.authInfo.userInfo

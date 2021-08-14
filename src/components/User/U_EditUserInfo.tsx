@@ -7,7 +7,7 @@ import moment from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import AuthStore from '../../redux/AuthStore';
+import { RegionType } from '../../interfaces/UserInferface';
 import UserStore from '../../redux/UserStore';
 
 const { Option } = Select;
@@ -18,14 +18,15 @@ interface U_EditUserInfoProps extends RouteComponentProps
 @observer
 class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
 {
-    AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
     @observable isEdit: boolean = false;
     @observable submiting: boolean = false;
-
     formRef = React.createRef<FormInstance>();
+    @observable provinces: RegionType[] = [];
+    @observable citys: RegionType[] = [];
+
     @action
-    UpdateUserProfile = async (value: any) =>
+    UpdateUserProfile = (value: any) =>
     {
         const updates: UpdateUserInput = {};
         Object.keys(value).forEach(key =>
@@ -35,7 +36,7 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
         });
         this.submiting = true;
         this.UserStore.authenticationClient.updateProfile(updates)
-            .then((newUserInfo) =>
+            .then(newUserInfo =>
             {
                 this.UserStore.authInfo.userInfo = newUserInfo;
                 message.success("用户信息更新成功");
@@ -52,14 +53,14 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                 this.isEdit = false;
             });
     };
-    LogOutAuthing = () =>
+    async componentDidMount()
     {
-        this.AuthStore.auth.logout().then(() =>
+        this.provinces = await (await fetch('http://localhost:3065/getProvince')).json();
+        if (this.UserStore.authInfo.userInfo?.province)
         {
-            this.UserStore.InitAuthInfo();
-            this.props.history.push('/Home');
-        });
-    };
+            this.citys = await (await fetch(`http://localhost:3065/initCity?T_region_NAME=${this.UserStore.authInfo.userInfo.province}`)).json();
+        }
+    }
     render()
     {
         const userInfo = this.UserStore.authInfo.userInfo;
@@ -169,9 +170,7 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     <Form.Item label="国家" name='country'>
                         <Form.Item>
                             {this.isEdit &&
-                                <Select defaultValue={userInfo.country} style={{ width: "250px" }}>
-
-                                </Select>
+                                <Input placeholder={userInfo.country} />
                             }
                             {!this.isEdit && <label>{userInfo.country ?? "-"}</label>}
                         </Form.Item>
@@ -179,8 +178,30 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     <Form.Item label="省/区" name='province'>
                         <Form.Item>
                             {this.isEdit &&
-                                <Select defaultValue={userInfo.province} style={{ width: "250px" }}>
-
+                                <Select
+                                    defaultValue={userInfo.province}
+                                    style={{ width: "250px" }}
+                                    onChange={async (value: any) =>
+                                    {
+                                        let valueObj = JSON.parse(value);
+                                        this.formRef.current!.setFieldsValue({
+                                            province: valueObj.T_region_NAME
+                                        });
+                                        this.citys = await (await fetch(`http://localhost:3065/getProvince?PARENT_ID=${valueObj.T_region_ID}`)).json();
+                                    }}
+                                >
+                                    {this.provinces.map((value: RegionType, index: number) =>
+                                    {
+                                        return (
+                                            <Option
+                                                key={index}
+                                                value={
+                                                    JSON.stringify({ T_region_ID: value.T_region_ID, T_region_NAME: value.T_region_NAME })
+                                                }>
+                                                {value.T_region_NAME}
+                                            </Option>
+                                        );
+                                    })}
                                 </Select>
                             }
                             {!this.isEdit && <label>{userInfo.province ?? "-"}</label>}
@@ -189,8 +210,22 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                     <Form.Item label="城市" name='city'>
                         <Form.Item>
                             {this.isEdit &&
-                                <Select defaultValue={userInfo.city} style={{ width: "250px" }}>
-
+                                <Select
+                                    defaultValue={userInfo.city}
+                                    style={{ width: "250px" }}
+                                    onChange={(value: string) =>
+                                    {
+                                        this.formRef.current!.setFieldsValue({
+                                            city: value
+                                        });
+                                    }}
+                                >
+                                    {this.citys.map((city: RegionType, index: number) =>
+                                    {
+                                        return (
+                                            <Option key={index} value={city.T_region_NAME}>{city.T_region_NAME}</Option>
+                                        );
+                                    })}
                                 </Select>
                             }
                             {!this.isEdit && <label>{userInfo.city ?? "-"}</label>}
@@ -200,15 +235,6 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                         <label>{moment(userInfo.signedUp).format("YYYY-MM-DD") ?? "-"}</label>
                     </Form.Item>
                 </Form>
-                <Button
-                    danger
-                    onClick={() =>
-                    {
-                        this.LogOutAuthing();
-                    }}
-                >
-                    Logout
-                </Button>
             </div >
         );
     }

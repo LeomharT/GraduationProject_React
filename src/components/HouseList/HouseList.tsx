@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class HouseList extends Component
+export default class HouseList extends Component<{}, {}>
 {
     render()
     {
