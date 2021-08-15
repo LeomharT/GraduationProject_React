@@ -1,0 +1,40 @@
+.ConstDivSetting
+{
+    box-sizing: border-box;
+    width     : 1200px;
+    margin    : 0 auto;
+    >div
+    {
+        box-sizing: border-box;
+    }
+}
+.HFilter
+{
+    @extend .ConstDivSetting;
+    margin-top: 20px;
+    .HSearch
+    {
+        display       : flex;
+        flex-direction: column;
+    }
+    .VisibleOption
+    {
+        padding: 12px 16px;
+    }
+    .ant-collapse-item
+    {
+        display       : flex;
+        flex-direction: column-reverse;
+        .ant-collapse-header
+        {
+            font-weight: lighter;
+            font-size  : 12px;
+            color      : #9399a5;
+            text-align : center;
+        }
+        .ant-collapse-content
+        {
+            background-color: red !important;
+        }
+    }
+}

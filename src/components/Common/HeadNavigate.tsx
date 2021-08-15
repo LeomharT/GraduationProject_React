@@ -19,7 +19,8 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
     render()
     {
         const menuItem: MenuType[] = [
-            { title: "主页", link: "/Home" }
+            { title: "主页", link: "/Home" },
+            { title: "租房", link: "/HouseList" }
         ];
         const dropDownMenu = (
             <Menu style={{ width: "130px" }}>
@@ -46,29 +47,30 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
         );
         return (
             <div className="HeadNavi">
-                <ul>
-                    {menuItem.map((menu: MenuType, index: number) =>
-                    {
-                        return (
-                            <li key={index}>
-                                <Link to={menu.link}>{menu.title}</Link>
-                            </li>
-                        );
-                    })}
-                </ul>
-                <Dropdown overlay={dropDownMenu} trigger={['click']}>
-                    <Avatar
-                        size={30}
-                        style={{ marginTop: "5px" }}
-                        shape='circle'
-                        src={
-                            this.UserStore.authInfo.userInfo
-                                ? this.UserStore.authInfo.userInfo.photo
-                                : 'https://files.authing.co/authing-console/default-user-avatar.png'
-                        }
-                    />
-                </Dropdown>
-
+                <div>
+                    <ul>
+                        {menuItem.map((menu: MenuType, index: number) =>
+                        {
+                            return (
+                                <li key={index}>
+                                    <Link to={menu.link}>{menu.title}</Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <Dropdown overlay={dropDownMenu} trigger={['click']}>
+                        <Avatar
+                            size={30}
+                            style={{ marginTop: "5px" }}
+                            shape='circle'
+                            src={
+                                this.UserStore.authInfo.userInfo
+                                    ? this.UserStore.authInfo.userInfo.photo
+                                    : 'https://files.authing.co/authing-console/default-user-avatar.png'
+                            }
+                        />
+                    </Dropdown>
+                </div>
             </div>
         );
     }

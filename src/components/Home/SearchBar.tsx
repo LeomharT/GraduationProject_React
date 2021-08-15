@@ -1,10 +1,8 @@
-import { EnvironmentOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import React, { Component } from 'react';
+import HouseSearchBar from '../../assets/img/House searching.gif';
+import HouseMark from '../../assets/img/HouseMark.svg';
 import HouseSearch from '../../assets/img/HouseSearch.gif';
-import HouseSearchBar from '../../assets/img/HouseSearchBar.gif';
-
-
 
 const { Search } = Input;
 export default class SearchBar extends Component<{}, {}>
@@ -36,11 +34,14 @@ export default class SearchBar extends Component<{}, {}>
                                 enterButton
                                 onSearch={() => { console.log('ok'); }}
                             />
-                            <EnvironmentOutlined
+                            <img
                                 className='MapIcon'
+                                alt="地图图标"
+                                draggable={false}
+                                src={HouseMark}
                                 onClick={() =>
                                 {
-                                    globalThis.alert("我点了地图");
+                                    window.alert("Map");
                                 }}
                             />
                         </div>
