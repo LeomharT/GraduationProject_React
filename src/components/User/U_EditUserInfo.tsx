@@ -55,10 +55,10 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
     };
     async componentDidMount()
     {
-        this.provinces = await (await fetch('http://localhost:3065/getProvince')).json();
+        this.provinces = await (await fetch('http://localhost:3065/Province')).json();
         if (this.UserStore.authInfo.userInfo?.province)
         {
-            this.citys = await (await fetch(`http://localhost:3065/initCity?T_region_NAME=${this.UserStore.authInfo.userInfo.province}`)).json();
+            this.citys = await (await fetch(`http://localhost:3065/InitCity?T_region_NAME=${this.UserStore.authInfo.userInfo.province}`)).json();
         }
     }
     render()
@@ -187,7 +187,7 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                                         this.formRef.current!.setFieldsValue({
                                             province: valueObj.T_region_NAME
                                         });
-                                        this.citys = await (await fetch(`http://localhost:3065/getProvince?PARENT_ID=${valueObj.T_region_ID}`)).json();
+                                        this.citys = await (await fetch(`http://localhost:3065/Province?PARENT_ID=${valueObj.T_region_ID}`)).json();
                                     }}
                                 >
                                     {this.provinces.map((value: RegionType, index: number) =>

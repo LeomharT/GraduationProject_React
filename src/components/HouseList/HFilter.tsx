@@ -9,6 +9,11 @@ const Filters = {
 };
 export default class H_Filter extends Component<{}, {}>
 {
+    async componentDidMount()
+    {
+        let response = await fetch("http://localhost:3065/HouseParams");
+        console.log(await response.json());
+    }
     render()
     {
         return (
