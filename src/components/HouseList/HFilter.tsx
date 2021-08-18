@@ -1,18 +1,21 @@
-import { Collapse } from 'antd';
+import { Collapse, Form, Radio } from 'antd';
 import Search from 'antd/lib/input/Search';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { HouseParams } from '../../interfaces/HouseListInterface';
 import AppIconTitle from '../Common/AppIconTitle';
 
 const { Panel } = Collapse;
-const Filters = {
 
-};
+@observer
 export default class H_Filter extends Component<{}, {}>
 {
+    @observable HouseParams: HouseParams[] = [];
     async componentDidMount()
     {
-        let response = await fetch("http://localhost:3065/HouseParams");
-        console.log(await response.json());
+        this.HouseParams = await (await fetch("http://localhost:3065/HouseParams", { method: "POST" })).json();
+        console.log(this.HouseParams);
     }
     render()
     {
@@ -27,14 +30,56 @@ export default class H_Filter extends Component<{}, {}>
                         onSearch={() => { console.log('ok'); }}
                     />
                 </div>
-                <div className="VisibleOption">
-                    我是显示出来的选项
-                </div>
-                <Collapse ghost>
-                    <Panel header="更多选项" key='MoreOption'>
-                        我是隐藏的选项哦
-                    </Panel>
-                </Collapse>
+                <Form>
+                    <div className="VisibleOption">
+                        {this.HouseParams.slice(0, 5).map((params: HouseParams, indexP: number) =>
+                        {
+                            return (
+                                <Form.Item
+                                    key={indexP}
+                                    label={params.params_label}
+                                    name={params.params_name}
+                                >
+                                    <Radio.Group>
+                                        {params.params_enums.map((enums: string, indexE: number) =>
+                                        {
+                                            return (
+                                                <Radio.Button key={indexE} value={enums}>
+                                                    {enums}
+                                                </Radio.Button>
+                                            );
+                                        })}
+                                    </Radio.Group>
+                                </Form.Item>
+                            );
+                        })}
+                    </div>
+                    <Collapse ghost>
+                        <Panel header="更多选项" key='MoreOption'>
+                            {this.HouseParams.slice(5).map((params: HouseParams, indexP: number) =>
+                            {
+                                return (
+                                    <Form.Item
+                                        key={indexP}
+                                        label={params.params_label}
+                                        name={params.params_name}
+                                    >
+                                        <Radio.Group>
+                                            {params.params_enums.map((enums: string, indexE: number) =>
+                                            {
+                                                return (
+                                                    <Radio.Button key={indexE} value={enums}>
+                                                        {enums}
+                                                    </Radio.Button>
+                                                );
+                                            })}
+                                        </Radio.Group>
+                                    </Form.Item>
+                                );
+                            })}
+                        </Panel>
+                    </Collapse>
+                </Form>
             </div>
         );
     }
