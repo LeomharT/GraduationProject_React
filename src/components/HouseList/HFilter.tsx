@@ -1,8 +1,9 @@
-import { Collapse, Form, Radio } from 'antd';
+import { Collapse, Form, FormInstance, Radio } from 'antd';
 import Search from 'antd/lib/input/Search';
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import React, { Component } from 'react';
+import { FieldData } from 'rc-field-form/lib/interface';
+import React, { Component, createRef } from 'react';
 import { HouseParams } from '../../interfaces/HouseListInterface';
 import AppIconTitle from '../Common/AppIconTitle';
 
@@ -12,10 +13,15 @@ const { Panel } = Collapse;
 export default class H_Filter extends Component<{}, {}>
 {
     @observable HouseParams: HouseParams[] = [];
+    filterForm = createRef<FormInstance>();
+    @action
+    filterSelected = (changedValue: FieldData[], allValue: FieldData[]) =>
+    {
+        console.log(allValue[0].value);
+    };
     async componentDidMount()
     {
         this.HouseParams = await (await fetch("http://localhost:3065/HouseParams", { method: "POST" })).json();
-        console.log(this.HouseParams);
     }
     render()
     {
@@ -30,7 +36,10 @@ export default class H_Filter extends Component<{}, {}>
                         onSearch={() => { console.log('ok'); }}
                     />
                 </div>
-                <Form>
+                <Form
+                    ref={this.filterForm}
+                    onFieldsChange={this.filterSelected}
+                >
                     <div className="VisibleOption">
                         {this.HouseParams.slice(0, 5).map((params: HouseParams, indexP: number) =>
                         {
