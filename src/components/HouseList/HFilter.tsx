@@ -1,4 +1,4 @@
-import { Collapse, Form, FormInstance, Radio } from 'antd';
+import { Button, Collapse, Form, FormInstance, Radio } from 'antd';
 import Search from 'antd/lib/input/Search';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -17,7 +17,11 @@ export default class H_Filter extends Component<{}, {}>
     @action
     filterSelected = (changedValue: FieldData[], allValue: FieldData[]) =>
     {
-        console.log(allValue[0].value);
+        for (let v of allValue)
+        {
+            if (!v.value) continue;
+            console.log(v);
+        }
     };
     async componentDidMount()
     {
@@ -88,6 +92,20 @@ export default class H_Filter extends Component<{}, {}>
                             })}
                         </Panel>
                     </Collapse>
+                    <div className="TotalAndClean">
+                        <span>
+                            以为您找到500套福州租房
+                        </span>
+                        <Button
+                            type='link'
+                            onClick={() =>
+                            {
+                                this.filterForm.current!.resetFields();
+                            }}
+                        >
+                            清除所有
+                        </Button>
+                    </div>
                 </Form>
             </div>
         );
