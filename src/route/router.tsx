@@ -1,4 +1,5 @@
 import Home from "../components/Home/Home";
+import DetailInfo from "../components/HouseList/DetailInfo";
 import HouseList from "../components/HouseList/HouseList";
 import User from "../components/User/User";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
@@ -15,7 +16,11 @@ export interface RouteType
 
 const route: RouteType[] = [
     { title: 'Home', path: "/Home", components: Home },
-    { title: 'HouseList', path: "/HouseList", components: HouseList },
+    {
+        title: 'HouseList', path: "/HouseList", components: HouseList, childRoute: [
+            { title: "HouseDetail", path: "HouseList/DetailInfo", components: DetailInfo }
+        ]
+    },
     {
         title: 'User', path: "/User", components: User, childRoute: [
             { title: "EditUserInfo", path: '/User/EditUserInfo', components: U_EditUserInfo },
