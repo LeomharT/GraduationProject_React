@@ -19,12 +19,16 @@ class HouseDetailInfo extends Component<DetailInfoProps, {}>
     {
         const { history } = this.props;
         return (
-            <div style={{ height: "100px", width: "100px", background: "red" }}>
+            <div className='HouseDetailInfo'>
+
+                <Button
+                    type='link'
+                    icon={<LeftOutlined />}
+                    onClick={() =>
+                    {
+                        history.go(-1);
+                    }} />
                 {this.props.location.pathname}
-                <Button icon={<LeftOutlined />} onClick={() =>
-                {
-                    history.go(-1);
-                }} />
             </div>
         );
     }

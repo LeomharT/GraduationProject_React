@@ -79,8 +79,9 @@
     padding-bottom: 20px;
     .HouseItem_Wrapper
     {
-        display: flex;
-        padding: 20px;
+        display  : flex;
+        padding  : 20px;
+        max-width: 1000px;
         .ant-card-cover >img
         {
             width : 235px;
@@ -114,7 +115,7 @@
                     {
                         >span
                         {
-                            line-height: 21px;
+                            line-height : 21px;
                             margin-right: 5px;
                         }
                         display      : flex;
@@ -130,4 +131,9 @@
             }
         }
     }
+}
+.HouseDetailInfo
+{
+    @extend .ConstDivSetting;
+    display: flex;
 }
