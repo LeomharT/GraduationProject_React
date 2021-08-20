@@ -9,7 +9,7 @@ import UserStore from '../../redux/UserStore';
 
 
 const menuItem: MenuType[] = [
-    { title: '租房', link: '/HouseList', icon: <HomeOutlined /> },
+    { title: '租房', link: '/HouseList/Exhibits', icon: <HomeOutlined /> },
     { title: '出租', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
 ];
 

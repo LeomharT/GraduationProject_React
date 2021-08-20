@@ -1,6 +1,7 @@
+import { LeftOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-
 
 
 interface DetailInfoProps extends RouteComponentProps
@@ -8,17 +9,22 @@ interface DetailInfoProps extends RouteComponentProps
 
 }
 
-class DetailInfo extends Component<DetailInfoProps, {}>
+class HouseDetailInfo extends Component<DetailInfoProps, {}>
 {
     componentDidMount()
     {
-        console.log(this.props.history);
+        console.log(this.props.match.params);
     }
     render()
     {
+        const { history } = this.props;
         return (
             <div style={{ height: "100px", width: "100px", background: "red" }}>
                 {this.props.location.pathname}
+                <Button icon={<LeftOutlined />} onClick={() =>
+                {
+                    history.go(-1);
+                }} />
             </div>
         );
     }
@@ -26,4 +32,4 @@ class DetailInfo extends Component<DetailInfoProps, {}>
 
 
 
-export default withRouter(DetailInfo);
+export default withRouter(HouseDetailInfo);

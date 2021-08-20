@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/HouseList.scss';
-import route from '../../route/router';
+import route, { RouteType } from '../../route/router';
 import HeadNavigate from '../Common/HeadNavigate';
-import HFilter from './HFilter';
-import HList from './HList';
 
 const HouseListWrapper = styled.div`
 display: flex;
@@ -20,17 +18,11 @@ export default class HouseList extends Component<{}, {}>
         return (
             <HouseListWrapper>
                 <HeadNavigate />
-                <HFilter />
-                <HList />
                 <Switch>
-                    {route[1].childRoute?.map((routes, index) =>
+                    {route[1].childRoute?.map((r: RouteType, index) =>
                     {
                         return (
-                            <Route
-                                key={index}
-                                path={routes.path}
-                                component={routes.components}
-                            />
+                            <Route key={index} path={r.path} component={r.components} />
                         );
                     })}
                 </Switch>
