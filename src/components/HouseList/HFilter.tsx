@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { FieldData } from 'rc-field-form/lib/interface';
 import React, { Component, createRef } from 'react';
 import { HouseParams } from '../../interfaces/HouseListInterface';
-import AppIconTitle from '../Common/AppIconTitle';
+import { AppIconTitle } from '../Common/AppIconTitle';
 
 const { Panel } = Collapse;
 

@@ -6,6 +6,7 @@ import User from "../components/User/User";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
 import U_UserCollect from "../components/User/U_UserCollect";
 import U_UserRents from "../components/User/U_UserRents";
+import VRScene from "../components/VR/VRScene";
 
 export interface RouteType
 {
@@ -30,6 +31,7 @@ const route: RouteType[] = [
             { title: "UserRents", path: '/User/UserRents', components: U_UserRents },
         ]
     },
+    { title: "VRScene", path: "/VRScene", components: VRScene },
 ];
 
 

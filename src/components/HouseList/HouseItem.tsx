@@ -4,56 +4,67 @@ import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
+import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
+import { VRAnimation } from '../Common/AppIconTitle';
 const { Meta } = Card;
 
 interface HouseItemProps extends RouteComponentProps
 {
-
+    HouseInfo: HouseBaseInfo;
 }
+
+export const RenderTags = (tags: Array<string>): React.ReactNode =>
+{
+    const HouseTags: { [index: string]: any; } = {
+        onSell: <Tag color="#108ee9" key="onSellTag">在售</Tag>,
+        business: <Tag color="#B199FF" key="businessTag">商业</Tag>,
+        villa: <Tag color="#FB9252" key="villaTag">别墅</Tag>,
+        living: <Tag color="#52c41a" key="livingTag">住宅</Tag>,
+    };
+    return (
+        tags!.map((tag: string) =>
+        {
+            return (
+                HouseTags[tag]
+            );
+        })
+    );
+};
+
 @observer
 class HouseItem extends Component<HouseItemProps, {}>
 {
     render()
     {
-        const HouseTags: { [index: string]: any; } = {
-            onSell: <Tag color="#108ee9" key="onSellTag">在售</Tag>,
-            business: <Tag color="#B199FF" key="businessTag">商业</Tag>,
-            villa: <Tag color="#FB9252" key="villaTag">别墅</Tag>,
-            living: <Tag color="#52c41a" key="livingTag">住宅</Tag>,
-        };
-        const RenderTitleAndTags = (H_Title: string, tags: Array<string>): React.ReactNode =>
+        const { HouseInfo } = this.props;
+        const RenderTitleAndTags = (hInfo: HouseBaseInfo): React.ReactNode =>
         {
             return (
                 <>
-                    {H_Title}
-                    {tags.map((tag: string) =>
-                    {
-                        return (
-                            HouseTags[tag]
-                        );
-                    })}
+                    {hInfo.hTitle}
+                    {RenderTags(hInfo.hTags.split(","))}
                 </>
             );
         };
-        const RenderDetailAndPrice = (): React.ReactNode =>
+        const RenderDetailAndRent = (hInfo: HouseBaseInfo): React.ReactNode =>
         {
             return (
                 <div className='HosueItem_Detail'>
                     <div className="HInfo">
                         <div>
                             <EnvironmentOutlined />
-                            马尾区/亭江镇/长洋路三盛雅居乐璞悦长滩
+                            {hInfo.hRegion}
                         </div>
                         <div>
                             <HomeOutlined />
-                            户型：3室/4室
+                            户型：{hInfo.hLayout}
                         </div>
                         <div>
                             <UserOutlined />
-                            房屋质询：xx找房&nbsp;&nbsp;&nbsp;<Tag color="blue">向TA质询</Tag>
+                            房屋咨询：xx找房&nbsp;&nbsp;&nbsp;<Tag color="blue">向TA质询</Tag>
                         </div>
                         <div>
-                            {['精装修', '新上', '随时看房', 'VR看房'].map((f) =>
+                            {hInfo.hFeature.split(",").map((f) =>
                             {
                                 return (
                                     <Tag key={f} color='default' style={{ height: "30px", lineHeight: "30px" }}>{f}</Tag>
@@ -61,8 +72,8 @@ class HouseItem extends Component<HouseItemProps, {}>
                             })}
                         </div>
                     </div>
-                    <div className='HPrice'>
-                        1550 元/月
+                    <div className='HRent'>
+                        {hInfo.hRent} 元/月
                     </div>
                 </div>
             );
@@ -70,7 +81,7 @@ class HouseItem extends Component<HouseItemProps, {}>
         return (
             <Card
                 className="HouseItem_Wrapper"
-                cover={<img alt="封面" src='http://localhost:3065/img/cover.jpeg' />}
+                cover={<img alt="封面" src={HouseInfo.hExhibitImg} />}
                 bordered={false}
                 hoverable
                 onClick={() =>
@@ -78,9 +89,10 @@ class HouseItem extends Component<HouseItemProps, {}>
                     this.props.history.push(`/HouseList/DetailInfo/${1}`);
                 }}
             >
+                {HouseInfo.isVRed && <VRAnimation bottom="25px" left="25px" />}
                 <Meta
-                    title={RenderTitleAndTags("悦江湾", Object.keys(HouseTags))}
-                    description={RenderDetailAndPrice()}
+                    title={RenderTitleAndTags(HouseInfo)}
+                    description={RenderDetailAndRent(HouseInfo)}
                 />
             </Card>
         );

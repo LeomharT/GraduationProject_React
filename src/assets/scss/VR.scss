@@ -1,0 +1,21 @@
+*
+{
+    padding: 0;
+    margin : 0;
+}
+body
+{
+    overflow: hidden;
+}
+.Masking
+{
+    position: relative;
+    height  : 100%;
+    width   : 100%;
+}
+.VRScene
+{
+    position: absolute;
+    width   : 100%;
+    height  : 100vh;
+}

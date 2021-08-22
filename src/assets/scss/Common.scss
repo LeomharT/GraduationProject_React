@@ -2,6 +2,16 @@
     font-family: MilkyExtralight;
     src: url('../fonts/FontStylelighter.ttf');
 }
+@keyframes VRLoop {
+    from
+    {
+        background-position: 0 0 ;
+    }
+    to
+    {
+        background-position:0 100% ;
+    }
+}
 .HeadNavi
 {
     width           : 100%;
@@ -48,4 +58,15 @@
         line-height: 40px;
         color      : #407BFF;
     }
+}
+.VRAnimation
+{
+    position     : absolute;
+    height       : 50px;
+    width        : 50px;
+    overflow     : hidden;
+    border       : 1px solid white;
+    border-radius: 50%;
+    background   : url('../img/vr-animation.png') no-repeat;
+    animation    : VRLoop 3.5s steps(53) infinite;
 }
