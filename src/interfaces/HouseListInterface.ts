@@ -23,9 +23,30 @@ export declare interface HouseBaseInfo
 }
 export declare interface HouseDetailInfo
 {
+    hId: string;
+    uId: string;
+    Area: string;
+    Maintain: Date;
+    Parking: string;
+    Electricity: string;
+    Warm: string;
+    Water: string;
+    isAirCondition: boolean;
+    isBed: boolean;
+    isCloset: boolean;
+    isGas: boolean;
+    isHeating: boolean;
+    isLaundryMachine: boolean;
+    isRefrigerator: boolean;
+    isTelevision: boolean;
+    isWaterHeater: boolean;
+    isWIFI: boolean;
+}
+export declare interface HouseInfo
+{
     baseInfo: HouseBaseInfo;
     carousel: HouseCarousel[];
-
+    detailInfo: HouseDetailInfo;
 }
 export declare interface HouseCarousel
 {

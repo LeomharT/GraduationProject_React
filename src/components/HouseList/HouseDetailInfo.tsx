@@ -4,8 +4,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { HouseCarousel, HouseDetailInfo } from '../../interfaces/HouseListInterface';
-import { DetailInfoContentLoader } from '../Common/Content_Loader';
+import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { RenderTags } from './HouseItem';
 
 interface DetailProps extends RouteComponentProps
@@ -16,9 +15,9 @@ const { Link } = Anchor;
 @observer
 class HouseDetail extends Component<DetailProps, {}>
 {
-    @observable houseDetailInfo: HouseDetailInfo;
+    @observable houseDetailInfo: HouseInfo;
 
-    InitCarouseList = async (): Promise<HouseDetailInfo> =>
+    InitCarouseList = async (): Promise<HouseInfo> =>
     {
         return (
             await (
@@ -89,20 +88,6 @@ class HouseDetail extends Component<DetailProps, {}>
                 <div className="HRent">
 
                 </div>
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-
-                <DetailInfoContentLoader />
-
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-                <DetailInfoContentLoader />
-
             </div>
         );
     }
