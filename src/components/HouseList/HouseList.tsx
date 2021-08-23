@@ -6,10 +6,11 @@ import route, { RouteType } from '../../route/router';
 import HeadNavigate from '../Common/HeadNavigate';
 
 const HouseListWrapper = styled.div`
-display: flex;
+display       : flex;
 flex-direction: column;
-overflow-y: auto;
-overflow-x: hidden;
+height        : 100vh;
+overflow-y    : auto;
+overflow-x    : hidden;
 `;
 export default class HouseList extends Component<{}, {}>
 {
