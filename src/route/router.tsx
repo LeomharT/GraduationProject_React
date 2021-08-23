@@ -1,5 +1,5 @@
 import Home from "../components/Home/Home";
-import HouseDetailInfo from "../components/HouseList/HouseDetailInfo";
+import HouseDetail from "../components/HouseList/HouseDetailInfo";
 import HouseExhibit from "../components/HouseList/HouseExhibit";
 import HouseList from "../components/HouseList/HouseList";
 import User from "../components/User/User";
@@ -21,7 +21,7 @@ const route: RouteType[] = [
     {
         title: 'HouseList', path: "/HouseList", components: HouseList, childRoute: [
             { title: "HouseExhibit", path: "/HouseList/Exhibits", components: HouseExhibit },
-            { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetailInfo },
+            { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetail },
         ]
     },
     {

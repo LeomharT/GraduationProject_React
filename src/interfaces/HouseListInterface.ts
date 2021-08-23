@@ -20,5 +20,16 @@ export declare interface HouseBaseInfo
     hExhibitImg: string,
     hTags: string,
     isVRed: boolean,
+}
+export declare interface HouseDetailInfo
+{
+    baseInfo: HouseBaseInfo;
+    carousel: HouseCarousel[];
 
+}
+export declare interface HouseCarousel
+{
+    id: string,
+    hId: string,
+    url: string;
 }

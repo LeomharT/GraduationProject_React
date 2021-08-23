@@ -7,10 +7,10 @@ import Recommend from './Recommend';
 import SearchBar from './SearchBar';
 
 const HomeWrapper = styled.div`
-display: flex;
-flex-wrap: wrap;
+display        : flex;
+flex-wrap      : wrap;
 justify-content: space-between;
-align-items: center;
+align-items    : center;
 `;
 interface HomeProps extends RouteComponentProps
 {

@@ -1,23 +1,41 @@
 import { LeftOutlined, LinkOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Button, Carousel } from 'antd';
+import { Affix, Anchor, Button, Carousel, Spin } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { HouseCarousel, HouseDetailInfo } from '../../interfaces/HouseListInterface';
+import { RenderTags } from './HouseItem';
 
-interface DetailInfoProps extends RouteComponentProps
+interface DetailProps extends RouteComponentProps
 {
 
 }
-
 const { Link } = Anchor;
-class HouseDetailInfo extends Component<DetailInfoProps, {}>
+@observer
+class HouseDetail extends Component<DetailProps, {}>
 {
-    componentDidMount()
+    @observable houseDetailInfo: HouseDetailInfo;
+
+    InitCarouseList = async (): Promise<HouseDetailInfo> =>
     {
-        console.log(this.props.match.params);
+        return (
+            await (
+                await
+                    fetch(`http://localhost:3065/GetHouseDetailInfo?hId=${(this.props.match.params as any).HouseId}`)
+            ).json()
+        );
+    };
+    async componentDidMount()
+    {
+        this.houseDetailInfo = await this.InitCarouseList();
+        console.log(this.houseDetailInfo);
     }
     render()
     {
         const { history } = this.props;
+        const { houseDetailInfo } = this;
+        if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
         return (
             <div className='HouseDetailInfo'>
                 <div className="CarouselAndBaseInfo" id="CarouselAndBaseInfo">
@@ -28,7 +46,7 @@ class HouseDetailInfo extends Component<DetailInfoProps, {}>
                                 icon={<LeftOutlined />}
                                 onClick={() =>
                                 {
-                                    history.go(-1);
+                                    history.push("/HouseList/Exhibits");
                                 }} />
                             <Button
                                 icon={<LinkOutlined />}
@@ -37,11 +55,16 @@ class HouseDetailInfo extends Component<DetailInfoProps, {}>
                                     window.open("/VRScene");
                                 }}
                             />
-                            哈哈哈😄什么titile
+                            {houseDetailInfo.baseInfo.hTitle}
+                            {RenderTags(houseDetailInfo.baseInfo.hTags.split(","))}
                         </div>
-                        <Carousel>
-                            <img alt="图片" src="http://localhost:3065/img/cover.jpeg" />
-                            <img alt="图片" src="http://localhost:3065/img/cover.jpeg" />
+                        <Carousel autoplay>
+                            {houseDetailInfo.carousel.map((c: HouseCarousel) =>
+                            {
+                                return (
+                                    <img key={c.id} alt={c.id} src={c.url} />
+                                );
+                            })}
                         </Carousel>
                     </div>
                     <div className="HBaseInfo">
@@ -72,4 +95,4 @@ class HouseDetailInfo extends Component<DetailInfoProps, {}>
 
 
 
-export default withRouter(HouseDetailInfo);
+export default withRouter(HouseDetail);
