@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseCarousel, HouseDetailInfo } from '../../interfaces/HouseListInterface';
+import { DetailInfoContentLoader } from '../Common/Content_Loader';
 import { RenderTags } from './HouseItem';
 
 interface DetailProps extends RouteComponentProps
@@ -88,6 +89,20 @@ class HouseDetail extends Component<DetailProps, {}>
                 <div className="HRent">
 
                 </div>
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+
+                <DetailInfoContentLoader />
+
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+                <DetailInfoContentLoader />
+
             </div>
         );
     }
