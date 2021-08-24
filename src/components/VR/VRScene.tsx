@@ -52,7 +52,8 @@ export default class VRScene extends Component<{}, {}>
     ];
     VR_Cube = new Mesh(
         new BoxGeometry(200, 200, 200),
-        this.scene1);
+        this.scene1
+    );
 
     /**
      * @description 初始化场景
@@ -157,14 +158,13 @@ export default class VRScene extends Component<{}, {}>
                     {
                         const { VR_Cube, camera, scene, scene1, scene2 } = this;
 
-
                         if (VR_Cube.material === this.scene1)
                         {
                             gsap.to(scene1, .5, { opacity: 0 });
                             setTimeout(() =>
                             {
-                                gsap.to(scene2, 1, { opacity: 1 });
                                 VR_Cube.material = this.scene2;
+                                gsap.to(scene2, 1, { opacity: 1 });
                                 camera.position.set(0, 0, 5);
                                 camera.lookAt(scene.position);
                             }, 300);
@@ -176,8 +176,8 @@ export default class VRScene extends Component<{}, {}>
                             gsap.to(scene2, .5, { opacity: 0 });
                             setTimeout(() =>
                             {
-                                gsap.to(scene1, 1, { opacity: 1 });
                                 VR_Cube.material = this.scene1;
+                                gsap.to(scene1, 1, { opacity: 1 });
                                 camera.position.set(0, 0, 5);
                                 camera.lookAt(scene.position);
                             }, 300);

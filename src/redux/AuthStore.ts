@@ -1,7 +1,7 @@
 import { AuthenticationClient } from "authing-js-sdk";
 import { observable } from "mobx";
 import { auth } from "../sso/Authing";
-export default class LoginStroe
+export default class AuthStore
 {
     @observable auth = auth; //SSO单点登录的API
     GetAuthInfo = async () =>
@@ -20,11 +20,11 @@ export default class LoginStroe
         });
         return authenticationClient;
     };
-    private static _SingleInstance: LoginStroe;
+    private static _SingleInstance: AuthStore;
     static GetInstance()
     {
         if (this._SingleInstance) return this._SingleInstance;
-        this._SingleInstance = new LoginStroe();
+        this._SingleInstance = new AuthStore();
         return this._SingleInstance;
     }
 

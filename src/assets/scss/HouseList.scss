@@ -149,7 +149,23 @@
             display        : flex;
             flex-direction : column;
             justify-content: space-around;
-            border         : 1px solid #e4e6f0;
+            padding        : 20px;
+            .HTitle
+            {
+                font-size  : 30px;
+                font-weight: bold;
+                display    : flex;
+                align-items: center;
+            }
+            .HSubTitle
+            {
+                display       : flex;
+                flex-direction: column;
+                >span
+                {
+                    color: #9399a5;
+                }
+            }
             .ant-carousel .slick-slide img
             {
                 height: 300px;
@@ -157,10 +173,63 @@
         }
         .HBaseInfo
         {
-            box-sizing: border-box;
-            width     : 600px;
-            height    : 500px;
-            border    : 1px solid #e4e6f0;
+            box-sizing     : border-box;
+            width          : 600px;
+            border         : 1px solid #e4e6f0;
+            padding        : 30px;
+            display        : flex;
+            flex-direction : column;
+            justify-content: space-around;
+            .HRentAndFeature
+            {
+                padding-bottom: 5px;
+                border-bottom : 1px solid #e4e6f0;
+                .RentAndCollect
+                {
+                    display        : flex;
+                    justify-content: space-between;
+                    align-items    : center;
+                    div:nth-child(1)
+                    {
+                        color          : #fe615a;
+                        >span{
+                            font-size  : 30px;
+                            font-weight: 600;
+                        }
+                    }
+                    div:nth-child(2)
+                    {
+                        user-select: none;
+                        cursor     : pointer;
+                        >span{
+                            color         : #fe615a;
+                            font-size     : 20px;
+                            vertical-align: middle;
+                            margin-right  : 5px;
+                        }
+                    }
+                }
+            }
+            .BaseInfoEtc
+            {
+                display       : flex;
+                flex-direction: column;
+                >div
+                {
+                    color: #9399a5;
+                }
+                border-bottom : 1px solid #e4e6f0;
+            }
+            .ContactOnlineOrPhone
+            {
+                display       : flex;
+                flex-direction: column;
+                .LandLordInfo
+                {
+                    font-size: 20px;
+                    padding-bottom: 20px;
+                }
+            }
         }
     }
     .TargetBox

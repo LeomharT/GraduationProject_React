@@ -70,3 +70,12 @@
     background   : url('../img/vr-animation.png') no-repeat;
     animation    : VRLoop 3.5s steps(53) infinite;
 }
+.VerifyIcon
+{
+    display        : inline-block;
+    vertical-align: middle;
+    background     : url("../img/verify_icon.png") no-repeat;
+    background-size: 100% 100%;
+    width          : 13px;
+    height         : 15px;
+}

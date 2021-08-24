@@ -27,3 +27,12 @@ export function VRAnimation(props: { left?: string, top?: string, bottom?: strin
         </div>
     );
 }
+
+export function VerifyIcon(props: {})
+{
+    return (
+        <div className="VerifyIcon">
+
+        </div>
+    );
+}
