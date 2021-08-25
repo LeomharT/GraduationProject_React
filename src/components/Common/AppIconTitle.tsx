@@ -2,6 +2,7 @@ import React from 'react';
 import AppIcon from '../../assets/img/AppIcon.svg';
 import '../../assets/scss/Common.scss';
 
+
 export function AppIconTitle(props: { title?: string; })
 {
     return (

@@ -9,6 +9,7 @@ import
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import '../../assets/scss/VR.scss';
+import { CONST_HOST } from '../Common/VariableGlobal';
 
 
 @observer
@@ -35,20 +36,20 @@ export default class VRScene extends Component<{}, {}>
     //     arrowHelperZ: new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
     // };
     scene1: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/right.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/left.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/top.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/bottom.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/front.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/back.png') })
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back.png`) })
     ];
     scene2: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/right_2.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/left_2.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/top_2.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/bottom_2.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/front_2.png') }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load('http://localhost:3065/img/HouseVRimg/House_00/back_2.png') })
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back_2.png`) })
     ];
     VR_Cube = new Mesh(
         new BoxGeometry(200, 200, 200),

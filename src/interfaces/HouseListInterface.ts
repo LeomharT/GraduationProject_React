@@ -23,6 +23,7 @@ export declare interface HouseBaseInfo
 }
 export declare interface HouseDetailInfo
 {
+    [index: string]: any;
     hId: string;
     uId: string;
     Area: string;

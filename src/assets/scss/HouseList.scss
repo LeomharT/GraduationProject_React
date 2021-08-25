@@ -89,8 +89,8 @@
         }
         .ant-card-body
         {
-            width: 100vw;
-            padding:  0 0 0 20px;
+            width  : 100vw;
+            padding: 0 0 0 20px;
             .ant-card-meta-title
             {
                 font-size  : 22px;
@@ -143,6 +143,7 @@
         box-sizing     : border-box;
         display        : flex;
         justify-content: space-between;
+        margin-bottom  : 20px;
         .HCarousel
         {
             width          : 525px;
@@ -226,7 +227,7 @@
                 flex-direction: column;
                 .LandLordInfo
                 {
-                    font-size: 20px;
+                    font-size     : 20px;
                     padding-bottom: 20px;
                 }
             }
@@ -236,12 +237,117 @@
     {
         box-sizing      : border-box;
         background-color: #f7f9fb;
-        margin-top      : 20px;
+        margin-bottom   : 10px;
         padding         : 20px;
         .ant-anchor
         {
             display       : flex;
             flex-direction: row;
+        }
+    }
+    .DividerHouseInfo
+    {
+        font-weight: bold;
+        font-size  : 30px;
+        >span
+        {
+            padding-left: 0;
+        }
+        &::before{
+            display: none;
+        }
+    }
+    .SpanTitle
+    {
+        display     : inline-block;
+        color       : #9399a5;
+        font-size   : 20px;
+        margin-right: 70px;
+    }
+    .InfoLists
+    {
+        display        : flex;
+        justify-content: space-between;
+        flex-wrap      : wrap;
+        width          : 600px;
+        >li
+        {
+            width    : 50%;
+            font-size: 15px;
+            margin   : 5px 0;
+        }
+    }
+    .HDetailInfo
+    {
+        display       : flex;
+        flex-direction: row;
+    }
+    .HFacilities
+    {
+        display       : flex;
+        flex-direction: row;
+        >ul
+        {
+            @extend .InfoLists;
+            width: 700px;
+            >li
+            {
+                display        : flex;
+                flex-direction : column;
+                width          : 20%;
+                text-align     : center;
+                >img
+                {
+                    height: 32px;
+                    width : 32px;
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+    .Hdescription
+    {
+        display: flex;
+        >ul
+        {
+            @extend .InfoLists;
+            width          : 1000px;
+            justify-content: flex-start;
+            >li
+            {
+                width        : auto;
+                margin       : 0;
+                margin-right : 10px;
+                margin-bottom: 10px;
+                >img
+                {
+                    width : 280px;
+                    height: 210px;
+                }
+            }
+        }
+    }
+    .HRent
+    {
+        display       : flex;
+        flex-direction: column;
+        >ul
+        {
+            @extend .InfoLists;
+            width: 700px;
+            >li
+            {
+                width         : 20%;
+                text-align    : center;
+                display       : flex;
+                flex-direction: column;
+                font-size     : 17px;
+                >span
+                {
+                    font-size: 14px;
+                    color: #9399a5;
+                }
+            }
         }
     }
 }
