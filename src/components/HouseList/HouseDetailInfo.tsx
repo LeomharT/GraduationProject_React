@@ -3,8 +3,11 @@ import { Affix, Anchor, Avatar, Badge, Button, Carousel, Divider, message, Popov
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+//@ts-ignore
+import TMap from 'TMap';
+import mapMarker from '../../assets/img/mapMarker.png';
 import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import AuthStore from '../../redux/AuthStore';
@@ -12,7 +15,6 @@ import UserStore from '../../redux/UserStore';
 import { VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import { RenderTags } from './HouseItem';
-
 
 interface DetailProps extends RouteComponentProps
 {
@@ -25,6 +27,7 @@ class HouseDetail extends Component<DetailProps, {}>
     AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
     @observable houseDetailInfo: HouseInfo;
+    tMapRef = createRef<HTMLDivElement>();
     @observable ok: boolean = false;
     InitCarouseList = async (): Promise<HouseInfo> =>
     {
@@ -35,10 +38,44 @@ class HouseDetail extends Component<DetailProps, {}>
             ).json()
         );
     };
+    InitMap = () =>
+    {
+        const { houseDetailInfo } = this;
+        const map = new TMap.Map(this.tMapRef.current, {
+            center: new TMap.LatLng(
+                parseFloat(houseDetailInfo.detailInfo.hLatitude),
+                parseFloat(houseDetailInfo.detailInfo.hLongitude)),
+            zoom: 18,
+            pitch: 43.5,
+            rotation: 45,
+            viewMode: "2D"
+        });
+        new TMap.MultiMarker({
+            map: map,
+            style: {
+                "markerStyle": new TMap.MarkerStyle({
+                    "width": 25,
+                    "height": 35,
+                    "src": mapMarker,
+                    "anchor": { x: 16, y: 32 }
+                })
+            },
+            geometries: [{
+                'id': "1",
+                'styled': "markerStyle",
+                'position': new TMap.LatLng(
+                    parseFloat(houseDetailInfo.detailInfo.hLatitude),
+                    parseFloat(houseDetailInfo.detailInfo.hLongitude)),
+                'properties': {
+                    title: "position01"
+                }
+            }]
+        });
+    };
     async componentDidMount()
     {
         this.houseDetailInfo = await this.InitCarouseList();
-        console.log(BMap);
+        this.InitMap();
     }
     render()
     {
@@ -195,6 +232,7 @@ class HouseDetail extends Component<DetailProps, {}>
                             <Link title="配套设施" href="#HFacilities" />
                             <Link title="房屋描述" href="#Hdescription" />
                             <Link title="费用详情" href="#HRent" />
+                            <Link title="房屋位置" href="#HPositionMap"></Link>
                         </Anchor>
                     </div>
                 </Affix>
@@ -274,21 +312,17 @@ class HouseDetail extends Component<DetailProps, {}>
                         </li>
                         <li>
                             <Popover
-                                content={
-                                    <div>
-                                        服务费包括：物业费，宽带费，垃圾费，家电维修费
-                                    </div>
-                                }
-                            >
+                                content={<div>
+                                    服务费包括：物业费，宽带费，垃圾费，家电维修费
+                                </div>
+                                }>
                                 <Badge
                                     count={<QuestionOutlined />}
-                                    style={
-                                        {
-                                            fontSize: "12px",
-                                            position: "absolute",
-                                            cursor: "pointer",
-                                        }
-                                    } />
+                                    style={{
+                                        fontSize: "12px",
+                                        position: "absolute",
+                                        cursor: "pointer",
+                                    }} />
                             </Popover>
                             服务费（元）
                             <span>{parseInt(houseDetailInfo.baseInfo.hRent) * 0.05}</span>
@@ -303,6 +337,8 @@ class HouseDetail extends Component<DetailProps, {}>
                         </li>
                     </ul>
                 </div>
+                <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
+                <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
             </div>
         );
     }

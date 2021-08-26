@@ -42,6 +42,8 @@ export declare interface HouseDetailInfo
     isTelevision: boolean;
     isWaterHeater: boolean;
     isWIFI: boolean;
+    hLatitude: string,
+    hLongitude: string;
 }
 export declare interface HouseInfo
 {
