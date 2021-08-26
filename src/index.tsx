@@ -7,22 +7,21 @@ import reportWebVitals from './reportWebVitals';
 import route, { RouteType } from './route/router';
 
 
+
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Switch>
+                {route.map((item: RouteType, index: number) =>
                 {
-                    route.map((item: RouteType, index: number) =>
-                    {
-                        return (
-                            <Route
-                                key={index}
-                                path={item.path}
-                                component={item.components}
-                            />
-                        );
-                    })
-                }
+                    return (
+                        <Route
+                            key={index}
+                            path={item.path}
+                            component={item.components}
+                        />
+                    );
+                })}
             </Switch>
         </Router>
     </React.StrictMode>,

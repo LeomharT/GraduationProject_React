@@ -13,6 +13,7 @@ import { VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import { RenderTags } from './HouseItem';
 
+
 interface DetailProps extends RouteComponentProps
 {
 
@@ -37,6 +38,7 @@ class HouseDetail extends Component<DetailProps, {}>
     async componentDidMount()
     {
         this.houseDetailInfo = await this.InitCarouseList();
+        console.log(BMap);
     }
     render()
     {
