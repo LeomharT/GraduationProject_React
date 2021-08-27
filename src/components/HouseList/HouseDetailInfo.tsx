@@ -1,12 +1,10 @@
 import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, Badge, Button, Carousel, Divider, message, Popover, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, Badge, Button, Carousel, Divider, message, Popover, Rate, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component, createRef } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-//@ts-ignore
-import TMap from 'TMap';
 import mapMarker from '../../assets/img/mapMarker.png';
 import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
@@ -53,20 +51,20 @@ class HouseDetail extends Component<DetailProps, {}>
         new TMap.MultiMarker({
             map: map,
             style: {
-                "markerStyle": new TMap.MarkerStyle({
-                    "width": 25,
-                    "height": 35,
-                    "src": mapMarker,
-                    "anchor": { x: 16, y: 32 }
+                markerStyle: new TMap.MarkerStyle({
+                    width: 25,
+                    height: 35,
+                    src: mapMarker,
+                    anchor: { x: 16, y: 32 }
                 })
             },
             geometries: [{
-                'id': "1",
-                'styled': "markerStyle",
-                'position': new TMap.LatLng(
+                id: "1",
+                styled: "markerStyle",
+                position: new TMap.LatLng(
                     parseFloat(houseDetailInfo.detailInfo.hLatitude),
                     parseFloat(houseDetailInfo.detailInfo.hLongitude)),
-                'properties': {
+                properties: {
                     title: "position01"
                 }
             }]
@@ -154,16 +152,26 @@ class HouseDetail extends Component<DetailProps, {}>
                         </div>
                         <div className="BaseInfoEtc">
                             <div>
-                                租赁方式：{houseDetailInfo.baseInfo.hMethod}
+                                <div>
+                                    租赁方式：{houseDetailInfo.baseInfo.hMethod}
+                                </div>
+                                <div>
+                                    房屋类型：{houseDetailInfo.baseInfo.hLayout + ' ' + houseDetailInfo.detailInfo.Area}
+                                </div>
+                                <div>
+                                    朝向楼层：{houseDetailInfo.baseInfo.hTowards}
+                                </div>
+                                <div>
+                                    风险提示：<Button style={{ padding: "0" }} type="link" href="https://m.ke.com/text/disclaimer">用户风险提示</Button>
+                                </div>
                             </div>
                             <div>
-                                房屋类型：{houseDetailInfo.baseInfo.hLayout + ' ' + houseDetailInfo.detailInfo.Area}
-                            </div>
-                            <div>
-                                朝向楼层：{houseDetailInfo.baseInfo.hTowards}
-                            </div>
-                            <div>
-                                风险提示：<Button style={{ padding: "0" }} type="link" href="https://m.ke.com/text/disclaimer">用户风险提示</Button>
+                                <Rate
+                                    allowClear
+                                    defaultValue={4}
+                                    character="好"
+                                    style={{ color: "#EF615A" }}
+                                />
                             </div>
                         </div>
                         <div className="ContactOnlineOrPhone">

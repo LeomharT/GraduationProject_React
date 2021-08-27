@@ -1,4 +1,5 @@
 import Home from "../components/Home/Home";
+import MapSearch from "../components/Home/MapSearch";
 import HouseDetail from "../components/HouseList/HouseDetailInfo";
 import HouseExhibit from "../components/HouseList/HouseExhibit";
 import HouseList from "../components/HouseList/HouseList";
@@ -20,7 +21,7 @@ const route: RouteType[] = [
     { title: 'Home', path: "/Home", components: Home },
     {
         title: 'HouseList', path: "/HouseList", components: HouseList, childRoute: [
-            { title: "HouseExhibit", path: "/HouseList/Exhibits", components: HouseExhibit },
+            { title: "HouseExhibit", path: "/HouseList/Exhibits/:region?", components: HouseExhibit },
             { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetail },
         ]
     },
@@ -32,6 +33,7 @@ const route: RouteType[] = [
         ]
     },
     { title: "VRScene", path: "/VRScene", components: VRScene },
+    { title: "MapSearch", path: "/MapSearch", components: MapSearch }
 ];
 
 

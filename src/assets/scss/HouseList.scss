@@ -214,7 +214,7 @@
             .BaseInfoEtc
             {
                 display       : flex;
-                flex-direction: column;
+                justify-content: space-between;
                 >div
                 {
                     color: #9399a5;
@@ -345,7 +345,7 @@
                 >span
                 {
                     font-size: 14px;
-                    color: #9399a5;
+                    color    : #9399a5;
                 }
             }
         }

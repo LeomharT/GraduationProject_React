@@ -4,13 +4,14 @@ import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { FieldData } from 'rc-field-form/lib/interface';
 import React, { Component, createRef } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { HouseParams } from '../../interfaces/HouseListInterface';
 import { AppIconTitle } from '../Common/AppIconTitle';
 
 const { Panel } = Collapse;
 
 @observer
-export default class H_Filter extends Component<{}, {}>
+class H_Filter extends Component<RouteComponentProps, {}>
 {
     @observable HouseParams: HouseParams[] = [];
     filterForm = createRef<FormInstance>();
@@ -25,10 +26,20 @@ export default class H_Filter extends Component<{}, {}>
     };
     async componentDidMount()
     {
+        const { filterForm } = this;
+        const { match } = this.props;
         this.HouseParams = await (await fetch("http://localhost:3065/HouseParams", { method: "POST" })).json();
+        //@ts-ignore
+        if (!match.params.region) return;
+        filterForm.current!.setFieldsValue({
+            //@ts-ignore
+            region: match.params.region
+        });
     }
     render()
     {
+        const { filterForm } = this;
+        const { history } = this.props;
         return (
             <div className="HFilter">
                 <div className="HSearch">
@@ -41,7 +52,7 @@ export default class H_Filter extends Component<{}, {}>
                     />
                 </div>
                 <Form
-                    ref={this.filterForm}
+                    ref={filterForm}
                     onFieldsChange={this.filterSelected}
                 >
                     <div className="VisibleOption">
@@ -100,10 +111,13 @@ export default class H_Filter extends Component<{}, {}>
                             type='link'
                             onClick={() =>
                             {
-                                this.filterForm.current!.resetFields();
+                                filterForm.current!.resetFields();
+                                if (history.location.pathname !== "/HouseList/Exhibits")
+                                {
+                                    history.push("/HouseList/Exhibits");
+                                }
                             }}
-                        >
-                            清除所有
+                        >清除所有
                         </Button>
                     </div>
                 </Form>
@@ -111,3 +125,4 @@ export default class H_Filter extends Component<{}, {}>
         );
     }
 }
+export default withRouter(H_Filter);

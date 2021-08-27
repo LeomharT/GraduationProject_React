@@ -1,7 +1,7 @@
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
+import HouseStore from '../../redux/HouseStore';
 import HFilter from './HFilter';
 import HouseItem from './HouseItem';
 
@@ -9,7 +9,7 @@ import HouseItem from './HouseItem';
 @observer
 export default class HouseExhibit extends Component<{}, {}>
 {
-    @observable HouseList: HouseBaseInfo[] = [];
+    HouseStore: HouseStore = HouseStore.GetInstance();
     InitHouseList = async (): Promise<HouseBaseInfo[]> =>
     {
         let res = await fetch("http://localhost:3065/GetHouseExhibitList", { method: "POST" });
@@ -17,11 +17,11 @@ export default class HouseExhibit extends Component<{}, {}>
     };
     async componentDidMount()
     {
-        this.HouseList = await this.InitHouseList();
+        this.HouseStore.HouseList = await this.InitHouseList();
     }
     render()
     {
-        const { HouseList } = this;
+        const { HouseList } = this.HouseStore;
         return (
             <div className="HouseList">
                 <HFilter />

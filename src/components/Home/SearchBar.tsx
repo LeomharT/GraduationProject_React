@@ -1,14 +1,20 @@
 import { Input } from 'antd';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import HouseSearchBar from '../../assets/img/House searching.gif';
 import HouseMark from '../../assets/img/HouseMark.svg';
 import HouseSearch from '../../assets/img/HouseSearch.gif';
 
 const { Search } = Input;
-export default class SearchBar extends Component<{}, {}>
+declare interface SearchBarProps extends RouteComponentProps
+{
+
+}
+class SearchBar extends Component<SearchBarProps, {}>
 {
     render()
     {
+        const { history } = this.props;
         return (
             <div className='HomeSearch'>
                 <main className='SearchBar'>
@@ -32,7 +38,11 @@ export default class SearchBar extends Component<{}, {}>
                                 size='large'
                                 placeholder="请输入区域开始找房"
                                 enterButton
-                                onSearch={() => { console.log('ok'); }}
+                                onSearch={(e) =>
+                                {
+                                    if (!e) return;
+                                    history.push(`/HouseList/Exhibits/${e}`);
+                                }}
                             />
                             <img
                                 className='MapIcon'
@@ -41,7 +51,7 @@ export default class SearchBar extends Component<{}, {}>
                                 src={HouseMark}
                                 onClick={() =>
                                 {
-                                    window.alert("Map");
+                                    history.push("/MapSearch");
                                 }}
                             />
                         </div>
@@ -52,3 +62,4 @@ export default class SearchBar extends Component<{}, {}>
         );
     }
 }
+export default withRouter(SearchBar);
