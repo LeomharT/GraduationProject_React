@@ -33,7 +33,14 @@ export function VerifyIcon(props: {})
 {
     return (
         <div className="VerifyIcon">
+        </div>
+    );
+}
 
+export function VRNextSceneArrow(props: {}): JSX.Element
+{
+    return (
+        <div className='VRNextSceneArrow'>
         </div>
     );
 }
