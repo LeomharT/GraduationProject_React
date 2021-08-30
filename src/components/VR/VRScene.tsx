@@ -1,5 +1,4 @@
-import { Button } from 'antd';
-import gsap from 'gsap';
+import { gsap } from 'gsap';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import
@@ -8,8 +7,10 @@ import
     PerspectiveCamera, Scene, TextureLoader, WebGLRenderer
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { CSS3DRenderer, CSS3DSprite } from 'three/examples/jsm/renderers/CSS3DRenderer';
 import '../../assets/scss/VR.scss';
 import { CONST_HOST } from '../Common/VariableGlobal';
+
 
 
 @observer
@@ -20,6 +21,7 @@ export default class VRScene extends Component<{}, {}>
     renderer = new WebGLRenderer(
         { antialias: true }
     );
+    css3DRenderer = new CSS3DRenderer();
     //场景
     scene = new Scene();
     //相机
@@ -29,7 +31,7 @@ export default class VRScene extends Component<{}, {}>
         0.1,                                                    //近截面 小于不渲染
         1000                                                    //远截面 大于不不渲染
     );
-    controler = new OrbitControls(this.camera, this.renderer.domElement);
+    controler = new OrbitControls(this.camera, this.css3DRenderer.domElement || this.renderer.domElement);
     // arrowHelpers = {
     //     arrowHelperX: new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 250, "#FF0000"),
     //     arrowHelperY: new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
@@ -61,7 +63,7 @@ export default class VRScene extends Component<{}, {}>
      */
     InitThree = () =>
     {
-        const { renderer, scene, camera, VR_Scene } = this;
+        const { renderer, css3DRenderer, scene, camera, VR_Scene } = this;
 
         // scene.add(arrowHelpers.arrowHelperX);
         // scene.add(arrowHelpers.arrowHelperY);
@@ -73,7 +75,12 @@ export default class VRScene extends Component<{}, {}>
         renderer.setClearColor(new Color('#FFFFFF'));
         renderer.setSize(document.body.clientWidth, document.body.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.domElement.style.position = 'absolute';
         VR_Scene.current!.appendChild(renderer.domElement);
+
+        css3DRenderer.setSize(document.body.clientWidth, document.body.clientHeight);
+        css3DRenderer.domElement.style.position = 'absolute';
+        VR_Scene.current!.append(css3DRenderer.domElement);
 
         this.LoopRender();
     };
@@ -81,9 +88,57 @@ export default class VRScene extends Component<{}, {}>
     /**
      * @description 添加VR的场景
      */
-    AddVrBoxIntoScene = () =>
+    AddIntoScene = () =>
     {
-        const { scene, VR_Cube } = this;
+        const { scene, VR_Cube, camera } = this;
+        let element = document.createElement('div');
+        element.classList.add('VRNextSceneArrow');
+        element.onclick = () =>
+        {
+            const { scene1, scene2 } = this;
+
+            if (VR_Cube.material === this.scene1)
+            {
+                gsap.to(scene1, .5, { opacity: 0 });
+                setTimeout(() =>
+                {
+                    VR_Cube.material = this.scene2;
+                    gsap.to(scene2, 1, { opacity: 1 });
+                    camera.position.set(0, 0, 5);
+                    camera.lookAt(scene.position);
+                }, 300);
+
+                return;
+            }
+            if (VR_Cube.material === this.scene2)
+            {
+                gsap.to(scene2, .5, { opacity: 0 });
+                setTimeout(() =>
+                {
+                    VR_Cube.material = this.scene1;
+                    gsap.to(scene1, 1, { opacity: 1 });
+                    camera.position.set(0, 0, 5);
+                    camera.lookAt(scene.position);
+                }, 300);
+
+                return;
+            }
+        };
+        let elements = document.createElement("div");
+        elements.classList.add('VRNextSceneArrow');
+
+        let object = new CSS3DSprite(element);
+        let objects = new CSS3DSprite(elements);
+        object.position.x = -50;
+        object.position.y = 0;
+        object.position.z = -300;
+
+        objects.position.x = -180;
+        objects.position.y = -20;
+        objects.position.z = -300;
+        // object.lookAt(camera.position);
+        scene.add(object);
+        scene.add(objects);
 
         VR_Cube.geometry.scale(1, 1, -1);
         scene.add(VR_Cube);
@@ -109,8 +164,9 @@ export default class VRScene extends Component<{}, {}>
      */
     LoopRender = () =>
     {
-        const { renderer, scene, camera, controler } = this;
+        const { renderer, css3DRenderer, scene, camera, controler } = this;
         requestAnimationFrame(this.LoopRender);
+        css3DRenderer.render(scene, camera);
         renderer.render(scene, camera);
         controler.update();
     };
@@ -145,7 +201,7 @@ export default class VRScene extends Component<{}, {}>
         };
         this.InitThree();
         this.SetUpControl();
-        this.AddVrBoxIntoScene();
+        this.AddIntoScene();
     }
     render()
     {
@@ -154,41 +210,6 @@ export default class VRScene extends Component<{}, {}>
                 <div
                     className="VRScene"
                     ref={this.VR_Scene} />
-                <Button
-                    onClick={() =>
-                    {
-                        const { VR_Cube, camera, scene, scene1, scene2 } = this;
-
-                        if (VR_Cube.material === this.scene1)
-                        {
-                            gsap.to(scene1, .5, { opacity: 0 });
-                            setTimeout(() =>
-                            {
-                                VR_Cube.material = this.scene2;
-                                gsap.to(scene2, 1, { opacity: 1 });
-                                camera.position.set(0, 0, 5);
-                                camera.lookAt(scene.position);
-                            }, 300);
-
-                            return;
-                        }
-                        if (VR_Cube.material === this.scene2)
-                        {
-                            gsap.to(scene2, .5, { opacity: 0 });
-                            setTimeout(() =>
-                            {
-                                VR_Cube.material = this.scene1;
-                                gsap.to(scene1, 1, { opacity: 1 });
-                                camera.position.set(0, 0, 5);
-                                camera.lookAt(scene.position);
-                            }, 300);
-
-                            return;
-                        }
-                    }}
-                    style={{ position: "absolute", top: "200px", left: "50%" }}
-                >
-                    转场</Button>
             </div >
         );
     }
