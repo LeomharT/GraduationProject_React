@@ -93,6 +93,10 @@ export default class VRScene extends Component<{}, {}>
         const { scene, VR_Cube, camera } = this;
         let element = document.createElement('div');
         element.classList.add('VRNextSceneArrow');
+        let innerTextel = document.createElement("div");
+        innerTextel.innerText = '卧室';
+        innerTextel.classList.add("VRSceneTagName");
+        element.appendChild(innerTextel);
         element.onclick = () =>
         {
             const { scene1, scene2 } = this;
@@ -124,9 +128,13 @@ export default class VRScene extends Component<{}, {}>
                 return;
             }
         };
+
+
+
         let elements = document.createElement("div");
         elements.classList.add('VRNextSceneArrow');
 
+        //@ts-ignore
         let object = new CSS3DSprite(element);
         let objects = new CSS3DSprite(elements);
         object.position.x = -50;

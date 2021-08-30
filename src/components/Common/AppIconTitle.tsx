@@ -41,6 +41,9 @@ export function VRNextSceneArrow(props: {}): JSX.Element
 {
     return (
         <div className='VRNextSceneArrow'>
+            <div className='VRSceneTagName'>
+                厨房
+            </div>
         </div>
     );
 }

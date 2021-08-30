@@ -94,8 +94,18 @@
     background     : url("../img/next-scene.png") no-repeat;
     width          : 50px;
     height         : 50px;
-    overflow       : hidden;
+    // overflow       : hidden;
     background-size: 100%;
     animation      : ArrowLoop 1.5s steps(24) infinite;
-    cursor         : pointer;
+    position       : relative;
+    .VRSceneTagName
+    {
+        width           : 100%;
+        color           : white;
+        background-color: rgba(1,1,1,0.4);
+        border-radius   : 5px;
+        position        : absolute;
+        bottom          : -15px;
+        text-align      : center;
+    }
 }
