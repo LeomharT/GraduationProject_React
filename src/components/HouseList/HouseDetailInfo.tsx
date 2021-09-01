@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, Badge, Button, Carousel, Divider, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, message, Popover, Rate, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -347,6 +347,7 @@ class HouseDetail extends Component<DetailProps, {}>
                 </div>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
+                <BackTop style={{ zIndex: 9999 }} />
             </div>
         );
     }

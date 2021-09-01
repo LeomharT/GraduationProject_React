@@ -43,7 +43,7 @@ SvgMarker.prototype.createDOM = function ()
 
         // 在中心创建一个圆形
         circleShape[i] = document.createElementNS(SVG_NS, 'circle');
-        circleShape[i].setAttribute('style', 'fill: blue;stroke:#FFFFFF;opacity:0.9;');
+        circleShape[i].setAttribute('style', 'fill: #1890ff;stroke:#FFFFFF;opacity:0.9;');
         circleShape[i].setAttribute('cx', createCenter.x);
         circleShape[i].setAttribute('cy', createCenter.y);
         circleShape[i].setAttribute('r', 35);

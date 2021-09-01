@@ -184,7 +184,7 @@ class MapSearch extends Component<RouteComponentProps, {}>
                     break;
                 }
             }
-            e.setAttribute('style', 'fill: red;stroke:red; opacity:0.9;');
+            e.setAttribute('style', 'fill: #fe615a;stroke:red; opacity:0.9;');
         });
         marker.on('mouseleave', function (e: any, region: any)
         {
@@ -210,7 +210,7 @@ class MapSearch extends Component<RouteComponentProps, {}>
                     break;
                 }
             }
-            e.setAttribute('style', 'fill: blue;stroke:#FFFFFF;opacity:0.9;');
+            e.setAttribute('style', 'fill: #1890ff;stroke:#FFFFFF;opacity:0.9;');
         });
 
     };
