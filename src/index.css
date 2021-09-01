@@ -7,7 +7,12 @@
 }
 html::-webkit-scrollbar
 {
-    width: 5px;
+    /*
+    * width 是侧边滚动条的高度
+    * height 是底部滚动条的高度
+    */
+    width : 5px;
+    height: 5px;
 }
 html::-webkit-scrollbar-thumb
 {

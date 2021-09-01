@@ -53,6 +53,14 @@ export default class VRScene extends Component<{}, {}>
         new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front_2.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back_2.png`) })
     ];
+    scene3: MeshBasicMaterial[] = [
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back_3.png`) })
+    ];
     VR_Cube = new Mesh(
         new BoxGeometry(200, 200, 200),
         this.scene1
@@ -72,7 +80,7 @@ export default class VRScene extends Component<{}, {}>
         camera.position.set(0, 0, 5);
         camera.lookAt(scene.position);
 
-        renderer.setClearColor(new Color('#FFFFFF'));
+        renderer.setClearColor(new Color(1, 1, 1));
         renderer.setSize(document.body.clientWidth, document.body.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.domElement.style.position = 'absolute';
@@ -97,26 +105,27 @@ export default class VRScene extends Component<{}, {}>
         innerTextel.innerText = '卧室';
         innerTextel.classList.add("VRSceneTagName");
         element.appendChild(innerTextel);
+        //先获取当前是在那个场景,暂存起来然后跳转过去在吧暂存的场景opasiti改掉
         element.onclick = () =>
         {
-            const { scene1, scene2 } = this;
+            const { scene1, scene3 } = this;
 
             if (VR_Cube.material === this.scene1)
             {
                 gsap.to(scene1, .5, { opacity: 0 });
                 setTimeout(() =>
                 {
-                    VR_Cube.material = this.scene2;
-                    gsap.to(scene2, 1, { opacity: 1 });
+                    VR_Cube.material = this.scene3;
+                    gsap.to(scene3, 1, { opacity: 1 });
                     camera.position.set(0, 0, 5);
                     camera.lookAt(scene.position);
                 }, 300);
 
                 return;
             }
-            if (VR_Cube.material === this.scene2)
+            if (VR_Cube.material === this.scene3)
             {
-                gsap.to(scene2, .5, { opacity: 0 });
+                gsap.to(scene3, .5, { opacity: 0 });
                 setTimeout(() =>
                 {
                     VR_Cube.material = this.scene1;
@@ -133,15 +142,19 @@ export default class VRScene extends Component<{}, {}>
 
         let elements = document.createElement("div");
         elements.classList.add('VRNextSceneArrow');
+        let innerTexts = document.createElement("div");
+        innerTexts.classList.add('VRSceneTagName');
+        innerTexts.innerText = "厨房";
+        elements.appendChild(innerTexts);
 
         //@ts-ignore
         let object = new CSS3DSprite(element);
         let objects = new CSS3DSprite(elements);
         object.position.x = -50;
         object.position.y = 0;
-        object.position.z = -300;
+        object.position.z = -500;
 
-        objects.position.x = -180;
+        objects.position.x = -480;
         objects.position.y = -20;
         objects.position.z = -300;
         // object.lookAt(camera.position);
@@ -184,7 +197,7 @@ export default class VRScene extends Component<{}, {}>
      */
     ReSize = () =>
     {
-        const { renderer, camera } = this;
+        const { renderer, css3DRenderer, camera } = this;
         const width = document.body.clientWidth;
         const height = document.body.clientHeight;
 
@@ -192,6 +205,7 @@ export default class VRScene extends Component<{}, {}>
         camera.updateProjectionMatrix();
 
         renderer.setSize(width, height);
+        css3DRenderer.setSize(width, height);
     };
     componentDidMount()
     {
@@ -201,11 +215,11 @@ export default class VRScene extends Component<{}, {}>
         };
         this.VR_Scene.current!.onmousedown = (e: MouseEvent) =>
         {
-            ((e.target) as HTMLCanvasElement).style.cursor = 'move';
+            this.VR_Scene.current!.style.cursor = 'move';
         };
         this.VR_Scene.current!.onmouseup = (e: MouseEvent) =>
         {
-            ((e.target) as HTMLCanvasElement).style.cursor = 'default';
+            this.VR_Scene.current!.style.cursor = 'default';
         };
         this.InitThree();
         this.SetUpControl();
@@ -217,7 +231,8 @@ export default class VRScene extends Component<{}, {}>
             <div className="Masking">
                 <div
                     className="VRScene"
-                    ref={this.VR_Scene} />
+                    ref={this.VR_Scene}
+                />
             </div >
         );
     }

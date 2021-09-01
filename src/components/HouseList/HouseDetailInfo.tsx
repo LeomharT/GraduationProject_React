@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -27,6 +27,7 @@ class HouseDetail extends Component<DetailProps, {}>
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
     @observable ok: boolean = false;
+    @observable viewPhotoAlbum = false;    //是否可见图片相册
     InitCarouseList = async (): Promise<HouseInfo> =>
     {
         return (
@@ -294,14 +295,14 @@ class HouseDetail extends Component<DetailProps, {}>
                         房屋描述
                     </span>
                     <ul>
-                        {houseDetailInfo.carousel.map((c: HouseCarousel) =>
-                        {
-                            return (
-                                <li key={c.id}>
-                                    <img draggable='false' alt="picdes" src={c.url} />
-                                </li>
-                            );
-                        })}
+                        <Image.PreviewGroup>
+                            {houseDetailInfo.carousel.map((c: HouseCarousel) =>
+                            {
+                                return (
+                                    <Image key={c.id} src={c.url} />
+                                );
+                            })}
+                        </Image.PreviewGroup>
                     </ul>
                 </div>
                 <Divider />
@@ -347,7 +348,7 @@ class HouseDetail extends Component<DetailProps, {}>
                 </div>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
-                <BackTop style={{ zIndex: 9999 }} />
+                <BackTop />
             </div>
         );
     }

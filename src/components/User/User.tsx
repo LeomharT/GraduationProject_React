@@ -12,12 +12,12 @@ import HeadNavigate from '../Common/HeadNavigate';
 import SideNavi from './SideNavi';
 
 const UserWrapper = styled.div`
-height: 100vh;
-display: flex;
+height        : 100vh;
+display       : flex;
 flex-direction: column;
+align-items   : center;
+background    : #f8f9ff;
 /* justify-content: space-between; */
-align-items: center;
-background: #f8f9ff;
 `;
 @observer
 export default class User extends Component<{}, {}>
