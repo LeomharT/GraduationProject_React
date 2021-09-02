@@ -1,6 +1,7 @@
 import { gsap } from 'gsap';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import
 {
     BoxGeometry, Color, Mesh, MeshBasicMaterial,
@@ -11,10 +12,13 @@ import { CSS3DRenderer, CSS3DSprite } from 'three/examples/jsm/renderers/CSS3DRe
 import '../../assets/scss/VR.scss';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
+declare interface VRSceneProps extends RouteComponentProps
+{
 
+}
 
 @observer
-export default class VRScene extends Component<{}, {}>
+class VRScene extends Component<VRSceneProps, {}>
 {
     VR_Scene = React.createRef<HTMLDivElement>();
     //渲染器
@@ -38,34 +42,41 @@ export default class VRScene extends Component<{}, {}>
     //     arrowHelperZ: new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
     // };
     scene1: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back.png`) })
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_1.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_1.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_1.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_1.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_1.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_1.png`) })
     ];
     scene2: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back_2.png`) })
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_2.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_2.png`) })
     ];
     scene3: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/right_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/left_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/top_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/bottom_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/front_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_00/back_3.png`) })
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_3.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_3.png`) })
+    ];
+    scene4: MeshBasicMaterial[] = [
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_4.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_4.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_4.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_4.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_4.png`) }),
+        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_4.png`) })
     ];
     VR_Cube = new Mesh(
         new BoxGeometry(200, 200, 200),
         this.scene1
     );
-
     /**
      * @description 初始化场景
      */
@@ -92,7 +103,6 @@ export default class VRScene extends Component<{}, {}>
 
         this.LoopRender();
     };
-
     /**
      * @description 添加VR的场景
      */
@@ -108,27 +118,27 @@ export default class VRScene extends Component<{}, {}>
         //先获取当前是在那个场景,暂存起来然后跳转过去在吧暂存的场景opasiti改掉
         element.onclick = () =>
         {
-            const { scene1, scene3 } = this;
+            const { scene1, scene4 } = this;
 
-            if (VR_Cube.material === this.scene1)
+            if (VR_Cube.material === scene1)
             {
                 gsap.to(scene1, .5, { opacity: 0 });
                 setTimeout(() =>
                 {
-                    VR_Cube.material = this.scene3;
-                    gsap.to(scene3, 1, { opacity: 1 });
+                    VR_Cube.material = scene4;
+                    gsap.to(scene4, 1, { opacity: 1 });
                     camera.position.set(0, 0, 5);
                     camera.lookAt(scene.position);
                 }, 300);
 
                 return;
             }
-            if (VR_Cube.material === this.scene3)
+            if (VR_Cube.material === scene4)
             {
-                gsap.to(scene3, .5, { opacity: 0 });
+                gsap.to(scene4, .5, { opacity: 0 });
                 setTimeout(() =>
                 {
-                    VR_Cube.material = this.scene1;
+                    VR_Cube.material = scene1;
                     gsap.to(scene1, 1, { opacity: 1 });
                     camera.position.set(0, 0, 5);
                     camera.lookAt(scene.position);
@@ -164,8 +174,6 @@ export default class VRScene extends Component<{}, {}>
         VR_Cube.geometry.scale(1, 1, -1);
         scene.add(VR_Cube);
     };
-
-
     /**
      * @description 设置控制器选项
      */
@@ -179,7 +187,6 @@ export default class VRScene extends Component<{}, {}>
         //反转操作
         controler.rotateSpeed *= -.3;
     };
-
     /**
      * @description 无限循环执行渲染,每一帧在都执行
      */
@@ -191,7 +198,6 @@ export default class VRScene extends Component<{}, {}>
         renderer.render(scene, camera);
         controler.update();
     };
-
     /**
      * @description 窗口放大缩小时要重新渲染
      */
@@ -207,7 +213,12 @@ export default class VRScene extends Component<{}, {}>
         renderer.setSize(width, height);
         css3DRenderer.setSize(width, height);
     };
-    componentDidMount()
+    GetSceneAsync = async (HouseId: string, SceneId: string) =>
+    {
+        let res = await fetch(`${CONST_HOST}/GetHouseVrScene?HouseId=${HouseId}&SceneId=${SceneId}`);
+        console.log(await res.json());
+    };
+    async componentDidMount()
     {
         window.onresize = () =>
         {
@@ -224,6 +235,8 @@ export default class VRScene extends Component<{}, {}>
         this.InitThree();
         this.SetUpControl();
         this.AddIntoScene();
+        //@ts-ignore
+        await this.GetSceneAsync(this.props.match.params.HouseId, '1');
     }
     render()
     {
@@ -237,3 +250,5 @@ export default class VRScene extends Component<{}, {}>
         );
     }
 }
+
+export default withRouter(VRScene);

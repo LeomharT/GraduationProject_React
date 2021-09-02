@@ -32,7 +32,7 @@ const route: RouteType[] = [
             { title: "UserRents", path: '/User/UserRents', components: U_UserRents },
         ]
     },
-    { title: "VRScene", path: "/VRScene", components: VRScene },
+    { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },
     { title: "MapSearch", path: "/MapSearch", components: MapSearch }
 ];
 
