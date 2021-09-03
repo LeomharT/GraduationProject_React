@@ -47,7 +47,7 @@ class VRScene extends Component<VRSceneProps, {}>
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_1.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_1.png`) })
+        new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_1.png`) }),
     ];
     scene2: MeshBasicMaterial[] = [
         new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_2.png`) }),
@@ -148,25 +148,27 @@ class VRScene extends Component<VRSceneProps, {}>
             }
         };
 
-
-
         let elements = document.createElement("div");
         elements.classList.add('VRNextSceneArrow');
         let innerTexts = document.createElement("div");
         innerTexts.classList.add('VRSceneTagName');
-        innerTexts.innerText = "厨房";
+        innerTexts.innerText = "餐厅";
         elements.appendChild(innerTexts);
+
+
+
+
 
         //@ts-ignore
         let object = new CSS3DSprite(element);
         let objects = new CSS3DSprite(elements);
-        object.position.x = -50;
+        object.position.x = -190;
         object.position.y = 0;
         object.position.z = -500;
 
-        objects.position.x = -480;
+        objects.position.x = -70;
         objects.position.y = -20;
-        objects.position.z = -300;
+        objects.position.z = -500;
         // object.lookAt(camera.position);
         scene.add(object);
         scene.add(objects);
