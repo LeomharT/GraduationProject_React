@@ -57,3 +57,19 @@ export declare interface HouseCarousel
     hId: string,
     url: string;
 }
+export declare interface HouseVRInfo
+{
+    hId: string,
+    positions: Array<HouseVRPosition>,
+    sceneId: string,
+    sceneName: string,
+    urls: Array<{ imgId: string, url: string; }>;
+}
+export declare interface HouseVRPosition
+{
+    x: string,
+    y: string,
+    z: string,
+    toSceneId: string,
+    toSceneName: string;
+}
