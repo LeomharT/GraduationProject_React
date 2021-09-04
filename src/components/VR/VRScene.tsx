@@ -1,4 +1,6 @@
+import { Avatar, Spin } from 'antd';
 import gsap from 'gsap';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -9,9 +11,12 @@ import
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { CSS3DRenderer, CSS3DSprite } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import mustlook from '../../assets/img/mustlook.png';
 import '../../assets/scss/VR.scss';
-import { HouseVRInfo } from '../../interfaces/HouseListInterface';
+import { HouseInfo, HouseVRInfo } from '../../interfaces/HouseListInterface';
 import { CONST_HOST } from '../Common/VariableGlobal';
+import { RenderTags } from '../HouseList/HouseItem';
+
 
 declare interface VRSceneProps extends RouteComponentProps
 {
@@ -26,6 +31,7 @@ class VRScene extends Component<VRSceneProps, {}>
     renderer = new WebGLRenderer(
         { antialias: true }
     );
+    //CSS渲染器
     css3DRenderer = new CSS3DRenderer();
     //场景
     scene = new Scene();
@@ -42,8 +48,9 @@ class VRScene extends Component<VRSceneProps, {}>
     //     arrowHelperY: new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
     //     arrowHelperZ: new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
     // };
-    currScene: MeshBasicMaterial[] = new Array<MeshBasicMaterial>();
+    @observable currScene: MeshBasicMaterial[] = new Array<MeshBasicMaterial>();
     currPositons: CSS3DSprite[] = new Array<CSS3DSprite>();
+    VR_Cube: Mesh = new Mesh(new BoxGeometry(200, 200, 200));
     scene1: MeshBasicMaterial[] = [
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_1.png`) }),
@@ -52,31 +59,7 @@ class VRScene extends Component<VRSceneProps, {}>
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_1.png`) }),
     ];
-    scene2: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_2.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_2.png`) })
-    ];
-    scene3: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_3.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_3.png`) })
-    ];
-    scene4: MeshBasicMaterial[] = [
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_4.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_4.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/top_4.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/bottom_4.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_4.png`) }),
-        new MeshBasicMaterial({ transparent: true, opacity: 0, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_4.png`) })
-    ];
-    VR_Cube: Mesh = new Mesh(new BoxGeometry(200, 200, 200));
+
     /**
      * @description 初始化场景
      */
@@ -104,7 +87,10 @@ class VRScene extends Component<VRSceneProps, {}>
         this.LoopRender();
     };
     /**
-     * @description 添加VR的场景
+     * @author LeomharT
+     * @description 初始化VR的场景
+     * @param {string} HouseId 房屋的ID
+     * @param {string} SceneId 场景的ID
      */
     InitScene = async (HouseId: string, SceneId: string) =>
     {
@@ -193,14 +179,20 @@ class VRScene extends Component<VRSceneProps, {}>
         renderer.setSize(width, height);
         css3DRenderer.setSize(width, height);
     };
-    GetSceneAsync = async (HouseId: string, SceneId: string) =>
+
+    /**
+     *
+     * @param {string} HouseId
+     * @param {string} SceneId
+     * @returns {void}
+     */
+    GetSceneAsync = async (HouseId: string, SceneId: string): Promise<void> =>
     {
         //想想怎么写成纯函数不行这样的那样然后那样ok？
         const { scene, camera, VR_Cube, currScene, currPositons } = this;
         let targetScene = new Array<MeshBasicMaterial>();
         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
         const positionInfo = await res.json() as HouseVRInfo;
-        console.log(positionInfo);
         for (let u of positionInfo.urls)
         {
             targetScene.push(
@@ -224,7 +216,6 @@ class VRScene extends Component<VRSceneProps, {}>
 
         for (let cp of currPositons)
         {
-            console.log(cp);
             scene.remove(cp);
         }
         this.currPositons = [];
@@ -256,7 +247,7 @@ class VRScene extends Component<VRSceneProps, {}>
         setTimeout(() =>
         {
             scene.add(...this.currPositons);
-        }, 700);
+        }, 500);
 
 
 
@@ -373,14 +364,6 @@ class VRScene extends Component<VRSceneProps, {}>
         {
             this.ReSize();
         };
-        this.VR_Scene.current!.onmousedown = (e: MouseEvent) =>
-        {
-            this.VR_Scene.current!.style.cursor = 'move';
-        };
-        this.VR_Scene.current!.onmouseup = (e: MouseEvent) =>
-        {
-            this.VR_Scene.current!.style.cursor = 'default';
-        };
         this.InitThree();
         this.SetUpControl();
         //还需要提前获取当前House下的所有场景ID(嗯这数据结构真的垃圾啊)
@@ -388,13 +371,14 @@ class VRScene extends Component<VRSceneProps, {}>
             .then(res => res.json())
             .then(async (data) =>
             {
+                if (!data.length) return;
                 await this.InitScene(HouseId, data[0].sceneId);
-                // await this.GetSceneAsync(HouseId, data[0].sceneId);
             })
             .catch(err =>
             {
                 throw new Error(err);
             });
+
         // let el = document.createElement("div");
         // el.classList.add('VRNextSceneArrow');
 
@@ -409,18 +393,48 @@ class VRScene extends Component<VRSceneProps, {}>
         // });
 
         // let cssObj = new CSS3DSprite(el);
-        // cssObj.position.setX(400);
+        // cssObj.position.setX(-40);
         // cssObj.position.setY(0);
-        // cssObj.position.setZ(20);
+        // cssObj.position.setZ(330);
         // this.scene.add(cssObj);
     }
     render()
     {
+        const { currScene } = this;
+        const houseInfo = JSON.parse(sessionStorage.getItem('houseInfo') as string) as HouseInfo;
         return (
             <div className="Masking">
+                {
+                    !currScene.length &&
+                    <div className='VRLoadingFrame'>
+                        <Spin size='large' />
+                    </div>
+                }
+
+                <div className='VRHouseInfo'>
+                    <Avatar
+                        shape='circle'
+                        size='large'
+                        src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                    />
+                    <div>
+                        {houseInfo.baseInfo.hTitle}
+                        &nbsp;&nbsp;
+                        {RenderTags(houseInfo.baseInfo.hTags.split(','))}
+                        <img style={{ width: "62px", height: "23px", marginRight: "5px", marginBottom: "3px" }} alt="mustLookLook" src={mustlook} />
+                    </div>
+                </div>
                 <div
                     className="VRScene"
                     ref={this.VR_Scene}
+                    onMouseDown={() =>
+                    {
+                        this.VR_Scene.current!.style.cursor = 'move';
+                    }}
+                    onMouseUp={() =>
+                    {
+                        this.VR_Scene.current!.style.cursor = 'default';
+                    }}
                 />
             </div >
         );

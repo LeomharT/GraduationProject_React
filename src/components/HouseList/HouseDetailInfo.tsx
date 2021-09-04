@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Result, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -27,8 +27,7 @@ class HouseDetail extends Component<DetailProps, {}>
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
     @observable ok: boolean = false;
-    @observable viewPhotoAlbum = false;    //是否可见图片相册
-    InitCarouseList = async (): Promise<HouseInfo> =>
+    InitHouseInfo = async (): Promise<HouseInfo> =>
     {
         return (
             await (
@@ -37,9 +36,10 @@ class HouseDetail extends Component<DetailProps, {}>
             ).json()
         );
     };
-    InitMap = () =>
+    InitMap = (): void =>
     {
         const { houseDetailInfo } = this;
+        if (!houseDetailInfo?.baseInfo) return;
         const map = new TMap.Map(this.tMapRef.current, {
             center: new TMap.LatLng(
                 parseFloat(houseDetailInfo.detailInfo.hLatitude),
@@ -73,14 +73,39 @@ class HouseDetail extends Component<DetailProps, {}>
     };
     async componentDidMount()
     {
-        this.houseDetailInfo = await this.InitCarouseList();
+        this.houseDetailInfo = await this.InitHouseInfo();
         this.InitMap();
+        /**
+         * @description 因为VR界面是window.open(),所以做一个数据持久化.
+         */
+        this.houseDetailInfo?.baseInfo
+            ? sessionStorage.setItem("houseInfo", JSON.stringify(this.houseDetailInfo))
+            : sessionStorage.clear();
+
     }
     render()
     {
         const { history } = this.props;
         const { houseDetailInfo, ok, UserStore, AuthStore } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
+        if (!houseDetailInfo?.baseInfo) return (
+            <Result
+                status='404'
+                title="404!未找到该房源"
+                subTitle="您寻找的房源编号不存在,请返回列表页."
+                extra={
+                    <Button
+                        type="primary"
+                        onClick={() =>
+                        {
+                            history.push("/HouseList/Exhibits");
+                        }}
+                    >
+                        返回租房
+                    </Button>
+                }
+            />
+        );
         return (
             <div className='HouseDetailInfo'>
                 <div className="CarouselAndBaseInfo" id="CarouselAndBaseInfo">
@@ -99,11 +124,12 @@ class HouseDetail extends Component<DetailProps, {}>
                                 {RenderTags(houseDetailInfo.baseInfo.hTags.split(","))}
                                 {houseDetailInfo.baseInfo.isVRed && <Button
                                     icon={<LinkOutlined />}
+                                    type='link'
                                     onClick={() =>
                                     {
                                         window.open(`/VRScene/${houseDetailInfo.baseInfo.hId}`);
                                     }}
-                                />}
+                                >VR看房</Button>}
 
                             </div>
                             <div className="HSubTitle">
@@ -143,7 +169,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                 </div>
 
                             </div>
-                            <img style={{ width: "62px", height: "23px", marginRight: "5px" }} alt="mustLookLook" src={mustlook} />
+                            <img style={{ width: "62px", height: "23px", marginRight: "5px", marginBottom: "3px" }} alt="mustLookLook" src={mustlook} />
                             {houseDetailInfo.baseInfo.hFeature.split(',').map(f =>
                             {
                                 return (
@@ -349,6 +375,7 @@ class HouseDetail extends Component<DetailProps, {}>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
                 <BackTop />
+                <Divider />
             </div>
         );
     }
