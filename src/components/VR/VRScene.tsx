@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -42,7 +42,8 @@ class VRScene extends Component<VRSceneProps, {}>
     //     arrowHelperY: new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
     //     arrowHelperZ: new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
     // };
-    currScene: MeshBasicMaterial[] = [];
+    currScene: MeshBasicMaterial[] = new Array<MeshBasicMaterial>();
+    currPositons: CSS3DSprite[] = new Array<CSS3DSprite>();
     scene1: MeshBasicMaterial[] = [
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/left_1.png`) }),
@@ -105,9 +106,51 @@ class VRScene extends Component<VRSceneProps, {}>
     /**
      * @description 添加VR的场景
      */
-    AddIntoScene = () =>
+    InitScene = async (HouseId: string, SceneId: string) =>
     {
-        const { scene, VR_Cube } = this;
+        const { scene, VR_Cube, currScene, currPositons } = this;
+        let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
+        const initPositionInfo = await res.json() as HouseVRInfo;
+        for (let u of initPositionInfo.urls)
+        {
+            currScene.push(
+                new MeshBasicMaterial({
+                    transparent: true,
+                    opacity: 1,
+                    map: new TextureLoader().load(`${CONST_HOST}/${u.url}`)
+                }),
+            );
+        }
+
+        for (let p of initPositionInfo.positions)
+        {
+            let el = document.createElement("div");
+            el.classList.add('VRNextSceneArrow');
+            el.setAttribute("goToScene", p.toSceneId);
+
+            let elInnerText = document.createElement("div");
+            elInnerText.classList.add("VRSceneTagName");
+            elInnerText.innerText = p.toSceneName;
+            el.appendChild(elInnerText);
+
+            el.addEventListener('click', async (e: MouseEvent) =>
+            {
+                await this.GetSceneAsync(HouseId, el.getAttribute("goToScene") as string);
+            });
+
+            let cssObj = new CSS3DSprite(el);
+            cssObj.position.setX(parseInt(p.x));
+            cssObj.position.setY(parseInt(p.y));
+            cssObj.position.setZ(parseInt(p.z));
+            currPositons.push(cssObj);
+        }
+
+        for (let cp of currPositons)
+        {
+            scene.add(cp);
+        }
+
+        VR_Cube.material = currScene;
         VR_Cube.geometry.scale(1, 1, -1);
         scene.add(VR_Cube);
     };
@@ -153,60 +196,111 @@ class VRScene extends Component<VRSceneProps, {}>
     GetSceneAsync = async (HouseId: string, SceneId: string) =>
     {
         //想想怎么写成纯函数不行这样的那样然后那样ok？
-        const { scene, camera, VR_Cube, currScene } = this;
+        const { scene, camera, VR_Cube, currScene, currPositons } = this;
+        let targetScene = new Array<MeshBasicMaterial>();
         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
         const positionInfo = await res.json() as HouseVRInfo;
+        console.log(positionInfo);
         for (let u of positionInfo.urls)
         {
-            currScene.push(
+            targetScene.push(
                 new MeshBasicMaterial({
                     transparent: true,
-                    opacity: 1,
+                    opacity: 0,
                     map: new TextureLoader().load(`${CONST_HOST}/${u.url}`)
                 }),
             );
         }
-        VR_Cube.material = currScene;
+
+        gsap.to(currScene, .5, { opacity: 0 });
+        setTimeout(() =>
+        {
+            VR_Cube.material = targetScene;
+            gsap.to(targetScene, 1, { opacity: 1 });
+            camera.position.set(0, 0, 5);
+            camera.lookAt(scene.position);
+            this.currScene = targetScene;
+        }, 300);
+
+        for (let cp of currPositons)
+        {
+            console.log(cp);
+            scene.remove(cp);
+        }
+        this.currPositons = [];
+
         for (let p of positionInfo.positions)
         {
-            let el = document.createElement('div');
+            let el = document.createElement("div");
             el.classList.add('VRNextSceneArrow');
-            el.setAttribute('goToScene', p.toSceneId);
-            let elinnerTxt = document.createElement("div");
-            elinnerTxt.classList.add('VRSceneTagName');
-            elinnerTxt.innerText = p.toSceneName;
-            el.appendChild(elinnerTxt);
+            el.setAttribute("goToScene", p.toSceneId);
+
+            let elInnerText = document.createElement("div");
+            elInnerText.classList.add("VRSceneTagName");
+            elInnerText.innerText = p.toSceneName;
+            el.appendChild(elInnerText);
+
             el.addEventListener('click', async (e: MouseEvent) =>
             {
-                let targetScene = new Array<MeshBasicMaterial>();
-                gsap.to(currScene, .5, { opacity: 0 });
-                let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${el.getAttribute("goToScene")}`);
-                let targetPositionInfo = await res.json() as HouseVRInfo;
-                for (let u_t of targetPositionInfo.urls)
-                {
-                    targetScene.push(
-                        new MeshBasicMaterial({
-                            transparent: true,
-                            opacity: 0,
-                            map: new TextureLoader().load(`${CONST_HOST}/${u_t.url}`)
-                        })
-                    );
-                }
-                setTimeout(() =>
-                {
-                    VR_Cube.material = targetScene;
-                    gsap.to(targetScene, 1, { opacity: 1 });
-                    camera.position.set(0, 0, 5);
-                    camera.lookAt(scene.position);
-                }, 300);
+                await this.GetSceneAsync(HouseId, el.getAttribute("goToScene") as string);
             });
 
-            const cssObj = new CSS3DSprite(el);
+            let cssObj = new CSS3DSprite(el);
             cssObj.position.setX(parseInt(p.x));
             cssObj.position.setY(parseInt(p.y));
             cssObj.position.setZ(parseInt(p.z));
-            scene.add(cssObj);
+            this.currPositons.push(cssObj);
         }
+
+        if (!this.currPositons.length) return;
+        setTimeout(() =>
+        {
+            scene.add(...this.currPositons);
+        }, 700);
+
+
+
+        // for (let p of positionInfo.positions)
+        // {
+        //     let el = document.createElement('div');
+        //     el.classList.add('VRNextSceneArrow');
+        //     el.setAttribute('goToScene', p.toSceneId);
+        //     let elinnerTxt = document.createElement("div");
+        //     elinnerTxt.classList.add('VRSceneTagName');
+        //     elinnerTxt.innerText = p.toSceneName;
+        //     el.appendChild(elinnerTxt);
+        //     el.addEventListener('click', async (e: MouseEvent) =>
+        //     {
+        //         let targetScene = new Array<MeshBasicMaterial>();
+        //         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${el.getAttribute("goToScene")}`);
+        //         let targetPositionInfo = await res.json() as HouseVRInfo;
+        //         gsap.to(currScene, .5, { opacity: 0 });
+        //         for (let u_t of targetPositionInfo.urls)
+        //         {
+        //             targetScene.push(
+        //                 new MeshBasicMaterial({
+        //                     transparent: true,
+        //                     opacity: 0,
+        //                     map: new TextureLoader().load(`${CONST_HOST}/${u_t.url}`)
+        //                 })
+        //             );
+        //         }
+        //         setTimeout(() =>
+        //         {
+        //             VR_Cube.material = targetScene;
+        //             gsap.to(targetScene, 1, { opacity: 1 });
+        //             camera.position.set(0, 0, 5);
+        //             camera.lookAt(scene.position);
+        //         }, 300);
+        //     });
+
+        //     const cssObj = new CSS3DSprite(el);
+        //     cssObj.position.setX(parseInt(p.x));
+        //     cssObj.position.setY(parseInt(p.y));
+        //     cssObj.position.setZ(parseInt(p.z));
+
+        //     scene.add(cssObj);
+        // }
 
 
 
@@ -289,19 +383,36 @@ class VRScene extends Component<VRSceneProps, {}>
         };
         this.InitThree();
         this.SetUpControl();
-        this.AddIntoScene();
-        //还需要提前获取当前House下的所有场景ID(嗯这数据结构垃圾啊)
+        //还需要提前获取当前House下的所有场景ID(嗯这数据结构真的垃圾啊)
         fetch(`${CONST_HOST}/GetHouseVrSceneArray?HouseId=${HouseId}`)
             .then(res => res.json())
             .then(async (data) =>
             {
-                //@ts-ignore
-                await this.GetSceneAsync(HouseId, data[0].sceneId);
+                await this.InitScene(HouseId, data[0].sceneId);
+                // await this.GetSceneAsync(HouseId, data[0].sceneId);
             })
             .catch(err =>
             {
                 throw new Error(err);
             });
+        // let el = document.createElement("div");
+        // el.classList.add('VRNextSceneArrow');
+
+        // let elInnerText = document.createElement("div");
+        // elInnerText.classList.add("VRSceneTagName");
+        // elInnerText.innerText = '客厅';
+        // el.appendChild(elInnerText);
+
+        // el.addEventListener('click', async (e: MouseEvent) =>
+        // {
+        //     await this.GetSceneAsync(HouseId, el.getAttribute("goToScene") as string);
+        // });
+
+        // let cssObj = new CSS3DSprite(el);
+        // cssObj.position.setX(400);
+        // cssObj.position.setY(0);
+        // cssObj.position.setZ(20);
+        // this.scene.add(cssObj);
     }
     render()
     {
