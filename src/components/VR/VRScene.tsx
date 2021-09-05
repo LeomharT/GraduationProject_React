@@ -185,10 +185,10 @@ class VRScene extends Component<VRSceneProps, {}>
      * @param {string} HouseId
      * @param {string} SceneId
      * @returns {void}
+     * @description 通过将自己赋值给循环出来的信息点,达到切换场景的目的
      */
     GetSceneAsync = async (HouseId: string, SceneId: string): Promise<void> =>
     {
-        //想想怎么写成纯函数不行这样的那样然后那样ok？
         const { scene, camera, VR_Cube, currScene, currPositons } = this;
         let targetScene = new Array<MeshBasicMaterial>();
         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
@@ -378,7 +378,6 @@ class VRScene extends Component<VRSceneProps, {}>
             {
                 throw new Error(err);
             });
-
         // let el = document.createElement("div");
         // el.classList.add('VRNextSceneArrow');
 
@@ -429,14 +428,14 @@ class VRScene extends Component<VRSceneProps, {}>
                     ref={this.VR_Scene}
                     onMouseDown={() =>
                     {
-                        this.VR_Scene.current!.style.cursor = 'move';
+                        this.VR_Scene.current!.style.cursor = 'grabbing';
                     }}
                     onMouseUp={() =>
                     {
-                        this.VR_Scene.current!.style.cursor = 'default';
+                        this.VR_Scene.current!.style.cursor = 'grab';
                     }}
                 />
-            </div >
+            </div>
         );
     }
 }

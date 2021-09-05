@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Result, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
-import { VerifyIcon } from '../Common/AppIconTitle';
+import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import { RenderTags } from './HouseItem';
 
@@ -88,24 +88,7 @@ class HouseDetail extends Component<DetailProps, {}>
         const { history } = this.props;
         const { houseDetailInfo, ok, UserStore, AuthStore } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
-        if (!houseDetailInfo?.baseInfo) return (
-            <Result
-                status='404'
-                title="404!未找到该房源"
-                subTitle="您寻找的房源编号不存在,请返回列表页."
-                extra={
-                    <Button
-                        type="primary"
-                        onClick={() =>
-                        {
-                            history.push("/HouseList/Exhibits");
-                        }}
-                    >
-                        返回租房
-                    </Button>
-                }
-            />
-        );
+        if (!houseDetailInfo?.baseInfo) return (<Render404 />);
         return (
             <div className='HouseDetailInfo'>
                 <div className="CarouselAndBaseInfo" id="CarouselAndBaseInfo">
