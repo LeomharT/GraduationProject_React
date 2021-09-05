@@ -87,7 +87,7 @@ class HouseItem extends Component<HouseItemProps, {}>
                 hoverable
                 onClick={() =>
                 {
-                    this.props.history.push(`/HouseList/DetailInfo/${1}`);
+                    this.props.history.push(`/HouseList/DetailInfo/${HouseInfo.hId}`);
                 }}
             >
                 {HouseInfo.isVRed && <VRAnimation bottom="25px" left="25px" />}
