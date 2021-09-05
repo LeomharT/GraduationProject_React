@@ -145,7 +145,7 @@ class HouseDetail extends Component<DetailProps, {}>
                             {houseDetailInfo.carousel.map((c: HouseCarousel) =>
                             {
                                 return (
-                                    <img key={c.id} alt={c.id} src={c.url} />
+                                    <img key={c.id} alt={c.id} src={`${CONST_HOST}/${c.url}`} />
                                 );
                             })}
                         </Carousel>
@@ -325,7 +325,7 @@ class HouseDetail extends Component<DetailProps, {}>
                             {houseDetailInfo.carousel.map((c: HouseCarousel) =>
                             {
                                 return (
-                                    <Image key={c.id} src={c.url} />
+                                    <Image key={c.id} src={`${CONST_HOST}/${c.url}`} />
                                 );
                             })}
                         </Image.PreviewGroup>

@@ -28,7 +28,9 @@ class H_Filter extends Component<RouteComponentProps, {}>
     {
         const { filterForm } = this;
         const { match } = this.props;
-        this.HouseParams = await (await fetch("http://localhost:3065/HouseParams", { method: "POST" })).json();
+        this.HouseParams = await (
+            await fetch("http://localhost:3065/HouseParams", { method: "POST" })
+        ).json();
         //@ts-ignore
         if (!match.params.region) return;
         filterForm.current!.setFieldsValue({

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
 import { VRAnimation } from '../Common/AppIconTitle';
+import { CONST_HOST } from '../Common/VariableGlobal';
 const { Meta } = Card;
 
 interface HouseItemProps extends RouteComponentProps
@@ -81,7 +82,7 @@ class HouseItem extends Component<HouseItemProps, {}>
         return (
             <Card
                 className="HouseItem_Wrapper"
-                cover={<img alt="封面" src={HouseInfo.hExhibitImg} />}
+                cover={<img alt="封面" src={`${CONST_HOST}/${HouseInfo.hExhibitImg}`} />}
                 bordered={false}
                 hoverable
                 onClick={() =>

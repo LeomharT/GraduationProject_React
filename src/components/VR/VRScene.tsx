@@ -384,7 +384,7 @@ class VRScene extends Component<VRSceneProps, {}>
 
         // let elInnerText = document.createElement("div");
         // elInnerText.classList.add("VRSceneTagName");
-        // elInnerText.innerText = '客厅';
+        // elInnerText.innerText = '餐厅';
         // el.appendChild(elInnerText);
 
         // el.addEventListener('click', async (e: MouseEvent) =>
@@ -393,9 +393,9 @@ class VRScene extends Component<VRSceneProps, {}>
         // });
 
         // let cssObj = new CSS3DSprite(el);
-        // cssObj.position.setX(-40);
+        // cssObj.position.setX(-250);
         // cssObj.position.setY(0);
-        // cssObj.position.setZ(330);
+        // cssObj.position.setZ(300);
         // this.scene.add(cssObj);
     }
     render()
