@@ -107,7 +107,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
                     </Collapse>
                     <div className="TotalAndClean">
                         <span>
-                            以为您找到500套福州租房
+                            以为您找到{<span style={{ color: "#fe615a", fontSize: '30px' }}>500</span>}套福州租房
                         </span>
                         <Button
                             type='link'

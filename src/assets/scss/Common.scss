@@ -54,7 +54,7 @@
 {
     display        : flex;
     justify-content: space-between;
-    width          : 160px;
+    width          : 150px;
     >img
     {
         width : 40px;
@@ -62,7 +62,7 @@
     }
     >span
     {
-        font-family: "MilkyExtralight";
+        // font-family: "MilkyExtralight";
         font-size  : 25px;
         font-weight: bold;
         line-height: 40px;

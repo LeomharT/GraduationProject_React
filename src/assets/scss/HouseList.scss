@@ -79,9 +79,9 @@
     padding-bottom: 20px;
     .HouseItem_Wrapper
     {
-        display  : flex;
-        padding  : 20px;
-        max-width: 1000px;
+        display      : flex;
+        padding      : 20px;
+        max-width    : 1000px;
         margin-bottom: 10px;
         .ant-card-cover >img
         {
@@ -214,7 +214,7 @@
             }
             .BaseInfoEtc
             {
-                display       : flex;
+                display        : flex;
                 justify-content: space-between;
                 >div
                 {
