@@ -204,15 +204,18 @@ class VRScene extends Component<VRSceneProps, {}>
             );
         }
 
-        gsap.to(currScene, .5, { opacity: 0 });
+        gsap.to(currScene, .45, { opacity: 0 });
         setTimeout(() =>
         {
             VR_Cube.material = targetScene;
-            gsap.to(targetScene, 1, { opacity: 1 });
+        }, 450);
+        setTimeout(() =>
+        {
+            gsap.to(targetScene, .45, { opacity: 1 });
             camera.position.set(0, 0, 5);
             camera.lookAt(scene.position);
             this.currScene = targetScene;
-        }, 300);
+        }, 500);
 
         for (let cp of currPositons)
         {
@@ -249,112 +252,6 @@ class VRScene extends Component<VRSceneProps, {}>
             scene.add(...this.currPositons);
         }, 500);
 
-
-
-        // for (let p of positionInfo.positions)
-        // {
-        //     let el = document.createElement('div');
-        //     el.classList.add('VRNextSceneArrow');
-        //     el.setAttribute('goToScene', p.toSceneId);
-        //     let elinnerTxt = document.createElement("div");
-        //     elinnerTxt.classList.add('VRSceneTagName');
-        //     elinnerTxt.innerText = p.toSceneName;
-        //     el.appendChild(elinnerTxt);
-        //     el.addEventListener('click', async (e: MouseEvent) =>
-        //     {
-        //         let targetScene = new Array<MeshBasicMaterial>();
-        //         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${el.getAttribute("goToScene")}`);
-        //         let targetPositionInfo = await res.json() as HouseVRInfo;
-        //         gsap.to(currScene, .5, { opacity: 0 });
-        //         for (let u_t of targetPositionInfo.urls)
-        //         {
-        //             targetScene.push(
-        //                 new MeshBasicMaterial({
-        //                     transparent: true,
-        //                     opacity: 0,
-        //                     map: new TextureLoader().load(`${CONST_HOST}/${u_t.url}`)
-        //                 })
-        //             );
-        //         }
-        //         setTimeout(() =>
-        //         {
-        //             VR_Cube.material = targetScene;
-        //             gsap.to(targetScene, 1, { opacity: 1 });
-        //             camera.position.set(0, 0, 5);
-        //             camera.lookAt(scene.position);
-        //         }, 300);
-        //     });
-
-        //     const cssObj = new CSS3DSprite(el);
-        //     cssObj.position.setX(parseInt(p.x));
-        //     cssObj.position.setY(parseInt(p.y));
-        //     cssObj.position.setZ(parseInt(p.z));
-
-        //     scene.add(cssObj);
-        // }
-
-
-
-        // let element = document.createElement('div');
-        // element.classList.add('VRNextSceneArrow');
-        // let innerTextel = document.createElement("div");
-        // innerTextel.innerText = '卧室';
-        // innerTextel.classList.add("VRSceneTagName");
-        // element.appendChild(innerTextel);
-        // element.setAttribute("goToScene", '8');
-        // //先获取当前是在那个场景,暂存起来然后跳转过去在吧暂存的场景opasiti改掉
-        // element.onclick = () =>
-        // {
-        //     console.log(`我去那个场景了:${element.getAttribute("goToScene")}`);
-        //     const { scene1, scene4 } = this;
-
-        //     if (VR_Cube.material === scene1)
-        //     {
-        //         gsap.to(scene1, .5, { opacity: 0 });
-        //         setTimeout(() =>
-        //         {
-        //             VR_Cube.material = scene4;
-        //             gsap.to(scene4, 1, { opacity: 1 });
-        //             camera.position.set(0, 0, 5);
-        //             camera.lookAt(scene.position);
-        //         }, 300);
-
-        //         return;
-        //     }
-        //     if (VR_Cube.material === scene4)
-        //     {
-        //         gsap.to(scene4, .5, { opacity: 0 });
-        //         setTimeout(() =>
-        //         {
-        //             VR_Cube.material = scene1;
-        //             gsap.to(scene1, 1, { opacity: 1 });
-        //             camera.position.set(0, 0, 5);
-        //             camera.lookAt(scene.position);
-        //         }, 300);
-
-        //         return;
-        //     }
-        // };
-
-        // let elements = document.createElement("div");
-        // elements.classList.add('VRNextSceneArrow');
-        // let innerTexts = document.createElement("div");
-        // innerTexts.classList.add('VRSceneTagName');
-        // innerTexts.innerText = "餐厅";
-        // elements.appendChild(innerTexts);
-
-        // let object = new CSS3DSprite(element);
-        // let objects = new CSS3DSprite(elements);
-        // object.position.x = -190;
-        // object.position.y = 0;
-        // object.position.z = -500;
-
-        // objects.position.x = -70;
-        // objects.position.y = -20;
-        // objects.position.z = -500;
-        // // object.lookAt(camera.position);
-        // scene.add(object);
-        // scene.add(objects);
     };
     async componentDidMount()
     {
