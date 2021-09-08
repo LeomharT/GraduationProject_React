@@ -32,7 +32,7 @@ class HouseDetail extends Component<DetailProps, {}>
         return (
             await (
                 await
-                    fetch(`http://localhost:3065/GetHouseDetailInfo?hId=${(this.props.match.params as any).HouseId}`)
+                    fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${(this.props.match.params as any).HouseId}`)
             ).json()
         );
     };

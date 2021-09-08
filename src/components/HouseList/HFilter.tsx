@@ -7,6 +7,7 @@ import React, { Component, createRef } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { HouseParams } from '../../interfaces/HouseListInterface';
 import { AppIconTitle } from '../Common/AppIconTitle';
+import { CONST_HOST } from '../Common/VariableGlobal';
 
 const { Panel } = Collapse;
 
@@ -29,7 +30,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
         const { filterForm } = this;
         const { match } = this.props;
         this.HouseParams = await (
-            await fetch("http://localhost:3065/HouseParams", { method: "POST" })
+            await fetch(`${CONST_HOST}/HouseParams`, { method: "POST" })
         ).json();
         //@ts-ignore
         if (!match.params.region) return;

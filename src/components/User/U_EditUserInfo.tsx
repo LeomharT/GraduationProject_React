@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { RegionType } from '../../interfaces/UserInferface';
 import UserStore from '../../redux/UserStore';
+import { CONST_HOST } from '../Common/VariableGlobal';
 
 const { Option } = Select;
 interface U_EditUserInfoProps extends RouteComponentProps
@@ -55,10 +56,10 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
     };
     async componentDidMount()
     {
-        this.provinces = await (await fetch('http://localhost:3065/Province')).json();
+        this.provinces = await (await fetch(`${CONST_HOST}/Province`)).json();
         if (this.UserStore.authInfo.userInfo?.province)
         {
-            this.citys = await (await fetch(`http://localhost:3065/InitCity?T_region_NAME=${this.UserStore.authInfo.userInfo.province}`)).json();
+            this.citys = await (await fetch(`${CONST_HOST}/InitCity?T_region_NAME=${this.UserStore.authInfo.userInfo.province}`)).json();
         }
     }
     render()
@@ -187,7 +188,7 @@ class U_EditUserInfo extends Component<U_EditUserInfoProps, {}>
                                         this.formRef.current!.setFieldsValue({
                                             province: valueObj.T_region_NAME
                                         });
-                                        this.citys = await (await fetch(`http://localhost:3065/Province?PARENT_ID=${valueObj.T_region_ID}`)).json();
+                                        this.citys = await (await fetch(`${CONST_HOST}/Province?PARENT_ID=${valueObj.T_region_ID}`)).json();
                                     }}
                                 >
                                     {this.provinces.map((value: RegionType, index: number) =>

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
+import { CONST_HOST } from '../Common/VariableGlobal';
 import HFilter from './HFilter';
 import HouseItem from './HouseItem';
 
@@ -12,7 +13,7 @@ export default class HouseExhibit extends Component<{}, {}>
     HouseStore: HouseStore = HouseStore.GetInstance();
     InitHouseList = async (): Promise<HouseBaseInfo[]> =>
     {
-        let res = await fetch("http://localhost:3065/GetHouseExhibitList", { method: "POST" });
+        let res = await fetch(`${CONST_HOST}/GetHouseExhibitList`, { method: "POST" });
         return await res.json();
     };
     async componentDidMount()
