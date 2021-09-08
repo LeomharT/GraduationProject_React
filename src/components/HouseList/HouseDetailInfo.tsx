@@ -26,7 +26,7 @@ class HouseDetail extends Component<DetailProps, {}>
     UserStore: UserStore = UserStore.GetInstance();
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
-    @observable ok: boolean = false;
+    @observable isCollected: boolean = false;
     InitHouseInfo = async (): Promise<HouseInfo> =>
     {
         return (
@@ -71,6 +71,21 @@ class HouseDetail extends Component<DetailProps, {}>
             }]
         });
     };
+    CheckForIsLogin = (): boolean =>
+    {
+        const { UserStore, AuthStore } = this;
+        if (UserStore.authInfo.session == null)
+        {
+            AuthStore.auth.login();
+            return false;
+        }
+        console.log(UserStore.authInfo.userInfo.id);
+        return true;
+    };
+    CheckForCurrentHouseIsCollected = () =>
+    {
+
+    };
     async componentDidMount()
     {
         this.houseDetailInfo = await this.InitHouseInfo();
@@ -86,7 +101,7 @@ class HouseDetail extends Component<DetailProps, {}>
     render()
     {
         const { history } = this.props;
-        const { houseDetailInfo, ok, UserStore, AuthStore } = this;
+        const { houseDetailInfo, isCollected } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
         if (!houseDetailInfo?.baseInfo) return (<Render404 />);
         return (
@@ -142,12 +157,13 @@ class HouseDetail extends Component<DetailProps, {}>
                                 <div
                                     onClick={() =>
                                     {
-                                        this.ok = !this.ok;
-                                        if (!ok) { message.success("ok"); return; }
+                                        this.CheckForIsLogin();
+                                        this.isCollected = !this.isCollected;
+                                        if (!isCollected) { message.success("ok"); return; }
                                         message.error("nook");
                                     }}>
-                                    {ok && <HeartFilled />}
-                                    {!ok && <HeartOutlined />}
+                                    {isCollected && <HeartFilled />}
+                                    {!isCollected && <HeartOutlined />}
                                     关注
                                 </div>
 
@@ -196,12 +212,10 @@ class HouseDetail extends Component<DetailProps, {}>
                                     type="primary"
                                     onClick={() =>
                                     {
-                                        if (UserStore.authInfo.session == null)
+                                        if (this.CheckForIsLogin())
                                         {
-                                            AuthStore.auth.login();
-                                            return;
+                                            message.success("租的好👌😄");
                                         }
-                                        message.success("租的好👌😄");
                                     }}
                                 >立即租赁</Button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -230,12 +244,10 @@ class HouseDetail extends Component<DetailProps, {}>
                                     type="primary"
                                     onClick={() =>
                                     {
-                                        if (UserStore.authInfo.session == null)
+                                        if (this.CheckForIsLogin())
                                         {
-                                            AuthStore.auth.login();
-                                            return;
+                                            message.success("联系我哦等下还没做出来👈");
                                         }
-                                        message.success("联系我哦等下还没做出来👈");
                                     }}
                                 >在线联系</Button>
                             </div>
