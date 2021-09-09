@@ -40,6 +40,16 @@ export default class UserStore
         }
         return '';
     };
+    CheckForIsLogin = (): boolean =>
+    {
+        const { AuthStore } = this;
+        if (this.authInfo.session == null)
+        {
+            AuthStore.auth.login();
+            return false;
+        }
+        return true;
+    };
     private static _SingleInstance: UserStore;
     static GetInstance()
     {

@@ -204,18 +204,18 @@ class VRScene extends Component<VRSceneProps, {}>
             );
         }
 
-        gsap.to(currScene, .45, { opacity: 0 });
+        gsap.to(currScene, .35, { opacity: 0 });
         setTimeout(() =>
         {
             VR_Cube.material = targetScene;
-        }, 450);
+        }, 350);
         setTimeout(() =>
         {
-            gsap.to(targetScene, .45, { opacity: 1 });
+            gsap.to(targetScene, .35, { opacity: 1 });
             camera.position.set(0, 0, 5);
             camera.lookAt(scene.position);
             this.currScene = targetScene;
-        }, 500);
+        }, 400);
 
         for (let cp of currPositons)
         {

@@ -8,7 +8,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import mapMarker from '../../assets/img/mapMarker.png';
 import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
-import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
@@ -22,7 +21,6 @@ const { Link } = Anchor;
 @observer
 class HouseDetail extends Component<DetailProps, {}>
 {
-    AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
@@ -71,25 +69,45 @@ class HouseDetail extends Component<DetailProps, {}>
             }]
         });
     };
-    CheckForIsLogin = (): boolean =>
+    CheckForCurrentHouseIsCollected = (): void =>
     {
-        const { UserStore, AuthStore } = this;
-        if (UserStore.authInfo.session == null)
-        {
-            AuthStore.auth.login();
-            return false;
-        }
-        console.log(UserStore.authInfo.userInfo.id);
-        return true;
+        if (!this.UserStore.authInfo.session) return;
+        const { id } = this.UserStore?.authInfo?.userInfo ?? undefined;
+        const { hId } = this.houseDetailInfo.baseInfo;
+        if (!id) { this.isCollected = false; return; }
+        fetch(`${CONST_HOST}/GetHouseCollectInfo?id=${id}&hId=${hId}`)
+            .then(res => res.json())
+            .then(data =>
+            {
+                this.isCollected = data.isCollected;
+            })
+            .catch((err) =>
+            {
+                throw new Error(err);
+            });
     };
-    CheckForCurrentHouseIsCollected = () =>
+    CollectCurrentHouse = async (hId: string | number) =>
+    {
+        const { id } = this.UserStore?.authInfo?.userInfo ?? undefined;
+        console.log(hId);
+        if (!id) return;
+        let res = await fetch(`${CONST_HOST}/CollectHouse?id=${id}&hId=${hId}`);
+        let result = await res.json();
+        console.log(result);
+    };
+    DeleteCurrentHouseFromUserCollections = () =>
     {
 
     };
+
+
+
     async componentDidMount()
     {
         this.houseDetailInfo = await this.InitHouseInfo();
         this.InitMap();
+        this.CheckForCurrentHouseIsCollected();
+
         /**
          * @description 因为VR界面是window.open(),所以做一个数据持久化.
          */
@@ -101,7 +119,7 @@ class HouseDetail extends Component<DetailProps, {}>
     render()
     {
         const { history } = this.props;
-        const { houseDetailInfo, isCollected } = this;
+        const { houseDetailInfo, isCollected, UserStore } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
         if (!houseDetailInfo?.baseInfo) return (<Render404 />);
         return (
@@ -157,13 +175,17 @@ class HouseDetail extends Component<DetailProps, {}>
                                 <div
                                     onClick={() =>
                                     {
-                                        this.CheckForIsLogin();
-                                        this.isCollected = !this.isCollected;
-                                        if (!isCollected) { message.success("ok"); return; }
-                                        message.error("nook");
+                                        if (UserStore.CheckForIsLogin())
+                                        {
+                                            this.isCollected = !this.isCollected;
+                                            this.CollectCurrentHouse(houseDetailInfo.baseInfo.hId);
+                                            if (!isCollected) { message.success("ok"); return; }
+                                            message.error("nook");
+                                        }
+
                                     }}>
-                                    {isCollected && <HeartFilled />}
-                                    {!isCollected && <HeartOutlined />}
+                                    {Boolean(isCollected) && <HeartFilled />}
+                                    {Boolean(!isCollected) && <HeartOutlined />}
                                     关注
                                 </div>
 
@@ -212,7 +234,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                     type="primary"
                                     onClick={() =>
                                     {
-                                        if (this.CheckForIsLogin())
+                                        if (UserStore.CheckForIsLogin())
                                         {
                                             message.success("租的好👌😄");
                                         }
@@ -244,7 +266,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                     type="primary"
                                     onClick={() =>
                                     {
-                                        if (this.CheckForIsLogin())
+                                        if (UserStore.CheckForIsLogin())
                                         {
                                             message.success("联系我哦等下还没做出来👈");
                                         }
