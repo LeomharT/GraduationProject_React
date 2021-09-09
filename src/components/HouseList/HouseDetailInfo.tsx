@@ -8,6 +8,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import mapMarker from '../../assets/img/mapMarker.png';
 import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
+import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
@@ -21,6 +22,7 @@ const { Link } = Anchor;
 @observer
 class HouseDetail extends Component<DetailProps, {}>
 {
+    HouseStore: HouseStore = HouseStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
@@ -89,16 +91,20 @@ class HouseDetail extends Component<DetailProps, {}>
     CollectCurrentHouse = async (hId: string | number) =>
     {
         const { id } = this.UserStore?.authInfo?.userInfo ?? undefined;
-        console.log(hId);
         if (!id) return;
         let res = await fetch(`${CONST_HOST}/CollectHouse?id=${id}&hId=${hId}`);
         let result = await res.json();
-        console.log(result);
+        if (result.affectedRows as boolean)
+        {
+            message.success("添加收藏成功");
+        }
+        else
+        {
+            message.error("添加收藏失败");
+        }
+        this.CheckForCurrentHouseIsCollected();
     };
-    DeleteCurrentHouseFromUserCollections = () =>
-    {
 
-    };
 
 
 
@@ -119,7 +125,7 @@ class HouseDetail extends Component<DetailProps, {}>
     render()
     {
         const { history } = this.props;
-        const { houseDetailInfo, isCollected, UserStore } = this;
+        const { houseDetailInfo, isCollected, UserStore, HouseStore } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
         if (!houseDetailInfo?.baseInfo) return (<Render404 />);
         return (
@@ -173,14 +179,22 @@ class HouseDetail extends Component<DetailProps, {}>
                                     <span>&yen;{houseDetailInfo.baseInfo.hRent}</span>&nbsp;元/月 (月付价)
                                 </div>
                                 <div
-                                    onClick={() =>
+                                    onClick={async () =>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            this.isCollected = !this.isCollected;
-                                            this.CollectCurrentHouse(houseDetailInfo.baseInfo.hId);
-                                            if (!isCollected) { message.success("ok"); return; }
-                                            message.error("nook");
+                                            if (isCollected)
+                                            {
+                                                await HouseStore.DeleteCurrentHouseFromUserCollections(
+                                                    UserStore.authInfo.userInfo.id,
+                                                    houseDetailInfo.baseInfo.hId,
+                                                    this.CheckForCurrentHouseIsCollected
+                                                );
+                                            } else
+                                            {
+
+                                                await this.CollectCurrentHouse(houseDetailInfo.baseInfo.hId);
+                                            }
                                         }
 
                                     }}>
