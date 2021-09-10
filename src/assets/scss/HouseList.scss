@@ -77,58 +77,58 @@
 {
     @extend .ConstDivSetting;
     padding-bottom: 20px;
-    .HouseItem_Wrapper
+}
+.HouseItem_Wrapper
+{
+    display      : flex;
+    padding      : 20px;
+    max-width    : 1000px;
+    margin-bottom: 10px;
+    .ant-card-cover >img
     {
-        display      : flex;
-        padding      : 20px;
-        max-width    : 1000px;
-        margin-bottom: 10px;
-        .ant-card-cover >img
+        width : 235px;
+        height: 175px;
+    }
+    .ant-card-body
+    {
+        width  : 100vw;
+        padding: 0 0 0 20px;
+        .ant-card-meta-title
         {
-            width : 235px;
-            height: 175px;
-        }
-        .ant-card-body
-        {
-            width  : 100vw;
-            padding: 0 0 0 20px;
-            .ant-card-meta-title
+            font-size  : 22px;
+            font-weight: bold;
+            display    : flex;
+            align-items: center;
+            .ant-tag
             {
-                font-size  : 22px;
-                font-weight: bold;
-                display    : flex;
-                align-items: center;
-                .ant-tag
+                margin     : 0 0 0 8px;
+                font-weight: normal;
+            }
+        }
+        .HosueItem_Detail
+        {
+            display        : flex;
+            justify-content: space-between;
+            .HInfo
+            {
+                display       : flex;
+                flex-direction: column;
+                >div
                 {
-                    margin     : 0 0 0 8px;
-                    font-weight: normal;
+                    >span
+                    {
+                        line-height : 21px;
+                        margin-right: 5px;
+                    }
+                    display      : flex;
+                    margin-bottom: 10px;
                 }
             }
-            .HosueItem_Detail
+            .HRent
             {
-                display        : flex;
-                justify-content: space-between;
-                .HInfo
-                {
-                    display       : flex;
-                    flex-direction: column;
-                    >div
-                    {
-                        >span
-                        {
-                            line-height : 21px;
-                            margin-right: 5px;
-                        }
-                        display      : flex;
-                        margin-bottom: 10px;
-                    }
-                }
-                .HRent
-                {
-                    font-size  : 30px;
-                    font-weight: 400;
-                    color      : #fe615a;
-                }
+                font-size  : 30px;
+                font-weight: 400;
+                color      : #fe615a;
             }
         }
     }
