@@ -139,7 +139,8 @@ class HouseDetail extends Component<DetailProps, {}>
                                     icon={<LeftOutlined />}
                                     onClick={() =>
                                     {
-                                        history.push("/HouseList/Exhibits");
+                                        // history.push("/HouseList/Exhibits");
+                                        history.go(-1);
                                     }}
                                 />
                                 {houseDetailInfo.baseInfo.hTitle}
