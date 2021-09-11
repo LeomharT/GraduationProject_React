@@ -1,5 +1,5 @@
 import { DeleteOutlined, ExclamationOutlined } from '@ant-design/icons';
-import { Button, Popconfirm } from 'antd';
+import { Button, Empty, Popconfirm } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -17,7 +17,7 @@ export default class U_UserCollect extends Component
     @observable userCollections: HouseBaseInfo[] = [];
     InitUserCollections = async () =>
     {
-        const { id } = this.UserStore.authInfo?.userInfo;
+        const { id } = this.UserStore?.authInfo?.userInfo;
         this.userCollections = (await (await fetch(`${CONST_HOST}/GetAllUserCollections?id=${id}`)).json()) as HouseBaseInfo[];
     };
     async componentDidMount()
@@ -27,6 +27,7 @@ export default class U_UserCollect extends Component
     render()
     {
         const { userCollections, UserStore, HouseStore } = this;
+        if (!userCollections.length) return (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂时没有收藏任何房源' />);
         return (
             <div className='U_Collections'>
                 {
