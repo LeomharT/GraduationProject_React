@@ -6,6 +6,7 @@ import { FieldData } from 'rc-field-form/lib/interface';
 import React, { Component, createRef } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { HouseParams } from '../../interfaces/HouseListInterface';
+import HouseStore from '../../redux/HouseStore';
 import { AppIconTitle } from '../Common/AppIconTitle';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
@@ -14,6 +15,7 @@ const { Panel } = Collapse;
 @observer
 class H_Filter extends Component<RouteComponentProps, {}>
 {
+    HouseStore: HouseStore = HouseStore.GetInstance();
     @observable HouseParams: HouseParams[] = [];
     filterForm = createRef<FormInstance>();
     @action
@@ -41,7 +43,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
     }
     render()
     {
-        const { filterForm } = this;
+        const { filterForm, HouseStore } = this;
         const { history } = this.props;
         return (
             <div className="HFilter">
@@ -108,7 +110,11 @@ class H_Filter extends Component<RouteComponentProps, {}>
                     </Collapse>
                     <div className="TotalAndClean">
                         <span>
-                            以为您找到{<span style={{ color: "#fe615a", fontSize: '30px' }}>500</span>}套福州租房
+                            以为您找到{
+                                <span style={{ color: "#fe615a", fontSize: '30px' }}>
+                                    {HouseStore.HouseExhibitList?.count.toString()}
+                                </span>
+                            }套福州租房
                         </span>
                         <Button
                             type='link'

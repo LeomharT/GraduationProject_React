@@ -14,7 +14,6 @@ export default class UserStore
     InitAuthInfo = async () =>
     {
         this.authInfo = await this.AuthStore.GetAuthInfo();
-        sessionStorage.setItem("user", JSON.stringify(this.authInfo));
     };
     InitAuthClien = async () =>
     {
