@@ -3,7 +3,6 @@ export declare interface HouseExhibitList
     count: number;
     HouseList: HouseBaseInfo[];
 }
-
 export declare interface HouseParams
 {
     params_id: string,

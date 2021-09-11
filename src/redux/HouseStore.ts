@@ -5,21 +5,42 @@ import { HouseExhibitList } from "../interfaces/HouseListInterface";
 
 export default class HouseStore
 {
-    @observable HouseExhibitList: HouseExhibitList;
-    DeleteCurrentHouseFromUserCollections = async (id: string | number, hId: number | string, callback: Function) =>
+    @observable HouseExhibitList: HouseExhibitList;           //房屋列表和总条目
+    @observable HouseFilterParams: FormData = new FormData(); //筛选对象
+    /**
+     * @description            初始化房屋列表
+     * @param {FormData}filter 筛选参数
+     */
+    InitHouseList = async (filter: FormData) =>
     {
-        let res = await fetch(`${CONST_HOST}/DeleteHouseFromCollections?id=${id}&hId=${hId}`);
-        let result = await res.json();
-        if (result.affectedRows as boolean)
-        {
-            message.success("删除收藏成功");
-        }
-        else
-        {
-            message.error("删除收藏失败");
-        }
-        callback();
+        let res = await fetch(`${CONST_HOST}/GetHouseExhibitList`, {
+            method: "POST",
+            body: filter
+        });
+        this.HouseExhibitList = await res.json() as HouseExhibitList;
     };
+    /**
+     * @param id       用户唯一标识
+     * @param hId      房屋唯一标识
+     * @param callback 删除之后执行刷新收藏列表
+     * @description    删除用户的房屋收藏条目
+     */
+    DeleteCurrentHouseFromUserCollections =
+        async (id: string | number, hId: number | string, callback: Function) =>
+        {
+            let res = await fetch(`${CONST_HOST}/DeleteHouseFromCollections?id=${id}&hId=${hId}`);
+            let result = await res.json();
+            if (result.affectedRows as boolean)
+            {
+                message.success("删除收藏成功");
+            }
+            else
+            {
+                message.error("删除收藏失败");
+            }
+            callback();
+        };
+
     private static _SingleInstance: HouseStore;
     static GetInstance(): HouseStore
     {

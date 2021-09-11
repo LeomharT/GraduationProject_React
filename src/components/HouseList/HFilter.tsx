@@ -16,16 +16,19 @@ const { Panel } = Collapse;
 class H_Filter extends Component<RouteComponentProps, {}>
 {
     HouseStore: HouseStore = HouseStore.GetInstance();
-    @observable HouseParams: HouseParams[] = [];
     filterForm = createRef<FormInstance>();
+    @observable HouseParams: HouseParams[] = [];
+
     @action
     filterSelected = (changedValue: FieldData[], allValue: FieldData[]) =>
     {
+        const { HouseStore } = this;
         for (let v of allValue)
         {
-            if (!v.value) continue;
-            console.log(v);
+            if (!v.touched) continue;
+            HouseStore.HouseFilterParams.set(v.name.toString(), v.value);
         }
+        HouseStore.InitHouseList(HouseStore.HouseFilterParams);
     };
     async componentDidMount()
     {
@@ -34,6 +37,9 @@ class H_Filter extends Component<RouteComponentProps, {}>
         this.HouseParams = await (
             await fetch(`${CONST_HOST}/HouseParams`, { method: "POST" })
         ).json();
+        /**
+         * 获取地图搜索那边的数据
+         */
         //@ts-ignore
         if (!match.params.region) return;
         filterForm.current!.setFieldsValue({
@@ -121,6 +127,8 @@ class H_Filter extends Component<RouteComponentProps, {}>
                             onClick={() =>
                             {
                                 filterForm.current!.resetFields();
+                                HouseStore.HouseFilterParams = new FormData();
+                                HouseStore.InitHouseList(HouseStore.HouseFilterParams);
                                 if (history.location.pathname !== "/HouseList/Exhibits")
                                 {
                                     history.push("/HouseList/Exhibits");
