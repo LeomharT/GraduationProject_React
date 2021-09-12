@@ -32,7 +32,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
     };
     async componentDidMount()
     {
-        const { filterForm } = this;
+        const { filterForm, HouseStore } = this;
         const { match } = this.props;
         this.HouseParams = await (
             await fetch(`${CONST_HOST}/HouseParams`, { method: "POST" })
@@ -41,12 +41,15 @@ class H_Filter extends Component<RouteComponentProps, {}>
          * 获取地图搜索那边的数据
          */
         //@ts-ignore
-        if (match.params.region)
+        if (match.params.hRegion)
         {
             filterForm.current!.setFieldsValue({
                 //@ts-ignore
-                hRegion: match.params.region
+                hRegion: match.params.hRegion
             });
+            //@ts-ignore
+            HouseStore.HouseFilterParams.set("hRegion", match.params.hRegion);
+            HouseStore.InitHouseList(HouseStore.HouseFilterParams);
         }
     }
     render()

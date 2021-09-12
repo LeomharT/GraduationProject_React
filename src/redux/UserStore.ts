@@ -1,5 +1,6 @@
 import { AuthenticationClient } from "authing-js-sdk";
 import { observable } from "mobx";
+import { io } from "socket.io-client";
 import AuthStore from "./AuthStore";
 
 export default class UserStore
@@ -11,6 +12,7 @@ export default class UserStore
     AuthStore: AuthStore = AuthStore.GetInstance();
     @observable authInfo: any = {};
     authenticationClient!: AuthenticationClient;
+    socketIo = io("ws://localhost:3066"); //创建socket.io实例
     InitAuthInfo = async () =>
     {
         this.authInfo = await this.AuthStore.GetAuthInfo();

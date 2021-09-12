@@ -2,6 +2,7 @@ import 'antd/dist/antd.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import HConsult from './components/HConsult/HConsult';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import route, { RouteType } from './route/router';
@@ -23,6 +24,7 @@ ReactDOM.render(
                     );
                 })}
             </Switch>
+            <HConsult />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
