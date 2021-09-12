@@ -20,7 +20,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
     @observable HouseParams: HouseParams[] = [];
 
     @action
-    filterSelected = (changedValue: FieldData[], allValue: FieldData[]) =>
+    FilterSelected = (changedValue: FieldData[], allValue: FieldData[]): void =>
     {
         const { HouseStore } = this;
         for (let v of allValue)
@@ -41,11 +41,13 @@ class H_Filter extends Component<RouteComponentProps, {}>
          * 获取地图搜索那边的数据
          */
         //@ts-ignore
-        if (!match.params.region) return;
-        filterForm.current!.setFieldsValue({
-            //@ts-ignore
-            region: match.params.region
-        });
+        if (match.params.region)
+        {
+            filterForm.current!.setFieldsValue({
+                //@ts-ignore
+                hRegion: match.params.region
+            });
+        }
     }
     render()
     {
@@ -64,7 +66,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
                 </div>
                 <Form
                     ref={filterForm}
-                    onFieldsChange={this.filterSelected}
+                    onFieldsChange={this.FilterSelected}
                 >
                     <div className="VisibleOption">
                         {this.HouseParams.slice(0, 5).map((params: HouseParams, indexP: number) =>

@@ -21,7 +21,7 @@ const route: RouteType[] = [
     { title: 'Home', path: "/Home", components: Home },
     {
         title: 'HouseList', path: "/HouseList", components: HouseList, childRoute: [
-            { title: "HouseExhibit", path: "/HouseList/Exhibits/:region?", components: HouseExhibit },
+            { title: "HouseExhibit", path: "/HouseList/Exhibits/:hRegion?", components: HouseExhibit },
             { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetail },
         ]
     },
