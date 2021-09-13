@@ -1,5 +1,5 @@
 import { AudioOutlined, CloseOutlined, CommentOutlined, SendOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { Button, Card, Divider, Input, Popover } from 'antd';
+import { Button, Card, Divider, Popover } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -13,7 +13,7 @@ export default class HConsult extends Component<{}, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     @observable emojiList: EmojiType[] = [];
-    @observable messageInput = React.createRef<Input>();
+    @observable messageInput = React.createRef<HTMLInputElement>();
     InitSocketIo = () =>
     {
         const { socketIo } = this.UserStore;
@@ -50,12 +50,9 @@ export default class HConsult extends Component<{}, {}>
                             <Divider style={{ margin: "0" }} />
                             <div className='MessageInput'>
                                 {/* 文本框 */}
-                                <Input
+                                <input
                                     ref={this.messageInput}
-                                    size='large'
-                                    bordered={false}
                                     placeholder="撰写消息"
-                                    style={{ width: "230px" }}
                                 />
                                 {/* 发送文本消息 */}
                                 <Button
@@ -63,8 +60,9 @@ export default class HConsult extends Component<{}, {}>
                                     type='text'
                                     onClick={() =>
                                     {
-                                        console.log(this.messageInput.current!.clearableInput.props.value);
-                                        this.messageInput.current!.setValue("");
+                                        if (!this.messageInput.current!.value) return;
+                                        console.log(this.messageInput.current!.value);
+                                        this.messageInput.current!.value = "";
                                     }}
                                 />
                                 {/* Emoji */}
