@@ -13,6 +13,7 @@ export default class UserStore
     @observable authInfo: any = {};
     authenticationClient!: AuthenticationClient;
     socketIo = io("ws://localhost:3066"); //创建socket.io实例
+    @observable showChat: boolean = true;
     InitAuthInfo = async () =>
     {
         this.authInfo = await this.AuthStore.GetAuthInfo();

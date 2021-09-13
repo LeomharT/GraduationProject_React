@@ -35,23 +35,30 @@
             height          : 40px;
             position        : absolute;
             bottom          : 0;
+            >button{
+                color: rgb(57, 106, 255);
+            }
         }
     }
 }
 .EmojiList{
     box-sizing     : border-box;
     padding        : 10px;
-    >ul{
+    >ul:nth-child(1){
         display  : flex;
         flex-wrap: wrap;
         width    : 300px;
         >li{
-            margin-right : 5px;
-            margin-bottom: 5px;
+            box-sizing: border-box;
+            padding: 3px;
             border-radius: 5px;
+            &:hover{
+                background-color: rgba(1,1,1,.1);
+            }
         }
     }
     .ant-pagination{
+        display        : flex;
         justify-content: center;
     }
 }

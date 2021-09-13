@@ -282,7 +282,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            message.success("联系我哦等下还没做出来👈");
+                                            UserStore.showChat = true;
                                         }
                                     }}
                                 >在线联系</Button>
