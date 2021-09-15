@@ -2,18 +2,20 @@ import { AudioOutlined, CloseOutlined, CommentOutlined, SendOutlined, SmileOutli
 import { Button, Card, Divider, Popover } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 import React, { Component } from 'react';
 import '../../assets/scss/HConsult.scss';
-import { EmojiType } from '../../interfaces/HomeInterface';
 import UserStore from '../../redux/UserStore';
 import EmojiList from './EmojiList';
+import VoiceMessage from './VoiceMessage';
 
 @observer
 export default class HConsult extends Component<{}, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
-    @observable emojiList: EmojiType[] = [];
     @observable messageInput = React.createRef<HTMLInputElement>();
+    messageDisplayArea = React.createRef<HTMLUListElement>();
+    voiceMessage = React.createRef<HTMLAudioElement>();
     InitSocketIo = () =>
     {
         const { socketIo } = this.UserStore;
@@ -21,6 +23,10 @@ export default class HConsult extends Component<{}, {}>
         {
 
         });
+    };
+    DisplayMessage = () =>
+    {
+
     };
     componentDidMount()
     {
@@ -46,14 +52,34 @@ export default class HConsult extends Component<{}, {}>
                                 </>
                             }>
                             <div className='Consulting'>
+                                {/* 播放音频的标签 */}
+                                <audio ref={this.voiceMessage} controls />
+                                {/* 聊天内容显示界面 */}
+                                <ul ref={this.messageDisplayArea}>
+                                    <Divider
+                                        className='SystemMessage'
+                                        type='horizontal'
+                                        plain
+                                    >{moment(new Date(Date.now())).format('hh:mm')}
+                                    </Divider>
+                                    <li className='YourMessage'>
+                                        我说了一句话我说了很长😄的语句话周末办呢来弟弟
+                                        我说了一句话我说了很长的语句话周末办呢来弟弟
+                                        我说了一句话我说了很长的语句话周末办呢来弟弟
+                                    </li>
+                                    <li className='OtherMessage'>
+                                        我说了一句话我说了很长的语句话周末办呢来弟弟
+                                        我说了一句话我说了很长的语句话周末办呢来弟弟
+                                        说了一句话我说了很长的语句话周末办呢来弟弟
+                                    </li>
+                                </ul>
                             </div>
                             <Divider style={{ margin: "0" }} />
                             <div className='MessageInput'>
                                 {/* 文本框 */}
                                 <input
                                     ref={this.messageInput}
-                                    placeholder="撰写消息"
-                                />
+                                    placeholder="撰写消息" />
                                 {/* 发送文本消息 */}
                                 <Button
                                     icon={<SendOutlined />}
@@ -63,20 +89,25 @@ export default class HConsult extends Component<{}, {}>
                                         if (!this.messageInput.current!.value) return;
                                         console.log(this.messageInput.current!.value);
                                         this.messageInput.current!.value = "";
-                                    }}
-                                />
+                                    }} />
                                 {/* Emoji */}
                                 <Popover
                                     trigger='click'
                                     placement='topRight'
                                     content={<EmojiList messageInput={this.messageInput} />}
-                                >
-                                    <Button icon={<SmileOutlined />} type='text' />
+                                ><Button icon={<SmileOutlined />} type='text' />
                                 </Popover>
                                 {/* 语音转文本 */}
                                 <Button icon={<CommentOutlined />} type='text' />
                                 {/* 语音 */}
-                                <Button icon={<AudioOutlined />} type='text' />
+                                <Popover
+                                    trigger='click'
+                                    placement='top'
+                                    content={
+                                        <VoiceMessage voiceMessage={this.voiceMessage} />
+                                    }
+                                ><Button icon={<AudioOutlined />} type='text' />
+                                </Popover>
                             </div>
                         </Card>
                     }>
@@ -97,7 +128,6 @@ export default class HConsult extends Component<{}, {}>
                     />
                 </Popover>
             </div>
-
         );
     }
 }

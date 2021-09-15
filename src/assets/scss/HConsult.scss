@@ -1,3 +1,21 @@
+@keyframes SoundWaveAnimate {
+    20%{
+        transform: scale(120%);
+    }50%{
+        transform: scale(90%);
+    }70%{
+        transform: scale(110%);
+    }100%{
+        transform: scale(100%);
+    }
+}
+@keyframes SoundWaveBorderAnimate {
+    to{
+        transform: scale(150%);
+        opacity  : 0;
+    }
+}
+
 .HConsultWrapper{
     .OpenChat{
         position  : fixed;
@@ -28,7 +46,31 @@
             width           : 100%;
             height          : 420px;
             overflow-y      : auto;
-            background-color: blue;
+            >audio{
+                // display: none;
+            }
+            ul >li{
+                clear        : both;
+                box-sizing   : border-box;
+                padding      : 10px;
+                margin-bottom: 10px;
+                max-width    : 250px;
+            }
+            .YourMessage{
+                float           : right;
+                border-radius   : 10px 0 10px 10px;
+                background-color: rgb(57, 106, 255);
+                color           : white;
+            }
+            .OtherMessage{
+                float           : left;
+                border-radius   : 0 10px 10px 10px;
+                background-color: rgb(234, 240, 246);
+            }
+            .SystemMessage{
+                font-size: 14px;
+                color    : rgb(123, 152, 182);
+            }
         }
         .MessageInput{
             width   : 100%;
@@ -76,5 +118,32 @@
     .ant-pagination{
         display        : flex;
         justify-content: center;
+    }
+}
+.RecordingVoice{
+    position  : relative;
+    box-sizing: border-box;
+    padding   : 10px;
+    .SoundWave{
+        width        : 100%;
+        height       : 100%;
+        border-radius: 100%;
+        top          : 0;
+        left         : 0;
+        position     : absolute;
+        background-color: rgb(234, 240, 246);
+        animation    : SoundWaveAnimate .7s ease-in infinite;
+    }
+    .SoundWaveBorder{
+        width        : 100%;
+        height       : 100%;
+        position     : absolute;
+        top          : 0;
+        left         : 0;
+        border-radius: 100%;
+        opacity      : .6;
+        transform    : scale(75%);
+        border       : 1px solid rgb(123, 152, 182);
+        animation    : SoundWaveBorderAnimate .9s ease-out infinite;
     }
 }
