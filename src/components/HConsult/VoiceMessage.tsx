@@ -27,9 +27,10 @@ export default class VoiceMessage extends Component<{ voiceMessage: RefObject<HT
             this.mediaRecorder.onstop = () =>
             {
                 let blob = new Blob(voice, { type: "audio/webm;codecs=opus" });
+                voice = [];
                 let url = window.URL.createObjectURL(blob);
-                console.log(url);
                 this.props.voiceMessage.current!.src = url;
+                this.props.voiceMessage.current!.play();
             };
         } catch (e)
         {

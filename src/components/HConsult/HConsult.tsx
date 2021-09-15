@@ -53,7 +53,7 @@ export default class HConsult extends Component<{}, {}>
                             }>
                             <div className='Consulting'>
                                 {/* 播放音频的标签 */}
-                                <audio ref={this.voiceMessage} controls />
+                                <audio ref={this.voiceMessage} />
                                 {/* 聊天内容显示界面 */}
                                 <ul ref={this.messageDisplayArea}>
                                     <Divider
