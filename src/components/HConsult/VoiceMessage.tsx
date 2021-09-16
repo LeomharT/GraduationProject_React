@@ -64,11 +64,9 @@ export default class VoiceMessage extends Component<{ voiceMessage: RefObject<HT
                         if (this.recording)
                         {
                             this.mediaRecorder.start();
-                            console.log(this.mediaRecorder.state);
                         } else
                         {
                             this.mediaRecorder.stop();
-                            console.log(this.mediaRecorder.state);
                         }
                     }}
                 />

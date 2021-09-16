@@ -49,7 +49,6 @@ class IatRecorder
         {
             self.audioData.push(...event.data);
         };
-        console.log(transWorker);
     }
     // 修改录音听写状态
     setStatus(status)

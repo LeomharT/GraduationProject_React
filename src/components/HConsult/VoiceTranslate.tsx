@@ -12,7 +12,6 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
         //@ts-ignore
         iatRecorder.onWillStatusChange = (oldStatus, status) =>
         {
-            console.log(status);
             let text = {
                 null: '开始识别', // 最开始状态
                 init: '开始识别', // 初始化状态
