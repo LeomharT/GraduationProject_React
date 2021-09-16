@@ -22,13 +22,14 @@ export default class VoiceMessage extends Component<{ voiceMessage: RefObject<HT
             //@ts-ignore
             this.mediaRecorder.ondataavailable = (res) =>
             {
+                //res里有data和timecode时间戳
                 voice.push(res.data);
             };
             this.mediaRecorder.onstop = () =>
             {
                 let blob = new Blob(voice, { type: "audio/webm;codecs=opus" });
-                voice = [];
                 let url = window.URL.createObjectURL(blob);
+                voice = [];
                 this.props.voiceMessage.current!.src = url;
                 this.props.voiceMessage.current!.play();
             };

@@ -15,7 +15,9 @@
         opacity  : 0;
     }
 }
-
+.IsBorderBox{
+    box-sizing: border-box;
+}
 .HConsultWrapper{
     .OpenChat{
         position  : fixed;
@@ -146,4 +148,8 @@
         border       : 1px solid rgb(123, 152, 182);
         animation    : SoundWaveBorderAnimate .9s ease-out infinite;
     }
+}
+.VoiceTranslate{
+    @extend .IsBorderBox;
+    padding         : 10px;
 }

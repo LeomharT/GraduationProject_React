@@ -8,6 +8,7 @@ import '../../assets/scss/HConsult.scss';
 import UserStore from '../../redux/UserStore';
 import EmojiList from './EmojiList';
 import VoiceMessage from './VoiceMessage';
+import VoiceTranslate from './VoiceTranslate';
 
 @observer
 export default class HConsult extends Component<{}, {}>
@@ -98,7 +99,12 @@ export default class HConsult extends Component<{}, {}>
                                 ><Button icon={<SmileOutlined />} type='text' />
                                 </Popover>
                                 {/* 语音转文本 */}
-                                <Button icon={<CommentOutlined />} type='text' />
+                                <Popover
+                                    trigger='click'
+                                    placement='top'
+                                    content={<VoiceTranslate messageInput={this.messageInput} />}
+                                ><Button icon={<CommentOutlined />} type='text' />
+                                </Popover>
                                 {/* 语音 */}
                                 <Popover
                                     trigger='click'
