@@ -310,7 +310,7 @@ class IatRecorder
         if (jsonData.data && jsonData.data.result) {
             let data = jsonData.data.result;
             let str = '';
-            let resultStr = '';
+            // let resultStr = '';
             let ws = data.ws;
             for (let i = 0; i < ws.length; i++) {
                 str = str + ws[i].cw[0].w;

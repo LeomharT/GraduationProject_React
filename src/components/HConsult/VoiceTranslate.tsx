@@ -6,10 +6,9 @@ import { iatRecorder } from '../../assets/js/IatRecorder.js';
 @observer
 export default class VoiceTranslate extends Component<{ messageInput: RefObject<HTMLInputElement>; }, {}>
 {
-    button = React.createRef<HTMLElement>();
-    @observable isTranslating: boolean = false;
-    componentDidMount()
+    constructor(props: { messageInput: RefObject<HTMLInputElement>; })
     {
+        super(props);
         //@ts-ignore
         iatRecorder.onWillStatusChange = (oldStatus, status) =>
         {
@@ -26,9 +25,11 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
         //@ts-ignore
         iatRecorder.onTextChange = (text) =>
         {
-            console.log(text);
+            this.props.messageInput.current!.value = text;
         };
     }
+    button = React.createRef<HTMLElement>();
+    @observable isTranslating: boolean = false;
     render()
     {
         return (
@@ -41,14 +42,14 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
                         this.isTranslating = !this.isTranslating;
                         if (this.isTranslating)
                         {
+                            this.props.messageInput.current!.value = '';
                             iatRecorder.start();
                         } else
                         {
                             iatRecorder.stop();
                         }
                     }}
-                >
-                    开始录音
+                >开始识别
                 </Button>
             </div>
         );
