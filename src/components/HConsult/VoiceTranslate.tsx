@@ -12,7 +12,7 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
         //@ts-ignore
         iatRecorder.onWillStatusChange = (oldStatus, status) =>
         {
-            console.log(iatRecorder);
+            console.log(status);
             let text = {
                 null: '开始识别', // 最开始状态
                 init: '开始识别', // 初始化状态
@@ -21,6 +21,7 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
             };
             //@ts-ignore
             this.button.current!.innerText = text[status];
+            if (status === 'end') this.isTranslating = false;
         };
         //@ts-ignore
         iatRecorder.onTextChange = (text) =>
@@ -34,6 +35,7 @@ export default class VoiceTranslate extends Component<{ messageInput: RefObject<
     {
         return (
             <div className='VoiceTranslate'>
+                {this.isTranslating && <div className='Wave' />}
                 <Button
                     ref={this.button}
                     size='large'
