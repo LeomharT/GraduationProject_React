@@ -48,6 +48,9 @@
             width           : 100%;
             height          : 420px;
             overflow-y      : auto;
+            &::-webkit-scrollbar{
+                width: 0;
+            }
             >audio{
                 display: none;
             }
@@ -58,7 +61,7 @@
                 margin-bottom: 10px;
                 max-width    : 250px;
             }
-            .YourMessage{
+            .MyMessage{
                 float           : right;
                 border-radius   : 10px 0 10px 10px;
                 background-color: rgb(57, 106, 255);
@@ -72,6 +75,14 @@
             .SystemMessage{
                 font-size: 14px;
                 color    : rgb(123, 152, 182);
+            }
+            .VoiceIcon{
+                font-family: 'FontAwesome';
+                box-sizing: border-box;
+                padding: 10px 40px;
+                &::before{
+                    content:"\f028";
+                }
             }
         }
         .MessageInput{

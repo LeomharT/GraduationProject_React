@@ -9,6 +9,12 @@ import UserStore from '../../redux/UserStore';
 import EmojiList from './EmojiList';
 import VoiceMessage from './VoiceMessage';
 import VoiceTranslate from './VoiceTranslate';
+export enum MessageType
+{
+    System = "系统消息",
+    MyMessage = "我的消息",
+    OtherMessage = '其他消息'
+}
 
 @observer
 export default class HConsult extends Component<{}, {}>
@@ -22,12 +28,69 @@ export default class HConsult extends Component<{}, {}>
         const { socketIo } = this.UserStore;
         socketIo.on('connect', () =>
         {
-
+            console.log(socketIo.id);
+        });
+        socketIo.on("receive-message", (message) =>
+        {
+            this.DisplayMessage(message, MessageType.OtherMessage);
+        });
+        socketIo.on("receive-voicemessage", (message) =>
+        {
+            let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
+            let url = window.URL.createObjectURL(blob);
+            this.DisPlayVoiceMessage(url, MessageType.OtherMessage);
         });
     };
-    DisplayMessage = () =>
+    DisplayMessage = (message: string, type: MessageType) =>
     {
-
+        const { messageDisplayArea } = this;
+        let li = document.createElement("li");
+        if (type === MessageType.MyMessage)
+        {
+            li.classList.add("MyMessage");
+        } if (type === MessageType.OtherMessage)
+        {
+            li.classList.add("OtherMessage");
+        }
+        li.innerText = message;
+        messageDisplayArea.current!.appendChild(li);
+        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
+        scroll.scrollTop = scroll.scrollHeight;
+    };
+    DisPlayVoiceMessage = (url: string, type: MessageType) =>
+    {
+        const li = document.createElement("li");
+        li.classList.add("VoiceIcon");
+        switch (type)
+        {
+            case MessageType.MyMessage: {
+                li.classList.add('MyMessage');
+                break;
+            }
+            case MessageType.OtherMessage: {
+                li.classList.add("OtherMessage");
+                break;
+            }
+            default: break;
+        }
+        li.setAttribute("data-url", url);
+        li.addEventListener('click', (e: MouseEvent) =>
+        {
+            this.voiceMessage.current!.src = li.getAttribute("data-url") as string;
+            this.voiceMessage.current!.play();
+        });
+        this.messageDisplayArea.current!.appendChild(li);
+    };
+    SocketSendStringMessage = (message: string) =>
+    {
+        const { socketIo } = this.UserStore;
+        socketIo.send(message);
+        this.DisplayMessage(message, MessageType.MyMessage);
+    };
+    SocketSendVoiceMessage = (message: Blob) =>
+    {
+        const { socketIo } = this.UserStore;
+        socketIo.emit("voice-message", message);
     };
     componentDidMount()
     {
@@ -63,16 +126,6 @@ export default class HConsult extends Component<{}, {}>
                                         plain
                                     >{moment(new Date(Date.now())).format('hh:mm')}
                                     </Divider>
-                                    <li className='YourMessage'>
-                                        我说了一句话我说了很长😄的语句话周末办呢来弟弟
-                                        我说了一句话我说了很长的语句话周末办呢来弟弟
-                                        我说了一句话我说了很长的语句话周末办呢来弟弟
-                                    </li>
-                                    <li className='OtherMessage'>
-                                        我说了一句话我说了很长的语句话周末办呢来弟弟
-                                        我说了一句话我说了很长的语句话周末办呢来弟弟
-                                        说了一句话我说了很长的语句话周末办呢来弟弟
-                                    </li>
                                 </ul>
                             </div>
                             <Divider style={{ margin: "0" }} />
@@ -80,7 +133,17 @@ export default class HConsult extends Component<{}, {}>
                                 {/* 文本框 */}
                                 <input
                                     ref={this.messageInput}
-                                    placeholder="撰写消息" />
+                                    placeholder="撰写消息"
+                                    onKeyDown={(e: React.KeyboardEvent) =>
+                                    {
+                                        e.stopPropagation();
+                                        if (e.key === 'Enter')
+                                        {
+                                            if (!this.messageInput.current!.value) return;
+                                            this.SocketSendStringMessage(this.messageInput.current!.value);
+                                            this.messageInput.current!.value = "";
+                                        }
+                                    }} />
                                 {/* 发送文本消息 */}
                                 <Button
                                     icon={<SendOutlined />}
@@ -88,7 +151,7 @@ export default class HConsult extends Component<{}, {}>
                                     onClick={() =>
                                     {
                                         if (!this.messageInput.current!.value) return;
-                                        console.log(this.messageInput.current!.value);
+                                        this.SocketSendStringMessage(this.messageInput.current!.value);
                                         this.messageInput.current!.value = "";
                                     }} />
                                 {/* Emoji */}
@@ -110,7 +173,9 @@ export default class HConsult extends Component<{}, {}>
                                     trigger='click'
                                     placement='top'
                                     content={
-                                        <VoiceMessage voiceMessage={this.voiceMessage} />
+                                        <VoiceMessage
+                                            SocketSendVoiceMessage={this.SocketSendVoiceMessage}
+                                            DisPlayVoiceMessage={this.DisPlayVoiceMessage} />
                                     }
                                 ><Button icon={<AudioOutlined />} type='text' />
                                 </Popover>

@@ -2,10 +2,11 @@ import { AudioMutedOutlined, AudioOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import React, { Component, RefObject } from 'react';
+import React, { Component } from 'react';
+import { MessageType } from './HConsult';
 
 @observer
-export default class VoiceMessage extends Component<{ voiceMessage: RefObject<HTMLAudioElement>; }, {}>
+export default class VoiceMessage extends Component<{ SocketSendVoiceMessage: Function, DisPlayVoiceMessage: Function; }, {}>
 {
     @observable recording: boolean = false;
     //@ts-ignore
@@ -30,8 +31,8 @@ export default class VoiceMessage extends Component<{ voiceMessage: RefObject<HT
                 let blob = new Blob(voice, { type: "audio/webm;codecs=opus" });
                 let url = window.URL.createObjectURL(blob);
                 voice = [];
-                this.props.voiceMessage.current!.src = url;
-                this.props.voiceMessage.current!.play();
+                this.props.SocketSendVoiceMessage(blob);
+                this.props.DisPlayVoiceMessage(url, MessageType.MyMessage);
             };
         } catch (e)
         {
