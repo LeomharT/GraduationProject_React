@@ -1,4 +1,5 @@
-import { Avatar, Spin } from 'antd';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { Avatar, Button, Spin } from 'antd';
 import gsap from 'gsap';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -16,6 +17,7 @@ import '../../assets/scss/VR.scss';
 import { HouseInfo, HouseVRInfo } from '../../interfaces/HouseListInterface';
 import { CONST_HOST } from '../Common/VariableGlobal';
 import { RenderTags } from '../HouseList/HouseItem';
+import SwitchRoom from './SwitchRoom';
 
 
 declare interface VRSceneProps extends RouteComponentProps
@@ -59,6 +61,8 @@ class VRScene extends Component<VRSceneProps, {}>
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/front_1.png`) }),
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/back_1.png`) }),
     ];
+    @observable currRoomScenes: string[] = [];
+    @observable showSwitchRoom: boolean = false;
 
     /**
      * @description 初始化场景
@@ -269,6 +273,7 @@ class VRScene extends Component<VRSceneProps, {}>
             .then(async (data) =>
             {
                 if (!data.length) return;
+                this.currRoomScenes = data;
                 await this.InitScene(HouseId, data[0].sceneId);
             })
             .catch(err =>
@@ -320,6 +325,20 @@ class VRScene extends Component<VRSceneProps, {}>
                         <img style={{ width: "62px", height: "23px", marginRight: "5px", marginBottom: "3px" }} alt="mustLookLook" src={mustlook} />
                     </div>
                 </div>
+
+                <div className='VROptions'>
+                    <Button
+                        icon={<AppstoreOutlined />}
+                        size='large'
+                        type='text'
+                        style={{ backgroundColor: " rgba(0,0,0,0.3)", color: "white" }}
+                        onClick={() =>
+                        {
+                            this.showSwitchRoom = !this.showSwitchRoom;
+                        }}
+                    />
+                </div>
+
                 <div
                     className="VRScene"
                     ref={this.VR_Scene}
@@ -332,6 +351,13 @@ class VRScene extends Component<VRSceneProps, {}>
                         this.VR_Scene.current!.style.cursor = 'grab';
                     }}
                 />
+
+                <SwitchRoom
+                    showSwitchRoom={this.showSwitchRoom}
+                    currRoomScenes={this.currRoomScenes}
+                    GetSceneAsync={this.GetSceneAsync}
+                />
+
             </div>
         );
     }
