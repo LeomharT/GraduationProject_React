@@ -1,5 +1,5 @@
 import { AudioOutlined, CloseOutlined, CommentOutlined, SendOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { CaretRightOutlined } from '@ant-design/icons/lib/icons';
+import { TagOutlined } from '@ant-design/icons/lib/icons';
 import { Button, Card, Divider, Popover, Tag, Tooltip } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -42,16 +42,19 @@ class HConsult extends Component<HConsultProps, {}>
         });
         socketIo.on("receive-message", (message) =>
         {
+            this.UserStore.showChat = true;
             this.DisplayMessage(message, MessageType.OtherMessage);
         });
         socketIo.on("receive-voicemessage", (message) =>
         {
             let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
             let url = window.URL.createObjectURL(blob);
+            this.UserStore.showChat = true;
             this.DisPlayVoiceMessage(url, MessageType.OtherMessage);
         });
         socketIo.on("receive-housemessage", (hId) =>
         {
+            this.UserStore.showChat = true;
             this.DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
     };
@@ -67,9 +70,8 @@ class HConsult extends Component<HConsultProps, {}>
             li.classList.add("OtherMessage");
         }
         li.innerText = message;
-        messageDisplayArea.current!.appendChild(li);
-        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
-        scroll.scrollTop = scroll.scrollHeight;
+        messageDisplayArea.current?.appendChild(li);
+        this.ScrollToButtom();
     };
     DisPlayVoiceMessage = (url: string, type: MessageType) =>
     {
@@ -94,9 +96,8 @@ class HConsult extends Component<HConsultProps, {}>
             this.voiceMessage.current!.src = li.getAttribute("data-url") as string;
             this.voiceMessage.current!.play();
         });
-        messageDisplayArea.current!.appendChild(li);
-        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
-        scroll.scrollTop = scroll.scrollHeight;
+        messageDisplayArea.current?.appendChild(li);
+        this.ScrollToButtom();
     };
     DisPlayHouseMessage = async (hId: string, type: MessageType) =>
     {
@@ -119,11 +120,15 @@ class HConsult extends Component<HConsultProps, {}>
         li.appendChild(div);
         li.addEventListener("click", () =>
         {
+            //😄我先用路由去销毁然后再跳转过去,巧妙!
+            this.props.history.push(`/HouseList/Exhibits`);
             this.props.history.push(`/HouseList/DetailInfo/${hId}`);
         });
-        messageDisplayArea.current!.appendChild(li);
+        messageDisplayArea.current?.appendChild(li);
 
-        //添加Dom节点的第二种方法/但是不知道如何绑定方法😵
+        /**
+         * 添加Dom节点的第二种方法--但是不知道如何绑定方法😵
+         */
         // messageDisplayArea.current!.insertAdjacentHTML('beforeend',
         //     `<li class="${type} HouseMessage">
         //         <img alt='cover' src=${CONST_HOST + '/' + res.baseInfo.hExhibitImg} />
@@ -137,8 +142,7 @@ class HConsult extends Component<HConsultProps, {}>
         //         </div>
         //     </li>`
         // );
-        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
-        scroll.scrollTop = scroll.scrollHeight;
+        this.ScrollToButtom();
     };
     SocketSendStringMessage = (message: string) =>
     {
@@ -172,10 +176,11 @@ class HConsult extends Component<HConsultProps, {}>
         ).json();
         this.currentHouseInfo = res;
     };
-    PushTo = (hId: string) =>
+    ScrollToButtom = () =>
     {
-        // this.props.history.push(`/HouseList/DetailInfo/${hId}`);
-        console.log(hId);
+        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
+        if (scroll)
+            scroll.scrollTop = scroll.scrollHeight;
     };
     async componentDidMount()
     {
@@ -194,7 +199,7 @@ class HConsult extends Component<HConsultProps, {}>
                     {!this.tagVisible &&
                         <Tooltip title='显示当前房屋'>
                             <Button
-                                icon={<CaretRightOutlined />}
+                                icon={<TagOutlined />}
                                 size='small'
                                 type='link'
                                 onClick={() =>
@@ -228,6 +233,7 @@ class HConsult extends Component<HConsultProps, {}>
                                 onClick={async () =>
                                 {
                                     this.SocketSendHouseMessage(currentHouseInfo?.baseInfo.hId as string);
+                                    this.tagVisible = false;
                                 }}
                             >发给客服</Button>
                         </div>
@@ -262,17 +268,6 @@ class HConsult extends Component<HConsultProps, {}>
                                         plain
                                     >{moment(new Date(Date.now())).format('hh:mm')}
                                     </Divider>
-                                    {/* <li className='MyMessage HouseMessage'>
-                                        <img alt='cover' src={`${CONST_HOST}/${this.currentHouseInfo?.baseInfo.hExhibitImg ?? 'img/cover.jpeg'}`} />
-                                        <div>
-                                            <p>{`${this.currentHouseInfo?.baseInfo.hMethod}·
-                                                ${this.currentHouseInfo?.baseInfo.hTitle}`}</p>
-                                            <p>{`${this.currentHouseInfo?.baseInfo.hLayout}/
-                                                ${this.currentHouseInfo?.detailInfo.Area}/
-                                                ${this.currentHouseInfo?.baseInfo.hTowards}`}</p>
-                                            <p>&yen;{this.currentHouseInfo?.baseInfo.hRent}元/月</p>
-                                        </div>
-                                    </li> */}
                                 </ul>
                             </div>
                             {RenderHouseInfoTag()}
