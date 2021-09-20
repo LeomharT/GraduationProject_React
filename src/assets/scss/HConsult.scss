@@ -38,8 +38,9 @@
     position: fixed;
 }
 .HConsult{
-    width     : 370px;
-    height    : 530px;
+    width   : 370px;
+    height  : 530px;
+    position: relative;
     .ant-card-body{
         position: relative;
         padding : 0;
@@ -78,10 +79,33 @@
             }
             .VoiceIcon{
                 font-family: 'FontAwesome';
-                box-sizing: border-box;
-                padding: 10px 40px;
+                box-sizing : border-box;
+                padding    : 10px 40px;
                 &::before{
                     content:"\f028";
+                }
+            }
+            .HouseMessage{
+                display       : flex;
+                flex-direction: column;
+                >div{
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: space-around;
+                    user-select    : none;
+                    cursor         : pointer;
+                    margin-top     : 10px;
+                    >p{
+                        margin: 0;
+                    }
+                    & >p:nth-child(1){
+                        font-weight: bold;
+                        font-size  : 16px;
+                    }
+                    & >p:nth-child(3){
+                        font-size  : 16px;
+                        color      : #fe615a;
+                    }
                 }
             }
         }
@@ -108,6 +132,51 @@
                 &:hover{
                     background-color: rgb(123, 152, 182,.2)
                 }
+            }
+        }
+    }
+    .HInfoTag{
+        position: absolute;
+        bottom  : 60px;
+        .ant-tag{
+            position     : relative;
+            border-radius: 10px;
+        }
+        .ant-tag-close-icon{
+            position: absolute;
+            right   : 10px;
+            top     : 10px;
+        }
+        .TagContent{
+            padding        : 10px;
+            box-sizing     : border-box;
+            display        : flex;
+            justify-content: space-around;
+            >img{
+                width : 130px;
+                height: 90px;
+            }
+            >div{
+                display        : flex;
+                flex-direction : column;
+                justify-content: space-around;
+                margin-left    : 10px;
+                >p{
+                    margin: 0;
+                }
+                & >p:nth-child(1){
+                    font-weight: bold;
+                    font-size  : 16px;
+                }
+                & >p:nth-child(3){
+                    font-weight: bold;
+                    font-size  : 16px;
+                    color      : #fe615a;
+                }
+            }
+            >button{
+                align-self : flex-end;
+                margin-left: 15px;
             }
         }
     }

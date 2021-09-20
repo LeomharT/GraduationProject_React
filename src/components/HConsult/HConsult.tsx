@@ -1,28 +1,38 @@
 import { AudioOutlined, CloseOutlined, CommentOutlined, SendOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { Button, Card, Divider, Popover } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons/lib/icons';
+import { Button, Card, Divider, Popover, Tag, Tooltip } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import '../../assets/scss/HConsult.scss';
+import { HouseInfo } from '../../interfaces/HouseListInterface';
 import UserStore from '../../redux/UserStore';
+import { CONST_HOST } from '../Common/VariableGlobal';
 import EmojiList from './EmojiList';
 import VoiceMessage from './VoiceMessage';
 import VoiceTranslate from './VoiceTranslate';
 export enum MessageType
 {
     System = "系统消息",
-    MyMessage = "我的消息",
-    OtherMessage = '其他消息'
+    MyMessage = "MyMessage",
+    OtherMessage = 'OtherMessage'
+}
+declare interface HConsultProps extends RouteComponentProps
+{
+
 }
 
 @observer
-export default class HConsult extends Component<{}, {}>
+class HConsult extends Component<HConsultProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     @observable messageInput = React.createRef<HTMLInputElement>();
     messageDisplayArea = React.createRef<HTMLUListElement>();
     voiceMessage = React.createRef<HTMLAudioElement>();
+    @observable currentHouseInfo: HouseInfo | undefined;
+    @observable tagVisible: boolean = true;
     InitSocketIo = () =>
     {
         const { socketIo } = this.UserStore;
@@ -39,6 +49,10 @@ export default class HConsult extends Component<{}, {}>
             let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
             let url = window.URL.createObjectURL(blob);
             this.DisPlayVoiceMessage(url, MessageType.OtherMessage);
+        });
+        socketIo.on("receive-housemessage", (hId) =>
+        {
+            this.DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
     };
     DisplayMessage = (message: string, type: MessageType) =>
@@ -59,6 +73,7 @@ export default class HConsult extends Component<{}, {}>
     };
     DisPlayVoiceMessage = (url: string, type: MessageType) =>
     {
+        const { messageDisplayArea } = this;
         const li = document.createElement("li");
         li.classList.add("VoiceIcon");
         switch (type)
@@ -79,7 +94,51 @@ export default class HConsult extends Component<{}, {}>
             this.voiceMessage.current!.src = li.getAttribute("data-url") as string;
             this.voiceMessage.current!.play();
         });
-        this.messageDisplayArea.current!.appendChild(li);
+        messageDisplayArea.current!.appendChild(li);
+        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
+        scroll.scrollTop = scroll.scrollHeight;
+    };
+    DisPlayHouseMessage = async (hId: string, type: MessageType) =>
+    {
+        let res = await (
+            await
+                fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
+        ).json() as HouseInfo;
+        const { messageDisplayArea } = this;
+        const li = document.createElement("li");
+        li.classList.add(type, 'HouseMessage');
+        const img = new Image();
+        img.alt = 'cover';
+        img.src = `${CONST_HOST}/${res.baseInfo.hExhibitImg}`;
+        const div = document.createElement('div');
+        let p1 = document.createElement("p"); p1.textContent = `${res.baseInfo.hMethod}·${res.baseInfo.hTitle}`;
+        let p2 = document.createElement("p"); p2.textContent = `${res.baseInfo.hLayout}/${res.detailInfo.Area}/${res.baseInfo.hTowards}`;
+        let p3 = document.createElement("p"); p3.textContent = `￥${res.baseInfo.hRent}元/月`;
+        div.appendChild(p1); div.appendChild(p2); div.appendChild(p3);
+        li.appendChild(img);
+        li.appendChild(div);
+        li.addEventListener("click", () =>
+        {
+            this.props.history.push(`/HouseList/DetailInfo/${hId}`);
+        });
+        messageDisplayArea.current!.appendChild(li);
+
+        //添加Dom节点的第二种方法/但是不知道如何绑定方法😵
+        // messageDisplayArea.current!.insertAdjacentHTML('beforeend',
+        //     `<li class="${type} HouseMessage">
+        //         <img alt='cover' src=${CONST_HOST + '/' + res.baseInfo.hExhibitImg} />
+        //         <div>
+        //             <p>${res.baseInfo.hMethod}·
+        //             ${res.baseInfo.hTitle}</p>
+        //             <p>${res.baseInfo.hLayout}/
+        //             ${res.detailInfo.Area}/
+        //             ${res.baseInfo.hTowards}</p>
+        //             <p>&yen;${res?.baseInfo.hRent}元/月</p>
+        //         </div>
+        //     </li>`
+        // );
+        let scroll = document.getElementsByClassName("Consulting")[0] as HTMLDivElement;
+        scroll.scrollTop = scroll.scrollHeight;
     };
     SocketSendStringMessage = (message: string) =>
     {
@@ -92,13 +151,90 @@ export default class HConsult extends Component<{}, {}>
         const { socketIo } = this.UserStore;
         socketIo.emit("voice-message", message);
     };
-    componentDidMount()
+    SocketSendHouseMessage = async (hId: string) =>
+    {
+        const { socketIo } = this.UserStore;
+        socketIo.emit("house-message", hId);
+        await this.DisPlayHouseMessage(hId, MessageType.MyMessage);
+    };
+    GetHouseInfo = async () =>
+    {
+        const { pathname } = this.props.history.location;
+        if (!pathname.includes("/DetailInfo"))
+        {
+            this.currentHouseInfo = undefined;
+            return;
+        };
+        let hId = pathname.substring(pathname.lastIndexOf("/") + 1);
+        let res = await (
+            await
+                fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
+        ).json();
+        this.currentHouseInfo = res;
+    };
+    PushTo = (hId: string) =>
+    {
+        // this.props.history.push(`/HouseList/DetailInfo/${hId}`);
+        console.log(hId);
+    };
+    async componentDidMount()
     {
         this.InitSocketIo();
+        await this.GetHouseInfo();
     }
     render()
     {
         const { UserStore } = this;
+        const RenderHouseInfoTag = () =>
+        {
+            const { currentHouseInfo } = this;
+            if (!this.currentHouseInfo) return null;
+            return (
+                <div className='HInfoTag'>
+                    {!this.tagVisible &&
+                        <Tooltip title='显示当前房屋'>
+                            <Button
+                                icon={<CaretRightOutlined />}
+                                size='small'
+                                type='link'
+                                onClick={() =>
+                                {
+                                    this.tagVisible = true;
+                                }}
+                            />
+                        </Tooltip>
+                    }
+                    <Tag
+                        closable
+                        visible={this.tagVisible}
+                        onClose={() =>
+                        {
+                            this.tagVisible = false;
+                        }}
+                    >
+                        <div className='TagContent'>
+                            <img alt='cover' src={`${CONST_HOST}/${currentHouseInfo?.baseInfo.hExhibitImg}`} />
+                            <div>
+                                <p>{`${currentHouseInfo?.baseInfo.hMethod}·
+                                    ${currentHouseInfo?.baseInfo.hTitle}`}</p>
+                                <p>{`${currentHouseInfo?.baseInfo.hLayout}/
+                                    ${currentHouseInfo?.detailInfo.Area}/
+                                    ${currentHouseInfo?.baseInfo.hTowards}`}</p>
+                                <p>&yen;{currentHouseInfo?.baseInfo.hRent}元/月</p>
+                            </div>
+                            <Button
+                                type='primary'
+                                size='small'
+                                onClick={async () =>
+                                {
+                                    this.SocketSendHouseMessage(currentHouseInfo?.baseInfo.hId as string);
+                                }}
+                            >发给客服</Button>
+                        </div>
+                    </Tag>
+                </div>
+            );
+        };
         return (
             <div className='HConsultWrapper'>
                 <Popover
@@ -126,8 +262,20 @@ export default class HConsult extends Component<{}, {}>
                                         plain
                                     >{moment(new Date(Date.now())).format('hh:mm')}
                                     </Divider>
+                                    {/* <li className='MyMessage HouseMessage'>
+                                        <img alt='cover' src={`${CONST_HOST}/${this.currentHouseInfo?.baseInfo.hExhibitImg ?? 'img/cover.jpeg'}`} />
+                                        <div>
+                                            <p>{`${this.currentHouseInfo?.baseInfo.hMethod}·
+                                                ${this.currentHouseInfo?.baseInfo.hTitle}`}</p>
+                                            <p>{`${this.currentHouseInfo?.baseInfo.hLayout}/
+                                                ${this.currentHouseInfo?.detailInfo.Area}/
+                                                ${this.currentHouseInfo?.baseInfo.hTowards}`}</p>
+                                            <p>&yen;{this.currentHouseInfo?.baseInfo.hRent}元/月</p>
+                                        </div>
+                                    </li> */}
                                 </ul>
                             </div>
+                            {RenderHouseInfoTag()}
                             <Divider style={{ margin: "0" }} />
                             <div className='MessageInput'>
                                 {/* 文本框 */}
@@ -187,9 +335,10 @@ export default class HConsult extends Component<{}, {}>
                         size='large'
                         shape='circle'
                         type='primary'
-                        onClick={() =>
+                        onClick={async () =>
                         {
                             UserStore.showChat = !UserStore.showChat;
+                            await this.GetHouseInfo();
                         }}
                         icon={
                             !UserStore.showChat
@@ -202,3 +351,4 @@ export default class HConsult extends Component<{}, {}>
         );
     }
 }
+export default withRouter(HConsult);
