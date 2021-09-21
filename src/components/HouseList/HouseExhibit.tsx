@@ -1,4 +1,4 @@
-import { Empty } from 'antd';
+import { Empty, Pagination } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
@@ -31,6 +31,17 @@ export default class HouseExhibit extends Component<{}, {}>
                         );
                     })
                 }
+                <Pagination
+                    showSizeChanger={false}
+                    defaultCurrent={1}
+                    total={
+                        Math.ceil((HouseExhibitList?.count ?? 2) / 2) * 10
+                    }
+                    onChange={(page) =>
+                    {
+                        this.HouseStore.InitHouseList(this.HouseStore.HouseFilterParams, page.toString());
+                    }}
+                />
             </div>
         );
     }

@@ -77,6 +77,10 @@
 {
     @extend .ConstDivSetting;
     padding-bottom: 20px;
+    .ant-pagination
+    {
+        float: right;
+    }
 }
 .HouseItem_Wrapper
 {

@@ -11,9 +11,9 @@ export default class HouseStore
      * @description            初始化房屋列表
      * @param {FormData}filter 筛选参数
      */
-    InitHouseList = async (filter: FormData) =>
+    InitHouseList = async (filter: FormData, page: string = '1') =>
     {
-        let res = await fetch(`${CONST_HOST}/GetHouseExhibitList`, {
+        let res = await fetch(`${CONST_HOST}/GetHouseExhibitList?page=${page}`, {
             method: "POST",
             body: filter
         });
