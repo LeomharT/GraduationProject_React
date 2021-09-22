@@ -133,6 +133,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
                             {
                                 filterForm.current!.resetFields();
                                 HouseStore.HouseFilterParams = new FormData();
+                                HouseStore.HouseListCurrentPage = 1;
                                 HouseStore.InitHouseList(HouseStore.HouseFilterParams);
                                 if (history.location.pathname !== "/HouseList/Exhibits")
                                 {

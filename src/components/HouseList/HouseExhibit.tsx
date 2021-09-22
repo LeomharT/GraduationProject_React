@@ -33,12 +33,13 @@ export default class HouseExhibit extends Component<{}, {}>
                 }
                 <Pagination
                     showSizeChanger={false}
-                    defaultCurrent={1}
+                    current={this.HouseStore.HouseListCurrentPage}
                     total={
                         Math.ceil((HouseExhibitList?.count ?? 2) / 2) * 10
                     }
                     onChange={(page) =>
                     {
+                        this.HouseStore.HouseListCurrentPage = page;
                         this.HouseStore.InitHouseList(this.HouseStore.HouseFilterParams, page.toString());
                     }}
                 />
