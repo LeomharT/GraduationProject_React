@@ -1,4 +1,5 @@
 import 'antd/dist/antd.css';
+import 'nprogress/nprogress.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';

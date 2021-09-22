@@ -37,10 +37,10 @@ export default class HouseExhibit extends Component<{}, {}>
                     total={
                         Math.ceil((HouseExhibitList?.count ?? 2) / 2) * 10
                     }
-                    onChange={(page) =>
+                    onChange={async (page) =>
                     {
                         this.HouseStore.HouseListCurrentPage = page;
-                        this.HouseStore.InitHouseList(this.HouseStore.HouseFilterParams, page.toString());
+                        await this.HouseStore.InitHouseList(this.HouseStore.HouseFilterParams, page.toString());
                     }}
                 />
             </div>

@@ -111,3 +111,15 @@
         user-select     : none;
     }
 }
+#nprogress {
+    .bar{
+        background: #1890ff;
+    }
+    .spinner{
+        top:50px;
+    }
+    .spinner-icon {
+        border-top-color: #1890ff;
+        border-left-color: #1890ff;
+    }
+}

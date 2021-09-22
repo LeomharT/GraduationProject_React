@@ -20,7 +20,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
     @observable HouseParams: HouseParams[] = [];
 
     @action
-    FilterSelected = (changedValue: FieldData[], allValue: FieldData[]): void =>
+    FilterSelected = async (changedValue: FieldData[], allValue: FieldData[]): Promise<void> =>
     {
         const { HouseStore } = this;
         for (let v of allValue)
@@ -28,7 +28,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
             if (!v.touched) continue;
             HouseStore.HouseFilterParams.set(v.name.toString(), v.value);
         }
-        HouseStore.InitHouseList(HouseStore.HouseFilterParams);
+        await HouseStore.InitHouseList(HouseStore.HouseFilterParams);
     };
     async componentDidMount()
     {
@@ -49,7 +49,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
             });
             //@ts-ignore
             HouseStore.HouseFilterParams.set("hRegion", match.params.hRegion);
-            HouseStore.InitHouseList(HouseStore.HouseFilterParams);
+            await HouseStore.InitHouseList(HouseStore.HouseFilterParams);
         }
     }
     render()
@@ -129,12 +129,12 @@ class H_Filter extends Component<RouteComponentProps, {}>
                         </span>
                         <Button
                             type='link'
-                            onClick={() =>
+                            onClick={async () =>
                             {
                                 filterForm.current!.resetFields();
                                 HouseStore.HouseFilterParams = new FormData();
                                 HouseStore.HouseListCurrentPage = 1;
-                                HouseStore.InitHouseList(HouseStore.HouseFilterParams);
+                                await HouseStore.InitHouseList(HouseStore.HouseFilterParams);
                                 if (history.location.pathname !== "/HouseList/Exhibits")
                                 {
                                     history.push("/HouseList/Exhibits");

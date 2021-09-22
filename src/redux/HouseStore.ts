@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { observable } from "mobx";
+import NProgress from "nprogress";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
 import { HouseExhibitList } from "../interfaces/HouseListInterface";
 
@@ -14,11 +15,13 @@ export default class HouseStore
      */
     InitHouseList = async (filter: FormData, page: string = '1') =>
     {
+        NProgress.start();
         let res = await fetch(`${CONST_HOST}/GetHouseExhibitList?page=${page}`, {
             method: "POST",
             body: filter
         });
         this.HouseExhibitList = await res.json() as HouseExhibitList;
+        NProgress.done();
     };
     /**
      * @param id       用户唯一标识
