@@ -10,12 +10,13 @@
         align-content  : center;
     }
     .HomeNavegate{
-        width           : 100%;
-        display         : flex;
-        justify-content : space-between;
-        padding         : 5px 150px;
-        background-color: #f8f9ff;
-        border-bottom   : 2px solid #ECF2FF;
+        width          : 100%;
+        display        : flex;
+        justify-content: space-between;
+        padding        : 5px 150px;
+        box-shadow     : 0 2px 8px #f0f1f2;
+        // background-color: #f8f9ff;
+        // border-bottom   : 1px solid #ECF2FF;
         div:nth-child(2)
         {
             display: flex;

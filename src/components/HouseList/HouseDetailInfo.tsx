@@ -1,4 +1,4 @@
-import { DollarCircleOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, PhoneOutlined, QuestionOutlined, WechatOutlined } from '@ant-design/icons';
+import { DollarCircleOutlined, FrownOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, MehOutlined, PhoneOutlined, QuestionOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
 import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -12,6 +12,7 @@ import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
+import HComment from './HComment';
 import { RenderTags } from './HouseItem';
 
 interface DetailProps extends RouteComponentProps
@@ -19,6 +20,14 @@ interface DetailProps extends RouteComponentProps
 
 }
 const { Link } = Anchor;
+const rateIcons = {
+    1: <FrownOutlined />,
+    2: <FrownOutlined />,
+    3: <MehOutlined />,
+    4: <SmileOutlined />,
+    5: <SmileOutlined />,
+};
+
 @observer
 class HouseDetail extends Component<DetailProps, {}>
 {
@@ -231,7 +240,8 @@ class HouseDetail extends Component<DetailProps, {}>
                                 <Rate
                                     allowClear
                                     defaultValue={4}
-                                    character="好"
+                                    //@ts-ignore
+                                    character={({ index }) => rateIcons[index + 1]}
                                     style={{ color: "#EF615A" }}
                                 />
                             </div>
@@ -299,6 +309,7 @@ class HouseDetail extends Component<DetailProps, {}>
                             <Link title="房屋描述" href="#Hdescription" />
                             <Link title="费用详情" href="#HRent" />
                             <Link title="房屋位置" href="#HPositionMap"></Link>
+                            <Link title="房源评论" href="#HComment"></Link>
                         </Anchor>
                     </div>
                 </Affix>
@@ -405,8 +416,9 @@ class HouseDetail extends Component<DetailProps, {}>
                 </div>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
+                <Divider orientation="left" className="DividerHouseInfo">房源评论</Divider>
+                <HComment />
                 <BackTop />
-                <Divider />
             </div>
         );
     }

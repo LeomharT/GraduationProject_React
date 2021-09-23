@@ -59,7 +59,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
         return (
             <div className="HFilter">
                 <div className="HSearch">
-                    <AppIconTitle title='贝壳租房' />
+                    <AppIconTitle title='优区生活' />
                     <Search
                         size='large'
                         style={{ width: "700px", margin: "20px 0" }}

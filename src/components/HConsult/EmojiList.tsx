@@ -6,7 +6,7 @@ import { getEmojiList } from '../../assets/js/emoji-list-with-image';
 import { EmojiType } from '../../interfaces/HomeInterface';
 
 @observer
-export default class EmojiList extends Component<{ messageInput: RefObject<HTMLInputElement>; }, {}>
+export default class EmojiList extends Component<{ messageInput: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>; }, {}>
 {
     @observable emojiList: EmojiType[] = [];
     InitEmojiList = (page: number = 1) =>

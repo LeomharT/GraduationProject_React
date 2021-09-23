@@ -359,4 +359,42 @@
         box-sizing: border-box;
         padding   : 30px;
     }
+    .HComment
+    {
+        box-sizing: border-box;
+        margin-bottom: 300px;
+        .CommentInput
+        {
+            display        : flex;
+            flex-direction : row;
+            justify-content: space-between;
+            .ant-avatar
+            {
+                margin-right: 30px;
+            }
+            >div
+            {
+                display       : flex;
+                flex-direction: column;
+                width: 100%;
+                >textarea
+                {
+                    width     : 100%;
+                    border    : 1px solid lightgray;
+                    transition: all .3s;
+                    box-sizing: border-box;
+                    padding   : 10px;
+                    &:hover{
+                        border: 1px solid #1890ff;
+                    }
+                    &:focus
+                    {
+                        outline   : none;
+                        border    : 1px solid #1890ff;
+                        box-shadow: 0px 0px 2px #1890ff ;
+                    }
+                }
+            }
+        }
+    }
 }
