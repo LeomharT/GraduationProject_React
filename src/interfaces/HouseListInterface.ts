@@ -78,3 +78,14 @@ export declare interface HouseVRPosition
     toSceneId: string,
     toSceneName: string;
 }
+export declare interface HouseComment
+{
+    id: string,
+    hId: string,
+    author: string,
+    content: string,
+    images: Blob[],
+    parentId: string;
+    commentDate: Date;
+    photo: string;
+}

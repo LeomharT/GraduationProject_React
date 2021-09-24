@@ -389,6 +389,7 @@
                 transition: all .3s;
                 box-sizing: border-box;
                 padding   : 10px;
+                resize    : none;
                 &:hover{
                     border: 1px solid #1890ff;
                 }
@@ -400,6 +401,40 @@
                 }
             }
         }
+        .PostImgs
+        {
+            display: flex;
+            >div
+            {
+                box-sizing: border-box;
+                padding   : 5px;
+                position  : relative;
+                &:hover{
+                    & button
+                    {
+                        opacity: 1;
+                    }
+                }
+                >img
+                {
+                    width   : 70px;
+                    height  : 70px;
+                }
+                >button
+                {
+                    position  : absolute;
+                    top       : 0;
+                    right     : 0;
+                    opacity   : 0;
+                    transition: all .3s;
+                }
+            }
+            >span
+            {
+                align-self: flex-end;
+                color     : #9b9b9b;
+            }
+        }
     }
     .ant-comment-avatar img
     {
@@ -407,15 +442,20 @@
         height   : 100%;
         transform: scale(70%);
     }
-    // .CommentItem
-    // {
-    //     .CommentInput
-    //     {
-    //         .ant-avatar > img
-    //         {
-    //             border-radius: 50%;
-    //             transform: scale(70%);
-    //         }
-    //     }
-    // }
+    .CommentItem
+    {
+        // .CommentInput
+        // {
+        //     .ant-avatar > img
+        //     {
+        //         border-radius: 50%;
+        //         transform: scale(70%);
+        //     }
+        // }
+        span
+        {
+            user-select: none;
+            cursor     : pointer;
+        }
+    }
 }

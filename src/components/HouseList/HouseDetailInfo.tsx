@@ -417,7 +417,7 @@ class HouseDetail extends Component<DetailProps, {}>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
                 <Divider orientation="left" className="DividerHouseInfo">房源评论</Divider>
-                <HComment />
+                <HComment houseDetailInfo={this.houseDetailInfo} />
                 <BackTop />
             </div>
         );
