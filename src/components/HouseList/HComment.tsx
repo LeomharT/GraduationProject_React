@@ -265,9 +265,7 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
             const { images } = commentItem;
             if (images !== 'null')
             {
-                let imgarr = images.split("--");
-                imgarr.pop();
-                return imgarr;
+                return images.split("--");
             } else
             {
                 return null;
