@@ -1,5 +1,5 @@
 import { CloseSquareOutlined, CommentOutlined, DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined, PictureOutlined, SmileOutlined } from '@ant-design/icons';
-import { Avatar, Button, Comment, Divider, Empty, message, Popover, Tooltip } from 'antd';
+import { Avatar, Button, Comment, Divider, Empty, Image, message, Popover, Tooltip } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -26,7 +26,9 @@ export default class HComment extends Component<{ houseDetailInfo: HouseInfo; },
     {
         return (
             <div className='HComment' id='HComment'>
-                <CommentInput callBack={this.InitComment} />
+                <CommentInput
+                    hId={this.props.houseDetailInfo.baseInfo.hId}
+                    callBack={this.InitComment} />
                 <Divider />
                 {this.commentList.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无评论' />}
                 {
@@ -41,23 +43,28 @@ export default class HComment extends Component<{ houseDetailInfo: HouseInfo; },
         );
     }
 }
+
+declare interface CommentInputProps
+{
+    hId: string,
+    commentId?: string,
+    callBack: Function;
+}
 @observer
-export class CommentInput extends React.Component<{ commentId?: string, callBack?: Function; }, {}>
+export class CommentInput extends React.Component<CommentInputProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     messageTextArea: RefObject<HTMLTextAreaElement> = React.createRef<HTMLTextAreaElement>();
     fileUploader: RefObject<HTMLInputElement> = React.createRef<HTMLInputElement>();
     @observable imgArray: string[] = [];
-    fileList: File[] = [];
     PostImg = (e: React.ChangeEvent<HTMLInputElement>): void =>
     {
         if (!e.target.files) return;
-        if (this.fileList.length >= 3)
+        if (this.imgArray.length >= 3)
         {
             message.error("太多图片了哦🤨,干掉一点去😀");
             return;
         }
-        this.fileList.push(e.target.files[0]);
         const fileReader = new FileReader();
         fileReader.readAsDataURL(e.target.files[0]);
         fileReader.onload = (e) =>
@@ -68,7 +75,32 @@ export class CommentInput extends React.Component<{ commentId?: string, callBack
     };
     PostComment = async (parentId: number): Promise<void> =>
     {
-        console.log(this.imgArray[0]);
+        if (this.messageTextArea.current!.value === '' && this.imgArray.length === 0) return;
+        let formData = new FormData();
+        formData.set("hId", this.props.hId);
+        formData.set("author", this.UserStore.RenderUserName() as string);
+        formData.set('content', this.messageTextArea.current!.value);
+        this.imgArray.forEach((v: string) =>
+        {
+            formData.append('images', v.toString());
+        });
+        formData.set('parentId', parentId.toString());
+        formData.set('commentDate', moment(Date.now()).format("YYYY-MM-DD hh:mm:ss"));
+        formData.set('photo', this.UserStore.authInfo?.userInfo?.photo ?? "https://files.authing.co/authing-console/default-user-avatar.png");
+        let res = await (await fetch(`${CONST_HOST}/PostHouseComment`, {
+            method: "POST",
+            body: formData
+        })).json();
+        if (res.affectedRows === 1)
+        {
+            message.success("发布成功");
+            this.messageTextArea.current!.value = '';
+            this.imgArray = [];
+            this.props.callBack();
+        } else
+        {
+            message.error("发布失败");
+        }
     };
     render()
     {
@@ -120,7 +152,6 @@ export class CommentInput extends React.Component<{ commentId?: string, callBack
                                         onClick={() =>
                                         {
                                             this.imgArray.splice(index, 1);
-                                            this.fileList.splice(index, 1);
                                         }}
                                     />
                                     <img alt='图片' src={url} />
@@ -135,11 +166,11 @@ export class CommentInput extends React.Component<{ commentId?: string, callBack
                         type='primary'
                         icon={<CommentOutlined />}
                         style={{ width: "200px" }}
-                        onClick={() =>
+                        onClick={async () =>
                         {
                             this.UserStore.CheckForIsLogin();
                             const parentId = this.props.commentId ?? "0";
-                            this.PostComment(parseInt(parentId));
+                            await this.PostComment(parseInt(parentId));
                         }}
                     >发布评论
                     </Button>
@@ -229,6 +260,19 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
             >回复
             </span>,
         ];
+        const RenderCommentImg = () =>
+        {
+            const { images } = commentItem;
+            if (images !== 'null')
+            {
+                let imgarr = images.split("--");
+                imgarr.pop();
+                return imgarr;
+            } else
+            {
+                return null;
+            }
+        };
         return (
             <div className='CommentItem'>
                 <Comment
@@ -241,7 +285,19 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                             src={commentItem.photo}
                         />
                     }
-                    content={<p>{commentItem.content}</p>}
+                    content={
+                        <div className='CommentContent'>
+                            <p>{commentItem.content}</p>
+                            <Image.PreviewGroup>
+
+                                {RenderCommentImg()?.map((i, index) =>
+                                {
+                                    return (
+                                        <Image src={i} key={index} />
+                                    );
+                                })}
+                            </Image.PreviewGroup>
+                        </div>}
                     datetime={
                         <Tooltip title={moment(commentItem.commentDate).format('YYYY-MM-DD HH:mm:ss')}>
                             <span>{moment(commentItem.commentDate).fromNow()}</span>
@@ -256,7 +312,12 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                         })
                     }
                 />
-                {this.showReplay && <CommentInput commentId={commentItem.id} />}
+                {this.showReplay &&
+                    <CommentInput
+                        hId={this.props.commentItem.hId}
+                        commentId={commentItem.id}
+                        callBack={this.InitReplay} />
+                }
             </div>
         );
     }

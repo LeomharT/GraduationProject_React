@@ -14,6 +14,7 @@ export default class HouseExhibit extends Component<{}, {}>
     async componentDidMount()
     {
         this.HouseStore.HouseFilterParams = new FormData();
+        this.HouseStore.HouseListCurrentPage = 1;
         await this.HouseStore.InitHouseList(this.HouseStore.HouseFilterParams);
     }
     render()

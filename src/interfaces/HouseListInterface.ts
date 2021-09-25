@@ -84,7 +84,7 @@ export declare interface HouseComment
     hId: string,
     author: string,
     content: string,
-    images: Blob[],
+    images: string,
     parentId: string;
     commentDate: Date;
     photo: string;

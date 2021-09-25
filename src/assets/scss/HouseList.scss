@@ -244,6 +244,7 @@
         background-color: #f7f9fb;
         margin-bottom   : 10px;
         padding         : 20px;
+        z-index         : 9999;
         .ant-anchor
         {
             display       : flex;
@@ -456,6 +457,14 @@
         {
             user-select: none;
             cursor     : pointer;
+        }
+        .CommentContent
+        {
+            img
+            {
+                max-width   : 300px;
+                max-height  : 300px;
+            }
         }
     }
 }
