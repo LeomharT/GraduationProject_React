@@ -6,17 +6,21 @@ import moment from 'moment';
 import React, { Component, createElement, RefObject } from 'react';
 import { HouseComment, HouseInfo } from '../../interfaces/HouseListInterface';
 import UserStore from '../../redux/UserStore';
+import { CommentLoader } from '../Common/Content_Loader';
 import { CONST_HOST } from '../Common/VariableGlobal';
 import EmojiList from '../HConsult/EmojiList';
 @observer
 export default class HComment extends Component<{ houseDetailInfo: HouseInfo; }, {}>
 {
     @observable commentList: HouseComment[] = [];
+    @observable loading: boolean = false;
     InitComment = async (parentId: string = '0'): Promise<void> =>
     {
+        this.loading = true;
         this.commentList = await (
             (await fetch(`${CONST_HOST}/GetHouseComment?hId=${this.props.houseDetailInfo.baseInfo.hId}&parentId=${parentId}`)).json()
         ) as HouseComment[];
+        this.loading = false;
     };
     async componentDidMount()
     {
@@ -30,7 +34,8 @@ export default class HComment extends Component<{ houseDetailInfo: HouseInfo; },
                     hId={this.props.houseDetailInfo.baseInfo.hId}
                     callBack={this.InitComment} />
                 <Divider />
-                {this.commentList.length === 0 && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无评论' />}
+                {this.loading && <CommentLoader />}
+                {this.commentList.length === 0 && !this.loading && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无评论' />}
                 {
                     this.commentList.map((c: HouseComment) =>
                     {
@@ -168,9 +173,11 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
                         style={{ width: "200px" }}
                         onClick={async () =>
                         {
-                            this.UserStore.CheckForIsLogin();
-                            const parentId = this.props.commentId ?? "0";
-                            await this.PostComment(parseInt(parentId));
+                            if (this.UserStore.CheckForIsLogin())
+                            {
+                                const parentId = this.props.commentId ?? "0";
+                                await this.PostComment(parseInt(parentId));
+                            }
                         }}
                     >发布评论
                     </Button>

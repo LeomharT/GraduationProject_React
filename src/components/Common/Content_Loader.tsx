@@ -42,7 +42,7 @@ DetailInfoContentLoader.metadata = {
 
 const CommentLoader = (props: any) => (
     <ContentLoader
-        speed={2}
+        speed={1}
         width={476}
         height={124}
         viewBox="0 0 476 124"
