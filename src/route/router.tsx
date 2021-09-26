@@ -1,3 +1,4 @@
+import Community from "../components/Community/Community";
 import Home from "../components/Home/Home";
 import MapSearch from "../components/Home/MapSearch";
 import HouseDetail from "../components/HouseList/HouseDetailInfo";
@@ -33,7 +34,8 @@ const route: RouteType[] = [
         ]
     },
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },
-    { title: "MapSearch", path: "/MapSearch", components: MapSearch }
+    { title: "MapSearch", path: "/MapSearch", components: MapSearch },
+    { title: "Community", path: '/Community', components: Community },
 ];
 
 

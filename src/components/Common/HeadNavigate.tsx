@@ -20,7 +20,8 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
     {
         const menuItem: MenuType[] = [
             { title: "主页", link: "/Home" },
-            { title: "租房", link: "/HouseList/Exhibits" }
+            { title: "租房", link: "/HouseList/Exhibits" },
+            { title: "You+社区", link: "/Community" },
         ];
         const dropDownMenu = (
             <Menu style={{ width: "130px" }}>

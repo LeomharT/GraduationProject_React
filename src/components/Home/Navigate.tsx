@@ -1,4 +1,4 @@
-import { HomeOutlined, MoneyCollectOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoneyCollectOutlined, UserOutlined, YahooOutlined } from '@ant-design/icons';
 import { Avatar, Menu } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -11,6 +11,7 @@ import UserStore from '../../redux/UserStore';
 const menuItem: MenuType[] = [
     { title: '租房', link: '/HouseList/Exhibits', icon: <HomeOutlined /> },
     { title: '出租', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
+    { title: "You+社区", link: '/Community', icon: <YahooOutlined /> }
 ];
 
 @observer
