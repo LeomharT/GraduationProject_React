@@ -55,6 +55,7 @@
     display        : flex;
     justify-content: space-between;
     width          : 150px;
+    user-select    : none;
     >img
     {
         width : 40px;
