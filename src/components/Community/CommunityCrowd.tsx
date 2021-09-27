@@ -15,11 +15,11 @@ export default class CommunityCrowd extends Component<{}, {}>
         rows: 15,
         cols: 7
     };
-    img = new Image();
+    @observable img = new Image();
     @observable allPeeps: any[] = [];
     @observable availablePeeps: any[] = [];
     @observable stage = { width: 0, height: 0 };
-    @observable crowd: any[] = [];
+    crowd: any[] = [];
 
     private RandomRange = (min: number, max: number) => min + Math.random() * (max - min);
     private RandomIndex = (array: any[]) => this.RandomRange(0, array.length) | 0;
@@ -84,7 +84,7 @@ export default class CommunityCrowd extends Component<{}, {}>
         }, 0);
         return tl;
     };
-    walks: any = [
+    @observable walks: any = [
         this.NormalWalk,
     ];
     CreatePeep = () =>
@@ -156,7 +156,7 @@ export default class CommunityCrowd extends Component<{}, {}>
         peep.walk = walk;
 
         this.crowd.push(peep);
-        this.crowd.slice().sort((a, b) => a.anchorY - b.anchorY);
+        this.crowd.sort((a, b) => a.anchorY - b.anchorY);
 
         return peep;
     };
