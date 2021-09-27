@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component, RefObject } from 'react';
 import open_peeps from '../../assets/img/open-peeps-sheet-colorful.png';
@@ -66,8 +66,7 @@ export default class CommunityCrowd extends Component<{}, {}>
             endX
         } = props;
 
-        //横着走的速度
-        const xDuration = 30;
+        const xDuration = 10;
         const yDuration = 0.25;
 
         const tl = gsap.timeline();
@@ -166,10 +165,11 @@ export default class CommunityCrowd extends Component<{}, {}>
         this.RemoveItemFromArray(this.crowd, peep);
         this.availablePeeps.push(peep);
     };
+    @action
     Renderer = () =>
     {
         if (this.canvasRef.current)
-            this.canvasRef.current!.style.width = this.canvasRef.current!.style.width;
+            this.canvasRef.current!.width = this.canvasRef.current!.width;
         this.ctx!.save();
         this.ctx!.scale(devicePixelRatio, devicePixelRatio);
 
@@ -184,7 +184,7 @@ export default class CommunityCrowd extends Component<{}, {}>
         this.CreatePeep();
         this.Resize();
         gsap.ticker.add(this.Renderer);
-        window.addEventListener('resize', this.Resize);
+        window.onresize = this.Resize;
     };
     Main = () =>
     {
@@ -198,7 +198,7 @@ export default class CommunityCrowd extends Component<{}, {}>
     }
     componentWillUnmount()
     {
-        window.removeEventListener('resize', this.Resize);
+        window.onresize = null;
     }
     render()
     {
@@ -239,12 +239,12 @@ class Peep
             0, 0, this.width, this.height
         ];
     };
-    render = (ctx: any) =>
+    render(ctx: any)
     {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.scale(this.scaleX, 1);
         ctx.drawImage(...this.drawArgs);
         ctx.restore();
-    };
+    }
 }
