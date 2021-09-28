@@ -1,10 +1,11 @@
-import { Radio } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, List, Radio } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import SaySomething from '../../assets/img/SaySomething.svg';
 import '../../assets/scss/Community.scss';
 import HeadNavigate from '../Common/HeadNavigate';
 import CommunityCrowd from './CommunityCrowd';
-
 @observer
 export default class Community extends Component<{}, {}>
 {
@@ -35,6 +36,17 @@ export default class Community extends Component<{}, {}>
                                 最热
                             </Radio.Button>
                         </Radio.Group>
+                    </div>
+                    <div className='QuestionList'>
+                        <List>
+
+                        </List>
+                        <div className='CreatorEntrance'>
+                            <img alt='saySomething' src={SaySomething} />
+                            <Button block icon={<PlusOutlined />}>
+                                说点什么
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
