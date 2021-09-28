@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import '../../assets/scss/Community.scss';
 import HeadNavigate from '../Common/HeadNavigate';
+import CEditer from './CEditer';
 import CommunityCrowd from './CommunityCrowd';
 
 @observer
@@ -19,7 +20,7 @@ export default class Community extends Component<{}, {}>
                     <CommunityCrowd />
                 </div>
                 <div className='C_Main'>
-
+                    <CEditer />
                 </div>
             </div>
         );

@@ -32,7 +32,8 @@ export default class HComment extends Component<{ houseDetailInfo: HouseInfo; },
             <div className='HComment' id='HComment'>
                 <CommentInput
                     hId={this.props.houseDetailInfo.baseInfo.hId}
-                    callBack={this.InitComment} />
+                    callBack={this.InitComment}
+                    url='/PostHouseComment' />
                 <Divider />
                 {this.loading && <CommentLoader />}
                 {this.commentList.length === 0 && !this.loading && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂无评论' />}
@@ -54,6 +55,7 @@ declare interface CommentInputProps
     hId: string,
     commentId?: string,
     callBack: Function;
+    url: string;
 }
 @observer
 export class CommentInput extends React.Component<CommentInputProps, {}>
@@ -65,6 +67,11 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
     PostImg = (e: React.ChangeEvent<HTMLInputElement>): void =>
     {
         if (!e.target.files) return;
+        if (e.target.files[0].size > 1000000)
+        {
+            message.error("图片太大了哦小老弟🤨");
+            return;
+        };
         if (this.imgArray.length >= 3)
         {
             message.error("太多图片了哦🤨,干掉一点去😀");
@@ -92,7 +99,7 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
         formData.set('parentId', parentId.toString());
         formData.set('commentDate', moment(Date.now()).format("YYYY-MM-DD hh:mm:ss"));
         formData.set('photo', this.UserStore.authInfo?.userInfo?.photo ?? "https://files.authing.co/authing-console/default-user-avatar.png");
-        let res = await (await fetch(`${CONST_HOST}/PostHouseComment`, {
+        let res = await (await fetch(`${CONST_HOST}${this.props.url}`, {
             method: "POST",
             body: formData
         })).json();
@@ -272,7 +279,7 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
             const { images } = commentItem;
             if (images !== 'null')
             {
-                return images.split("--");
+                return images.split("-lzy-");
             } else
             {
                 return null;
@@ -294,11 +301,10 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                         <div className='CommentContent'>
                             <p>{commentItem.content}</p>
                             <Image.PreviewGroup>
-
                                 {RenderCommentImg()?.map((i, index) =>
                                 {
                                     return (
-                                        <Image src={i} key={index} />
+                                        <Image src={i} key={index} alt={index.toString()} />
                                     );
                                 })}
                             </Image.PreviewGroup>
@@ -321,7 +327,8 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                     <CommentInput
                         hId={this.props.commentItem.hId}
                         commentId={commentItem.id}
-                        callBack={this.InitReplay} />
+                        callBack={this.InitReplay}
+                        url='/PostHouseComment' />
                 }
             </div>
         );
