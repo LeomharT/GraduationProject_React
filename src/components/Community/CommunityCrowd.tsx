@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { action, observable } from 'mobx';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component, RefObject } from 'react';
 import open_peeps from '../../assets/img/open-peeps-sheet-colorful.png';
@@ -165,7 +165,6 @@ export default class CommunityCrowd extends Component<{}, {}>
         this.RemoveItemFromArray(this.crowd, peep);
         this.availablePeeps.push(peep);
     };
-    @action
     Renderer = () =>
     {
         if (this.canvasRef.current)
@@ -218,16 +217,16 @@ class Peep
         this.rect = rect;
         this.setRect(rect);
     }
-    @observable image: any;
-    @observable rect: any;
-    @observable x: number = 0;
-    @observable y: number = 0;
-    @observable width: number;
-    @observable height: number;
-    @observable anchorY: number = 0;
-    @observable scaleX: number = 1;
-    @observable walk: any;
-    @observable drawArgs: any[] = [];
+    image: any;
+    rect: any;
+    x: number = 0;
+    y: number = 0;
+    width: number;
+    height: number;
+    anchorY: number = 0;
+    scaleX: number = 1;
+    walk: any;
+    drawArgs: any[] = [];
     setRect = (rect: any) =>
     {
         this.rect = rect;

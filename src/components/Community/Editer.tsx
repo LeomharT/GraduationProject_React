@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React, { Component } from 'react';
 import E from 'wangeditor';
-export default class CEditer extends Component<{}, {}> {
+export default class Editer extends Component<{}, {}> {
     editer: E;
     IninEditer = (): void =>
     {
