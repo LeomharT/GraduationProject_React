@@ -16,10 +16,10 @@ export default class CommunityCrowd extends Component<{}, {}>
         cols: 7
     };
     @observable img = new Image();
-    @observable allPeeps: any[] = [];
-    @observable availablePeeps: any[] = [];
+    @observable allPeeps: Peep[] = [];
+    @observable availablePeeps: Peep[] = [];
     @observable stage = { width: 0, height: 0 };
-    crowd: any[] = [];
+    crowd: Peep[] = [];
 
     private RandomRange = (min: number, max: number) => min + Math.random() * (max - min);
     private RandomIndex = (array: any[]) => this.RandomRange(0, array.length) | 0;
@@ -226,7 +226,7 @@ class Peep
     @observable height: number;
     @observable anchorY: number = 0;
     @observable scaleX: number = 1;
-    @observable walk = null;
+    @observable walk: any;
     @observable drawArgs: any[] = [];
     setRect = (rect: any) =>
     {
