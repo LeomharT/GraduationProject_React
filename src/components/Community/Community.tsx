@@ -38,7 +38,18 @@ export default class Community extends Component<{}, {}>
                         </Radio.Group>
                     </div>
                     <div className='QuestionList'>
-                        <List>
+                        <List
+                            itemLayout='vertical'
+                            size='large'
+                            renderItem={(item) =>
+                            {
+                                return (
+                                    <List.Item>
+
+                                    </List.Item>
+                                );
+                            }}
+                        >
 
                         </List>
                         <div className='CreatorEntrance'>
