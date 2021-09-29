@@ -89,10 +89,7 @@ export default class CommunityCrowd extends Component<{}, {}>
     CreatePeep = () =>
     {
         const { rows, cols } = this.config;
-        const {
-            naturalWidth: width,
-            naturalHeight: height
-        } = this.img;
+        const { naturalWidth: width, naturalHeight: height } = this.img;
         const total = rows * cols;
         const rectWidth = width / rows;
         const rectHeight = height / cols;
@@ -166,7 +163,7 @@ export default class CommunityCrowd extends Component<{}, {}>
     };
     Renderer = () =>
     {
-        if (this.canvasRef.current)
+        if (this.canvasRef.current?.width)
             this.canvasRef.current!.width = this.canvasRef.current!.width;
         this.ctx!.save();
         this.ctx!.scale(devicePixelRatio, devicePixelRatio);

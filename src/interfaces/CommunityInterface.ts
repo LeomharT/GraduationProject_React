@@ -2,7 +2,7 @@ export declare interface ArticleItem
 {
     id: string;
     avatar: string;
-    postdata: Date;
+    postdate: Date;
     uId: string;
     user: string,
     title: string;

@@ -5,7 +5,7 @@ import { ArticleItem } from '../../interfaces/CommunityInterface';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
 @observer
-export default class CArticle extends Component<{ article: ArticleItem; }, {}>
+export default class ArticleContent extends Component<{ article: ArticleItem; }, {}>
 {
     contentRef: RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>();
     @observable articles: any[] = [];
@@ -13,7 +13,7 @@ export default class CArticle extends Component<{ article: ArticleItem; }, {}>
     {
         this.articles = await (await fetch(`${CONST_HOST}/GetArticles`)).json() as ArticleItem[];
         console.log(this.articles);
-        this.contentRef.current!.innerHTML = this.articles[0].content;
+        this.contentRef.current!.innerHTML = this.articles[1].content;
     }
     render()
     {

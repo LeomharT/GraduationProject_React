@@ -27,7 +27,7 @@ class Editer extends Component<RouteComponentProps, {}> {
     UploadAdvert = (e: React.ChangeEvent<HTMLInputElement>) =>
     {
         if (!e.target.files) return;
-        if (e.target.files[0].size > 1000000)
+        if (e.target.files[0].size > 3000000)
         {
             message.error("图片太大了哦小老弟🤨");
             return;

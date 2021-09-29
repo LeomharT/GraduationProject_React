@@ -9,7 +9,7 @@ import '../../assets/scss/Community.scss';
 import { ArticleItem } from '../../interfaces/CommunityInterface';
 import HeadNavigate from '../Common/HeadNavigate';
 import { CONST_HOST } from '../Common/VariableGlobal';
-import CListItem from './CListItem';
+import ArticleListItem from './ArticleListItem';
 import CommunityCrowd from './CommunityCrowd';
 import Editer from './Editer';
 
@@ -62,7 +62,7 @@ export default class Community extends Component<{}, {}>
                                         renderItem={(item: ArticleItem) =>
                                         {
                                             return (
-                                                <CListItem data={item} />
+                                                <ArticleListItem data={item} />
                                             );
                                         }}
                                     >

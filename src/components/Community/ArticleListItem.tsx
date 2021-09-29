@@ -18,7 +18,7 @@ declare interface CListItemProps extends RouteComponentProps
     data: ArticleItem;
 }
 @observer
-class CListItem extends Component<CListItemProps, {}>
+class ArticleListItem extends Component<CListItemProps, {}>
 {
     render()
     {
@@ -62,11 +62,11 @@ class CListItem extends Component<CListItemProps, {}>
                 <List.Item.Meta
                     avatar={<Avatar src={data.avatar} />}
                     title={<span onClick={() => { this.props.history.push('/CArticle'); }}>{data.user}</span>}
-                    description={moment(data.postdata).fromNow()}
+                    description={moment(data.postdate).fromNow()}
                 />
                 {this.props.data.title}
             </List.Item>
         );
     }
 }
-export default withRouter(CListItem);
+export default withRouter(ArticleListItem);

@@ -1,4 +1,4 @@
-import CArticle from "../components/Community/CAriticle";
+import ArticleContent from "../components/Community/ArticleContent";
 import Community from "../components/Community/Community";
 import Home from "../components/Home/Home";
 import MapSearch from "../components/Home/MapSearch";
@@ -37,7 +37,7 @@ const route: RouteType[] = [
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },
     { title: "MapSearch", path: "/MapSearch", components: MapSearch },
     { title: "Community", path: '/Community', components: Community },
-    { title: "CArticle", path: '/CArticle', components: CArticle },
+    { title: "CArticle", path: '/CArticle', components: ArticleContent },
 ];
 
 
