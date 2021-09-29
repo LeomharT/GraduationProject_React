@@ -87,7 +87,7 @@ $_WIDTH:1200px;
         .AddAdvertImg
         {
             width           : 100%;
-            height          : 300px;
+            height          : auto;
             box-sizing      : border-box;
             padding         : 20px;
             display         : flex;
@@ -120,8 +120,9 @@ $_WIDTH:1200px;
             }
             >img
             {
-                width : 100%;
-                height: 100%;
+                width     : 100%;
+                height    : auto;
+                max-height: 660px;
             }
         }
         .AddTitle
