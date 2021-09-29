@@ -1,3 +1,4 @@
+import CArticle from "../components/Community/CAriticle";
 import Community from "../components/Community/Community";
 import Home from "../components/Home/Home";
 import MapSearch from "../components/Home/MapSearch";
@@ -15,7 +16,7 @@ export interface RouteType
     title: string;
     path: string;
     childRoute?: RouteType[];
-    components: React.ComponentType;
+    components: React.ComponentType<any>;
 }
 
 const route: RouteType[] = [
@@ -36,6 +37,7 @@ const route: RouteType[] = [
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },
     { title: "MapSearch", path: "/MapSearch", components: MapSearch },
     { title: "Community", path: '/Community', components: Community },
+    { title: "CArticle", path: '/CArticle', components: CArticle },
 ];
 
 

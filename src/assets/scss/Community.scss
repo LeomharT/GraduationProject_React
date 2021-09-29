@@ -1,6 +1,8 @@
 $_WIDTH:1200px;
 .Community
 {
+    width           : 100%;
+    min-height      : 100vh;
     display         : flex;
     flex-direction  : column;
     align-items     : center;
@@ -31,7 +33,7 @@ $_WIDTH:1200px;
                 align-items: center;
                 label
                 {
-                    margin-left: 20px;
+                    margin-left: 10px;
                 }
             }
         }
@@ -43,7 +45,23 @@ $_WIDTH:1200px;
             {
                 background-color: white;
                 width           : 950px;
+                min-height      : 270px;
                 margin-right    : 10px;
+                .ant-list-item-action
+                {
+                    li
+                    {
+                        cursor: pointer;
+                    }
+                }
+                .ant-list-item-extra
+                {
+                    >img
+                    {
+                        width : 272px;
+                        height: 168px;
+                    }
+                }
             }
             .CreatorEntrance
             {
@@ -64,12 +82,70 @@ $_WIDTH:1200px;
             }
         }
     }
-    .CEditer
+    .PostAriticle
     {
-        img
+        .AddAdvertImg
         {
-            display: block;
-            margin : 0 auto
+            width           : 100%;
+            height          : 300px;
+            box-sizing      : border-box;
+            padding         : 20px;
+            display         : flex;
+            flex-direction  : column;
+            justify-content : center;
+            align-items     : center;
+            cursor          : pointer;
+            background-color: white;
+            >p
+            {
+                position   : relative;
+                top        : -10px;
+                opacity    : 0;
+                transition : all .3s;
+                user-select: none;
+                color      : rgba(18,18,18,.2);
+                font-size  : 16px;
+            }
+            &:hover
+            {
+                >p
+                {
+                    top    : 0;
+                    opacity: 1;
+                }
+            }
+            >input[type="file"]
+            {
+                display: none;
+            }
+            >img
+            {
+                width : 100%;
+                height: 100%;
+            }
+        }
+        .AddTitle
+        {
+            border     : none;
+            outline    : none;
+            box-shadow : none;
+            height     : 90px;
+            font-size  : 40px;
+            font-weight: bold;
+            padding    : 6.5px 20px;
+        }
+        .CEditer
+        {
+            >div
+            {
+                border: none !important;
+            }
+            img
+            {
+                display: block;
+                margin : 0 auto
+            }
         }
     }
+
 }

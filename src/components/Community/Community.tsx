@@ -1,12 +1,14 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, List, Radio } from 'antd';
+import { Button, List, Radio, Spin } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import SaySomething from '../../assets/img/SaySomething.svg';
 import '../../assets/scss/Community.scss';
+import { ArticleItem } from '../../interfaces/CommunityInterface';
 import HeadNavigate from '../Common/HeadNavigate';
+import { CONST_HOST } from '../Common/VariableGlobal';
 import CListItem from './CListItem';
 import CommunityCrowd from './CommunityCrowd';
 import Editer from './Editer';
@@ -14,46 +16,17 @@ import Editer from './Editer';
 @observer
 export default class Community extends Component<{}, {}>
 {
-    @observable articles: any[] = [
-        {
-            href: 'https://ant.design',
-            title: `ant design part 1`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        },
-        {
-            href: 'https://ant.design',
-            title: `ant design part 1`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        },
-        {
-            href: 'https://ant.design',
-            title: `ant design part 1`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        },
-        {
-            href: 'https://ant.design',
-            title: `ant design part 1`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        }
-    ];
-    componentDidMount()
+    @observable articles: any[] = [];
+    @observable loading: boolean = false;
+    InitArticles = async (): Promise<void> =>
     {
+        this.loading = true;
+        this.articles = await (await fetch(`${CONST_HOST}/GetArticles`)).json() as ArticleItem[];
+        this.loading = false;
+    };
+    async componentDidMount()
+    {
+        await this.InitArticles();
     }
     render()
     {
@@ -81,19 +54,20 @@ export default class Community extends Component<{}, {}>
                                 </Radio.Group>
                             </div>
                             <div className='QuestionList'>
-                                <List
-                                    itemLayout='vertical'
-                                    dataSource={this.articles}
-                                    size='large'
-                                    renderItem={(item) =>
-                                    {
-                                        return (
-                                            <CListItem data={item} />
-                                        );
-                                    }}
-
-                                >
-                                </List>
+                                <Spin size='large' spinning={this.loading}>
+                                    <List
+                                        itemLayout='vertical'
+                                        dataSource={this.articles}
+                                        size='large'
+                                        renderItem={(item: ArticleItem) =>
+                                        {
+                                            return (
+                                                <CListItem data={item} />
+                                            );
+                                        }}
+                                    >
+                                    </List>
+                                </Spin>
                                 <div className='CreatorEntrance'>
                                     <img alt='saySomething' src={SaySomething} />
                                     <Link to='/Community/PostArtcle'>
