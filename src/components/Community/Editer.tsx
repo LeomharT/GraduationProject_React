@@ -21,6 +21,7 @@ class Editer extends Component<RouteComponentProps, {}> {
     {
         this.editer = new E('#CEditer');
         this.editer.config.uploadImgShowBase64 = true;
+        this.editer.config.height = 500;
         this.editer.create();
     };
     UploadAdvert = (e: React.ChangeEvent<HTMLInputElement>) =>
