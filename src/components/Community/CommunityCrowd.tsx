@@ -32,19 +32,18 @@ export default class CommunityCrowd extends Component<{}, {}>
         const direction = Math.random() > 0.5 ? 1 : -1;
         // using an ease function to skew random to lower values to help hide that peeps have no legs
         const offsetY = 100 - 250 * gsap.parseEase('power2.in')(Math.random());
-        const startY = stage?.height - peep?.height + offsetY;
+        const startY = stage.height - peep.height + offsetY;
         let startX;
         let endX;
 
         if (direction === 1)
         {
-            startX = -peep?.width;
+            startX = -peep.width;
             endX = stage.width;
-            if (peep?.scaleX)
-                peep.scaleX = 1;
+            peep.scaleX = 1;
         } else
         {
-            startX = stage?.width + peep?.width;
+            startX = stage.width + peep.width;
             endX = 0;
             peep.scaleX = -1;
         }

@@ -1,6 +1,5 @@
 import LikeOutlined from '@ant-design/icons/lib/icons/LikeOutlined';
 import MessageOutlined from '@ant-design/icons/lib/icons/MessageOutlined';
-import StarOutlined from '@ant-design/icons/lib/icons/StarOutlined';
 import { Avatar, List, Space } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component, FunctionComponent } from 'react';
@@ -19,7 +18,6 @@ export default class CListItem extends Component<{ data: any; }, {}>
             <List.Item
                 key={Symbol().toString()}
                 actions={[
-                    <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
                     <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
                     <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
                 ]}
