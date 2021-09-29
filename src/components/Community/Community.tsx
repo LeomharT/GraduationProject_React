@@ -3,11 +3,13 @@ import { Button, List, Radio } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { Link, Route, Switch } from 'react-router-dom';
 import SaySomething from '../../assets/img/SaySomething.svg';
 import '../../assets/scss/Community.scss';
 import HeadNavigate from '../Common/HeadNavigate';
 import CListItem from './CListItem';
 import CommunityCrowd from './CommunityCrowd';
+import Editer from './Editer';
 
 @observer
 export default class Community extends Component<{}, {}>
@@ -58,48 +60,55 @@ export default class Community extends Component<{}, {}>
         return (
             <div className='Community'>
                 <HeadNavigate />
-                <div className='C_Navi'>
-                    <CommunityCrowd />
-                </div>
-                <div className='C_Main'>
-                    <div className='StoryTabs'>
-                        <Radio.Group
-                            defaultValue='推荐'
-                            buttonStyle='solid'
-                            onChange={(e) =>
-                            {
-                                console.log(e.target.value);
-                            }}>
-                            <Radio.Button value='推荐'>
-                                推荐
-                            </Radio.Button>
-                            <Radio.Button value='最热'>
-                                最热
-                            </Radio.Button>
-                        </Radio.Group>
-                    </div>
-                    <div className='QuestionList'>
-                        <List
-                            itemLayout='vertical'
-                            dataSource={this.articles}
-                            size='large'
-                            renderItem={(item) =>
-                            {
-                                return (
-                                    <CListItem data={item} />
-                                );
-                            }}
+                <Switch>
+                    <Route path='/Community' exact>
+                        <CommunityCrowd />
+                        <div className='C_Main'>
+                            <div className='StoryTabs'>
+                                <Radio.Group
+                                    defaultValue='推荐'
+                                    buttonStyle='solid'
+                                    onChange={(e) =>
+                                    {
+                                        console.log(e.target.value);
+                                    }}>
+                                    <Radio.Button value='推荐'>
+                                        推荐
+                                    </Radio.Button>
+                                    <Radio.Button value='最热'>
+                                        最热
+                                    </Radio.Button>
+                                </Radio.Group>
+                            </div>
+                            <div className='QuestionList'>
+                                <List
+                                    itemLayout='vertical'
+                                    dataSource={this.articles}
+                                    size='large'
+                                    renderItem={(item) =>
+                                    {
+                                        return (
+                                            <CListItem data={item} />
+                                        );
+                                    }}
 
-                        >
-                        </List>
-                        <div className='CreatorEntrance'>
-                            <img alt='saySomething' src={SaySomething} />
-                            <Button block icon={<PlusOutlined />}>
-                                说点什么
-                            </Button>
+                                >
+                                </List>
+                                <div className='CreatorEntrance'>
+                                    <img alt='saySomething' src={SaySomething} />
+                                    <Link to='/Community/PostArtcle'>
+                                        <Button block icon={<PlusOutlined />}>
+                                            说点什么
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </Route>
+                    <Route path='/Community/PostArtcle' exact>
+                        <Editer />
+                    </Route>
+                </Switch>
             </div>
         );
     }
