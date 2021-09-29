@@ -30,6 +30,7 @@ $_WIDTH:1200px;
             box-sizing      : border-box;
             padding         : 10px;
             background-color: white;
+            margin-bottom   : 10px;
             >.ant-radio-group
             {
                 display    : flex;
@@ -44,12 +45,23 @@ $_WIDTH:1200px;
         {
             display       : flex;
             flex-direction: row;
+            .ant-list
+            {
+                background-color: white;
+                width           : 950px;
+                margin-right    : 10px;
+            }
             .CreatorEntrance
             {
                 width           : 300px;
+                height          : 270px;
                 box-sizing      : border-box;
                 padding         : 10px;
                 background-color: white;
+                /** 🐂sticky还用什么固钉 **/
+                position        : sticky;
+                position        : -webkit-sticky;
+                top             : 0;
                 >img
                 {
                     width : 100%;
