@@ -1,5 +1,7 @@
 import ArticleContent from "../components/Community/ArticleContent";
+import ArticleList from "../components/Community/ArticleList";
 import Community from "../components/Community/Community";
+import Editer from "../components/Community/Editer";
 import Home from "../components/Home/Home";
 import MapSearch from "../components/Home/MapSearch";
 import HouseDetail from "../components/HouseList/HouseDetailInfo";
@@ -36,8 +38,13 @@ const route: RouteType[] = [
     },
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },
     { title: "MapSearch", path: "/MapSearch", components: MapSearch },
-    { title: "Community", path: '/Community', components: Community },
-    { title: "CArticle", path: '/CArticle', components: ArticleContent },
+    {
+        title: "Community", path: '/Community', components: Community, childRoute: [
+            { title: "Community", path: "/Community", components: ArticleList },
+            { title: "PostArtcle", path: "/Community/PostArtcle", components: Editer },
+            { title: "ArticleContent", path: "/Community/ArticleContent/:aId", components: ArticleContent },
+        ]
+    },
 ];
 
 

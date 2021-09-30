@@ -48,9 +48,8 @@ class ArticleListItem extends Component<CListItemProps, {}>
                     <IconText icon={MessageOutlined} text="2" key="list-vertical-message"
                         onClick={() =>
                         {
-                            this.props.history.push('/CArticle');
-                        }}
-                    />,
+                            this.props.history.push(`/Community/ArticleContent/${data.id}`);
+                        }} />,
                 ]}
                 extra={
                     <img
@@ -61,7 +60,7 @@ class ArticleListItem extends Component<CListItemProps, {}>
                 }>
                 <List.Item.Meta
                     avatar={<Avatar src={data.avatar} />}
-                    title={<span onClick={() => { this.props.history.push('/CArticle'); }}>{data.user}</span>}
+                    title={<span onClick={() => { this.props.history.push(`/Community/ArticleContent/${data.id}`); }}>{data.user}</span>}
                     description={moment(data.postdate).fromNow()}
                 />
                 {this.props.data.title}

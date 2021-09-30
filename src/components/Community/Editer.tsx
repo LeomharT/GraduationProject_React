@@ -1,5 +1,6 @@
 import { PictureOutlined } from '@ant-design/icons';
 import { Button, Input, message } from 'antd';
+import * as H from 'history';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -8,7 +9,11 @@ import { Prompt, RouteComponentProps, withRouter } from 'react-router-dom';
 import E from 'wangeditor';
 import UserStore from '../../redux/UserStore';
 import { CONST_HOST } from '../Common/VariableGlobal';
-
+declare type ResImgItemType = string | {
+    url: string;
+    alt?: string;
+    href?: string;
+};
 @observer
 class Editer extends Component<RouteComponentProps, {}> {
     UserStore: UserStore = UserStore.GetInstance();
@@ -17,17 +22,26 @@ class Editer extends Component<RouteComponentProps, {}> {
     title: RefObject<Input> = React.createRef<Input>();
     @observable advertBase64: string = '';
     @observable showConfirm: boolean = true;
+    imgResult: ResImgItemType[] = [];
     IninEditer = (): void =>
     {
         this.editer = new E('#CEditer');
-        this.editer.config.uploadImgShowBase64 = true;
         this.editer.config.height = 500;
+        this.editer.config.uploadImgServer = `${CONST_HOST}/UploadArticleImg`;
+        this.editer.config.uploadImgMaxLength = 5;
+        this.editer.config.uploadFileName = 'aimgs';
+        this.editer.config.uploadImgHooks = {
+            success: (xhr, editor, result) =>
+            {
+                this.imgResult = this.imgResult.concat(result.data);
+            }
+        };
         this.editer.create();
     };
     UploadAdvert = (e: React.ChangeEvent<HTMLInputElement>) =>
     {
         if (!e.target.files) return;
-        if (e.target.files[0].size > 3000000)
+        if (e.target.files[0].size > 2000000)
         {
             message.error("图片太大了哦小老弟🤨");
             return;
@@ -84,9 +98,32 @@ class Editer extends Component<RouteComponentProps, {}> {
             message.error("发布失败");
         }
     };
+    BeforeQuit = (location: H.Location, action: H.Action): string | boolean =>
+    {
+        if (window.confirm("离开将不会保存"))
+        {
+            if (this.imgResult.length !== 0)
+            {
+                let data = new FormData();
+                data.append('imgResult', JSON.stringify(this.imgResult));
+                fetch(`${CONST_HOST}/DeleteUploadeImgs`, {
+                    method: "POST",
+                    body: data
+                });
+            }
+            return true;
+        } else
+        {
+            return false;
+        }
+    };
     componentDidMount()
     {
         this.IninEditer();
+    }
+    componentWillUnmount()
+    {
+        this.editer.destroy();
     }
     render()
     {
@@ -94,7 +131,7 @@ class Editer extends Component<RouteComponentProps, {}> {
             <div className='PostAriticle'>
                 <Prompt
                     when={this.showConfirm}
-                    message={() => '退出之后将不会保存'}
+                    message={this.BeforeQuit}
                 />
                 <div className='AddAdvertImg'
                     onClick={() => { this.advertUploader.current!.click(); }}
