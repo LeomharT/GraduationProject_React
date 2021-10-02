@@ -199,8 +199,14 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
     }
 }
 
+declare interface CommentItemProps
+{
+    commentItem: HouseComment;
+    url: string;
+    postUrl: string;
+}
 @observer
-export class CommentItem extends React.Component<{ commentItem: HouseComment; url: string; postUrl: string; }, {}>
+export class CommentItem extends React.Component<CommentItemProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     @observable likes: number = 0;
