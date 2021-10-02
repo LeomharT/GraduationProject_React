@@ -41,7 +41,7 @@ export default class HComment extends Component<{ houseDetailInfo: HouseInfo; },
                     this.commentList.map((c: HouseComment) =>
                     {
                         return (
-                            <CommentItem key={c.id} commentItem={c} />
+                            <CommentItem key={c.id} commentItem={c} url='/GetHouseComment' postUrl='/PostHouseComment' />
                         );
                     })
                 }
@@ -200,7 +200,7 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
 }
 
 @observer
-export class CommentItem extends React.Component<{ commentItem: HouseComment; }, {}>
+export class CommentItem extends React.Component<{ commentItem: HouseComment; url: string; postUrl: string; }, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     @observable likes: number = 0;
@@ -212,7 +212,7 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
     {
         const { commentItem } = this.props;
         this.replays = await (
-            (await fetch(`${CONST_HOST}/GetHouseComment?hId=${commentItem.hId}&parentId=${commentItem.id}`)).json()
+            (await fetch(`${CONST_HOST}${this.props.url}?hId=${commentItem.hId}&parentId=${commentItem.id}`)).json()
         ) as HouseComment[];
     };
     async componentDidMount()
@@ -300,7 +300,11 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                         this.replays.map((c: HouseComment) =>
                         {
                             return (
-                                <CommentItem key={c.id} commentItem={c} />
+                                <CommentItem
+                                    key={c.id}
+                                    commentItem={c}
+                                    url='/GetHouseComment'
+                                    postUrl='/PostHouseComment' />
                             );
                         })
                     }
@@ -310,7 +314,7 @@ export class CommentItem extends React.Component<{ commentItem: HouseComment; },
                         hId={this.props.commentItem.hId}
                         commentId={commentItem.id}
                         callBack={this.InitReplay}
-                        url='/PostHouseComment' />
+                        url={this.props.postUrl} />
                 }
             </div>
         );
