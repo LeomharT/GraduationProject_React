@@ -149,5 +149,16 @@ $_WIDTH:1200px;
             }
         }
     }
-
+    .ArticleContent
+    {
+        width: 690px;
+        .A_Content
+        {
+            img
+            {
+                display: block;
+                margin : 0 auto;
+            }
+        }
+    }
 }

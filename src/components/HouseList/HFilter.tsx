@@ -1,6 +1,6 @@
 import { Button, Collapse, Form, FormInstance, Radio } from 'antd';
 import Search from 'antd/lib/input/Search';
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import { FieldData } from 'rc-field-form/lib/interface';
 import React, { Component, createRef } from 'react';
@@ -17,7 +17,6 @@ class H_Filter extends Component<RouteComponentProps, {}>
 {
     HouseStore: HouseStore = HouseStore.GetInstance();
     filterForm = createRef<FormInstance>();
-    @observable HouseParams: HouseParams[] = [];
 
     @action
     FilterSelected = async (changedValue: FieldData[], allValue: FieldData[]): Promise<void> =>
@@ -34,7 +33,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
     {
         const { filterForm, HouseStore } = this;
         const { match } = this.props;
-        this.HouseParams = await (
+        HouseStore.HouseParams = await (
             await fetch(`${CONST_HOST}/HouseParams`, { method: "POST" })
         ).json();
         /**
@@ -72,7 +71,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
                     onFieldsChange={this.FilterSelected}
                 >
                     <div className="VisibleOption">
-                        {this.HouseParams.slice(0, 5).map((params: HouseParams, indexP: number) =>
+                        {HouseStore.HouseParams.slice(0, 5).map((params: HouseParams, indexP: number) =>
                         {
                             return (
                                 <Form.Item
@@ -96,7 +95,7 @@ class H_Filter extends Component<RouteComponentProps, {}>
                     </div>
                     <Collapse ghost>
                         <Panel header="更多选项" key='MoreOption'>
-                            {this.HouseParams.slice(5).map((params: HouseParams, indexP: number) =>
+                            {HouseStore.HouseParams.slice(5).map((params: HouseParams, indexP: number) =>
                             {
                                 return (
                                     <Form.Item

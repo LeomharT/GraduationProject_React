@@ -1,4 +1,5 @@
 import 'antd/dist/antd.css';
+import moment from 'moment';
 import 'nprogress/nprogress.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,8 +9,24 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import route, { RouteType } from './route/router';
 
-
-
+//汉化时间
+moment.defineLocale('zh-cn', {
+    relativeTime: {
+        future: '%s内',
+        past: '%s前',
+        s: '几秒',
+        m: '1 分钟',
+        mm: '%d 分钟',
+        h: '1 小时',
+        hh: '%d 小时',
+        d: '1 天',
+        dd: '%d 天',
+        M: '1 个月',
+        MM: '%d 个月',
+        y: '1 年',
+        yy: '%d 年',
+    },
+});
 ReactDOM.render(
     <React.StrictMode>
         <Router>

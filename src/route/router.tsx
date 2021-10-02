@@ -42,7 +42,7 @@ const route: RouteType[] = [
         title: "Community", path: '/Community', components: Community, childRoute: [
             { title: "Community", path: "/Community", components: ArticleList },
             { title: "PostArtcle", path: "/Community/PostArtcle", components: Editer },
-            { title: "ArticleContent", path: "/Community/ArticleContent/:aId", components: ArticleContent },
+            { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
         ]
     },
 ];

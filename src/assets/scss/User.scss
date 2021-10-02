@@ -12,6 +12,8 @@
         flex-direction  : column;
         background-color: white;
         box-shadow      : 0 2px 10px 0 rgb(57 106 255 / 5%);
+        box-sizing      : border-box;
+        margin-right    : 10px;
         >span
         {
             padding   : 10px 5px;

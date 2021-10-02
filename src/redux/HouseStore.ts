@@ -2,13 +2,15 @@ import { message } from "antd";
 import { observable } from "mobx";
 import NProgress from "nprogress";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
-import { HouseExhibitList } from "../interfaces/HouseListInterface";
+import { HouseExhibitList, HouseParams } from "../interfaces/HouseListInterface";
 
 export default class HouseStore
 {
     @observable HouseExhibitList: HouseExhibitList;           //房屋列表和总条目
     @observable HouseFilterParams: FormData = new FormData(); //筛选对象
+    @observable HouseParams: HouseParams[] = [];              //筛选的参数
     @observable HouseListCurrentPage: number = 1;             //当前页码
+
     /**
      * @description            初始化房屋列表
      * @param {FormData}filter 筛选参数
