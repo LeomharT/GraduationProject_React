@@ -1,10 +1,13 @@
 import { LeftOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/MapSearch.scss';
+import { CONST_HOST } from '../Common/VariableGlobal';
+
 
 const MapSearchWrapper = styled.div`
 position: relative;
@@ -18,10 +21,9 @@ const shapeOfJinAn = '26.110437,119.317283;26.086851,119.320201;26.066652,119.33
 class MapSearch extends Component<RouteComponentProps, {}>
 {
     tMapRef = React.createRef<HTMLDivElement>();
-    InitMapArea = () =>
+    @observable markers: any[] = [];
+    InitMapArea = async () =>
     {
-        const { history } = this.props;
-        const { DrawShapOfRegion } = this;
         /**
          * 初始化地图
          */
@@ -30,6 +32,14 @@ class MapSearch extends Component<RouteComponentProps, {}>
             zoom: 12.5,
             viewMode: "2D"
         });
+        this.AddMapRegionShap(map);
+        await this.AddMapMarks(map);
+    };
+    //@ts-ignore
+    AddMapRegionShap = (map: TMap) =>
+    {
+        const { history } = this.props;
+        const { DrawShapOfRegion } = this;
         const polyonStyles = new TMap.PolygonStyle({
             'color': 'rgba(41,91,255,0.16)',
             'showBorder': true,
@@ -127,7 +137,7 @@ class MapSearch extends Component<RouteComponentProps, {}>
             map,
             options: [
                 {
-                    position: new TMap.LatLng(26.099873, 119.271895),
+                    position: new TMap.LatLng(26.099142, 119.271437),
                     id: 0,
                 },
                 {
@@ -212,7 +222,64 @@ class MapSearch extends Component<RouteComponentProps, {}>
             }
             e.setAttribute('style', 'fill: #1890ff;stroke:#FFFFFF;opacity:0.9;');
         });
+    };
+    //@ts-ignore
+    AddMapMarks = async (map: TMap) =>
+    {
+        const positions = await this.GetAppMarks();
 
+        const markers = new TMap.MultiMarker({
+            map,
+        });
+        markers.addListener('click', (e: any) =>
+        {
+            this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
+        });
+        map.addListener('zoom_changed', async (e: any) =>
+        {
+            markers.setGeometries([]);
+            if (e.zoom > 16)
+            {
+                markers.add(positions);
+            }
+        });
+    };
+    GetAppMarks = async (): Promise<any[]> =>
+    {
+        let locations = (await (await fetch(`${CONST_HOST}/GetAllHouseLocation`)).json()) as Array<any>;
+        const data: any = [];
+        locations.forEach((l, index: number) =>
+        {
+            let geometrie = {};
+            Object.defineProperty(geometrie, 'id', {
+                value: index,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+            Object.defineProperty(geometrie, 'hId', {
+                value: l.hId,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+            Object.defineProperty(geometrie, 'position', {
+                value: new TMap.LatLng(
+                    parseFloat(l.hLatitude),
+                    parseFloat(l.hLongitude)),
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+            Object.defineProperty(geometrie, 'properties', {
+                value: { title: `props${index}` },
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+            data.push(geometrie);
+        });
+        return data;
     };
     //@ts-ignore
     DrawShapOfRegion = (polygon: string): Array<TMap.LatLng> =>
@@ -227,9 +294,9 @@ class MapSearch extends Component<RouteComponentProps, {}>
         }
         return shapeOfRegionArray;
     };
-    componentDidMount = () =>
+    componentDidMount = async () =>
     {
-        this.InitMapArea();
+        await this.InitMapArea();
     };
     render()
     {
