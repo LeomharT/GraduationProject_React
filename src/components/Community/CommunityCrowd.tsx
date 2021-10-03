@@ -183,9 +183,9 @@ export default class CommunityCrowd extends Component<{}, {}>
     };
     Main = () =>
     {
-        this.img.onload = this.Init;
-        this.img.src = this.config.src;
         this.ctx = this.canvasRef.current!.getContext('2d') as CanvasRenderingContext2D;
+        this.img.src = this.config.src;
+        this.img.onload = () => { this.Init(); };
     };
     componentDidMount()
     {
