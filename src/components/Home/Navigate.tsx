@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { MenuType } from '../../interfaces/HomeInterface';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
+import { AppIconTitle } from '../Common/AppIconTitle';
 
 
 const menuItem: MenuType[] = [
@@ -23,7 +24,7 @@ export default class Navigate extends Component<{}, {}>
     {
         return (
             <div className="HomeNavegate">
-                <i />
+                <AppIconTitle title='优区生活' />
                 <div>
                     <Menu mode='horizontal' style={{ backgroundColor: 'rgba(0,0,0,0)', borderBottom: "none" }}>
                         {menuItem.map((item: MenuType) =>

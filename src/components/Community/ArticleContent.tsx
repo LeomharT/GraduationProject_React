@@ -1,4 +1,4 @@
-import { Avatar } from 'antd';
+import { Avatar, Divider } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component, RefObject } from 'react';
@@ -50,6 +50,7 @@ class ArticleContent extends Component<RouteComponentProps, {}>
                     </div>
                 </div>
                 <div ref={this.contentRef} className='A_Content' />
+                <Divider />
                 <div className='A_Comment'>
                     <CommentInput
                         hId={articleContent?.id}

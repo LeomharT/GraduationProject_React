@@ -60,8 +60,7 @@ export default class ArticleList extends Component
                                     return (
                                         <ArticleListItem data={item} />
                                     );
-                                }}
-                            >
+                                }}>
                             </List>
                         </Spin>
                         <div className='CreatorEntrance'>

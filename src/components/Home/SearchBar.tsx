@@ -44,16 +44,19 @@ class SearchBar extends Component<SearchBarProps, {}>
                                     history.push(`/HouseList/Exhibits/${e}`);
                                 }}
                             />
-                            <img
-                                className='MapIcon'
-                                alt="地图图标"
-                                draggable={false}
-                                src={HouseMark}
+                            <div className='MapIcon'
                                 onClick={() =>
                                 {
                                     history.push("/MapSearch");
                                 }}
-                            />
+                            >
+                                <img
+                                    alt="地图图标"
+                                    draggable={false}
+                                    src={HouseMark}
+                                />
+                                <p>地图</p>
+                            </div>
                         </div>
                     </div>
                 </main>

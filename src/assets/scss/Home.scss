@@ -10,10 +10,10 @@
         align-content  : center;
     }
     .HomeNavegate{
-        width          : 100%;
+        width          : 1200px;
         display        : flex;
         justify-content: space-between;
-        padding        : 5px 150px;
+        margin         : 0 auto;
         box-shadow     : 0 2px 8px #f0f1f2;
         // background-color: #f8f9ff;
         // border-bottom   : 1px solid #ECF2FF;
@@ -28,22 +28,21 @@
                 font-size: 18px;
             }
         }
-
-        >i{
-            &::before{
-                // content: '\f236';
+        .AppIconTitle
+        {
+            width          : 130px;
+            justify-content: space-between;
+            >span
+            {
+                font-size: 20px;
             }
-            font-style : normal;
-            line-height: 40px;
-            color      : lightgrey;
-            font-size  : 50px;
         }
     }
     .HomeSearch{
-        width: 1200px;
+        width          : 1200px;
         display        : flex;
         justify-content: space-between;
-        margin: 0 auto;
+        margin         : 0 auto;
         .SearchBar{
             display        : flex;
             flex-direction : column;
@@ -91,14 +90,29 @@
             {
                 position: relative;
                 .MapIcon{
-                    position  : absolute;
-                    top       : 50%;
-                    margin-top: -15px;
-                    width     : 30px;
-                    height    : 30px;
-                    right     : 70px;
-                    z-index   : 3;
-                    cursor    : pointer;
+                    position   : absolute;
+                    top        : 50%;
+                    margin-top : -15px;
+                    height     : 30px;
+                    right      : 60px;
+                    z-index    : 3;
+                    cursor     : pointer;
+                    display    : flex;
+                    align-items: center;
+                    >img
+                    {
+                        width         : 30px;
+                        height        : 100%;
+                    }
+                    >p
+                    {
+                        display    : inline;
+                        font-weight: bold;
+                        font-size  : 18px;
+                        user-select: none;
+                        color      : #407BFF;
+                        margin     : 0;
+                    }
                 }
             }
         }
