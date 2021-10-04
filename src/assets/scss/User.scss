@@ -92,5 +92,28 @@
                 right   : 0;
             }
         }
+        .U_ArticleManage
+        {
+            width: 100%;
+            .U_ListItem
+            {
+                display        : flex;
+                justify-content: space-between;
+                .ant-list-item
+                {
+                    width        : 900px;
+                    padding-right: 40px;
+                    .ant-list-item-extra
+                    {
+                        >img
+                        {
+                            width : 272px;
+                            height: 168px;
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }

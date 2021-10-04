@@ -8,6 +8,7 @@ import HouseDetail from "../components/HouseList/HouseDetailInfo";
 import HouseExhibit from "../components/HouseList/HouseExhibit";
 import HouseList from "../components/HouseList/HouseList";
 import User from "../components/User/User";
+import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
 import U_UserCollect from "../components/User/U_UserCollect";
 import U_UserRents from "../components/User/U_UserRents";
@@ -34,6 +35,7 @@ const route: RouteType[] = [
             { title: "EditUserInfo", path: '/User/EditUserInfo', components: U_EditUserInfo },
             { title: "UserCollection", path: '/User/UserCollection', components: U_UserCollect },
             { title: "UserRents", path: '/User/UserRents', components: U_UserRents },
+            { title: "ArticleManage", path: '/User/ArticleManage', components: U_ArticleManage },
         ]
     },
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },

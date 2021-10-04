@@ -1,4 +1,4 @@
-import { AuditOutlined, FormOutlined, TagOutlined } from '@ant-design/icons';
+import { AuditOutlined, FormOutlined, ReadOutlined, TagOutlined } from '@ant-design/icons';
 import { Avatar, Menu, message } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -10,7 +10,8 @@ import UserStore from '../../redux/UserStore';
 const UserNaviMenu: MenuType[] = [
     { title: "关注的房源", link: "/User/UserCollection", icon: <TagOutlined /> },
     { title: "我的委托", link: "/User/UserRents", icon: <AuditOutlined /> },
-    { title: "编辑资料", link: "/User/EditUserInfo", icon: <FormOutlined /> }
+    { title: "编辑资料", link: "/User/EditUserInfo", icon: <FormOutlined /> },
+    { title: "我的文章", link: "/User/ArticleManage", icon: <ReadOutlined /> }
 ];
 
 @observer
@@ -44,7 +45,7 @@ export default class SideNavi extends Component<{}, {}>
                     {this.UserStore.RenderUserName()}
                 </span>
                 <Menu mode='inline'
-                    defaultSelectedKeys={[(UserNaviMenu.length - 1).toString()]}
+                    defaultSelectedKeys={[(UserNaviMenu.length - 2).toString()]}
                     style={{ width: "200px" }}
                 >
                     {UserNaviMenu.map((menu: MenuType, index: number) =>
