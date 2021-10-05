@@ -156,6 +156,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                 {houseDetailInfo.baseInfo.isVRed && <Button
                                     icon={<LinkOutlined />}
                                     type='link'
+                                    size='large'
                                     onClick={() =>
                                     {
                                         window.open(`/VRScene/${houseDetailInfo.baseInfo.hId}`);

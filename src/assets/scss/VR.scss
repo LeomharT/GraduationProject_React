@@ -42,9 +42,12 @@
         height         : 70px;
         z-index        : 99;
         display        : flex;
-        justify-content: space-around;
+        // justify-content: space-around;
         align-items    : center;
-
+        >button
+        {
+            margin-right: 5px;
+        }
     }
     .SwitchRoom
     {

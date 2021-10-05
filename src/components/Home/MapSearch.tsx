@@ -32,80 +32,38 @@ class MapSearch extends Component<RouteComponentProps, {}>
             zoom: 12.5,
             viewMode: "2D"
         });
+        this.AddMapLabel(map);
         this.AddMapRegionShap(map);
-        await this.AddMapMarks(map);
+        const pngMarker = await this.AddMapMarks(map);
+
+        const svgDom = document.querySelector("#svgDom") as HTMLElement;
+        const positions = await this.GetAppMarks();
+        map.addListener('zoom_changed', async (e: any) =>
+        {
+            pngMarker.setGeometries([]);
+            if (svgDom.style.display !== 'block')
+            {
+                svgDom.style.display = 'block';
+            }
+            if (e.zoom > 16)
+            {
+                pngMarker.add(positions);
+                if (svgDom.style.display !== 'none')
+                {
+                    svgDom.style.display = 'none';
+                }
+            }
+        });
     };
     //@ts-ignore
-    AddMapRegionShap = (map: TMap) =>
+    AddMapRegionShap = (map: TMap): void =>
     {
-        const { history } = this.props;
         const { DrawShapOfRegion } = this;
         const polyonStyles = new TMap.PolygonStyle({
             'color': 'rgba(41,91,255,0.16)',
             'showBorder': true,
             'borderColor': 'rgba(41,91,255,1)',
             'borderWidth': 2,
-        });
-        const labelStyles = new TMap.LabelStyle({
-            'color': '#3777FF',
-            'size': 20,
-            'offset': { x: 0, y: 0 },
-            'angle': 0,
-            'alignment': 'center',
-            'verticalAlignment': 'middle'
-        });
-        const labelGuLou = new TMap.MultiLabel({
-            id: 'labelGuLou',
-            map,
-            styles: {
-                'label': labelStyles
-            },
-            //文字标记数据
-            geometries: [{
-                'id': 'label_1',
-                'styleId': 'label',
-                'position': new TMap.LatLng(26.099148, 119.271446),
-                'content': '鼓楼区',
-            }]
-        });
-        const labelCangShang = new TMap.MultiLabel({
-            id: 'labelCangShang',
-            map,
-            styles: {
-                'label': labelStyles
-            },
-            geometries: [{
-                'id': 'label_1',
-                'styleId': 'label',
-                'position': new TMap.LatLng(26.012901, 119.293605),
-                'content': '仓山区',
-            }]
-        });
-        const labelTaiJiang = new TMap.MultiLabel({
-            id: 'labelTaiJiang',
-            map,
-            styles: {
-                'label': labelStyles
-            },
-            geometries: [{
-                'id': 'label_1',
-                'styleId': 'label',
-                'position': new TMap.LatLng(26.053496, 119.332036),
-                'content': '台江区',
-            }]
-        });
-        const labelJinAn = new TMap.MultiLabel({
-            id: 'labelJinAn',
-            map,
-            styles: {
-                'label': labelStyles
-            },
-            geometries: [{
-                'id': 'label_1',
-                'styleId': 'label',
-                'position': new TMap.LatLng(26.102418, 119.345718),
-                'content': '晋安区',
-            }]
         });
         const polygon = new TMap.MultiPolygon({
             id: 'polygon-layer',
@@ -115,22 +73,6 @@ class MapSearch extends Component<RouteComponentProps, {}>
                 'polygon': polyonStyles
             },
             geometries: []
-        });
-        labelGuLou.on("click", () =>
-        {
-            history.push("HouseList/Exhibits/鼓楼区");
-        });
-        labelCangShang.on("click", () =>
-        {
-            history.push("HouseList/Exhibits/仓山区");
-        });
-        labelTaiJiang.on('click', () =>
-        {
-            history.push("HouseList/Exhibits/台江区");
-        });
-        labelJinAn.on('click', () =>
-        {
-            history.push("HouseList/Exhibits/晋安区");
         });
         //@ts-ignore
         const marker = new SvgMarker({
@@ -224,10 +166,90 @@ class MapSearch extends Component<RouteComponentProps, {}>
         });
     };
     //@ts-ignore
+    AddMapLabel = (map: TMap) =>
+    {
+        const { history } = this.props;
+        const labelStyles = new TMap.LabelStyle({
+            'color': 'rgba(0,0,0,0)',
+            'size': 20,
+            'offset': { x: 0, y: 0 },
+            'angle': 0,
+            'alignment': 'center',
+            'verticalAlignment': 'middle'
+        });
+        const labelGuLou = new TMap.MultiLabel({
+            id: 'labelGuLou',
+            map,
+            styles: {
+                'label': labelStyles
+            },
+            //文字标记数据
+            geometries: [{
+                'id': 'label_1',
+                'styleId': 'label',
+                'position': new TMap.LatLng(26.099148, 119.271446),
+                'content': '鼓楼区',
+            }]
+        });
+        const labelCangShang = new TMap.MultiLabel({
+            id: 'labelCangShang',
+            map,
+            styles: {
+                'label': labelStyles
+            },
+            geometries: [{
+                'id': 'label_1',
+                'styleId': 'label',
+                'position': new TMap.LatLng(26.012901, 119.293605),
+                'content': '仓山区',
+            }]
+        });
+        const labelTaiJiang = new TMap.MultiLabel({
+            id: 'labelTaiJiang',
+            map,
+            styles: {
+                'label': labelStyles
+            },
+            geometries: [{
+                'id': 'label_1',
+                'styleId': 'label',
+                'position': new TMap.LatLng(26.053496, 119.332036),
+                'content': '台江区',
+            }]
+        });
+        const labelJinAn = new TMap.MultiLabel({
+            id: 'labelJinAn',
+            map,
+            styles: {
+                'label': labelStyles
+            },
+            geometries: [{
+                'id': 'label_1',
+                'styleId': 'label',
+                'position': new TMap.LatLng(26.102418, 119.345718),
+                'content': '晋安区',
+            }]
+        });
+        labelGuLou.on("click", () =>
+        {
+            history.push("HouseList/Exhibits/鼓楼区");
+        });
+        labelCangShang.on("click", () =>
+        {
+            history.push("HouseList/Exhibits/仓山区");
+        });
+        labelTaiJiang.on('click', () =>
+        {
+            history.push("HouseList/Exhibits/台江区");
+        });
+        labelJinAn.on('click', () =>
+        {
+            history.push("HouseList/Exhibits/晋安区");
+        });
+    };
+    //@ts-ignore
     AddMapMarks = async (map: TMap) =>
     {
-        const positions = await this.GetAppMarks();
-
         const markers = new TMap.MultiMarker({
             map,
         });
@@ -235,14 +257,7 @@ class MapSearch extends Component<RouteComponentProps, {}>
         {
             this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
         });
-        map.addListener('zoom_changed', async (e: any) =>
-        {
-            markers.setGeometries([]);
-            if (e.zoom > 16)
-            {
-                markers.add(positions);
-            }
-        });
+        return markers;
     };
     GetAppMarks = async (): Promise<any[]> =>
     {
