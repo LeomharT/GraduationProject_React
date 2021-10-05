@@ -14,4 +14,30 @@
     width   : 100vw;
     height  : 100vh;
     z-index : 1;
+    cursor  : grab;
+}
+.MapInfoWindow
+{
+    >img
+    {
+        width : 300px;
+        height: 150px;
+    }
+    >div
+    {
+        display: flex;
+    }
+    >div:nth-child(2)
+    {
+        font-weight: bold;
+        font-size  : 16px;
+    }
+    >div:nth-child(3)
+    {
+        font-size: 12px;
+    }
+    >div:nth-child(4)
+    {
+        color: #fe615a;
+    }
 }

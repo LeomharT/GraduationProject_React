@@ -36,15 +36,6 @@ class HouseDetail extends Component<DetailProps, {}>
     @observable houseDetailInfo: HouseInfo;
     tMapRef = createRef<HTMLDivElement>();
     @observable isCollected: boolean = false;
-    InitHouseInfo = async (): Promise<HouseInfo> =>
-    {
-        return (
-            await (
-                await
-                    fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${(this.props.match.params as any).HouseId}`)
-            ).json()
-        );
-    };
     InitMap = (): void =>
     {
         const { houseDetailInfo } = this;
@@ -119,7 +110,7 @@ class HouseDetail extends Component<DetailProps, {}>
 
     async componentDidMount()
     {
-        this.houseDetailInfo = await this.InitHouseInfo();
+        this.houseDetailInfo = await this.HouseStore.InitHouseInfo((this.props.match.params as any).HouseId);
         this.InitMap();
         this.CheckForCurrentHouseIsCollected();
 

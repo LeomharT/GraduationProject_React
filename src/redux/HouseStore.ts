@@ -2,7 +2,7 @@ import { message } from "antd";
 import { observable } from "mobx";
 import NProgress from "nprogress";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
-import { HouseExhibitList, HouseParams } from "../interfaces/HouseListInterface";
+import { HouseExhibitList, HouseInfo, HouseParams } from "../interfaces/HouseListInterface";
 
 export default class HouseStore
 {
@@ -25,28 +25,35 @@ export default class HouseStore
         this.HouseExhibitList = await res.json() as HouseExhibitList;
         NProgress.done();
     };
+    InitHouseInfo = async (hId: string): Promise<HouseInfo> =>
+    {
+        return (
+            await (
+                await
+                    fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
+            ).json()
+        );
+    };
     /**
      * @param id       用户唯一标识
      * @param hId      房屋唯一标识
      * @param callback 删除之后执行刷新收藏列表
      * @description    删除用户的房屋收藏条目
      */
-    DeleteCurrentHouseFromUserCollections =
-        async (id: string | number, hId: number | string, callback: Function) =>
+    DeleteCurrentHouseFromUserCollections = async (id: string | number, hId: number | string, callback: Function) =>
+    {
+        let res = await fetch(`${CONST_HOST}/DeleteHouseFromCollections?id=${id}&hId=${hId}`);
+        let result = await res.json();
+        if (result.affectedRows as boolean)
         {
-            let res = await fetch(`${CONST_HOST}/DeleteHouseFromCollections?id=${id}&hId=${hId}`);
-            let result = await res.json();
-            if (result.affectedRows as boolean)
-            {
-                message.success("删除收藏成功");
-            }
-            else
-            {
-                message.error("删除收藏失败");
-            }
-            callback();
-        };
-
+            message.success("删除收藏成功");
+        }
+        else
+        {
+            message.error("删除收藏失败");
+        }
+        callback();
+    };
     private static _SingleInstance: HouseStore;
     static GetInstance(): HouseStore
     {

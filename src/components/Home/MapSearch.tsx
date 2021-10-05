@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/MapSearch.scss';
+import { HouseInfo } from '../../interfaces/HouseListInterface';
+import HouseStore from '../../redux/HouseStore';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
 
@@ -20,6 +22,7 @@ const shapeOfJinAn = '26.110437,119.317283;26.086851,119.320201;26.066652,119.33
 @observer
 class MapSearch extends Component<RouteComponentProps, {}>
 {
+    HouseStore: HouseStore = HouseStore.GetInstance();
     tMapRef = React.createRef<HTMLDivElement>();
     @observable markers: any[] = [];
     InitMapArea = async () =>
@@ -35,9 +38,36 @@ class MapSearch extends Component<RouteComponentProps, {}>
         this.AddMapLabel(map);
         this.AddMapRegionShap(map);
         const pngMarker = await this.AddMapMarks(map);
+        const infoWindow = this.AddInfoWindow(map);
 
         const svgDom = document.querySelector("#svgDom") as HTMLElement;
         const positions = await this.GetAppMarks();
+
+        pngMarker.addListener('click', async (e: any) =>
+        {
+            const houseInfo: HouseInfo = await this.HouseStore.InitHouseInfo(e.geometry.hId);
+            infoWindow.open();
+            infoWindow.setPosition(e.geometry.position);
+            infoWindow.setContent(`
+                <div class = 'MapInfoWindow'>
+                    <img alt='图片' src=${CONST_HOST}/${houseInfo.baseInfo.hExhibitImg} />
+                    <div>
+                        ${houseInfo.baseInfo.hTitle}·${houseInfo.baseInfo.hLayout}
+                    </div>
+                    <div>
+                        ${houseInfo.baseInfo.hRegion}-${houseInfo.baseInfo.hMethod}-${houseInfo.baseInfo.hFloor}
+                    </div>
+                    <div>
+                        &yen;${houseInfo.baseInfo.hRent}元/月
+                    </div>
+                </div>
+            `);
+            const iw = document.querySelector(".MapInfoWindow") as HTMLDivElement;
+            iw.addEventListener("click", (event: MouseEvent) =>
+            {
+                this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
+            });
+        });
         map.addListener('zoom_changed', async (e: any) =>
         {
             pngMarker.setGeometries([]);
@@ -253,11 +283,18 @@ class MapSearch extends Component<RouteComponentProps, {}>
         const markers = new TMap.MultiMarker({
             map,
         });
-        markers.addListener('click', (e: any) =>
-        {
-            this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
-        });
         return markers;
+    };
+    //@ts-ignore
+    AddInfoWindow = (map: TMap) =>
+    {
+        const infoWindow = new TMap.InfoWindow({
+            map,
+            position: new TMap.LatLng(26.081982, 119.296987),
+            offset: { x: 0, y: -32 }
+        });
+        infoWindow.close();
+        return infoWindow;
     };
     GetAppMarks = async (): Promise<any[]> =>
     {
@@ -337,7 +374,18 @@ class MapSearch extends Component<RouteComponentProps, {}>
                             console.log(e);
                         }} />
                 </div>
-                <div ref={this.tMapRef} className="mapContainer" />
+                <div
+                    ref={this.tMapRef}
+                    className="mapContainer"
+                    onMouseDown={(e: React.MouseEvent) =>
+                    {
+                        (e.target as HTMLDivElement).style.cursor = 'grabbing';
+                    }}
+                    onMouseUp={(e: React.MouseEvent) =>
+                    {
+                        (e.target as HTMLDivElement).style.cursor = 'grab';
+                    }}
+                />
             </MapSearchWrapper>
         );
     }
