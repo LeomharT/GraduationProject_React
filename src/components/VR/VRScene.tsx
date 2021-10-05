@@ -1,5 +1,5 @@
-import { AppstoreOutlined } from '@ant-design/icons';
-import { Avatar, Button, Spin } from 'antd';
+import { AppstoreOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { Avatar, Button, Popover, Spin } from 'antd';
 import gsap from 'gsap';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -337,6 +337,18 @@ class VRScene extends Component<VRSceneProps, {}>
                             this.showSwitchRoom = !this.showSwitchRoom;
                         }}
                     />
+                    <Popover
+                        trigger='click'
+                        content={
+                            <img className='QR_Code' alt='QR' src={`https://api.pwmqr.com/qrcode/create/?url=http://192.168.126.102:3000${this.props.location.pathname}`} />
+                        }>
+                        <Button
+                            size='large'
+                            type='text'
+                            icon={<QrcodeOutlined />}
+                            style={{ backgroundColor: " rgba(0,0,0,0.3)", color: "white" }}
+                        />
+                    </Popover>
                 </div>
 
                 <div
