@@ -1,12 +1,13 @@
-import { LeftOutlined } from '@ant-design/icons';
-import { Button, Input } from 'antd';
+import { LeftOutlined, ProfileOutlined } from '@ant-design/icons';
+import { Button, Carousel, Input } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../assets/scss/MapSearch.scss';
-import { HouseInfo } from '../../interfaces/HouseListInterface';
+import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
@@ -45,28 +46,47 @@ class MapSearch extends Component<RouteComponentProps, {}>
 
         pngMarker.addListener('click', async (e: any) =>
         {
+            map.easeTo({ center: new TMap.LatLng(e.geometry.position.lat, e.geometry.position.lng) });
             const houseInfo: HouseInfo = await this.HouseStore.InitHouseInfo(e.geometry.hId);
             infoWindow.open();
             infoWindow.setPosition(e.geometry.position);
             infoWindow.setContent(`
-                <div class = 'MapInfoWindow'>
-                    <img alt='图片' src=${CONST_HOST}/${houseInfo.baseInfo.hExhibitImg} />
-                    <div>
-                        ${houseInfo.baseInfo.hTitle}·${houseInfo.baseInfo.hLayout}
-                    </div>
-                    <div>
-                        ${houseInfo.baseInfo.hRegion}-${houseInfo.baseInfo.hMethod}-${houseInfo.baseInfo.hFloor}
-                    </div>
-                    <div>
-                        &yen;${houseInfo.baseInfo.hRent}元/月
-                    </div>
+                <div class = 'MapInfoWindow' id = 'MapInfoWindow'>
                 </div>
             `);
-            const iw = document.querySelector(".MapInfoWindow") as HTMLDivElement;
-            iw.addEventListener("click", (event: MouseEvent) =>
-            {
-                this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
-            });
+            const iw = document.querySelector("#MapInfoWindow") as HTMLDivElement;
+            const iwChild = (
+                <>
+                    <Carousel autoplay>
+                        {houseInfo.carousel.map((c: HouseCarousel) =>
+                        {
+                            return (
+                                <img key={c.id} alt={c.id} src={`${CONST_HOST}/${c.url}`} />
+                            );
+                        })}
+                    </Carousel>
+                    <div className='iwInfo'>
+                        {houseInfo.baseInfo.hTitle}·{houseInfo.baseInfo.hLayout}
+                    </div>
+                    <div className='iwInfo'>
+                        {houseInfo.baseInfo.hRegion}-{houseInfo.baseInfo.hMethod}-{houseInfo.baseInfo.hFloor}-{houseInfo.detailInfo.Area}
+                    </div>
+                    <div className='iwInfo'>
+                        &yen;{houseInfo.baseInfo.hRent}元/月
+                    </div>
+                    <Button
+                        type='link'
+                        icon={<ProfileOutlined />}
+                        onClick={() =>
+                        {
+                            this.props.history.push(`/HouseList/DetailInfo/${e.geometry.hId}`);
+                        }}
+                    >
+                        查看详情
+                    </Button>
+                </>
+            );
+            ReactDOM.render(iwChild, iw);
         });
         map.addListener('zoom_changed', async (e: any) =>
         {
