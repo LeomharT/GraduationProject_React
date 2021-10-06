@@ -11,6 +11,7 @@ import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
+import Footer from '../Common/Footer';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import HComment from './HComment';
 import { RenderTags } from './HouseItem';
@@ -241,7 +242,7 @@ class HouseDetail extends Component<DetailProps, {}>
                         <div className="ContactOnlineOrPhone">
                             <div className="LandLordInfo">
                                 <Avatar shape="square" size={64} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                这边应该放房东的信息的哎但是做不做呢giao
+                                房东信息显示在这里
                             </div>
                             <div>
                                 <Button
@@ -412,6 +413,7 @@ class HouseDetail extends Component<DetailProps, {}>
                 <HComment houseDetailInfo={this.houseDetailInfo} />
                 <Divider />
                 <BackTop />
+                <Footer />
             </div>
         );
     }
