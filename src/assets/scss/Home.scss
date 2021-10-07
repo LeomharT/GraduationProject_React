@@ -186,6 +186,11 @@
                 .HosueItem_Detail
                 {
                     flex-direction: column;
+                    .HRent
+                    {
+                        align-self: flex-start;
+                        font-size : 20px;
+                    }
                 }
             }
         }

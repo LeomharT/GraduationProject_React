@@ -1,5 +1,6 @@
 import { DollarCircleOutlined, FrownOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, MehOutlined, PhoneOutlined, QuestionOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, ConfigProvider, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
+import zhCN from 'antd/lib/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -356,14 +357,16 @@ class HouseDetail extends Component<DetailProps, {}>
                         房屋描述
                     </span>
                     <ul>
-                        <Image.PreviewGroup>
-                            {houseDetailInfo.carousel.map((c: HouseCarousel) =>
-                            {
-                                return (
-                                    <Image key={c.id} src={`${CONST_HOST}/${c.url}`} />
-                                );
-                            })}
-                        </Image.PreviewGroup>
+                        <ConfigProvider locale={zhCN}>
+                            <Image.PreviewGroup>
+                                {houseDetailInfo.carousel.map((c: HouseCarousel) =>
+                                {
+                                    return (
+                                        <Image key={c.id} src={`${CONST_HOST}/${c.url}`} />
+                                    );
+                                })}
+                            </Image.PreviewGroup>
+                        </ConfigProvider>
                     </ul>
                 </div>
                 <Divider />
@@ -410,7 +413,9 @@ class HouseDetail extends Component<DetailProps, {}>
                 <Divider orientation="left" className="DividerHouseInfo">位置和地点</Divider>
                 <div className="HPositionMap" id="HPositionMap" ref={this.tMapRef} />
                 <Divider orientation="left" className="DividerHouseInfo">房源评论</Divider>
-                <HComment houseDetailInfo={this.houseDetailInfo} />
+                <ConfigProvider locale={zhCN}>
+                    <HComment houseDetailInfo={this.houseDetailInfo} />
+                </ConfigProvider>
                 <Divider />
                 <BackTop />
                 <Footer />
