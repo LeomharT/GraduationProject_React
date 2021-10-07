@@ -91,6 +91,7 @@ class MapSearch extends Component<RouteComponentProps, {}>
         map.addListener('zoom_changed', async (e: any) =>
         {
             pngMarker.setGeometries([]);
+            infoWindow.close();
             if (svgDom.style.display !== 'block')
             {
                 svgDom.style.display = 'block';
