@@ -97,7 +97,7 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
             formData.append('images', v.toString());
         });
         formData.set('parentId', parentId.toString());
-        formData.set('commentDate', moment(Date.now()).format("YYYY-MM-DD hh:mm:ss"));
+        formData.set('commentDate', new Date().toLocaleString('chinese', { hour12: false }));
         formData.set('photo', this.UserStore.authInfo?.userInfo?.photo ?? "https://files.authing.co/authing-console/default-user-avatar.png");
         let res = await (await fetch(`${CONST_HOST}${this.props.url}`, {
             method: "POST",
@@ -303,25 +303,27 @@ export class CommentItem extends React.Component<CommentItemProps, {}>
                         </Tooltip>
                     }
                     children={
-                        this.replays.map((c: HouseComment) =>
-                        {
-                            return (
-                                <CommentItem
-                                    key={c.id}
-                                    commentItem={c}
-                                    url='/GetHouseComment'
-                                    postUrl='/PostHouseComment' />
-                            );
-                        })
+                        <>
+                            {this.showReplay &&
+                                <CommentInput
+                                    hId={this.props.commentItem.hId}
+                                    commentId={commentItem.id}
+                                    callBack={this.InitReplay}
+                                    url={this.props.postUrl} />
+                            }
+                            {this.replays.map((c: HouseComment) =>
+                            {
+                                return (
+                                    <CommentItem
+                                        key={c.id}
+                                        commentItem={c}
+                                        url='/GetHouseComment'
+                                        postUrl='/PostHouseComment' />
+                                );
+                            })}
+                        </>
                     }
                 />
-                {this.showReplay &&
-                    <CommentInput
-                        hId={this.props.commentItem.hId}
-                        commentId={commentItem.id}
-                        callBack={this.InitReplay}
-                        url={this.props.postUrl} />
-                }
             </div>
         );
     }
