@@ -13,9 +13,9 @@ export default class Recommend extends Component<{}, {}>
     async componentDidMount()
     {
         this.recommentList = this.recommentList.concat(
-            (await this.HouseStore.InitHouseList(new FormData(), "1")).HouseList
-        ).concat(
             (await this.HouseStore.InitHouseList(new FormData(), "2")).HouseList
+        ).concat(
+            (await this.HouseStore.InitHouseList(new FormData(), "1")).HouseList
         );
     }
     render()
