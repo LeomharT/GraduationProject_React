@@ -3,10 +3,12 @@ import { Avatar, Dropdown, Menu } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import DefaultAvatar from '../../assets/img/DefaultAvatar.png';
 import '../../assets/scss/Common.scss';
 import { MenuType } from '../../interfaces/HomeInterface';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
+
 interface HeadNavigateProps extends RouteComponentProps
 {
 
@@ -67,7 +69,7 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
                             src={
                                 this.UserStore.authInfo.userInfo
                                     ? this.UserStore.authInfo.userInfo.photo
-                                    : 'https://files.authing.co/authing-console/default-user-avatar.png'
+                                    : DefaultAvatar
                             }
                         />
                     </Dropdown>

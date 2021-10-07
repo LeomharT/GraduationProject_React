@@ -3,6 +3,7 @@ import { Avatar, Menu } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import DefaultAvatar from '../../assets/img/DefaultAvatar.png';
 import { MenuType } from '../../interfaces/HomeInterface';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
@@ -54,7 +55,7 @@ export default class Navigate extends Component<{}, {}>
                         src={
                             this.UserStore.authInfo.userInfo
                                 ? this.UserStore.authInfo.userInfo.photo
-                                : 'https://files.authing.co/authing-console/default-user-avatar.png'
+                                : DefaultAvatar
                         }
                     />
                 </div>
