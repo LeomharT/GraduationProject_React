@@ -24,6 +24,7 @@ export default class HouseStore
         });
         this.HouseExhibitList = await res.json() as HouseExhibitList;
         NProgress.done();
+        return this.HouseExhibitList;
     };
     InitHouseInfo = async (hId: string): Promise<HouseInfo> =>
     {

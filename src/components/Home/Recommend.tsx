@@ -1,9 +1,26 @@
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import RecommendImg from '../../assets/img/Recommend.png';
+import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
+import HouseStore from '../../redux/HouseStore';
+import HouseItem from '../HouseList/HouseItem';
+@observer
 export default class Recommend extends Component<{}, {}>
 {
+    HouseStore: HouseStore = HouseStore.GetInstance();
+    @observable recommentList: HouseBaseInfo[] = [];
+    async componentDidMount()
+    {
+        this.recommentList = this.recommentList.concat(
+            (await this.HouseStore.InitHouseList(new FormData(), "1")).HouseList
+        ).concat(
+            (await this.HouseStore.InitHouseList(new FormData(), "2")).HouseList
+        );
+    }
     render()
     {
+        const { recommentList } = this;
         return (
             <div className='HomeRecommend'>
                 <div className="RecommendTitle">
@@ -14,7 +31,16 @@ export default class Recommend extends Component<{}, {}>
                     <div className="Content_Img">
                         <img alt="推荐图片" src={RecommendImg} />
                     </div>
-
+                    <div className='Content_Items'>
+                        {
+                            recommentList.map((h: HouseBaseInfo) =>
+                            {
+                                return (
+                                    <HouseItem key={h.hId} HouseInfo={h} />
+                                );
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         );
