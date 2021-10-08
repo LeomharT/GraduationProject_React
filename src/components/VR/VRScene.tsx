@@ -193,7 +193,7 @@ class VRScene extends Component<VRSceneProps, {}>
      */
     GetSceneAsync = async (HouseId: string, SceneId: string): Promise<void> =>
     {
-        const { scene, camera, VR_Cube, currScene, currPositons } = this;
+        const { scene, camera, VR_Cube, currPositons } = this;
         let targetScene = new Array<MeshBasicMaterial>();
         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
         const positionInfo = await res.json() as HouseVRInfo;
@@ -208,18 +208,20 @@ class VRScene extends Component<VRSceneProps, {}>
             );
         }
 
-        gsap.to(currScene, .35, { opacity: 0 });
+        const newCube = new Mesh(new BoxGeometry(200, 200, 200));
+        newCube.geometry.scale(1, 1, -1);
+        newCube.material = targetScene;
+        newCube.position.set(0, 0, 0);
+        gsap.to(targetScene, .35, { opacity: 1 }).delay(.25);
+        scene.add(newCube);
+
         setTimeout(() =>
         {
+            // camera.position.set(0, 0, 5);
+            // camera.lookAt(scene.position);
             VR_Cube.material = targetScene;
-        }, 350);
-        setTimeout(() =>
-        {
-            gsap.to(targetScene, .35, { opacity: 1 });
-            camera.position.set(0, 0, 5);
-            camera.lookAt(scene.position);
-            this.currScene = targetScene;
-        }, 400);
+        }, 500);
+
 
         for (let cp of currPositons)
         {
@@ -254,8 +256,12 @@ class VRScene extends Component<VRSceneProps, {}>
         setTimeout(() =>
         {
             scene.add(...this.currPositons);
+            setTimeout(() =>
+            {
+                scene.remove(newCube);
+            }, 2000);
         }, 500);
-
+        console.log(scene);
     };
     async componentDidMount()
     {
