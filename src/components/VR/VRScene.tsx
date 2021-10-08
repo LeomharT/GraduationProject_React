@@ -266,7 +266,7 @@ class VRScene extends Component<VRSceneProps, {}>
         setTimeout(() =>
         {
             scene.add(...this.currPositons);
-        }, 500);
+        }, 600);
     };
     async componentDidMount()
     {
