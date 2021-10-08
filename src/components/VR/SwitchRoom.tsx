@@ -22,7 +22,9 @@ export default class SwitchRoom extends Component<{ showSwitchRoom: boolean, cur
                                     this.props.GetSceneAsync(r.hId, r.sceneId);
                                 }}>
                                 <img alt='imgs' src={`${CONST_HOST}/${r.url}`} />
-                                {r.sceneName}
+                                <p>
+                                    {r.sceneName}
+                                </p>
                             </li>
                             );
                         })
