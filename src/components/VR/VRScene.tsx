@@ -107,7 +107,9 @@ class VRScene extends Component<VRSceneProps, {}>
                 new MeshBasicMaterial({
                     transparent: true,
                     opacity: 1,
-                    map: new TextureLoader().load(`${CONST_HOST}/${u.url}`)
+                    map: new TextureLoader().load(`${CONST_HOST}/${u.url}`),
+                    depthTest: false,
+                    depthWrite: false
                 }),
             );
         }
@@ -203,24 +205,32 @@ class VRScene extends Component<VRSceneProps, {}>
                 new MeshBasicMaterial({
                     transparent: true,
                     opacity: 0,
-                    map: new TextureLoader().load(`${CONST_HOST}/${u.url}`)
+                    map: new TextureLoader().load(`${CONST_HOST}/${u.url}`),
+                    depthTest: false,
+                    depthWrite: false
                 }),
             );
         }
 
         const newCube = new Mesh(new BoxGeometry(200, 200, 200));
+        VR_Cube.renderOrder = -1;
+        newCube.renderOrder = 1;
         newCube.geometry.scale(1, 1, -1);
         newCube.material = targetScene;
         newCube.position.set(0, 0, 0);
+        newCube.lookAt(camera.position);
         gsap.to(targetScene, .35, { opacity: 1 }).delay(.25);
+        gsap.to(this.currScene, .35, { opacity: 0 }).delay(.25);
         scene.add(newCube);
 
         setTimeout(() =>
         {
-            // camera.position.set(0, 0, 5);
-            // camera.lookAt(scene.position);
+            camera.position.set(0, 0, 5);
+            camera.lookAt(newCube.position);
             VR_Cube.material = targetScene;
-        }, 500);
+            VR_Cube.lookAt(camera.position);
+            scene.remove(newCube);
+        }, 600);
 
 
         for (let cp of currPositons)
@@ -256,12 +266,7 @@ class VRScene extends Component<VRSceneProps, {}>
         setTimeout(() =>
         {
             scene.add(...this.currPositons);
-            setTimeout(() =>
-            {
-                scene.remove(newCube);
-            }, 2000);
         }, 500);
-        console.log(scene);
     };
     async componentDidMount()
     {
