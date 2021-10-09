@@ -210,7 +210,6 @@ class Peep
     constructor({ image, rect }: any)
     {
         this.image = image;
-        this.rect = rect;
         this.setRect(rect);
     }
     image: any;
