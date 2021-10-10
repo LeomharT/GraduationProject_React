@@ -62,7 +62,7 @@ class HouseItem extends Component<HouseItemProps, {}>
                         </div>
                         <div>
                             <UserOutlined />
-                            房屋咨询：贝壳找房&nbsp;&nbsp;&nbsp;<Tag color="blue">向TA质询</Tag>
+                            房屋咨询：优区生活&nbsp;&nbsp;&nbsp;<Tag color="blue">向TA质询</Tag>
                         </div>
                         <div>
                             {hInfo.hFeature.split(",").map((f) =>

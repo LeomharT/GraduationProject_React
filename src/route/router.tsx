@@ -7,6 +7,7 @@ import MapSearch from "../components/Home/MapSearch";
 import HouseDetail from "../components/HouseList/HouseDetailInfo";
 import HouseExhibit from "../components/HouseList/HouseExhibit";
 import HouseList from "../components/HouseList/HouseList";
+import ConfirmOrder from "../components/HouseList/RentAndPay/ConfirmOrder";
 import User from "../components/User/User";
 import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
@@ -28,6 +29,7 @@ const route: RouteType[] = [
         title: 'HouseList', path: "/HouseList", components: HouseList, childRoute: [
             { title: "HouseExhibit", path: "/HouseList/Exhibits/:hRegion?", components: HouseExhibit },
             { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetail },
+            { title: "ConfirmOrder", path: "/HouseList/ConfirmOrder/:hId", components: ConfirmOrder },
         ]
     },
     {
@@ -47,6 +49,7 @@ const route: RouteType[] = [
             { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
         ]
     },
+
 ];
 
 

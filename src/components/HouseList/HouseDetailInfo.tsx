@@ -254,10 +254,10 @@ class HouseDetail extends Component<DetailProps, {}>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            message.success("租的好👌😄");
+                                            history.push(`/HouseList/ConfirmOrder/${houseDetailInfo.baseInfo.hId}`);
                                         }
                                     }}
-                                >立即租赁</Button>
+                                >立即预约</Button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <Popover
                                     placement="bottom"
