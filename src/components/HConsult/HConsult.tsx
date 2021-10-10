@@ -57,6 +57,14 @@ class HConsult extends Component<HConsultProps, {}>
             this.UserStore.showChat = true;
             this.DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
+        //如果连不上就算了
+        setTimeout(() =>
+        {
+            if (!socketIo.connected)
+            {
+                socketIo.disconnect();
+            }
+        }, 3000);
     };
     DisplayMessage = (message: string, type: MessageType) =>
     {
