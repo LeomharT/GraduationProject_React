@@ -8,8 +8,14 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import HouseStore from '../../../redux/HouseStore';
 import HouseItem from '../HouseItem';
+import Order from './Order';
 
-
+const DisableDate = (current: Moment): boolean =>
+{
+    return (
+        current && current < moment().endOf('day')
+    );
+};
 declare interface ConfirmOrderProps extends RouteComponentProps
 {
 
@@ -19,18 +25,15 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
 {
     HouseStore: HouseStore = HouseStore.GetInstance();
     @observable houseInfo: HouseInfo;
-    @observable checkInDate: Moment = moment(Date.now());
-    @observable checkInMonth: number = 1;
+    order: Order = new Order();
     async componentDidMount()
     {
         const { hId } = this.props.match.params as { hId: string; };
         this.houseInfo = await this.HouseStore.InitHouseInfo(hId);
-        console.log(this.houseInfo);
     }
     render()
     {
-        const { houseInfo } = this;
-        const checkOutDate = moment(this.checkInDate);
+        const { houseInfo, order } = this;
         if (!houseInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
         return (
             <div className='ConfirmOrder'>
@@ -55,27 +58,28 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <div>
                                     入住日期：
                                     <DatePicker
-                                        value={this.checkInDate}
+                                        disabledDate={DisableDate}
+                                        value={order.checkInDate}
                                         clearIcon={null}
                                         onChange={(e) =>
                                         {
                                             if (!e) return;
-                                            this.checkInDate = e as Moment;
+                                            order.SetCheckIn(e);
                                         }}
                                     />
                                     月份：
                                     <InputNumber
-                                        value={this.checkInMonth}
+                                        value={order.checkInMonth}
                                         style={{ width: '60px' }}
                                         min={1}
                                         onChange={(e) =>
                                         {
-                                            this.checkInMonth = e;
+                                            this.order.SetCheckout(e);
                                         }}
                                     />
                                 </div>
                             </div>
-                            {this.checkInDate.format("YYYY年MM月DD日")}~{checkOutDate.add(this.checkInMonth, 'M').format("YYYY年MM月DD日")}
+                            {order.checkInDate.format("YYYY年MM月DD日")}~{order.checkOutDate.format("YYYY年MM月DD日")}
                         </div>
                     </div>
                 </div>
