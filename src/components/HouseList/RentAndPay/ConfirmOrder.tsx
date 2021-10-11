@@ -1,5 +1,6 @@
-import { LeftOutlined } from '@ant-design/icons';
-import { Affix, Button, DatePicker, Divider, InputNumber, Spin } from 'antd';
+import { AlipayOutlined, LeftOutlined } from '@ant-design/icons';
+import { Affix, Button, DatePicker, Divider, InputNumber, Select, Spin } from 'antd';
+import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment, { Moment } from 'moment';
@@ -9,6 +10,8 @@ import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import HouseStore from '../../../redux/HouseStore';
 import HouseItem from '../HouseItem';
 import Order from './Order';
+
+
 
 const DisableDate = (current: Moment): boolean =>
 {
@@ -51,14 +54,14 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         <span>确定并支付</span>
                     </div>
                     <div className='OrderInfo_Content'>
-                        <span>您的行程</span>
+                        <Divider orientation="left" className="DividerHouseInfo">您的行程</Divider>
                         <div className='OrderInfo_Content_Item'>
                             <div>
                                 日期
                                 <div>
                                     入住日期：
                                     <DatePicker
-                                        open={true}
+                                        locale={locale}
                                         disabledDate={DisableDate}
                                         value={order.checkInDate}
                                         clearIcon={null}
@@ -68,7 +71,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                             order.SetCheckIn(e);
                                         }}
                                     />
-                                    月份：
+                                    月数：
                                     <InputNumber
                                         value={order.checkInMonth}
                                         style={{ width: '60px' }}
@@ -82,6 +85,41 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                             </div>
                             {order.checkInDate.format("YYYY年MM月DD日")}~{order.checkOutDate.format("YYYY年MM月DD日")}
                         </div>
+                        <div className='OrderInfo_Content_Item'>
+                            <div>
+                                房客人数
+                                <div>
+                                    人数：
+                                    <InputNumber
+                                        value={order.tenantNum}
+                                        style={{ width: '60px' }}
+                                        min={1}
+                                        max={4}
+                                        onChange={(e) =>
+                                        {
+                                            order.tenantNum = e;
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            {`${order.tenantNum}位房客`}
+                        </div>
+                        <Divider orientation="left" className="DividerHouseInfo">支付方式</Divider>
+                        <Select size='large' defaultValue='1' style={{ width: '100%' }} >
+                            <Select.Option value='1'>
+                                <div>
+                                    <AlipayOutlined style={{
+                                        color: "white",
+                                        backgroundColor: '#1890ff',
+                                        boxSizing: "border-box",
+                                        padding: "5px",
+                                        fontSize: "30px",
+                                        borderRadius: "10px"
+                                    }} />
+                                    <span>支付宝</span>
+                                </div>
+                            </Select.Option>
+                        </Select>
                     </div>
                 </div>
 

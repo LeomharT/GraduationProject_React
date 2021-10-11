@@ -495,15 +495,15 @@
         {
             box-sizing : border-box;
             padding-top: 30px;
-            >span
+            .DividerHouseInfo
             {
-                display    : block;
-                font-weight: bold;
-                font-size  : 22px;
+                padding-left: 0;
+                font-size   : 20px;
             }
             .OrderInfo_Content_Item
             {
-                margin-top: 10px;
+                margin   : 10px 0;
+                font-size: 16px;
                 >div
                 {
                     font-weight    : bold;
@@ -511,6 +511,25 @@
                     display        : flex;
                     justify-content: space-between;
                     margin-bottom  : 10px;
+                }
+            }
+            .ant-select-selector
+            {
+                height: 50px;
+                padding-top: 5px;
+                .ant-select-selection-item
+                {
+                    >div
+                    {
+                        display    : flex;
+                        align-items: center;
+                        >span:nth-child(2)
+                        {
+                            margin-left: 20px;
+                            font-weight: bold;
+                            font-size  : 20px;
+                        }
+                    }
                 }
             }
         }
@@ -564,22 +583,22 @@
                 }
             }
         }
-        .DividerHouseInfo
-        {
-            font-weight: bold;
-            font-size  : 20px;
-            padding: 0 20px;
-            >span
-            {
-                padding-left: 0;
-            }
-            &::before{
-                display: none;
-            }
-        }
         .OrderCharge
         {
 
+        }
+    }
+    .DividerHouseInfo
+    {
+        font-weight: bold;
+        font-size  : 20px;
+        padding: 0 20px;
+        >span
+        {
+            padding-left: 0;
+        }
+        &::before{
+            display: none;
         }
     }
 }

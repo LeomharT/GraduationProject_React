@@ -10,9 +10,10 @@ export default class Order
     @observable checkInDate: Moment = moment(Date.now());
     @observable checkOutDate: Moment = moment(this.checkInDate);
     @observable checkInMonth: number = 1;
-    SetCheckIn = (checkIn: Moment) =>
+    @observable tenantNum: number = 1;
+    SetCheckIn = (checkInDate: Moment) =>
     {
-        this.checkInDate = checkIn;
+        this.checkInDate = checkInDate;
         this.SetCheckout(this.checkInMonth);
     };
     SetCheckout = (month: number) =>
