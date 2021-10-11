@@ -13,7 +13,7 @@ import Order from './Order';
 const DisableDate = (current: Moment): boolean =>
 {
     return (
-        current && current < moment().endOf('day')
+        current && current < moment().startOf('day')
     );
 };
 declare interface ConfirmOrderProps extends RouteComponentProps
@@ -58,6 +58,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <div>
                                     入住日期：
                                     <DatePicker
+                                        open={true}
                                         disabledDate={DisableDate}
                                         value={order.checkInDate}
                                         clearIcon={null}
