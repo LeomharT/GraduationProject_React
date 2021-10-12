@@ -176,7 +176,14 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 </div>
                             </Select.Option>
                         </Select>
-                        <div style={{ textDecoration: 'underline' }}>选择积分抵扣?</div>
+                        <div style={{
+                            textDecoration: 'underline',
+                            marginTop: "30px",
+                            display: 'flex',
+                            flexDirection: "row-reverse"
+                        }}>
+                            选择积分抵扣?
+                        </div>
                         <Divider orientation="left" className="DividerHouseInfo">出行信息</Divider>
                         <div className='OrderInfo_Content_Item'>
                             <div>
@@ -295,7 +302,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         </div>
                     </div>
                 </Affix>
-            </div >
+            </div>
         );
     }
 }
