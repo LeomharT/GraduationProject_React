@@ -9,3 +9,10 @@ export interface RegionType
     T_region_NAME_EN: string;
     T_region_SHORTNAME_EN: string;
 }
+export declare interface TenantInfo
+{
+    tenant_name: string;
+    contry: string;
+    id_type: string;
+    tenant_num: string;
+}

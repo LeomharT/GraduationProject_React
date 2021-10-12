@@ -510,24 +510,35 @@
             .DividerHouseInfo
             {
                 padding-left: 0;
-                font-size   : 20px;
+                font-size   : 22px;
+                margin-top  : 30px;
             }
             .OrderInfo_Content_Item
             {
                 margin   : 10px 0;
                 font-size: 16px;
+                //选择其父元素的第n个子元素.
+                &:nth-child(10)
+                {
+                    font-size: 12px;
+                }
+                &:nth-child(12)
+                {
+                    font-size: 12px;
+                }
                 >div
                 {
                     font-weight    : bold;
                     font-size      : 17px;
                     display        : flex;
                     justify-content: space-between;
+                    align-items    : center;
                     margin-bottom  : 10px;
                 }
             }
             .ant-select-selector
             {
-                height: 50px;
+                height     : 50px;
                 padding-top: 5px;
                 .ant-select-selection-item
                 {
@@ -549,13 +560,12 @@
     .OrderAmount
     {
         border       : 1px solid lightgrey;
-        height       : 300px;
         box-sizing   : border-box;
         padding      : 10px;
         border-radius: 15px;
         .HouseItem_Wrapper
         {
-            font-size: 12px;
+            font-size    : 12px;
             margin-bottom: 0;
             .ant-card-cover
             {
@@ -567,7 +577,7 @@
             }
             .ant-card-meta-title
             {
-                font-size: 15px;
+                font-size    : 15px;
                 margin-bottom: 5px;
             }
             .HInfo
@@ -597,7 +607,17 @@
         }
         .OrderCharge
         {
-
+            display       : flex;
+            flex-direction: column;
+            box-sizing    : border-box;
+            padding       : 5px 20px;
+            >div
+            {
+                font-size      : 16px;
+                display        : flex;
+                justify-content: space-between;
+                margin-bottom  : 10px;
+            }
         }
     }
     .DividerHouseInfo
@@ -613,4 +633,9 @@
             display: none;
         }
     }
+}
+.AddTenantInfo{
+    display       : flex;
+    box-sizing    : border-box;
+    flex-direction: column;
 }

@@ -1,5 +1,6 @@
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
+import { TenantInfo } from "../../../interfaces/UserInferface";
 
 export default class Order
 {
@@ -11,6 +12,8 @@ export default class Order
     @observable checkOutDate: Moment = moment(this.checkInDate);
     @observable checkInMonth: number = 1;
     @observable tenantNum: number = 1;
+    tenantInfo: TenantInfo;
+    finalRent: number;
     SetCheckIn = (checkInDate: Moment) =>
     {
         this.checkInDate = checkInDate;
