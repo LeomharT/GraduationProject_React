@@ -467,6 +467,18 @@
         }
     }
 }
+.ant-select-item-option-content
+{
+    >div{
+        display    : flex;
+        align-items: center;
+        >span:nth-child(2)
+        {
+            margin-left: 20px;
+            font-weight: bold
+        }
+    }
+}
 .ConfirmOrder
 {
     @extend .ConstDivSetting;

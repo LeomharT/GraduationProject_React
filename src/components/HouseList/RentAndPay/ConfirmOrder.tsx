@@ -1,4 +1,4 @@
-import { AlipayOutlined, LeftOutlined } from '@ant-design/icons';
+import { AlipayOutlined, createFromIconfontCN, LeftOutlined } from '@ant-design/icons';
 import { Affix, Button, DatePicker, Divider, InputNumber, Select, Spin } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
@@ -19,6 +19,11 @@ const DisableDate = (current: Moment): boolean =>
         current && current < moment().startOf('day')
     );
 };
+const IconFont = createFromIconfontCN({
+    scriptUrl: [
+        '//at.alicdn.com/t/font_2860849_0ogg4aa60rvg.js'
+    ]
+});
 declare interface ConfirmOrderProps extends RouteComponentProps
 {
 
@@ -117,6 +122,21 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                         borderRadius: "10px"
                                     }} />
                                     <span>支付宝</span>
+                                </div>
+                            </Select.Option>
+                            <Select.Option value='2'>
+                                <div>
+                                    <IconFont
+                                        style={{
+                                            color: "white",
+                                            boxSizing: "border-box",
+                                            padding: "5px",
+                                            fontSize: "30px",
+                                            borderRadius: "10px"
+                                        }}
+                                        type='icon-houserentweixinzhifu'
+                                    />
+                                    <span>微信支付</span>
                                 </div>
                             </Select.Option>
                         </Select>
