@@ -1,5 +1,5 @@
 import { AlipayOutlined, createFromIconfontCN, LeftOutlined, PayCircleOutlined } from '@ant-design/icons';
-import { Affix, Button, DatePicker, Divider, Drawer, InputNumber, notification, Popover, Select, Spin } from 'antd';
+import { Affix, Button, DatePicker, Divider, Drawer, InputNumber, message, notification, Popover, Select, Spin } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -8,9 +8,10 @@ import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import HouseStore from '../../../redux/HouseStore';
+import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import AddTenantInfo from './AddTenantInfo';
-import Order from './Order';
+import Order, { PayChannel } from './Order';
 
 
 
@@ -40,7 +41,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     {
         this.isDrawerOpen = false;
     };
-    MakeOrder = (): void =>
+    MakeOrder = async (): Promise<void> =>
     {
         if (!this.order.tenantInfo)
         {
@@ -48,11 +49,19 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 message: "支付失败",
                 description: "请您输入入住人员身份信息",
                 type: "error",
-                duration: 2
             });
             return;
         }
-        console.log(this.order);
+        const res = await (
+            await (fetch(`${CONST_HOST}/PayOrder`, {
+                method: "POST",
+                body: JSON.stringify(this.order),
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                },
+            }))
+        ).json();
+        console.log(res);
     };
     async componentDidMount()
     {
@@ -146,8 +155,21 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                             {`${order.tenantNum}位房客`}
                         </div>
                         <Divider orientation="left" className="DividerHouseInfo">支付方式</Divider>
-                        <Select size='large' defaultValue='1' style={{ width: '100%' }} >
-                            <Select.Option value='1'>
+                        <Select
+                            size='large'
+                            defaultValue={PayChannel.aliPay}
+                            style={{ width: '100%' }}
+                            onChange={(e: string) =>
+                            {
+                                if (e === PayChannel.wechatPay)
+                                {
+                                    message.warning('还没弄微信噢😄');
+                                    return;
+                                }
+                                order.payChannel = e;
+                            }}
+                        >
+                            <Select.Option value={PayChannel.aliPay}>
                                 <div>
                                     <AlipayOutlined style={{
                                         color: "white",
@@ -160,7 +182,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                     <span>支付宝</span>
                                 </div>
                             </Select.Option>
-                            <Select.Option value='2'>
+                            <Select.Option value={PayChannel.wechatPay}>
                                 <div>
                                     <IconFont
                                         style={{
@@ -224,7 +246,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                             点击下方按钮即代表我同意房东的入住须知、优区生活针对新冠肺炎疫情的安全要求和房客退款政策。
                         </div>
                         <Button
-                            onClick={this.MakeOrder}
+                            onClick={async () => { await this.MakeOrder(); }}
                             size='large'
                             type='primary'
                             icon={<PayCircleOutlined />}

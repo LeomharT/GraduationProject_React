@@ -1,19 +1,27 @@
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
+import { generateUUID } from "three/src/math/MathUtils";
 import { TenantInfo } from "../../../interfaces/UserInferface";
-
+export enum PayChannel
+{
+    aliPay = '支付宝',
+    wechatPay = '微信支付'
+}
 export default class Order
 {
     constructor()
     {
         this.checkOutDate.add(1, 'M');
+        this.orderId = moment(Date.now()).format("YYYYMMDDhhmmss") + generateUUID().toString().split('-')[0];
     }
+    orderId: string;
     @observable checkInDate: Moment = moment(Date.now());
     @observable checkOutDate: Moment = moment(this.checkInDate);
     @observable checkInMonth: number = 1;
     @observable tenantNum: number = 1;
     tenantInfo: TenantInfo;
     finalRent: number;
+    payChannel: string = PayChannel.aliPay;
     SetCheckIn = (checkInDate: Moment) =>
     {
         this.checkInDate = checkInDate;
