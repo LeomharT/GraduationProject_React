@@ -1,6 +1,7 @@
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
 import { generateUUID } from "three/src/math/MathUtils";
+import { HouseBaseInfo } from "../../../interfaces/HouseListInterface";
 import { TenantInfo } from "../../../interfaces/UserInferface";
 export enum PayChannel
 {
@@ -22,6 +23,7 @@ export default class Order
     tenantInfo: TenantInfo;
     finalRent: number;
     payChannel: string = PayChannel.aliPay;
+    housebaseInfo: HouseBaseInfo;
     SetCheckIn = (checkInDate: Moment) =>
     {
         this.checkInDate = checkInDate;

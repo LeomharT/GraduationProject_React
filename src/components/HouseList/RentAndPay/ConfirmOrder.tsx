@@ -50,10 +50,10 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 description: "请您输入入住人员身份信息",
                 type: "error",
             });
-            return;
+            // return;
         }
         const res = await (
-            await (fetch(`${CONST_HOST}/PayOrder`, {
+            await (fetch(`${CONST_HOST}/OpenAliPayPage`, {
                 method: "POST",
                 body: JSON.stringify(this.order),
                 headers: {
@@ -67,6 +67,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     {
         const { hId } = this.props.match.params as { hId: string; };
         this.houseInfo = await this.HouseStore.InitHouseInfo(hId);
+        this.order.housebaseInfo = this.houseInfo.baseInfo;
     }
     render()
     {
