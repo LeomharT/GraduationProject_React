@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import CashPayment from '../../../assets/img/CashPayment.gif';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
-import { PayChannel } from '../../../interfaces/PaymentInterface';
+import { AliPayOrderState, PayChannel } from '../../../interfaces/PaymentInterface';
 import HouseStore from '../../../redux/HouseStore';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
@@ -91,8 +91,8 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         ).text();//获取对象用.json() 获取字符串用.text()
         const res = await (
             await fetch(resURL)
-        ).json();
-        console.log(res);
+        ).json() as AliPayOrderState;
+        console.log(res.alipay_trade_query_response.code);
     };
     async componentDidMount()
     {
