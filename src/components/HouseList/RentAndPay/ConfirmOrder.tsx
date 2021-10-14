@@ -21,7 +21,7 @@ const DisableDate = (current: Moment): boolean =>
         current && current < moment().startOf('day')
     );
 };
-const IconFont = createFromIconfontCN({
+export const IconFont = createFromIconfontCN({
     scriptUrl: [
         '//at.alicdn.com/t/font_2860849_0ogg4aa60rvg.js'
     ]

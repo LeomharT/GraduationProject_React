@@ -8,6 +8,7 @@ import HouseDetail from "../components/HouseList/HouseDetailInfo";
 import HouseExhibit from "../components/HouseList/HouseExhibit";
 import HouseList from "../components/HouseList/HouseList";
 import ConfirmOrder from "../components/HouseList/RentAndPay/ConfirmOrder";
+import PaymentSuccess from "../components/HouseList/RentAndPay/PaymentSuccess";
 import User from "../components/User/User";
 import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
@@ -49,7 +50,7 @@ const route: RouteType[] = [
             { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
         ]
     },
-
+    { title: "SuccessPay", path: "/SuccessPay", components: PaymentSuccess },
 ];
 
 
