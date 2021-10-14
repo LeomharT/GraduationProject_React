@@ -2,12 +2,9 @@ import { observable } from "mobx";
 import moment, { Moment } from "moment";
 import { generateUUID } from "three/src/math/MathUtils";
 import { HouseBaseInfo } from "../../../interfaces/HouseListInterface";
+import { PayChannel } from "../../../interfaces/PaymentInterface";
 import { TenantInfo } from "../../../interfaces/UserInferface";
-export enum PayChannel
-{
-    aliPay = '支付宝',
-    wechatPay = '微信支付'
-}
+
 export default class Order
 {
     constructor()

@@ -6,12 +6,14 @@ import { observer } from 'mobx-react';
 import moment, { Moment } from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import CashPayment from '../../../assets/img/CashPayment.gif';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
+import { PayChannel } from '../../../interfaces/PaymentInterface';
 import HouseStore from '../../../redux/HouseStore';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import AddTenantInfo from './AddTenantInfo';
-import Order, { PayChannel } from './Order';
+import Order from './Order';
 
 
 
@@ -36,7 +38,8 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     HouseStore: HouseStore = HouseStore.GetInstance();
     @observable houseInfo: HouseInfo;
     @observable isDrawerOpen: boolean = false;
-    @observable paying: boolean = false;
+    @observable paying: boolean = false;    //支付中,控制弹出框
+    @observable checking: boolean = false;  //验证支付状态
     order: Order = new Order();
     CloseDrawer = (): void =>
     {
@@ -65,7 +68,11 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         try
         {
             this.paying = true;
-            window.open(res);
+            message.loading('正在为您打开支付宝收银台');
+            setTimeout(() =>
+            {
+                window.open(res);
+            }, 2500);
         } catch (err: any)
         {
             throw new Error(err);
@@ -76,11 +83,12 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         const resURL = await (
             await fetch(`${CONST_HOST}/CheckOrderPaymentStatus`, {
                 method: "POST",
-                body: new FormData()
+                body: JSON.stringify(this.order),
+                headers: {
+                    'Content-Type': "application/json;charset=utf-8",
+                }
             })
-            //获取对象用.json() 获取字符串用.text()
-        ).text();
-        console.log(resURL);
+        ).text();//获取对象用.json() 获取字符串用.text()
         const res = await (
             await fetch(resURL)
         ).json();
@@ -349,19 +357,34 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                     </div>
                 </Affix>
                 <Modal
+                    className='PaymentNotification'
+                    destroyOnClose={true}
+                    maskClosable={false}
+                    closable={false}
                     visible={this.paying}
                     centered
-                    okText='支付成功'
-                    cancelText='还没付呢'
+                    okText='支付成功👍'
+                    cancelText='还没付呢😂'
                     onCancel={() => this.paying = false}
+                    cancelButtonProps={{ danger: true, type: "primary", size: "large" }}
+                    okButtonProps={{ size: "large" }}
                     onOk={async () =>
                     {
                         await this.CheckOrderPaymentStatus();
                     }}
                 >
                     支付中请稍后
+                    <Spin size='large' />
+                    <img
+                        alt='Paying'
+                        src={CashPayment}
+                        draggable={false}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    />
                 </Modal>
-
             </div>
         );
     }

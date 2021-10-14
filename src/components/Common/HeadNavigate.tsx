@@ -61,7 +61,7 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
                             );
                         })}
                     </ul>
-                    <Dropdown overlay={dropDownMenu} trigger={['click']}>
+                    <Dropdown overlay={dropDownMenu} trigger={['click']} placement='bottomCenter'>
                         <Avatar
                             size={30}
                             style={{ marginTop: "5px" }}

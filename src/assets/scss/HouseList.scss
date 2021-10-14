@@ -639,3 +639,20 @@
     box-sizing    : border-box;
     flex-direction: column;
 }
+.PaymentNotification
+{
+    .ant-modal-body
+    {
+        display        : flex;
+        flex-direction : column;
+        justify-content: center;
+        align-items    : center;
+        font-size      : 20px;
+        font-weight    : bold;
+    }
+    .ant-modal-footer
+    {
+        display: flex;
+        justify-content: space-between;
+    }
+}
