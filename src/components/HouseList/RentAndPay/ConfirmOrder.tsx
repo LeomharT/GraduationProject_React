@@ -1,5 +1,5 @@
 import { AlipayOutlined, createFromIconfontCN, LeftOutlined, PayCircleOutlined } from '@ant-design/icons';
-import { Affix, Button, DatePicker, Divider, Drawer, InputNumber, message, notification, Popover, Select, Spin } from 'antd';
+import { Affix, Button, DatePicker, Divider, Drawer, InputNumber, message, Modal, notification, Popover, Select, Spin } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -36,6 +36,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     HouseStore: HouseStore = HouseStore.GetInstance();
     @observable houseInfo: HouseInfo;
     @observable isDrawerOpen: boolean = false;
+    @observable paying: boolean = false;
     order: Order = new Order();
     CloseDrawer = (): void =>
     {
@@ -60,6 +61,28 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                     'Content-Type': 'application/json;charset=utf-8',
                 },
             }))
+        ).json();
+        try
+        {
+            this.paying = true;
+            window.open(res);
+        } catch (err: any)
+        {
+            throw new Error(err);
+        }
+    };
+    CheckOrderPaymentStatus = async (): Promise<void> =>
+    {
+        const resURL = await (
+            await fetch(`${CONST_HOST}/CheckOrderPaymentStatus`, {
+                method: "POST",
+                body: new FormData()
+            })
+            //获取对象用.json() 获取字符串用.text()
+        ).text();
+        console.log(resURL);
+        const res = await (
+            await fetch(resURL)
         ).json();
         console.log(res);
     };
@@ -325,6 +348,20 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         </div>
                     </div>
                 </Affix>
+                <Modal
+                    visible={this.paying}
+                    centered
+                    okText='支付成功'
+                    cancelText='还没付呢'
+                    onCancel={() => this.paying = false}
+                    onOk={async () =>
+                    {
+                        await this.CheckOrderPaymentStatus();
+                    }}
+                >
+                    支付中请稍后
+                </Modal>
+
             </div>
         );
     }

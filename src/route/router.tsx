@@ -50,7 +50,7 @@ const route: RouteType[] = [
             { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
         ]
     },
-    { title: "SuccessPay", path: "/SuccessPay", components: PaymentSuccess },
+    { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },
 ];
 
 
