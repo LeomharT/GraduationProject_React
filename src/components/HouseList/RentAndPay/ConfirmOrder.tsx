@@ -375,15 +375,17 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 >
                     支付中请稍后
                     <Spin size='large' />
-                    <img
-                        alt='Paying'
-                        src={CashPayment}
-                        draggable={false}
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                        }}
-                    />
+                    <div style={{ width: "472px", height: "472px" }}>
+                        <img
+                            alt='Paying'
+                            src={CashPayment}
+                            draggable={false}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                            }}
+                        />
+                    </div>
                 </Modal>
             </div>
         );
