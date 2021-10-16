@@ -10,10 +10,12 @@ import CashPayment from '../../../assets/img/CashPayment.gif';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { AliPayOrderState, PayChannel } from '../../../interfaces/PaymentInterface';
 import HouseStore from '../../../redux/HouseStore';
+import UserStore from '../../../redux/UserStore';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import AddTenantInfo from './AddTenantInfo';
 import Order from './Order';
+
 
 
 
@@ -35,6 +37,7 @@ declare interface ConfirmOrderProps extends RouteComponentProps
 @observer
 class ConfirmOrder extends Component<ConfirmOrderProps, {}>
 {
+    UserStore: UserStore = UserStore.GetInstance();
     HouseStore: HouseStore = HouseStore.GetInstance();
     @observable houseInfo: HouseInfo;
     @observable isDrawerOpen: boolean = false;
@@ -80,6 +83,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     };
     CheckOrderPaymentStatus = async (): Promise<void> =>
     {
+        const { order } = this;
         const resURL = await (
             await fetch(`${CONST_HOST}/CheckOrderPaymentStatus`, {
                 method: "POST",
@@ -92,7 +96,30 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         const res = await (
             await fetch(resURL)
         ).json() as AliPayOrderState;
-        console.log(res.alipay_trade_query_response.code);
+        this.checking = true;
+        if (res.alipay_trade_query_response.code === "10000")
+        {
+            const orderFormData = new FormData();
+            orderFormData.set('uId', this.UserStore.authInfo?.userInfo?.id);
+            orderFormData.set("orderId", res.alipay_trade_query_response.out_trade_no);
+            orderFormData.set("buyer_user_id", res.alipay_trade_query_response.buyer_user_id);
+            orderFormData.set("totalAmount", res.alipay_trade_query_response.total_amount);
+            orderFormData.set("sendPayDate", res.alipay_trade_query_response.send_pay_date);
+            orderFormData.set('trade_no', res.alipay_trade_query_response.trade_no);
+            orderFormData.set('checkInDate', moment(order.checkInDate).format('YYYY-MM-DD hh:mm:ss'));
+            orderFormData.set('checkOutDate', moment(order.checkOutDate).format('YYYY-MM-DD hh:mm:ss'));
+            const result = await (await fetch(`${CONST_HOST}/AddHouseToUser`, {
+                method: "POST",
+                body: orderFormData
+            })).json();
+            console.log(res);
+        }
+        setTimeout(() =>
+        {
+            // this.paying = false;
+            this.checking = false;
+        }, 1500);
+        console.log(res.alipay_trade_query_response);
     };
     async componentDidMount()
     {
@@ -365,10 +392,21 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                     centered
                     okText='支付成功👍'
                     cancelText='还没付呢😂'
-                    onCancel={() => this.paying = false}
-                    cancelButtonProps={{ danger: true, type: "primary", size: "large" }}
-                    okButtonProps={{ size: "large" }}
+                    cancelButtonProps={{
+                        danger: true,
+                        type: "primary",
+                        size: "large",
+                        loading: this.checking,
+                    }}
+                    okButtonProps={{
+                        size: "large",
+                        loading: this.checking,
+                    }}
                     onOk={async () =>
+                    {
+                        await this.CheckOrderPaymentStatus();
+                    }}
+                    onCancel={async () =>
                     {
                         await this.CheckOrderPaymentStatus();
                     }}
