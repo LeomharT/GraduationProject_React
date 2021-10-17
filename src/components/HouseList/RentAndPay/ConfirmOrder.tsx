@@ -57,7 +57,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 description: "请您输入入住人员身份信息",
                 type: "error",
             });
-            // return;
+            return;
         }
         const res = await (
             await (fetch(`${CONST_HOST}/OpenAliPayPage`, {
