@@ -16,3 +16,15 @@ export declare interface TenantInfo
     id_type: string;
     tenant_num: string;
 }
+export declare interface UserRentListItem
+{
+    uId: string,
+    hId: string,
+    orderId: string,
+    buyer_user_id: string,
+    totalAmounts: string,
+    sendPayDate: Date,
+    trade_no: string,
+    checkInDate: Date,
+    checkOutDate: Date,
+}

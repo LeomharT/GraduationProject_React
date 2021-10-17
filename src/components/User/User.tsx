@@ -50,6 +50,7 @@ export default class User extends Component<{}, {}>
                                 {
                                     return (
                                         <Route
+                                            exact={true}
                                             key={index}
                                             path={route.path}
                                             component={route.components}

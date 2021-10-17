@@ -101,6 +101,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         {
             const orderFormData = new FormData();
             orderFormData.set('uId', this.UserStore.authInfo?.userInfo?.id);
+            orderFormData.set('hId', this.houseInfo.baseInfo.hId);
             orderFormData.set("orderId", res.alipay_trade_query_response.out_trade_no);
             orderFormData.set("buyer_user_id", res.alipay_trade_query_response.buyer_user_id);
             orderFormData.set("totalAmount", res.alipay_trade_query_response.total_amount);

@@ -1,6 +1,8 @@
 import { AuthenticationClient } from "authing-js-sdk";
 import { observable } from "mobx";
 import { io } from "socket.io-client";
+import { CONST_HOST } from "../components/Common/VariableGlobal";
+import { UserRentListItem } from "../interfaces/UserInferface";
 import AuthStore from "./AuthStore";
 
 export default class UserStore
@@ -52,6 +54,12 @@ export default class UserStore
             return false;
         }
         return true;
+    };
+    InitCurrentUserRentList = async (uId: string): Promise<UserRentListItem[]> =>
+    {
+        return await (
+            await fetch(`${CONST_HOST}/GetCurrentUserHouseRentList?uId=${uId}`)
+        ).json();
     };
     private static _SingleInstance: UserStore;
     static GetInstance()
