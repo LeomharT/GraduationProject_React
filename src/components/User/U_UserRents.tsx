@@ -1,14 +1,18 @@
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { UserRentListItem } from '../../interfaces/UserInferface';
 import UserStore from '../../redux/UserStore';
 
+@observer
 export default class U_UserRents extends Component<{}, {}>
 {
-    userRentList: UserRentListItem[] = [];
     UserStore: UserStore = UserStore.GetInstance();
+    @observable userRentList: UserRentListItem[] = [];
     async componentDidMount()
     {
-        console.log(await this.UserStore.InitCurrentUserRentList(this.UserStore?.authInfo?.userInfo?.id));
+        this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
+        console.log(this.userRentList);
     }
     render()
     {

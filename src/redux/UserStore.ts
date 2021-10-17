@@ -45,6 +45,10 @@ export default class UserStore
         }
         return '';
     };
+    GetCurrentUserId = (): string =>
+    {
+        return (this.authInfo?.userInfo?.id);
+    };
     CheckForIsLogin = (): boolean =>
     {
         const { AuthStore } = this;

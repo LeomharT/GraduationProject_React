@@ -255,7 +255,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            if ((await UserStore.InitCurrentUserRentList(UserStore?.authInfo?.userInfo?.id) as UserRentListItem[]).length)
+                                            if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId()) as UserRentListItem[]).length)
                                             {
                                                 message.error('您已经租有一套公寓了哦');
                                                 return;
