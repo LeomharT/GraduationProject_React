@@ -8,6 +8,10 @@
         box-sizing: border-box;
     }
 }
+.ant-picker-time-panel-column::-webkit-scrollbar
+{
+    display: none;
+}
 .Ant-ReWriteRadioGroup
 {
     .ant-form-item

@@ -22,7 +22,7 @@ import Order from './Order';
 const DisableDate = (current: Moment): boolean =>
 {
     return (
-        current && current < moment().startOf('day')
+        (current && current < moment().startOf('day')) || (current > moment().endOf('month'))
     );
 };
 export const IconFont = createFromIconfontCN({
@@ -112,14 +112,24 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 method: "POST",
                 body: orderFormData
             })).json();
-            console.log(res);
+            if (result.affectedRows >= 1)
+            {
+                message.success('支付成功');
+                setTimeout(() =>
+                {
+                    this.props.history.push("/User/UserRents");
+                }, 1500);
+            } else
+            {
+                message.error('出错了!如已经支付请联系客服');
+            }
         }
         setTimeout(() =>
         {
-            // this.paying = false;
+            this.paying = false;
             this.checking = false;
+
         }, 1500);
-        console.log(res.alipay_trade_query_response);
     };
     async componentDidMount()
     {
@@ -174,6 +184,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                         disabledDate={DisableDate}
                                         value={order.checkInDate}
                                         clearIcon={null}
+                                        showTime
                                         onChange={(e) =>
                                         {
                                             if (!e) return;
