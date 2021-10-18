@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, message, Select } from 'antd';
 import React, { Component } from 'react';
 import { TenantInfo } from '../../../interfaces/UserInferface';
 import Order from './Order';
@@ -14,8 +14,15 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
 {
     ConfirmTenantInfo = (tInfo: TenantInfo) =>
     {
-        this.props.order.tenantInfo = tInfo;
-        this.props.CloseDrawer();
+        const reg: RegExp = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+        if (reg.test(tInfo.tenant_num))
+        {
+            this.props.order.tenantInfo = tInfo;
+            this.props.CloseDrawer();
+        } else
+        {
+            message.error('请输入正确的身份证号码');
+        }
     };
     render()
     {
