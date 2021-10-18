@@ -12,6 +12,7 @@ import PaymentSuccess from "../components/HouseList/RentAndPay/PaymentSuccess";
 import User from "../components/User/User";
 import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
+import U_RepairOrder from "../components/User/U_RepairOrder";
 import U_UserCollect from "../components/User/U_UserCollect";
 import U_UserRents from "../components/User/U_UserRents";
 import VRScene from "../components/VR/VRScene";
@@ -39,6 +40,7 @@ const route: RouteType[] = [
             { title: "UserCollection", path: '/User/UserCollection', components: U_UserCollect },
             { title: "UserRents", path: '/User/UserRents', components: U_UserRents },
             { title: "ArticleManage", path: '/User/ArticleManage', components: U_ArticleManage },
+            { title: "ArticleManage", path: '/User/RepairOrder', components: U_RepairOrder },
         ]
     },
     { title: "VRScene", path: "/VRScene/:HouseId", components: VRScene },

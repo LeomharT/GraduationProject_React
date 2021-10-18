@@ -117,14 +117,50 @@
         }
         .U_UserRents
         {
-            display   : flex;
             box-sizing: border-box;
             padding   : 10px;
             width     : 100%;
-            .HouseItem_Wrapper
+            .RentItem
             {
-                margin   : 0;
-                transform: scale(90%);
+                display       : flex;
+                flex-direction: column;
+                .RentTitle
+                {
+                    display   : flex;
+                    box-sizing: border-box;
+                    padding   : 15px 0;
+                    .ant-badge
+                    {
+                        font-size  : 20px;
+                        font-weight: bold;
+                    }
+                }
+                .HouseItem_Wrapper
+                {
+                    margin   : 0;
+                    .HRent
+                    {
+                        display: none;
+                    }
+                    .VRAnimation
+                    {
+                        display: none;
+                    }
+                }
+                .RentInfo
+                {
+                    display        : flex;
+                    flex-direction : row;
+                    justify-content: space-between;
+                    font-weight    : bold;
+                    font-size      : 20px;
+                }
+                .RentOptions
+                {
+                    display        : flex;
+                    justify-content: space-between;
+                    margin-top     : 20px;
+                }
             }
         }
     }
