@@ -120,46 +120,50 @@
             box-sizing: border-box;
             padding   : 10px;
             width     : 100%;
-            .RentItem
+            .ant-card
             {
-                display       : flex;
-                flex-direction: column;
-                .RentTitle
+                box-sizing: border-box;
+                padding   : 20px;
+                .RentInfoCover
                 {
-                    display   : flex;
-                    box-sizing: border-box;
-                    padding   : 15px 0;
-                    .ant-badge
-                    {
-                        font-size  : 20px;
-                        font-weight: bold;
-                    }
-                }
-                .HouseItem_Wrapper
-                {
-                    margin   : 0;
-                    .HRent
-                    {
-                        display: none;
-                    }
-                    .VRAnimation
-                    {
-                        display: none;
-                    }
-                }
-                .RentInfo
-                {
-                    display        : flex;
-                    flex-direction : row;
-                    justify-content: space-between;
-                    font-weight    : bold;
-                    font-size      : 20px;
-                }
-                .RentOptions
-                {
+                    width          : 100%;
+                    height         : 250px;
                     display        : flex;
                     justify-content: space-between;
-                    margin-top     : 20px;
+                    >img
+                    {
+                        width : 400px;
+                        height: 100%;
+                    }
+                    .RentInfo{
+                        display       : flex;
+                        flex-direction: column;
+                        width         : 100%;
+                        box-sizing    : border-box;
+                        padding-left  : 40px;
+                        >div
+                        {
+                            &:nth-child(1)
+                            {
+                                font-size  : 30px;
+                                font-weight: bold;
+                            }
+                            &:nth-child(3)
+                            {
+                                height: 182px;
+                            }
+                        }
+                    }
+                }
+                .RentRestOfDays
+                {
+                    font-size  : 30px;
+                    font-weight: bold;
+                }
+                .CheckDate
+                {
+                    display       : flex;
+                    flex-direction: column;
                 }
             }
         }
