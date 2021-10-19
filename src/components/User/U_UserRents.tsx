@@ -1,10 +1,11 @@
 import { EllipsisOutlined, EnvironmentOutlined, ExportOutlined, HomeOutlined, MoneyCollectOutlined, QrcodeOutlined, ToolOutlined } from '@ant-design/icons';
-import { Button, Card, Carousel, Popover, Spin } from 'antd';
+import { Button, Card, Carousel, Dropdown, Menu, Popover, Spin } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../interfaces/UserInferface';
 import HouseStore from '../../redux/HouseStore';
@@ -115,10 +116,22 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         <div>
                                             {houseInfo.baseInfo.hTitle}
                                             {RenderTags(houseInfo.baseInfo.hTags.split(","))}
-                                            <Button
-                                                icon={<EllipsisOutlined />}
-                                                type='link'
-                                            />
+                                            <Dropdown
+                                                trigger={['click']}
+                                                overlay={
+                                                    <Menu>
+                                                        <Menu.Item key='detail'>
+                                                            <Link to={`/HouseList/DetailInfo/${houseInfo.baseInfo.hId}`}>
+                                                                详细信息
+                                                            </Link>
+                                                        </Menu.Item>
+                                                    </Menu>
+                                                }>
+                                                <Button
+                                                    icon={<EllipsisOutlined />}
+                                                    type='link'
+                                                />
+                                            </Dropdown>
                                         </div>
                                         <div>
                                             <EnvironmentOutlined />{houseInfo.baseInfo.hRegion}
