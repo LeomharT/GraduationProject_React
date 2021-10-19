@@ -2,7 +2,7 @@ import { AuditOutlined, FormOutlined, ReadOutlined, TagOutlined, ToolOutlined } 
 import { Avatar, Menu, message } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { MenuType } from '../../interfaces/HomeInterface';
 import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
@@ -14,12 +14,40 @@ const UserNaviMenu: MenuType[] = [
     { title: "我的文章", link: "/User/ArticleManage", icon: <ReadOutlined /> },
     { title: "我的报修", link: "/User/RepairOrder", icon: <ToolOutlined /> },
 ];
-
+enum MenuIndex
+{
+    UserCollection = 'UserCollection',
+    UserRents = 'UserRents',
+    EditUserInfo = 'EditUserInfo',
+    ArticleManage = 'ArticleManage',
+    RepairOrder = 'RepairOrder',
+}
 @observer
-export default class SideNavi extends Component<{}, {}>
+class SideNavi extends Component<RouteComponentProps, {}>
 {
     AuthStore: AuthStore = AuthStore.GetInstance();
     UserStore: UserStore = UserStore.GetInstance();
+    SelectMenuItemByURL = (): string =>
+    {
+        const { pathname } = this.props.location;
+        const currentCompontent = pathname.substr(pathname.lastIndexOf("/") + 1);
+        switch (currentCompontent)
+        {
+            case MenuIndex.UserCollection:
+                return '0';
+            case MenuIndex.UserRents:
+                return '1';
+            case MenuIndex.EditUserInfo:
+                return '2';
+            case MenuIndex.ArticleManage:
+                return '3';
+            case MenuIndex.RepairOrder:
+                return '4';
+            default:
+                return '';
+        }
+
+    };
     render()
     {
         return (
@@ -46,7 +74,7 @@ export default class SideNavi extends Component<{}, {}>
                     {this.UserStore.RenderUserName()}
                 </span>
                 <Menu mode='inline'
-                    defaultSelectedKeys={[(UserNaviMenu.length - 2).toString()]}
+                    defaultSelectedKeys={[this.SelectMenuItemByURL()]}
                     style={{ width: "200px" }}
                 >
                     {UserNaviMenu.map((menu: MenuType, index: number) =>
@@ -62,3 +90,4 @@ export default class SideNavi extends Component<{}, {}>
         );
     }
 }
+export default withRouter(SideNavi);
