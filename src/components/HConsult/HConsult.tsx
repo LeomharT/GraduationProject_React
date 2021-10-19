@@ -218,35 +218,40 @@ class HConsult extends Component<HConsultProps, {}>
                             />
                         </Tooltip>
                     }
-                    <Tag
-                        closable
-                        visible={this.tagVisible}
-                        onClose={() =>
-                        {
-                            this.tagVisible = false;
-                        }}
-                    >
-                        <div className='TagContent'>
-                            <img alt='cover' src={`${CONST_HOST}/${currentHouseInfo?.baseInfo.hExhibitImg}`} />
-                            <div>
-                                <p>{`${currentHouseInfo?.baseInfo.hMethod}·
-                                    ${currentHouseInfo?.baseInfo.hTitle}`}</p>
-                                <p>{`${currentHouseInfo?.baseInfo.hLayout}/
-                                    ${currentHouseInfo?.detailInfo.Area}/
-                                    ${currentHouseInfo?.baseInfo.hTowards}`}</p>
-                                <p>&yen;{currentHouseInfo?.baseInfo.hRent}元/月</p>
-                            </div>
-                            <Button
-                                type='primary'
-                                size='small'
-                                onClick={async () =>
+                    {
+                        currentHouseInfo?.baseInfo
+                            ? <Tag
+                                closable
+                                visible={this.tagVisible}
+                                onClose={() =>
                                 {
-                                    this.SocketSendHouseMessage(currentHouseInfo?.baseInfo.hId as string);
                                     this.tagVisible = false;
                                 }}
-                            >发给客服</Button>
-                        </div>
-                    </Tag>
+                            >
+                                <div className='TagContent'>
+                                    <img alt='cover' src={`${CONST_HOST}/${currentHouseInfo?.baseInfo.hExhibitImg}`} />
+                                    <div>
+                                        <p>{`${currentHouseInfo?.baseInfo.hMethod}·
+                                    ${currentHouseInfo?.baseInfo.hTitle}`}</p>
+                                        <p>{`${currentHouseInfo?.baseInfo.hLayout}/
+                                    ${currentHouseInfo?.detailInfo.Area}/
+                                    ${currentHouseInfo?.baseInfo.hTowards}`}</p>
+                                        <p>&yen;{currentHouseInfo?.baseInfo.hRent}元/月</p>
+                                    </div>
+                                    <Button
+                                        type='primary'
+                                        size='small'
+                                        onClick={async () =>
+                                        {
+                                            this.SocketSendHouseMessage(currentHouseInfo?.baseInfo.hId as string);
+                                            this.tagVisible = false;
+                                        }}
+                                    >发给客服</Button>
+                                </div>
+                            </Tag>
+                            : null
+                    }
+
                 </div>
             );
         };

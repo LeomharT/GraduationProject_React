@@ -1,14 +1,17 @@
-import { EnvironmentOutlined, ExportOutlined, HomeOutlined, MoneyCollectOutlined, QrcodeOutlined, ToolOutlined } from '@ant-design/icons';
-import { Button, Card, Popover, Spin } from 'antd';
+import { EllipsisOutlined, EnvironmentOutlined, ExportOutlined, HomeOutlined, MoneyCollectOutlined, QrcodeOutlined, ToolOutlined } from '@ant-design/icons';
+import { Button, Card, Carousel, Popover, Spin } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
-import { HouseInfo } from '../../interfaces/HouseListInterface';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../interfaces/UserInferface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
+import { Render404 } from '../Common/AppIconTitle';
 import { CONST_HOST } from '../Common/VariableGlobal';
+import { RenderTags } from '../HouseList/HouseItem';
 
 const { Meta } = Card;
 const RestOfRentDay = (checkOutDate: Date): number =>
@@ -29,8 +32,14 @@ const RenderQrKey = (checkOutDate: Date): string =>
     }
     return `https://api.pwmqr.com/qrcode/create/?url=${isOpenable}`;
 };
+
+declare interface U_UserRentsProps extends RouteComponentProps
+{
+
+}
+
 @observer
-export default class U_UserRents extends Component<{}, {}>
+class U_UserRents extends Component<U_UserRentsProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
     HouseStore: HouseStore = HouseStore.GetInstance();
@@ -82,6 +91,7 @@ export default class U_UserRents extends Component<{}, {}>
     render()
     {
         const { userRentList, houseInfo } = this;
+        if (!userRentList.length) return (<Render404 title='您还没用任何租约' subTitle='您还没有签约，快去看看吧' />);
         if (!houseInfo) return (<Spin size='large' />);
         return (
             <div className='U_UserRents'>
@@ -93,16 +103,29 @@ export default class U_UserRents extends Component<{}, {}>
                             key={rentInfo.orderId}
                             cover={
                                 <div className='RentInfoCover'>
-                                    <img alt='cover' src={`${CONST_HOST}/${houseInfo.baseInfo.hExhibitImg}`} />
+                                    <Carousel autoplay >
+                                        {houseInfo.carousel.map((c: HouseCarousel) =>
+                                        {
+                                            return (
+                                                <img key={c.id} alt={c.id} src={`${CONST_HOST}/${c.url}`} />
+                                            );
+                                        })}
+                                    </Carousel>
                                     <div className='RentInfo'>
-                                        <div>{houseInfo.baseInfo.hTitle}</div>
+                                        <div>
+                                            {houseInfo.baseInfo.hTitle}
+                                            {RenderTags(houseInfo.baseInfo.hTags.split(","))}
+                                            <Button
+                                                icon={<EllipsisOutlined />}
+                                                type='link'
+                                            />
+                                        </div>
                                         <div>
                                             <EnvironmentOutlined />{houseInfo.baseInfo.hRegion}
                                             <HomeOutlined />{houseInfo.baseInfo.hLayout}
+                                            {houseInfo.detailInfo.Area}
                                         </div>
-                                        <div ref={this.tMap}>
-
-                                        </div>
+                                        <div ref={this.tMap} />
                                     </div>
                                 </div>
                             }
@@ -150,3 +173,4 @@ export default class U_UserRents extends Component<{}, {}>
         );
     }
 }
+export default withRouter(U_UserRents);

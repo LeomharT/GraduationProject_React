@@ -130,10 +130,18 @@
                     height         : 250px;
                     display        : flex;
                     justify-content: space-between;
-                    >img
+                    .ant-carousel
                     {
                         width : 400px;
                         height: 100%;
+                        .slick-dots
+                        {
+                            bottom: 5px;
+                        }
+                        img
+                        {
+                            height: 250px;
+                        }
                     }
                     .RentInfo{
                         display       : flex;
@@ -147,6 +155,13 @@
                             {
                                 font-size  : 30px;
                                 font-weight: bold;
+                                display    : flex;
+                                align-items: center;
+                                justify-content: space-between;
+                            }
+                            &:nth-child(2)
+                            {
+                                color: rgba(0, 0, 0, 0.45);
                             }
                             &:nth-child(3)
                             {

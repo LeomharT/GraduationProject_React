@@ -114,6 +114,7 @@ class HouseDetail extends Component<DetailProps, {}>
     async componentDidMount()
     {
         this.houseDetailInfo = await this.HouseStore.InitHouseInfo((this.props.match.params as any).HouseId);
+        if (!this.houseDetailInfo?.baseInfo) return;
         this.InitMap();
         this.CheckForCurrentHouseIsCollected();
 
@@ -130,7 +131,7 @@ class HouseDetail extends Component<DetailProps, {}>
         const { history } = this.props;
         const { houseDetailInfo, isCollected, UserStore, HouseStore } = this;
         if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
-        if (!houseDetailInfo?.baseInfo) return (<Render404 />);
+        if (!houseDetailInfo?.baseInfo) return (<Render404 title='404!未找到该房源' subTitle='您寻找的房源编号不存在,请返回列表页.' />);
         return (
             <div className='HouseDetailInfo'>
                 <div className="CarouselAndBaseInfo" id="CarouselAndBaseInfo">

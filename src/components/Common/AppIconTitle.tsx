@@ -40,14 +40,19 @@ export function VerifyIcon(props: {})
     );
 }
 
-export function Render404(props: {}): JSX.Element
+declare interface Render404Props
+{
+    title: string,
+    subTitle: string;
+}
+export function Render404(props: Render404Props): JSX.Element
 {
     const history = useHistory();
     return (
         <Result
             status='404'
-            title="404!未找到该房源"
-            subTitle="您寻找的房源编号不存在,请返回列表页."
+            title={props.title}
+            subTitle={props.subTitle}
             extra={
                 <Button
                     type='link'
