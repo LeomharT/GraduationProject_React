@@ -9,7 +9,6 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import mapMarker from '../../assets/img/mapMarker.png';
 import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
-import { UserRentListItem } from '../../interfaces/UserInferface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
@@ -256,11 +255,11 @@ class HouseDetail extends Component<DetailProps, {}>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId()) as UserRentListItem[]).length)
-                                            {
-                                                message.error('您已经租有一套公寓了哦');
-                                                return;
-                                            }
+                                            // if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId()) as UserRentListItem[]).length)
+                                            // {
+                                            //     message.error('您已经租有一套公寓了哦');
+                                            //     return;
+                                            // }
                                             history.push(`/HouseList/ConfirmOrder/${houseDetailInfo.baseInfo.hId}`);
                                         }
                                     }}

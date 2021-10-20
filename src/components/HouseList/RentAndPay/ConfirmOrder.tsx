@@ -15,6 +15,8 @@ import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import AddTenantInfo from './AddTenantInfo';
 import Order from './Order';
+import OrderRenewal from './OrderRenewal';
+import OrderReserve from './OrderReserve';
 
 
 
@@ -43,7 +45,8 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     @observable isDrawerOpen: boolean = false;
     @observable paying: boolean = false;    //支付中,控制弹出框
     @observable checking: boolean = false;  //验证支付状态
-    order: Order = new Order();
+    @observable isRenewal: boolean = false; //是续租还是预定
+    order: Order;
     CloseDrawer = (): void =>
     {
         this.isDrawerOpen = false;
@@ -134,6 +137,15 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     };
     async componentDidMount()
     {
+        this.order = new OrderRenewal(moment(Date.now()));
+        if (this.order instanceof OrderReserve)
+        {
+            console.log('yes');
+        } else if (this.order instanceof OrderRenewal)
+        {
+            this.isRenewal = true;
+            console.log('no');
+        }
         const { hId } = this.props.match.params as { hId: string; };
         this.houseInfo = await this.HouseStore.InitHouseInfo(hId);
         this.order.housebaseInfo = this.houseInfo.baseInfo;
@@ -181,6 +193,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <div>
                                     入住日期：
                                     <DatePicker
+                                        disabled={this.isRenewal}
                                         locale={locale}
                                         disabledDate={DisableDate}
                                         value={order.checkInDate}
