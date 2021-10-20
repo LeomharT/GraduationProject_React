@@ -80,9 +80,13 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
             }]
         });
     };
-    async componentDidMount()
+    InitOrderState = async (): Promise<void> =>
     {
         this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
+    };
+    async componentDidMount()
+    {
+        await this.InitOrderState();
         if (this.userRentList.length)
         {
             this.houseInfo = await this.HouseStore.InitHouseInfo(this.userRentList[0].hId);
@@ -134,8 +138,8 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                             </Dropdown>
                                         </div>
                                         <div>
-                                            <EnvironmentOutlined />{houseInfo.baseInfo.hRegion}
-                                            <HomeOutlined />{houseInfo.baseInfo.hLayout}
+                                            <EnvironmentOutlined />{houseInfo.baseInfo.hRegion}&nbsp;&nbsp;
+                                            <HomeOutlined />{houseInfo.baseInfo.hLayout}&nbsp;&nbsp;
                                             {houseInfo.detailInfo.Area}
                                         </div>
                                         <div ref={this.tMap} />
