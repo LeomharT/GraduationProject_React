@@ -144,8 +144,8 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                             }
                             actions={
                                 [
-                                    <Button size='large' children={'我要续租'} type='primary' icon={<MoneyCollectOutlined />} />,
-                                    <Button size='large' children={'我要报修'} type='primary' icon={<ToolOutlined />} />,
+                                    <Button size='large' children={'续租'} type='primary' icon={<MoneyCollectOutlined />} />,
+                                    <Button size='large' children={'报修'} type='primary' icon={<ToolOutlined />} />,
                                     <Popover
                                         trigger='click'
                                         placement='top'
@@ -153,9 +153,9 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                             <img alt='QRKey' src={RenderQrKey(rentInfo.checkOutDate)} />
                                         }
                                     >
-                                        <Button size='large' children={'我的开门码'} type='primary' icon={<QrcodeOutlined />} />
+                                        <Button size='large' children={'开门码'} type='primary' icon={<QrcodeOutlined />} />
                                     </Popover>,
-                                    <Button size='large' children={'我要退租'} danger type='primary' icon={<ExportOutlined />} />,
+                                    <Button size='large' children={'退租'} danger type='primary' icon={<ExportOutlined />} />,
                                 ]
                             }
                         >
