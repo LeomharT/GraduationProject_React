@@ -137,7 +137,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     };
     async componentDidMount()
     {
-        this.order = new OrderRenewal(moment(Date.now()));
+        this.order = new OrderReserve(moment(Date.now()));
         if (this.order instanceof OrderReserve)
         {
             console.log('yes');

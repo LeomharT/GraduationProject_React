@@ -7,16 +7,13 @@ import { TenantInfo } from "../../../interfaces/UserInferface";
 
 export default class Order
 {
-    constructor(checkInDate?: Moment)
+    constructor(checkInDate: Moment)
     {
         this.checkOutDate.add(1, 'M');
         this.orderId = moment(Date.now()).format("YYYYMMDDhhmmss") + generateUUID().toString().split('-')[0];
-        if (checkInDate)
-        {
-            this.checkInDate = checkInDate;
-        }
+        this.checkInDate = checkInDate;
     }
-    orderId: string;
+    private orderId: string;
     @observable checkInDate: Moment = moment();
     @observable checkOutDate: Moment = moment(this.checkInDate);
     @observable checkInMonth: number = 1;
