@@ -17,16 +17,20 @@ import { RenderTags } from '../HouseList/HouseItem';
 const { Meta } = Card;
 const RestOfRentDay = (rentInfo: UserRentListItem): number =>
 {
-
-    console.log(moment(rentInfo.checkInDate).format("YYYY-MM-DD") === moment(Date.now()).format('YYYY-MM-DD'));
+    if (moment(rentInfo.checkInDate).format("YYYY-MM-DD") > moment(Date.now()).format('YYYY-MM-DD'))
+    {
+        return (
+            moment(rentInfo.checkOutDate).diff(moment(rentInfo.checkInDate), 'day')
+        );
+    }
     return (
         moment(rentInfo.checkOutDate).diff(moment(Date.now()), 'day')
     );
 };
-const RenderQrKey = (checkOutDate: Date): string =>
+const RenderQrKey = (rentInfo: UserRentListItem): string =>
 {
     let isOpenable: string = '';
-    if (moment(checkOutDate) > moment(Date.now()))
+    if (moment(rentInfo.checkOutDate) > moment(Date.now()) && moment(rentInfo.checkInDate) < moment(Date.now()))
     {
         isOpenable = '能开';
     } else
@@ -86,7 +90,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
     {
         this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
     };
-    GotToRenewalOrder = (): void =>
+    GoToRenewalOrder = (): void =>
     {
         const urlState = {};
         Object.assign(urlState, {
@@ -164,14 +168,14 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         children={'续租'}
                                         type='primary'
                                         icon={<MoneyCollectOutlined />}
-                                        onClick={this.GotToRenewalOrder}
+                                        onClick={this.GoToRenewalOrder}
                                     />,
                                     <Button size='large' children={'报修'} type='primary' icon={<ToolOutlined />} />,
                                     <Popover
                                         trigger='click'
                                         placement='top'
                                         content={
-                                            <img alt='QRKey' src={RenderQrKey(rentInfo.checkOutDate)} />
+                                            <img alt='QRKey' src={RenderQrKey(rentInfo)} />
                                         }
                                     >
                                         <Button size='large' children={'开门码'} type='primary' icon={<QrcodeOutlined />} />

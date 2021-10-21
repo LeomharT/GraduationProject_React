@@ -1,9 +1,8 @@
 import { AuthenticationClient } from "authing-js-sdk";
-import { observable } from "mobx";
 import { auth } from "../sso/Authing";
 export default class AuthStore
 {
-    @observable auth = auth; //SSO单点登录的API
+    auth = auth; //SSO单点登录的API
     GetAuthInfo = async () =>
     {
         return await this.auth.trackSession();

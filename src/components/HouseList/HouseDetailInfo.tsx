@@ -255,11 +255,11 @@ class HouseDetail extends Component<DetailProps, {}>
                                     {
                                         if (UserStore.CheckForIsLogin())
                                         {
-                                            // if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId()) as UserRentListItem[]).length)
-                                            // {
-                                            //     message.error('您已经租有一套公寓了哦');
-                                            //     return;
-                                            // }
+                                            if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId())).length)
+                                            {
+                                                message.error('您已经租有一套公寓了哦');
+                                                return;
+                                            }
                                             history.push(`/HouseList/ConfirmOrder/${houseDetailInfo.baseInfo.hId}`);
                                         }
                                     }}

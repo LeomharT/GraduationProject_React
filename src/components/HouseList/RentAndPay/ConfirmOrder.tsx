@@ -60,7 +60,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 description: "请您输入入住人员身份信息",
                 type: "error",
             });
-            // return;
+            return;
         }
         const res = await (
             await (fetch(`${CONST_HOST}/OpenAliPayPage`, {
@@ -99,7 +99,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
 
         const res = await (await fetch(resURL)).json() as AliPayOrderState;
         this.checking = true;
-        if (res.alipay_trade_query_response.code === "10000")
+        if (res.alipay_trade_query_response.code === "10000" && res.alipay_trade_query_response.send_pay_date)
         {
             if (this.order instanceof OrderReserve)
             {
