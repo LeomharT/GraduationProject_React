@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, FrownOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, MehOutlined, PhoneOutlined, QuestionOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, ConfigProvider, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, BackTop, Badge, Button, Carousel, ConfigProvider, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -11,7 +11,7 @@ import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
-import { Render404, VerifyIcon } from '../Common/AppIconTitle';
+import { AppIconTitle, Render404, VerifyIcon } from '../Common/AppIconTitle';
 import Footer from '../Common/Footer';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import HComment from './HComment';
@@ -243,8 +243,8 @@ class HouseDetail extends Component<DetailProps, {}>
                         </div>
                         <div className="ContactOnlineOrPhone">
                             <div className="LandLordInfo">
-                                <Avatar shape="square" size={64} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                房东信息显示在这里
+                                <AppIconTitle />
+                                优区生活
                             </div>
                             <div>
                                 <Button
