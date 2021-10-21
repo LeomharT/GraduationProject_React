@@ -1,6 +1,5 @@
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
-import { generateUUID } from "three/src/math/MathUtils";
 import { HouseBaseInfo } from "../../../interfaces/HouseListInterface";
 import { PayChannel } from "../../../interfaces/PaymentInterface";
 import { TenantInfo } from "../../../interfaces/UserInferface";
@@ -9,13 +8,12 @@ export default class Order
 {
     constructor(checkInDate: Moment)
     {
-        this.checkOutDate.add(1, 'M');
-        this.orderId = moment(Date.now()).format("YYYYMMDDhhmmss") + generateUUID().toString().split('-')[0];
         this.checkInDate = checkInDate;
+        this.checkOutDate = moment(checkInDate);
+        this.checkOutDate.add(1, 'M');
     }
-    private orderId: string;
-    @observable checkInDate: Moment = moment();
-    @observable checkOutDate: Moment = moment(this.checkInDate);
+    @observable checkInDate: Moment;
+    @observable checkOutDate: Moment;
     @observable checkInMonth: number = 1;
     @observable tenantNum: number = 1;
     tenantInfo: TenantInfo;

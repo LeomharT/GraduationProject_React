@@ -60,7 +60,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 description: "请您输入入住人员身份信息",
                 type: "error",
             });
-            return;
+            // return;
         }
         const res = await (
             await (fetch(`${CONST_HOST}/OpenAliPayPage`, {
@@ -96,55 +96,80 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 }
             })
         ).text();//获取对象用.json() 获取字符串用.text()
-        const res = await (
-            await fetch(resURL)
-        ).json() as AliPayOrderState;
+
+        const res = await (await fetch(resURL)).json() as AliPayOrderState;
         this.checking = true;
         if (res.alipay_trade_query_response.code === "10000")
         {
-            const orderFormData = new FormData();
-            orderFormData.set('uId', this.UserStore.authInfo?.userInfo?.id);
-            orderFormData.set('hId', this.houseInfo.baseInfo.hId);
-            orderFormData.set("orderId", res.alipay_trade_query_response.out_trade_no);
-            orderFormData.set("buyer_user_id", res.alipay_trade_query_response.buyer_user_id);
-            orderFormData.set("totalAmount", res.alipay_trade_query_response.total_amount);
-            orderFormData.set("sendPayDate", res.alipay_trade_query_response.send_pay_date);
-            orderFormData.set('trade_no', res.alipay_trade_query_response.trade_no);
-            orderFormData.set('checkInDate', moment(order.checkInDate).format('YYYY-MM-DD hh:mm:ss'));
-            orderFormData.set('checkOutDate', moment(order.checkOutDate).format('YYYY-MM-DD hh:mm:ss'));
-            const result = await (await fetch(`${CONST_HOST}/AddHouseToUser`, {
-                method: "POST",
-                body: orderFormData
-            })).json();
-            if (result.affectedRows >= 1)
+            if (this.order instanceof OrderReserve)
             {
-                message.success('支付成功');
-                setTimeout(() =>
+                const orderFormData = new FormData();
+                orderFormData.set('uId', this.UserStore.authInfo?.userInfo?.id);
+                orderFormData.set('hId', this.houseInfo.baseInfo.hId);
+                orderFormData.set("orderId", res.alipay_trade_query_response.out_trade_no);
+                orderFormData.set("buyer_user_id", res.alipay_trade_query_response.buyer_user_id);
+                orderFormData.set("totalAmount", res.alipay_trade_query_response.total_amount);
+                orderFormData.set("sendPayDate", res.alipay_trade_query_response.send_pay_date);
+                orderFormData.set('trade_no', res.alipay_trade_query_response.trade_no);
+                orderFormData.set('checkInDate', moment(order.checkInDate).format('YYYY-MM-DD hh:mm:ss'));
+                orderFormData.set('checkOutDate', moment(order.checkOutDate).format('YYYY-MM-DD hh:mm:ss'));
+                const result = await (await fetch(`${CONST_HOST}/AddHouseToUser`, {
+                    method: "POST",
+                    body: orderFormData
+                })).json();
+                if (result.affectedRows >= 1)
                 {
-                    this.props.history.push("/User/UserRents");
-                }, 1500);
-            } else
+                    message.success('支付成功');
+                    setTimeout(() =>
+                    {
+                        this.props.history.push("/User/UserRents");
+                    }, 1500);
+                } else
+                {
+                    message.error('出错了!如已经支付请联系客服');
+                }
+            }
+            if (this.order instanceof OrderRenewal)
             {
-                message.error('出错了!如已经支付请联系客服');
+                //@ts-ignore
+                const { orderId } = this.props.location.state.urlState;
+                const orderFormData = new FormData();
+                orderFormData.set("oldOrderId", orderId);
+                orderFormData.set("newCheckOutDate", this.order.checkOutDate.format('YYYY-MM-DD hh:mm:ss'));
+                const result = await (await fetch(`${CONST_HOST}/RenewalOrder`, {
+                    method: "POST",
+                    body: orderFormData
+                })).json();
+                if (result.affectedRows >= 1)
+                {
+                    message.success('支付成功');
+                    setTimeout(() =>
+                    {
+                        this.props.history.push("/User/UserRents");
+                    }, 1500);
+                } else
+                {
+                    message.error('出错了!如已经支付请联系客服');
+                }
             }
         }
         setTimeout(() =>
         {
             this.paying = false;
             this.checking = false;
-
         }, 1500);
     };
     async componentDidMount()
     {
-        this.order = new OrderReserve(moment(Date.now()));
-        if (this.order instanceof OrderReserve)
+        const { state } = this.props.location;
+        if (state)
         {
-            console.log('yes');
-        } else if (this.order instanceof OrderRenewal)
-        {
+            //@ts-ignore
+            this.order = new OrderRenewal(moment(state.urlState.checkOutDate));
             this.isRenewal = true;
-            console.log('no');
+        } else
+        {
+            this.order = new OrderReserve(moment(Date.now()));
         }
         const { hId } = this.props.match.params as { hId: string; };
         this.houseInfo = await this.HouseStore.InitHouseInfo(hId);
@@ -334,7 +359,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                             size='large'
                             type='primary'
                             icon={<PayCircleOutlined />}
-                            children='立即支付并预定'
+                            children={this.isRenewal ? '确认续约' : '立即支付并预定'}
                         />
                     </div>
                 </div>

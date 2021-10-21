@@ -15,10 +15,12 @@ import { CONST_HOST } from '../Common/VariableGlobal';
 import { RenderTags } from '../HouseList/HouseItem';
 
 const { Meta } = Card;
-const RestOfRentDay = (checkOutDate: Date): number =>
+const RestOfRentDay = (rentInfo: UserRentListItem): number =>
 {
+
+    console.log(moment(rentInfo.checkInDate).format("YYYY-MM-DD") === moment(Date.now()).format('YYYY-MM-DD'));
     return (
-        moment(checkOutDate).diff(moment(Date.now()), 'day')
+        moment(rentInfo.checkOutDate).diff(moment(Date.now()), 'day')
     );
 };
 const RenderQrKey = (checkOutDate: Date): string =>
@@ -84,6 +86,15 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
     {
         this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
     };
+    GotToRenewalOrder = (): void =>
+    {
+        const urlState = {};
+        Object.assign(urlState, {
+            orderId: this.userRentList[0].orderId,
+            checkOutDate: this.userRentList[0].checkOutDate
+        });
+        this.props.history.push(`/HouseList/ConfirmOrder/${this.houseInfo.baseInfo.hId}`, { urlState });
+    };
     async componentDidMount()
     {
         await this.InitOrderState();
@@ -148,7 +159,13 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                             }
                             actions={
                                 [
-                                    <Button size='large' children={'续租'} type='primary' icon={<MoneyCollectOutlined />} />,
+                                    <Button
+                                        size='large'
+                                        children={'续租'}
+                                        type='primary'
+                                        icon={<MoneyCollectOutlined />}
+                                        onClick={this.GotToRenewalOrder}
+                                    />,
                                     <Button size='large' children={'报修'} type='primary' icon={<ToolOutlined />} />,
                                     <Popover
                                         trigger='click'
@@ -166,9 +183,9 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                             <Meta
                                 title={
                                     <div className='RentRestOfDays' style={{
-                                        color: RestOfRentDay(rentInfo.checkOutDate) > 10 ? "#52c41a" : '#fe615a'
+                                        color: RestOfRentDay(rentInfo) > 10 ? "#52c41a" : '#fe615a'
                                     }}>
-                                        剩余{RestOfRentDay(rentInfo.checkOutDate)}天
+                                        剩余{RestOfRentDay(rentInfo)}天
                                     </div>
                                 }
                                 description={
@@ -186,7 +203,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                     );
                 })
                 }
-            </div >
+            </div>
         );
     }
 }
