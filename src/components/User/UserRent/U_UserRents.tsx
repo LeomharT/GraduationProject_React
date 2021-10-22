@@ -66,7 +66,8 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
         const urlState = {};
         Object.assign(urlState, {
             orderId: this.userRentList[0].orderId,
-            checkOutDate: this.userRentList[0].checkOutDate
+            totalAmount: this.userRentList[0].totalAmount,
+            checkOutDate: this.userRentList[0].checkOutDate,
         });
         this.props.history.push(`/HouseList/ConfirmOrder/${this.houseInfo.baseInfo.hId}`, { urlState });
     };
@@ -99,7 +100,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         <Button type='link' icon={<BellOutlined />} />
                                         <Dropdown overlay={
                                             <Menu>
-                                                <Menu.Item
+                                                <Menu.Item key='1'
                                                     onClick={() => this.props.history.push(`/HouseList/DetailInfo/${houseInfo.baseInfo.hId}`)}
                                                 >详细信息
                                                 </Menu.Item>
@@ -109,13 +110,13 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     </div>
                                 </div>
                                 <div className='R_Actions'>
-                                    <Button type='link'
+                                    <Button size='large' type='link'
                                         icon={<MoneyCollectOutlined />}
                                         children='续租' onClick={this.GoToRenewalOrder} />
                                     <Divider type='vertical' />
-                                    <Button type='link' icon={<ToolOutlined />} children='报修' />
+                                    <Button size='large' type='link' icon={<ToolOutlined />} children='报修' />
                                     <Divider type='vertical' />
-                                    <Button type='link' icon={<TransactionOutlined />} danger children='退款' />
+                                    <Button size='large' type='link' icon={<TransactionOutlined />} danger children='退租' />
                                 </div>
                             </div>
                             <Divider />
@@ -130,6 +131,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {RestOfRentDay(rentInfo, 'day')}
                                     </div>
                                 </div>
+                                <Divider type='vertical' />
                                 <div>
                                     <div className='Date_Description'>剩余月数</div>
                                     <div
@@ -140,6 +142,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {RestOfRentDay(rentInfo, 'month')}
                                     </div>
                                 </div>
+                                <Divider type='vertical' />
                                 <div>
                                     <div className='Date_Description'>订单总额</div>
                                     <div className='Date_Info' style={{ color: "#fe615a" }}>
@@ -147,12 +150,14 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {rentInfo.totalAmount}
                                     </div>
                                 </div>
+                                <Divider type='vertical' />
                                 <div>
                                     <div className='Date_Description'>入住日期</div>
                                     <div className='Date_Info'>
                                         {moment(rentInfo.checkInDate).format('YYYY/MM/DD')}
                                     </div>
                                 </div>
+                                <Divider type='vertical' />
                                 <div>
                                     <div className='Date_Description'>退房日期</div>
                                     <div className='Date_Info'>

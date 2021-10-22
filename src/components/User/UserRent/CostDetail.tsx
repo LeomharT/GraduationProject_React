@@ -14,29 +14,29 @@ export default class CostDetail extends Component<{ rentInfo: UserRentListItem; 
                 <div className='CostItem'>
                     <Button size='large' icon={<PayCircleOutlined />} type='primary' />
                     <span>房屋金额</span>
-                    <Progress percent={20} size='default' />
-                    <span>&yen;{rentInfo.totalAmount}.00</span>
+                    <Progress percent={100} size='default' />
+                    <span>&yen;{rentInfo.totalAmount}</span>
                 </div>
                 <Divider />
                 <div className='CostItem'>
                     <Button size='large' icon={<IconFont type='icon-houserentshuifei' />} type='primary' />
                     <span>水费</span>
                     <Progress percent={60} size='default' />
-                    <span>&yen;5000.00</span>
+                    <span>&yen;60/&yen;100</span>
                 </div>
                 <Divider />
                 <div className='CostItem'>
                     <Button size='large' icon={<ThunderboltOutlined />} type='primary' />
                     <span>电费</span>
                     <Progress percent={40} size='default' />
-                    <span>&yen;5000.00</span>
+                    <span>&yen;40/&yen;100</span>
                 </div>
                 <Divider />
                 <div className='CostItem'>
                     <Button size='large' icon={<IconFont type='icon-houserenttingchejiaofei' />} type='primary' />
                     <span>停车费</span>
                     <Progress percent={70} size='default' />
-                    <span>&yen;5000.00</span>
+                    <span>&yen;70/&yen;100</span>
                 </div>
             </div>
         );

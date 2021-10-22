@@ -132,9 +132,11 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
             if (this.order instanceof OrderRenewal)
             {
                 //@ts-ignore
-                const { orderId } = this.props.location.state.urlState;
+                const { orderId, totalAmount } = this.props.location.state.urlState;
+                const newTotalAmount = parseFloat(totalAmount) + parseFloat(res.alipay_trade_query_response.total_amount);
                 const orderFormData = new FormData();
                 orderFormData.set("oldOrderId", orderId);
+                orderFormData.set("totalAmount", newTotalAmount.toString());
                 orderFormData.set("newCheckOutDate", this.order.checkOutDate.format('YYYY-MM-DD hh:mm:ss'));
                 const result = await (await fetch(`${CONST_HOST}/RenewalOrder`, {
                     method: "POST",
