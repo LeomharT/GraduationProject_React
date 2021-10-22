@@ -259,11 +259,14 @@
                             color: #A4A4A4;
                             width: 60px;
                         }
-                        & span:nth-child(4){
-                            color      : #030303;
-                            font-weight: bold;
-                            font-size  : 14px;
-                            width      : 85px;
+                        & div:nth-child(4){
+                            color         : #030303;
+                            font-weight   : bold;
+                            font-size     : 14px;
+                            width         : 120px;
+                            display       : flex;
+                            flex-direction: row;
+                            align-items   : center;
                         }
                         .ant-progress
                         {
