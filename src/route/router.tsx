@@ -10,11 +10,11 @@ import HouseList from "../components/HouseList/HouseList";
 import ConfirmOrder from "../components/HouseList/RentAndPay/ConfirmOrder";
 import PaymentSuccess from "../components/HouseList/RentAndPay/PaymentSuccess";
 import User from "../components/User/User";
+import U_UserRents from "../components/User/UserRent/U_UserRents";
 import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
 import U_RepairOrder from "../components/User/U_RepairOrder";
 import U_UserCollect from "../components/User/U_UserCollect";
-import U_UserRents from "../components/User/U_UserRents";
 import VRScene from "../components/VR/VRScene";
 
 export interface RouteType

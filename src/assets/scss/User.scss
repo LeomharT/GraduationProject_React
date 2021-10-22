@@ -65,6 +65,8 @@
                         width           : 250px;
                         line-height     : 31px;
                         background-color: #f7f9fb;
+                        box-sizing      : border-box;
+                        padding-left    : 10px;
                     }
                 }
             }
@@ -118,67 +120,153 @@
         .U_UserRents
         {
             box-sizing: border-box;
-            padding   : 10px;
+            padding   : 0 50px;
             width     : 100%;
-            .ant-card
+            height    : 100%;
+            .UserRentInfo
             {
-                box-sizing: border-box;
-                padding   : 20px;
-                .RentInfoCover
-                {
-                    width          : 100%;
-                    height         : 250px;
-                    display        : flex;
-                    justify-content: space-between;
-                    .ant-carousel
-                    {
-                        width : 400px;
-                        height: 100%;
-                        .slick-dots
-                        {
-                            bottom: 5px;
-                        }
-                        img
-                        {
-                            height: 250px;
-                        }
-                    }
-                    .RentInfo{
-                        display       : flex;
-                        flex-direction: column;
-                        width         : 100%;
-                        box-sizing    : border-box;
-                        padding-left  : 40px;
-                        >div
-                        {
-                            &:nth-child(1)
-                            {
-                                font-size  : 30px;
-                                font-weight: bold;
-                                display    : flex;
-                                align-items: center;
-                                justify-content: space-between;
-                            }
-                            &:nth-child(2)
-                            {
-                                color: rgba(0, 0, 0, 0.45);
-                            }
-                            &:nth-child(3)
-                            {
-                                height: 182px;
-                            }
-                        }
-                    }
-                }
-                .RentRestOfDays
-                {
-                    font-size  : 30px;
-                    font-weight: bold;
-                }
-                .CheckDate
+                width         : 100%;
+                height        : 100%;
+                box-sizing    : border-box;
+                padding       : 10px;
+                display       : flex;
+                flex-direction: column;
+                box-shadow    : 0 0 10px rgba(1,1,1,.2);
+                border-radius : 5px;
+                .RentTitleAndAction
                 {
                     display       : flex;
                     flex-direction: column;
+                    .R_Title
+                    {
+                        display        : flex;
+                        font-size      : 30px;
+                        font-weight    : bold;
+                        justify-content: space-between;
+                        align-items    : center;
+                        .ant-tag
+                        {
+                            margin: 0 0 0 5px;
+                        }
+                        >div{display: flex;align-items: center;}
+                        button{margin-right: 10px;}
+                    }
+                    .R_Actions
+                    {
+                        display       : flex;
+                        flex-direction: row;
+                        align-items   : center;
+                    }
+                }
+                .RrentDate
+                {
+                    width         : 100%;
+                    display       : flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    >div
+                    {
+                        display       : flex;
+                        flex-direction: column;
+                        .Date_Description
+                        {
+                            font-size    : 15px;
+                            color        : #C5C5C5;
+                            margin-bottom: 5px;
+                        }
+                        .Date_Info
+                        {
+                            font-size  : 20px;
+                            font-weight: bold;
+                            display    : flex;
+                            color      : #303030;
+                            >span
+                            {
+                                font-size   : 12px;
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+                }
+                .CostDetail
+                {
+                    display       : flex;
+                    flex-direction: column;
+                    .ant-divider
+                    {
+                        margin: 12px;
+                    }
+                    & >div:nth-child(1){
+                        .ant-btn-primary
+                        {
+                            background-color: #52c41a;
+                            border-color    : #52c41a;
+                        }
+                        .ant-progress-bg
+                        {
+                            background-color: #52c41a;
+                        }
+                    }
+                    & >div:nth-child(3){
+                        .ant-btn-primary
+                        {
+                            background-color: #1890ff;
+                            border-color    : #1890ff;
+                        }
+                        .ant-progress-bg
+                        {
+                            background-color: #1890ff;
+                        }
+                    }
+                    & >div:nth-child(5){
+                        .ant-btn-primary
+                        {
+                            background-color: #fa8c16;
+                            border-color    : #fa8c16;
+                        }
+                        .ant-progress-bg
+                        {
+                            background-color: #fa8c16;
+                        }
+                    }
+                    & >div:nth-child(7){
+                        .ant-btn-primary
+                        {
+                            background-color: #d9d9d9;
+                            border-color    : #d9d9d9;
+                        }
+                        .ant-progress-bg
+                        {
+                            background-color: #d9d9d9;
+                        }
+                    }
+                    .CostItem
+                    {
+                        display        : flex;
+                        flex-direction : row;
+                        align-items    : center;
+                        justify-content: space-between;
+
+                        & span:nth-child(2){
+                            color: #A4A4A4;
+                            width: 60px;
+                        }
+                        & span:nth-child(4){
+                            color      : #030303;
+                            font-weight: bold;
+                            font-size  : 16px;
+                        }
+                        .ant-progress
+                        {
+                            width: 500px;
+                            .ant-progress-outer
+                            {
+                                padding-right: 0;
+                            }
+                            .ant-progress-text
+                            {display: none;}
+                        }
+                    }
                 }
             }
         }
