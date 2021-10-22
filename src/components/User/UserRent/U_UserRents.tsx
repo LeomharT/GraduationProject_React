@@ -12,7 +12,7 @@ import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { Render404 } from '../../Common/AppIconTitle';
 import { RenderTags } from '../../HouseList/HouseItem';
-import CostDetail from './CostDetail';
+import CostDetail, { FormatNum } from './CostDetail';
 import PositionInfo from './PositionInfo';
 
 
@@ -147,7 +147,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     <div className='Date_Description'>订单总额</div>
                                     <div className='Date_Info' style={{ color: "#fe615a" }}>
                                         <span>&yen;</span>
-                                        {rentInfo.totalAmount}
+                                        {FormatNum(parseFloat(rentInfo.totalAmount).toFixed(2))}
                                     </div>
                                 </div>
                                 <Divider type='vertical' />

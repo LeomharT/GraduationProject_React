@@ -4,6 +4,45 @@ import React, { Component } from 'react';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import { IconFont } from '../../HouseList/RentAndPay/ConfirmOrder';
 
+export const FormatNum = (str: string) =>
+{
+    var newStr = "";
+    var count = 0;
+    // 当数字是整数
+    if (str.indexOf(".") == -1)
+    {
+        for (var i = str.length - 1; i >= 0; i--)
+        {
+            if (count % 3 == 0 && count != 0)
+            {
+                newStr = str.charAt(i) + "," + newStr;
+            } else
+            {
+                newStr = str.charAt(i) + newStr;
+            }
+            count++;
+        }
+        str = newStr + ".00"; //自动补小数点后两位
+        return str;
+    }
+    // 当数字带有小数
+    else
+    {
+        for (var i = str.indexOf(".") - 1; i >= 0; i--)
+        {
+            if (count % 3 == 0 && count != 0)
+            {
+                newStr = str.charAt(i) + "," + newStr;
+            } else
+            {
+                newStr = str.charAt(i) + newStr; //逐个字符相接起来
+            }
+            count++;
+        }
+        str = newStr + (str + "00").substr((str + "00").indexOf("."), 3);
+        return str;
+    }
+};
 export default class CostDetail extends Component<{ rentInfo: UserRentListItem; }, {}>
 {
     render()
@@ -15,7 +54,7 @@ export default class CostDetail extends Component<{ rentInfo: UserRentListItem; 
                     <Button size='large' icon={<PayCircleOutlined />} type='primary' />
                     <span>房屋金额</span>
                     <Progress percent={100} size='default' />
-                    <span>&yen;{rentInfo.totalAmount}</span>
+                    <span>&yen;{FormatNum(parseFloat(rentInfo.totalAmount).toFixed(2))}</span>
                 </div>
                 <Divider />
                 <div className='CostItem'>
