@@ -254,7 +254,10 @@
                         flex-direction : row;
                         align-items    : center;
                         justify-content: space-between;
-
+                        >button
+                        {
+                            border-radius: 10px;
+                        }
                         & span:nth-child(2){
                             color: #A4A4A4;
                             width: 60px;

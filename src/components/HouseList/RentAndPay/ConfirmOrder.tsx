@@ -99,7 +99,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
 
         const res = await (await fetch(resURL)).json() as AliPayOrderState;
         this.checking = true;
-        if (res.alipay_trade_query_response.code === "10000" && res.alipay_trade_query_response.send_pay_date)
+        if (res.alipay_trade_query_response.code === "10000" && res.alipay_trade_query_response.trade_status === 'TRADE_SUCCESS')
         {
             if (this.order instanceof OrderReserve)
             {

@@ -11,7 +11,9 @@ import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { Render404 } from '../../Common/AppIconTitle';
+import { CONST_HOST } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
+import OrderRefund from '../../HouseList/RentAndPay/OrderRefund';
 import CostDetail, { FormatNum } from './CostDetail';
 import PositionInfo from './PositionInfo';
 
@@ -71,6 +73,20 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
         });
         this.props.history.push(`/HouseList/ConfirmOrder/${this.houseInfo.baseInfo.hId}`, { urlState });
     };
+    OrderRefund = async (rentInfo: UserRentListItem) =>
+    {
+        const orderRefund = new OrderRefund(moment(rentInfo.checkInDate));
+        orderRefund.tradeNo = rentInfo.trade_no;
+        orderRefund.refundAmount = rentInfo.totalAmount;
+        const resURL = await (await fetch(`${CONST_HOST}/OrderRefund`, {
+            method: "POST",
+            body: JSON.stringify(orderRefund),
+            headers: {
+                'Content-Type': "application/json;charset=utf-8"
+            },
+        })).text();
+        console.log(resURL);
+    };
     async componentDidMount()
     {
         await this.InitOrderState();
@@ -98,7 +114,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     </div>
                                     <div>
                                         <Button type='link' icon={<BellOutlined />} />
-                                        <Dropdown overlay={
+                                        <Dropdown trigger={['click']} overlay={
                                             <Menu>
                                                 <Menu.Item key='1'
                                                     onClick={() => this.props.history.push(`/HouseList/DetailInfo/${houseInfo.baseInfo.hId}`)}
@@ -110,13 +126,23 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     </div>
                                 </div>
                                 <div className='R_Actions'>
-                                    <Button size='large' type='link'
+                                    <Button size='large'
+                                        type='link'
                                         icon={<MoneyCollectOutlined />}
-                                        children='续租' onClick={this.GoToRenewalOrder} />
+                                        children='续租'
+                                        onClick={this.GoToRenewalOrder} />
                                     <Divider type='vertical' />
                                     <Button size='large' type='link' icon={<ToolOutlined />} children='报修' />
                                     <Divider type='vertical' />
-                                    <Button size='large' type='link' icon={<TransactionOutlined />} danger children='退租' />
+                                    <Button size='large'
+                                        type='link'
+                                        icon={<TransactionOutlined />}
+                                        danger
+                                        children='退租'
+                                        onClick={async () =>
+                                        {
+                                            await this.OrderRefund(rentInfo);
+                                        }} />
                                 </div>
                             </div>
                             <Divider />
