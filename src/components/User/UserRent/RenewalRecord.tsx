@@ -1,11 +1,10 @@
 import Table, { ColumnType } from 'antd/lib/table';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 import { DefaultRecordType } from 'rc-table/lib/interface';
 import React, { Component } from 'react';
-import { RenewalOrderRecord } from '../../../interfaces/UserInferface';
-import { CONST_HOST } from '../../Common/VariableGlobal';
+import UserStore from '../../../redux/UserStore';
+
 const TableColumns: ColumnType<DefaultRecordType>[] = [
     {
         title: "房屋编号",
@@ -53,23 +52,16 @@ const TableColumns: ColumnType<DefaultRecordType>[] = [
 @observer
 export default class RenewalRecord extends Component<{ id: string; }, {}>
 {
-    @observable renewalRecordList: RenewalOrderRecord[] = [];
-    InitRenewalOrderList = async () =>
-    {
-        let res = await (
-            await fetch(`${CONST_HOST}/GetUserRenewalOrderList?id=${this.props.id}`)
-        ).json() as RenewalOrderRecord[];
-        this.renewalRecordList = res;
-    };
+    UserStore: UserStore = UserStore.GetInstance();
     async componentDidMount()
     {
-        await this.InitRenewalOrderList();
+        await this.UserStore.InitRenewalOrderList(this.props.id);
     }
     render()
     {
         return (
             <div className='RenewalRecord'>
-                <Table pagination={false} columns={TableColumns} dataSource={this.renewalRecordList} />
+                <Table pagination={false} columns={TableColumns} dataSource={this.UserStore.renewalRecordList} />
             </div>
         );
     }

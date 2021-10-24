@@ -197,7 +197,10 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                             <Tabs size='large' defaultActiveKey='1' tabBarExtraContent={{
                                 right:
                                     <>
-                                        <RangePicker locale={locale} />
+                                        <RangePicker locale={locale} onChange={(v) =>
+                                        {
+                                            this.UserStore.InitRenewalOrderList(rentInfo.id, v);
+                                        }} />
                                         <Button type='link' icon={<SettingOutlined />} />
                                     </>
                             }} >

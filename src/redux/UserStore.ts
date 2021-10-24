@@ -1,10 +1,11 @@
 import { AuthenticationClient } from "authing-js-sdk";
 import { observable } from "mobx";
+import moment, { Moment } from "moment";
+import { RangeValue } from 'rc-picker/lib/interface';
 import { io } from "socket.io-client";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
-import { UserRentListItem } from "../interfaces/UserInferface";
+import { RenewalOrderRecord, UserRentListItem } from "../interfaces/UserInferface";
 import AuthStore from "./AuthStore";
-
 export default class UserStore
 {
     constructor()
@@ -16,6 +17,7 @@ export default class UserStore
     authenticationClient!: AuthenticationClient;
     socketIo = io("ws://localhost:3066"); //创建socket.io实例
     @observable showChat: boolean = false;
+    @observable renewalRecordList: RenewalOrderRecord[] = [];
     InitAuthInfo = async () =>
     {
         this.authInfo = await this.AuthStore.GetAuthInfo();
@@ -64,6 +66,23 @@ export default class UserStore
         return await (
             await fetch(`${CONST_HOST}/GetCurrentUserHouseRentList?uId=${uId}`)
         ).json();
+    };
+    InitRenewalOrderList = async (id: string, dataRange?: RangeValue<Moment>) =>
+    {
+        let URL: string = `${CONST_HOST}/GetUserRenewalOrderList?id=${id}`;
+        if (dataRange)
+        {
+            let checkInDate = moment(dataRange[0]).format("YYYY-MM-DD");
+            let checkOutDate = moment(dataRange[1]).format("YYYY-MM-DD");
+            URL = `${CONST_HOST}/GetUserRenewalOrderList?id=${id}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`;
+        } else
+        {
+            URL = `${CONST_HOST}/GetUserRenewalOrderList?id=${id}`;
+        }
+        let res = await (
+            await fetch(URL)
+        ).json() as RenewalOrderRecord[];
+        this.renewalRecordList = res;
     };
     private static _SingleInstance: UserStore;
     static GetInstance()
