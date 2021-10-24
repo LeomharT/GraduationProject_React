@@ -16,6 +16,7 @@ import { RenderTags } from '../../HouseList/HouseItem';
 import OrderRefund from '../../HouseList/RentAndPay/OrderRefund';
 import CostDetail, { FormatNum } from './CostDetail';
 import PositionInfo from './PositionInfo';
+import RenewalRecord from './RenewalRecord';
 
 
 const { TabPane } = Tabs;
@@ -23,7 +24,7 @@ const { RangePicker } = DatePicker;
 
 const RestOfRentDay = (rentInfo: UserRentListItem, dateType: unitOfTime.Base): number =>
 {
-    if (moment(rentInfo.checkInDate).format("YYYY-MM-DD") > moment(Date.now()).format('YYYY-MM-DD'))
+    if (moment(rentInfo.checkInDate) > moment(Date.now()))
     {
         return (
             moment(rentInfo.checkOutDate).diff(moment(rentInfo.checkInDate), dateType)
@@ -63,13 +64,14 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
     {
         this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
     };
-    GoToRenewalOrder = (): void =>
+    GoToRenewalOrder = (rentInfo: UserRentListItem): void =>
     {
         const urlState = {};
         Object.assign(urlState, {
-            orderId: this.userRentList[0].orderId,
-            totalAmount: this.userRentList[0].totalAmount,
-            checkOutDate: this.userRentList[0].checkOutDate,
+            id: rentInfo.id,
+            orderId: rentInfo.orderId,
+            totalAmount: rentInfo.totalAmount,
+            checkOutDate: rentInfo.checkOutDate,
         });
         this.props.history.push(`/HouseList/ConfirmOrder/${this.houseInfo.baseInfo.hId}`, { urlState });
     };
@@ -130,7 +132,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         type='link'
                                         icon={<MoneyCollectOutlined />}
                                         children='续租'
-                                        onClick={this.GoToRenewalOrder} />
+                                        onClick={() => { this.GoToRenewalOrder(rentInfo); }} />
                                     <Divider type='vertical' />
                                     <Button size='large' type='link' icon={<ToolOutlined />} children='报修' />
                                     <Divider type='vertical' />
@@ -205,7 +207,10 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                 <TabPane key='2' tab='位置信息'>
                                     <PositionInfo houseInfo={this.houseInfo} />
                                 </TabPane>
-                                <TabPane key='3' tab='扫码开门' style={{ display: "flex", justifyContent: "center" }}>
+                                <TabPane key='3' tab='续约记录'>
+                                    <RenewalRecord id={rentInfo.id} />
+                                </TabPane>
+                                <TabPane key='4' tab='扫码开门' style={{ display: "flex", justifyContent: "center" }}>
                                     <img alt='QR' src={RenderQrKey(rentInfo)} />
                                 </TabPane>
                             </Tabs>

@@ -18,6 +18,7 @@ export declare interface TenantInfo
 }
 export declare interface UserRentListItem
 {
+    id: string,
     uId: string,
     hId: string,
     orderId: string,
@@ -27,4 +28,16 @@ export declare interface UserRentListItem
     trade_no: string,
     checkInDate: Date,
     checkOutDate: Date,
+}
+export declare interface RenewalOrderRecord
+{
+    key: string,
+    hId: string,
+    hName: string,
+    orderID: string,
+    orderAmount: string,
+    checkInDate: string,
+    checkOutDate: string,
+    belongOrder: string,
+    trade_no: string;
 }
