@@ -35,3 +35,12 @@ declare interface AliPayOrderStateFail extends AlipayTradeQueryResponse
     sub_code: string;
     sub_msg: string;
 }
+
+//订单状态
+export enum OrderState
+{
+    living = '居住中',
+    error = '异常',
+    close = '关闭',
+    refundable = '可退还',
+}

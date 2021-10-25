@@ -80,6 +80,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
         const orderRefund = new OrderRefund(moment(rentInfo.checkInDate));
         orderRefund.tradeNo = rentInfo.trade_no;
         orderRefund.refundAmount = rentInfo.totalAmount;
+        orderRefund.renewalOrderList = await this.UserStore.InitRenewalOrderList(rentInfo.id);
         const resURL = await (await fetch(`${CONST_HOST}/OrderRefund`, {
             method: "POST",
             body: JSON.stringify(orderRefund),
@@ -87,7 +88,8 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                 'Content-Type': "application/json;charset=utf-8"
             },
         })).text();
-        console.log(resURL);
+        const refundInfo = await (await fetch(resURL)).json();
+        console.log(refundInfo);
     };
     async componentDidMount()
     {
@@ -197,9 +199,9 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                             <Tabs size='large' defaultActiveKey='1' tabBarExtraContent={{
                                 right:
                                     <>
-                                        <RangePicker locale={locale} onChange={(v) =>
+                                        <RangePicker locale={locale} onChange={async (v) =>
                                         {
-                                            this.UserStore.InitRenewalOrderList(rentInfo.id, v);
+                                            this.UserStore.renewalRecordList = await this.UserStore.InitRenewalOrderList(rentInfo.id, v);
                                         }} />
                                         <Button type='link' icon={<SettingOutlined />} />
                                     </>

@@ -22,6 +22,10 @@
         background-position: 0 100%;
     }
 }
+@keyframes OrderStateProcessing{
+    0%{transform:scale(.8);opacity:.5}
+    to{transform:scale(2.4);opacity:0}
+}
 .HeadNavi
 {
     width           : 100%;
@@ -127,5 +131,72 @@
     .spinner-icon {
         border-top-color: #1890ff;
         border-left-color: #1890ff;
+    }
+}
+
+.StateIcon
+{
+    display       : flex;
+    flex-direction: row;
+    align-items   : center;
+    >div
+    {
+        margin-left: 5px;
+    }
+    >span
+    {
+        display         : flex;
+        justify-content : center;
+        align-items     : center;
+        width           : 6px;
+        height          : 6px;
+        background-color: #1890ff;
+        border-radius   : 100%;
+        position: relative;
+        &::after{
+            width        : 100%;
+            height       : 100%;
+            border-radius: 100%;
+            border       : 1px solid #1890ff;
+            content      : '';
+            position     : absolute;
+            animation    : OrderStateProcessing 1.2s ease-in-out infinite;
+        }
+    }
+}
+.StateIconError
+{
+    @extend .StateIcon;
+    >span
+    {
+        background-color: #ff4d4f;
+        &::after
+        {
+            border: 1px solid #ff4d4f;
+        }
+    }
+}
+.StateIconClose
+{
+    @extend .StateIcon;
+    >span
+    {
+        background-color: #d9d9d9;
+        &::after
+        {
+            border: 1px solid #d9d9d9;
+        }
+    }
+}
+.StateIconRefundable
+{
+    @extend .StateIcon;
+    >span
+    {
+        background-color: #52c41a;
+        &::after
+        {
+            border: 1px solid #52c41a;
+        }
     }
 }

@@ -55,7 +55,7 @@ export default class RenewalRecord extends Component<{ id: string; }, {}>
     UserStore: UserStore = UserStore.GetInstance();
     async componentDidMount()
     {
-        await this.UserStore.InitRenewalOrderList(this.props.id);
+        this.UserStore.renewalRecordList = await this.UserStore.InitRenewalOrderList(this.props.id);
     }
     render()
     {

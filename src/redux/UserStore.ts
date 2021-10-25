@@ -82,7 +82,7 @@ export default class UserStore
         let res = await (
             await fetch(URL)
         ).json() as RenewalOrderRecord[];
-        this.renewalRecordList = res;
+        return res;
     };
     private static _SingleInstance: UserStore;
     static GetInstance()

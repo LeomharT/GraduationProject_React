@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { OrderState } from '../../interfaces/PaymentInterface';
+import { StateIcon } from '../Common/AppIconTitle';
 
 export default class U_RepairOrder extends Component
 {
@@ -6,7 +8,7 @@ export default class U_RepairOrder extends Component
     {
         return (
             <div>
-                我是报修流程哦😄
+                <StateIcon state={OrderState.error} />
             </div>
         );
     }

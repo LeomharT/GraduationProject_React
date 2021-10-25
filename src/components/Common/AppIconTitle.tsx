@@ -4,6 +4,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import AppIcon from '../../assets/img/AppIcon.svg';
 import '../../assets/scss/Common.scss';
+import { OrderState } from '../../interfaces/PaymentInterface';
 
 
 export function AppIconTitle(props: { title?: string; })
@@ -67,4 +68,52 @@ export function Render404(props: Render404Props): JSX.Element
             }
         />
     );
+}
+
+export function StateIcon(props: { state: OrderState; }): JSX.Element
+{
+    switch (props.state)
+    {
+        case OrderState.living:
+            return (
+                <div className='StateIcon'>
+                    <span>
+                    </span>
+                    <div>
+                        {props.state}
+                    </div>
+                </div>
+            );
+        case OrderState.close:
+            return (
+                <div className='StateIconClose'>
+                    <span>
+                    </span>
+                    <div>
+                        {props.state}
+                    </div>
+                </div>
+            );
+        case OrderState.refundable:
+            return (
+                <div className='StateIconRefundable'>
+                    <span>
+                    </span>
+                    <div>
+                        {props.state}
+                    </div>
+                </div>
+            );
+        case OrderState.error:
+            return (
+                <div className='StateIconError'>
+                    <span>
+                    </span>
+                    <div>
+                        {props.state}
+                    </div>
+                </div>
+            );
+        default: return <div>没状态</div>;
+    }
 }

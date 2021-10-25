@@ -1,5 +1,6 @@
 import moment, { Moment } from "moment";
 import { generateUUID } from "three/src/math/MathUtils";
+import { RenewalOrderRecord } from "../../../interfaces/UserInferface";
 import Order from "./Order";
 
 export default class OrderRefund extends Order
@@ -12,4 +13,5 @@ export default class OrderRefund extends Order
     private _RefundOrderId: string;
     refundAmount: string;
     tradeNo: string;
+    renewalOrderList: RenewalOrderRecord[] = [];
 }
