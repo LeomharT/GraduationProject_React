@@ -7,10 +7,11 @@ import moment, { unitOfTime } from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
+import { OrderState } from '../../../interfaces/PaymentInterface';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
-import { Render404 } from '../../Common/AppIconTitle';
+import { Render404, StateIcon } from '../../Common/AppIconTitle';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
 import OrderRefund from '../../HouseList/RentAndPay/OrderRefund';
@@ -147,6 +148,20 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {
                                             await this.OrderRefund(rentInfo);
                                         }} />
+                                    <Divider type='vertical' />
+                                    {(() =>
+                                    {
+                                        if (moment(rentInfo.checkInDate) < moment(Date.now()))
+                                        {
+                                            return (<StateIcon state={OrderState.living} />);
+                                        } else if (moment(rentInfo.checkOutDate) < moment(Date.now()))
+                                        {
+                                            return (<StateIcon state={OrderState.close} />);
+                                        } else
+                                        {
+                                            return (<StateIcon state={OrderState.liveable} />);
+                                        }
+                                    })()}
                                 </div>
                             </div>
                             <Divider />

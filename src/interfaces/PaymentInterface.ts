@@ -39,8 +39,8 @@ declare interface AliPayOrderStateFail extends AlipayTradeQueryResponse
 //订单状态
 export enum OrderState
 {
-    living = '居住中',
+    liveable = '可居住',
     error = '异常',
     close = '关闭',
-    refundable = '可退还',
+    living = '居住中',
 }

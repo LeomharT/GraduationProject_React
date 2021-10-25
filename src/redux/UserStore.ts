@@ -4,6 +4,7 @@ import moment, { Moment } from "moment";
 import { RangeValue } from 'rc-picker/lib/interface';
 import { io } from "socket.io-client";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
+import { OrderState } from "../interfaces/PaymentInterface";
 import { RenewalOrderRecord, UserRentListItem } from "../interfaces/UserInferface";
 import AuthStore from "./AuthStore";
 export default class UserStore
@@ -82,6 +83,25 @@ export default class UserStore
         let res = await (
             await fetch(URL)
         ).json() as RenewalOrderRecord[];
+        for (let r of res)
+        {
+            if (moment(r.checkInDate) < moment(Date.now()))
+            {
+                Object.assign(r, {
+                    hState: OrderState.living
+                });
+            } else if (moment(r.checkOutDate) < moment(Date.now()))
+            {
+                Object.assign(r, {
+                    hState: OrderState.close
+                });
+            } else
+            {
+                Object.assign(r, {
+                    hState: OrderState.liveable
+                });
+            }
+        }
         return res;
     };
     private static _SingleInstance: UserStore;
