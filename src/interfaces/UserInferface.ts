@@ -24,6 +24,7 @@ export declare interface UserRentListItem
     orderId: string,
     buyer_user_id: string,
     totalAmount: string,
+    originAmount: string,
     sendPayDate: Date,
     trade_no: string,
     checkInDate: Date,

@@ -109,6 +109,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 orderFormData.set("orderId", res.alipay_trade_query_response.out_trade_no);
                 orderFormData.set("buyer_user_id", res.alipay_trade_query_response.buyer_user_id);
                 orderFormData.set("totalAmount", res.alipay_trade_query_response.total_amount);
+                orderFormData.set('originAmount', res.alipay_trade_query_response.total_amount);
                 orderFormData.set("sendPayDate", res.alipay_trade_query_response.send_pay_date);
                 orderFormData.set('trade_no', res.alipay_trade_query_response.trade_no);
                 orderFormData.set('checkInDate', moment(order.checkInDate).format('YYYY-MM-DD hh:mm:ss'));
