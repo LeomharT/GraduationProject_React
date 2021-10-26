@@ -82,11 +82,16 @@
             {
                 position:relative;
             }
-            .HouseItem_Wrapper
+            //因为被徽标包裹了,只需要缩小徽标包裹的元素
+            .ant-ribbon-wrapper
             {
-                margin   : 0;
                 transform: scale(90%);
             }
+            // .HouseItem_Wrapper
+            // {
+            //     margin   : 0;
+            //     transform: scale(90%);
+            // }
             .DeleteCollectBtn
             {
                 position: absolute;

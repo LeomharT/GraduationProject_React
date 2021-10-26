@@ -25,9 +25,11 @@ export declare interface HouseBaseInfo
     hExhibitImg: string,
     hTags: string,
     isVRed: boolean,
+    isRented: boolean,
 }
 export declare interface HouseDetailInfo
 {
+    //定义实例索引规则
     [index: string]: any;
     hId: string;
     uId: string;

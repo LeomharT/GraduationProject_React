@@ -1,5 +1,5 @@
 import { EnvironmentOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
-import { Card, Tag } from 'antd';
+import { Badge, Card, Tag } from 'antd';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
@@ -80,22 +80,24 @@ class HouseItem extends Component<HouseItemProps, {}>
             );
         };
         return (
-            <Card
-                className="HouseItem_Wrapper"
-                cover={<img alt="封面" src={`${CONST_HOST}/${HouseInfo.hExhibitImg}`} />}
-                bordered={false}
-                hoverable
-                onClick={() =>
-                {
-                    this.props.history.push(`/HouseList/DetailInfo/${HouseInfo.hId}`);
-                }}
-            >
-                {HouseInfo.isVRed && <VRAnimation bottom="25px" left="25px" />}
-                <Meta
-                    title={RenderTitleAndTags(HouseInfo)}
-                    description={RenderDetailAndRent(HouseInfo)}
-                />
-            </Card>
+            <Badge.Ribbon text={HouseInfo.isRented ? "已租出" : "立即入住"} color={HouseInfo.isRented ? "" : "green"}>
+                <Card
+                    className="HouseItem_Wrapper"
+                    cover={<img alt="封面" src={`${CONST_HOST}/${HouseInfo.hExhibitImg}`} />}
+                    bordered={false}
+                    hoverable
+                    onClick={() =>
+                    {
+                        this.props.history.push(`/HouseList/DetailInfo/${HouseInfo.hId}`);
+                    }}
+                >
+                    {HouseInfo.isVRed && <VRAnimation bottom="25px" left="25px" />}
+                    <Meta
+                        title={RenderTitleAndTags(HouseInfo)}
+                        description={RenderDetailAndRent(HouseInfo)}
+                    />
+                </Card>
+            </Badge.Ribbon>
         );
     }
 }
