@@ -241,63 +241,68 @@ class HouseDetail extends Component<DetailProps, {}>
                                 />
                             </div>
                         </div>
-                        <div className="ContactOnlineOrPhone">
-                            <div className="LandLordInfo">
-                                <AppIconTitle />
-                                优区生活
-                            </div>
-                            <div>
-                                <Button
-                                    size="large"
-                                    icon={<DollarCircleOutlined />}
-                                    type="primary"
-                                    onClick={async () =>
-                                    {
-                                        if (UserStore.CheckForIsLogin())
+                        <Badge.Ribbon text={houseDetailInfo.baseInfo.isRented ? "已租出" : "立即入住"} color={houseDetailInfo.baseInfo.isRented ? "" : "green"}>
+                            <div className="ContactOnlineOrPhone">
+                                <div className="LandLordInfo">
+                                    <AppIconTitle />
+                                    优区生活
+                                </div>
+                                <div>
+                                    <Button
+                                        disabled={
+                                            Boolean(houseDetailInfo.baseInfo.isRented)
+                                        }
+                                        size="large"
+                                        icon={<DollarCircleOutlined />}
+                                        type="primary"
+                                        onClick={async () =>
                                         {
-                                            if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId())).length)
+                                            if (UserStore.CheckForIsLogin())
                                             {
-                                                message.error('您已经租有一套公寓了哦');
-                                                return;
+                                                if ((await UserStore.InitCurrentUserRentList(UserStore.GetCurrentUserId())).length)
+                                                {
+                                                    message.error('您已经租有一套公寓了哦');
+                                                    return;
+                                                }
+                                                history.push(`/HouseList/ConfirmOrder/${houseDetailInfo.baseInfo.hId}`);
                                             }
-                                            history.push(`/HouseList/ConfirmOrder/${houseDetailInfo.baseInfo.hId}`);
-                                        }
-                                    }}
-                                >立即预约</Button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Popover
-                                    placement="bottom"
-                                    trigger='click'
-                                    content={(): React.ReactNode =>
-                                    {
-                                        let visualPhoneNumber = '400';
-                                        for (let i = 0; i < 10; i++)
+                                        }}
+                                    >立即预约</Button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Popover
+                                        placement="bottom"
+                                        trigger='click'
+                                        content={(): React.ReactNode =>
                                         {
-                                            visualPhoneNumber += Math.round(Math.random() * 10);
-                                        }
-                                        return (
-                                            <div style={{ padding: "5px" }}>
-                                                {visualPhoneNumber}
-                                            </div>
-                                        );
-                                    }}
-                                ><Button size="large" icon={<PhoneOutlined />}>电话联系</Button>
-                                </Popover>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button
-                                    size="large"
-                                    icon={<WechatOutlined />}
-                                    type="primary"
-                                    onClick={() =>
-                                    {
-                                        if (UserStore.CheckForIsLogin())
+                                            let visualPhoneNumber = '400';
+                                            for (let i = 0; i < 10; i++)
+                                            {
+                                                visualPhoneNumber += Math.round(Math.random() * 10);
+                                            }
+                                            return (
+                                                <div style={{ padding: "5px" }}>
+                                                    {visualPhoneNumber}
+                                                </div>
+                                            );
+                                        }}
+                                    ><Button size="large" icon={<PhoneOutlined />}>电话联系</Button>
+                                    </Popover>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <Button
+                                        size="large"
+                                        icon={<WechatOutlined />}
+                                        type="primary"
+                                        onClick={() =>
                                         {
-                                            UserStore.showChat = true;
-                                        }
-                                    }}
-                                >在线联系</Button>
+                                            if (UserStore.CheckForIsLogin())
+                                            {
+                                                UserStore.showChat = true;
+                                            }
+                                        }}
+                                    >在线联系</Button>
+                                </div>
                             </div>
-                        </div>
+                        </Badge.Ribbon>
                     </div>
                 </div>
                 <Affix offsetTop={0}>
