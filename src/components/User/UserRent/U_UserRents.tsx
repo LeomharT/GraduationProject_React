@@ -1,5 +1,5 @@
 import { BellOutlined, EllipsisOutlined, MoneyCollectOutlined, SettingOutlined, ToolOutlined, TransactionOutlined } from '@ant-design/icons';
-import { Button, DatePicker, Divider, Dropdown, Menu, Spin, Tabs } from 'antd';
+import { Badge, Button, DatePicker, Divider, Dropdown, Menu, Spin, Tabs } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -118,7 +118,9 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {RenderTags(houseInfo.baseInfo.hTags.split(","))}
                                     </div>
                                     <div>
-                                        <Button type='link' icon={<BellOutlined />} />
+                                        <Badge dot offset={[-15, 10]}>
+                                            <Button type='link' icon={<BellOutlined />} />
+                                        </Badge>
                                         <Dropdown trigger={['click']} overlay={
                                             <Menu>
                                                 <Menu.Item key='1'
