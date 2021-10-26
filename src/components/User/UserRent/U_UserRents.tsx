@@ -146,9 +146,9 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         icon={<TransactionOutlined />}
                                         danger
                                         children='退租'
-                                        onClick={async () =>
+                                        onClick={() =>
                                         {
-                                            await this.OrderRefund(rentInfo);
+                                            this.props.history.push('/HouseList/RefundOrder', { rentInfo: JSON.stringify(rentInfo) });
                                         }} />
                                     <Divider type='vertical' />
                                     {(() =>

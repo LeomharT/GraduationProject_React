@@ -117,3 +117,14 @@ export function StateIcon(props: { state: OrderState; }): JSX.Element
         default: return <div>没状态</div>;
     }
 }
+
+export function SelfCheckBox(props: { id: string; label: string; color: string; }): JSX.Element
+{
+    return (
+        <div className='SelfCheckBox'>
+            {/* 如需使用:checked伪类选择器,那么input必须在前面 */}
+            <input type='checkbox' value='1' id={props.id} />
+            <label style={{ backgroundColor: props.color }} htmlFor={props.id}>{props.label}</label>
+        </div>
+    );
+}
