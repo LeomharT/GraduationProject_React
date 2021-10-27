@@ -170,6 +170,10 @@
                 font-weight: bold;
                 display    : flex;
                 align-items: center;
+                >button:nth-child(1)
+                {
+                    margin-left: -32px;
+                }
             }
             .HSubTitle
             {
@@ -802,4 +806,9 @@
             }
         }
     }
+}
+.HouseRepair
+{
+    width : 1200px;
+    margin: 0 auto;
 }

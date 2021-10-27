@@ -121,7 +121,15 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         children='续租'
                                         onClick={() => { this.GoToRenewalOrder(rentInfo); }} />
                                     <Divider type='vertical' />
-                                    <Button size='large' type='link' icon={<ToolOutlined />} children='报修' />
+                                    <Button
+                                        size='large'
+                                        type='link'
+                                        icon={<ToolOutlined />}
+                                        children='报修'
+                                        onClick={() =>
+                                        {
+                                            this.props.history.push('/HouseList/HouseRepair', { rentInfo: JSON.stringify(rentInfo) });
+                                        }} />
                                     <Divider type='vertical' />
                                     <Button size='large'
                                         type='link'

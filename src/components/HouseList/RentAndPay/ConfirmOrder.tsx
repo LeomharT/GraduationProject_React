@@ -87,6 +87,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     CheckOrderPaymentStatus = async (): Promise<void> =>
     {
         const { order } = this;
+        this.checking = true;
         const resURL = await (
             await fetch(`${CONST_HOST}/CheckOrderPaymentStatus`, {
                 method: "POST",
@@ -98,7 +99,6 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
         ).text();//获取对象用.json() 获取字符串用.text()
 
         const res = await (await fetch(resURL)).json() as AliPayOrderState;
-        this.checking = true;
         if (res.alipay_trade_query_response.code === "10000" && res.alipay_trade_query_response.trade_status === 'TRADE_SUCCESS')
         {
             if (this.order instanceof OrderReserve)

@@ -10,6 +10,7 @@ import HouseList from "../components/HouseList/HouseList";
 import ConfirmOrder from "../components/HouseList/RentAndPay/ConfirmOrder";
 import PaymentSuccess from "../components/HouseList/RentAndPay/PaymentSuccess";
 import RefundOrder from "../components/HouseList/RentAndPay/RefundOrder";
+import HouseRepair from "../components/HouseList/Repair/HouseRepair";
 import User from "../components/User/User";
 import U_UserRents from "../components/User/UserRent/U_UserRents";
 import U_ArticleManage from "../components/User/U_ArticleManage";
@@ -34,6 +35,7 @@ const route: RouteType[] = [
             { title: "HouseExhibit", path: "/HouseList/DetailInfo/:HouseId", components: HouseDetail },
             { title: "ConfirmOrder", path: "/HouseList/ConfirmOrder/:hId", components: ConfirmOrder },
             { title: "RefundOrder", path: "/HouseList/RefundOrder", components: RefundOrder },
+            { title: "HouseRepair", path: "/HouseList/HouseRepair", components: HouseRepair },
         ]
     },
     {
