@@ -1,14 +1,18 @@
 import { BulbOutlined, LeftOutlined } from '@ant-design/icons';
-import { Alert, Button, Divider, Spin } from 'antd';
+import { Alert, Button, Divider, message, Spin } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
+import UserStore from '../../../redux/UserStore';
 import { SelfCheckBox } from '../../Common/AppIconTitle';
+import { CONST_HOST } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
+import OrderRefund from './OrderRefund';
 
 const ReasonUser = [
     '不想住了',
@@ -31,7 +35,7 @@ const ReasonOther = [
     '退款理由7',
     '退款理由8',
 ];
-declare interface RefundOrderProps extends RouteComponentProps
+interface RefundOrderProps extends RouteComponentProps
 {
 
 }
@@ -40,12 +44,57 @@ declare interface RefundOrderProps extends RouteComponentProps
 class RefundOrder extends Component<RefundOrderProps, {}>
 {
     HouseStore: HouseStore = HouseStore.GetInstance();
+    UserStore: UserStore = UserStore.GetInstance();
     @observable houseInfo: HouseInfo;
+    @observable rentInfo: UserRentListItem;
+    @observable checking: boolean = false;
+    OrderRefund = async () =>
+    {
+        const { rentInfo } = this;
+        this.checking = true;
+        //只有在入住时间之前才会退款
+        if (moment(Date.now()) < moment(rentInfo.checkInDate))
+        {
+            const orderRefund = new OrderRefund(moment(rentInfo.checkInDate));
+            orderRefund.tradeNo = rentInfo.trade_no;
+            orderRefund.refundAmount = rentInfo.originAmount;
+            orderRefund.renewalOrderList = await this.UserStore.InitRenewalOrderList(rentInfo.id);
+            const resURL = await (await fetch(`${CONST_HOST}/OrderRefund`, {
+                method: "POST",
+                body: JSON.stringify(orderRefund),
+                headers: {
+                    'Content-Type': "application/json;charset=utf-8"
+                },
+            })).text();
+            const refundInfo = await (await fetch(resURL)).json();
+            console.log(refundInfo);
+        }
+        const uId = this.UserStore.GetCurrentUserId();
+        if (!uId) return;
+        const formData = new FormData();
+        formData.set('id', rentInfo.id);
+        formData.set("uId", uId);
+        formData.set('hId', rentInfo.hId);
+        formData.set('trade_no', rentInfo.trade_no);
+        formData.set('orderId', rentInfo.orderId);
+        const checkOutState = await (await fetch(`${CONST_HOST}/UserCheckOut`, {
+            method: "POST",
+            body: formData
+        })).json();
+        if (checkOutState.affectedRows >= 1)
+        {
+            message.success('退租成功', 1.5);
+            setTimeout(() =>
+            {
+                this.props.history.go(-1);
+            }, 1500);
+        }
+    };
     async componentDidMount()
     {
         let { rentInfo } = this.props.location.state as { rentInfo: UserRentListItem & string; };
-        rentInfo = JSON.parse(rentInfo as string);
-        this.houseInfo = await this.HouseStore.InitHouseInfo(rentInfo.hId);
+        this.rentInfo = JSON.parse(rentInfo as string);
+        this.houseInfo = await this.HouseStore.InitHouseInfo(this.rentInfo.hId);
     }
     render()
     {
@@ -129,7 +178,8 @@ class RefundOrder extends Component<RefundOrderProps, {}>
                     </div>
                 </div>
                 <Divider />
-                <Button children='退房' danger size='large' type='primary' />
+                <Button children='退房' danger size='large' type='primary' loading={this.checking}
+                    onClick={this.OrderRefund} />
             </div>
         );
     }

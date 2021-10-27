@@ -12,9 +12,7 @@ import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { Render404, StateIcon } from '../../Common/AppIconTitle';
-import { CONST_HOST } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
-import OrderRefund from '../../HouseList/RentAndPay/OrderRefund';
 import CostDetail, { FormatNum } from './CostDetail';
 import PositionInfo from './PositionInfo';
 import RenewalRecord from './RenewalRecord';
@@ -75,22 +73,6 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
             checkOutDate: rentInfo.checkOutDate,
         });
         this.props.history.push(`/HouseList/ConfirmOrder/${this.houseInfo.baseInfo.hId}`, { urlState });
-    };
-    OrderRefund = async (rentInfo: UserRentListItem) =>
-    {
-        const orderRefund = new OrderRefund(moment(rentInfo.checkInDate));
-        orderRefund.tradeNo = rentInfo.trade_no;
-        orderRefund.refundAmount = rentInfo.totalAmount;
-        orderRefund.renewalOrderList = await this.UserStore.InitRenewalOrderList(rentInfo.id);
-        const resURL = await (await fetch(`${CONST_HOST}/OrderRefund`, {
-            method: "POST",
-            body: JSON.stringify(orderRefund),
-            headers: {
-                'Content-Type': "application/json;charset=utf-8"
-            },
-        })).text();
-        const refundInfo = await (await fetch(resURL)).json();
-        console.log(refundInfo);
     };
     async componentDidMount()
     {

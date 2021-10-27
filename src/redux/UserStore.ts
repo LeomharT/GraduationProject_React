@@ -50,6 +50,10 @@ export default class UserStore
     };
     GetCurrentUserId = (): string =>
     {
+        if (this.CheckForIsLogin())
+        {
+            return (this.authInfo.userInfo.id);
+        }
         return (this.authInfo?.userInfo?.id);
     };
     CheckForIsLogin = (): boolean =>

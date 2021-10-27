@@ -36,6 +36,33 @@ declare interface AliPayOrderStateFail extends AlipayTradeQueryResponse
     sub_msg: string;
 }
 
+export interface AliPayRefundOrderState
+{
+    alipay_trade_refund_response: AliPayRefundStateSuccess & AliPayRefundStateFail;
+    sign: string;
+}
+interface AlipayRefundQueryResponse
+{
+    code: string;
+    msg: string;
+    refund_fee: string;     //退款金额
+    send_back_fee: string;
+}
+interface AliPayRefundStateSuccess extends AlipayRefundQueryResponse
+{
+    buyer_logon_id: string;
+    buyer_user_id: string;
+    fund_change: string;
+    gmt_refund_pay: string;
+    out_trade_no: string;
+    trade_no: string;
+}
+interface AliPayRefundStateFail extends AlipayRefundQueryResponse
+{
+    sub_code: string;
+    sub_msg: string;
+}
+
 //订单状态
 export enum OrderState
 {
