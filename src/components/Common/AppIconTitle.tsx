@@ -148,8 +148,8 @@ export function RepairItem(props: { id: string, value: string; type: LANGUAGE_RE
         <div className='RepairItem'>
             <input type='checkbox' value={props.value} id={props.id} onChange={props.onChange} />
             <label htmlFor={props.id}>
-                <img alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}Icon.jpg`} />
-                <img alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}IconNone.jpg`} />
+                <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}IconNone.jpg`} />
+                <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}Icon.jpg`} />
                 {props.type}
             </label>
         </div>

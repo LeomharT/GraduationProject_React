@@ -233,18 +233,25 @@
 {
     >label
     {
-        display       : inline-flex;
-        flex-direction: column;
+        display        : inline-flex;
+        flex-direction : column;
         justify-content: center;
-        align-items: center;
+        align-items    : center;
+        font-weight    : bold;
+        user-select    : none;
         img
         {
-            transform: scale(.5);
+            width : 45px;
+            height: 45px;
         }
     }
     input[type="checkbox"]
     {
         display: none;
+    }
+    input[type="checkbox"]:not(:checked) +label
+    {
+        color: lightgray;
     }
     input[type="checkbox"]:checked + label>img:nth-child(1)
     {
