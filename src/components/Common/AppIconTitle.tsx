@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import AppIcon from '../../assets/img/AppIcon.svg';
 import '../../assets/scss/Common.scss';
 import { OrderState } from '../../interfaces/PaymentInterface';
+import { CONST_HOST, LANGUAGE_REFER } from './VariableGlobal';
 
 
 export function AppIconTitle(props: { title?: string; })
@@ -125,6 +126,32 @@ export function SelfCheckBox(props: { id: string; label: string; color: string; 
             {/* 如需使用:checked伪类选择器,那么input必须在前面 */}
             <input type='checkbox' value='1' id={props.id} />
             <label style={{ backgroundColor: props.color }} htmlFor={props.id}>{props.label}</label>
+        </div>
+    );
+}
+
+export function RepairItem(props: { id: string, value: string; type: LANGUAGE_REFER, onChange?: React.ChangeEventHandler<HTMLInputElement>; }): JSX.Element
+{
+    const FindKey = (value: LANGUAGE_REFER) =>
+    {
+        return (
+            Object.keys(LANGUAGE_REFER).find((key: string) =>
+            {
+                return (
+                    //@ts-ignore
+                    LANGUAGE_REFER[key] === value
+                );
+            })
+        );
+    };
+    return (
+        <div className='RepairItem'>
+            <input type='checkbox' value={props.value} id={props.id} onChange={props.onChange} />
+            <label htmlFor={props.id}>
+                <img alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}Icon.jpg`} />
+                <img alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}IconNone.jpg`} />
+                {props.type}
+            </label>
         </div>
     );
 }

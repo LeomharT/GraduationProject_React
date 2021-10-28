@@ -228,3 +228,30 @@
         width: 310px;
     }
 }
+
+.RepairItem
+{
+    >label
+    {
+        display       : inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img
+        {
+            transform: scale(.5);
+        }
+    }
+    input[type="checkbox"]
+    {
+        display: none;
+    }
+    input[type="checkbox"]:checked + label>img:nth-child(1)
+    {
+        display: none;
+    }
+    input[type="checkbox"]:not(:checked) + label>img:nth-child(2)
+    {
+        display: none;
+    }
+}
