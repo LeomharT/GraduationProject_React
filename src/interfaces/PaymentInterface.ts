@@ -66,8 +66,8 @@ interface AliPayRefundStateFail extends AlipayRefundQueryResponse
 //订单状态
 export enum OrderState
 {
-    liveable = '可居住',
+    wating = '等待中',
     error = '异常',
     close = '关闭',
-    living = '居住中',
+    processing = '进行中',
 }

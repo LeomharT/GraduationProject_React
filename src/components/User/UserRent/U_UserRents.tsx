@@ -145,13 +145,13 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     {
                                         if (moment(rentInfo.checkInDate) < moment(Date.now()))
                                         {
-                                            return (<StateIcon state={OrderState.living} />);
+                                            return (<StateIcon state={OrderState.processing} />);
                                         } else if (moment(rentInfo.checkOutDate) < moment(Date.now()))
                                         {
                                             return (<StateIcon state={OrderState.close} />);
                                         } else
                                         {
-                                            return (<StateIcon state={OrderState.liveable} />);
+                                            return (<StateIcon state={OrderState.wating} />);
                                         }
                                     })()}
                                 </div>

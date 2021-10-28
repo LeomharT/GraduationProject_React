@@ -92,7 +92,7 @@ export default class UserStore
             if (moment(r.checkInDate) < moment(Date.now()))
             {
                 Object.assign(r, {
-                    hState: OrderState.living
+                    hState: OrderState.processing
                 });
             } else if (moment(r.checkOutDate) < moment(Date.now()))
             {
@@ -102,7 +102,7 @@ export default class UserStore
             } else
             {
                 Object.assign(r, {
-                    hState: OrderState.liveable
+                    hState: OrderState.wating
                 });
             }
         }

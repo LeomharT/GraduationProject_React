@@ -8,6 +8,9 @@ export default class U_RepairOrder extends Component
     {
         return (
             <div>
+                <StateIcon state={OrderState.processing} />
+                <StateIcon state={OrderState.wating} />
+                <StateIcon state={OrderState.close} />
                 <StateIcon state={OrderState.error} />
             </div>
         );

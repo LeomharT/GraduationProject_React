@@ -74,7 +74,7 @@ export function StateIcon(props: { state: OrderState; }): JSX.Element
 {
     switch (props.state)
     {
-        case OrderState.liveable:
+        case OrderState.wating:
             return (
                 <div className='StateIcon'>
                     <span>
@@ -94,9 +94,9 @@ export function StateIcon(props: { state: OrderState; }): JSX.Element
                     </div>
                 </div>
             );
-        case OrderState.living:
+        case OrderState.processing:
             return (
-                <div className='StateIconRefundable'>
+                <div className='StateIconProcessing'>
                     <span>
                     </span>
                     <div>
