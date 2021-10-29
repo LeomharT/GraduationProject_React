@@ -362,18 +362,7 @@ class VRScene extends Component<VRSceneProps, {}>
                     </Popover>
                 </div>
 
-                <div
-                    className="VRScene"
-                    ref={this.VR_Scene}
-                    onMouseDown={() =>
-                    {
-                        this.VR_Scene.current!.style.cursor = 'grabbing';
-                    }}
-                    onMouseUp={() =>
-                    {
-                        this.VR_Scene.current!.style.cursor = 'grab';
-                    }}
-                />
+                <div className="VRScene" ref={this.VR_Scene} />
 
                 <SwitchRoom
                     showSwitchRoom={this.showSwitchRoom}

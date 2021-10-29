@@ -7,6 +7,7 @@ import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import RepairStore from '../../../redux/RepairStore';
 import HouseItem from '../HouseItem';
+import RepairConfirm from './RepairConfirm';
 import RepairForm from './RepairForm';
 
 const { Step } = Steps;
@@ -48,8 +49,8 @@ class HouseRepair extends Component<HouseRepairProps, {}>
                     <Step title='第三步' description='确定报修' />
                 </Steps>
                 {currentStep === 0 && <HouseItem HouseInfo={houseInfo.baseInfo} />}
-                {currentStep === 1 && <RepairForm />}
-                {currentStep === 2 && <HouseItem HouseInfo={houseInfo.baseInfo} />}
+                <RepairForm />
+                {currentStep === 2 && <RepairConfirm />}
                 {
                     currentStep === 0 &&
                     <div className='RepairActions'>

@@ -1,6 +1,7 @@
 import { Button, Checkbox, DatePicker, Form, FormInstance, Input } from 'antd';
 import { observable } from 'mobx';
 import React, { Component, createRef, RefObject } from 'react';
+import { RepairOrderFormData } from '../../../interfaces/HouseListInterface';
 import RepairStore from '../../../redux/RepairStore';
 import UserStore from '../../../redux/UserStore';
 import { RepairItem } from '../../Common/AppIconTitle';
@@ -19,10 +20,14 @@ export default class RepairForm extends Component
     {
         const { UserStore, RepairStore } = this;
         return (
-            <div className='RepairForm'>
+            <div className='RepairForm' style={{ display: RepairStore.currentStep === 1 ? 'block' : 'none' }}>
                 <Form layout='horizontal'
                     ref={this.formRef}
-                    onFinish={(e) => { console.log(e); }}
+                    onFinish={(e: RepairOrderFormData) =>
+                    {
+                        RepairStore.SetFormData(e);
+                        RepairStore.Next();
+                    }}
                 >
                     <Form.Item
                         label='报修房屋'
@@ -94,7 +99,7 @@ export default class RepairForm extends Component
                         name='repair_detail'
                         rules={[{ required: true, message: "亲输入您的具体描述" }]}
                     >
-                        <TextArea size='large' rows={5} placeholder='暂无更多描述'></TextArea>
+                        <TextArea size='large' rows={5} placeholder='简要描述故障'></TextArea>
                     </Form.Item>
 
                     <Button htmlType='submit' children='下一步' type='primary' />
@@ -102,7 +107,7 @@ export default class RepairForm extends Component
                         onClick={this.RepairStore.Prev}
                     />
                 </Form>
-            </div>
+            </div >
         );
     }
 }

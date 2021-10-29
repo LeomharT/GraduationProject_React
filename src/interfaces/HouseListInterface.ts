@@ -91,3 +91,12 @@ export declare interface HouseComment
     commentDate: Date;
     photo: string;
 }
+export interface RepairOrderFormData
+{
+    repair_house: string;
+    repair_name: string;
+    repair_phone: string;
+    repair_time: string;
+    repair_item: string;
+    repair_detail: string;
+}

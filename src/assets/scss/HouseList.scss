@@ -841,11 +841,15 @@
         }
         .RepairItemList
         {
-            width          : 100%;
+            width          : 500px;
             display        : flex;
             flex-direction : row;
             flex-wrap      : wrap;
             justify-content: space-between;
+            >div
+            {
+                width: 90px;
+            }
         }
         textarea
         {
