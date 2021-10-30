@@ -813,6 +813,7 @@
     margin        : 0 auto;
     display       : flex;
     flex-direction: column;
+    padding-bottom: 50px;
     >h1
     {
         font-weight  : bold;
@@ -862,6 +863,37 @@
         >button
         {
             margin-right: 10px;
+        }
+    }
+    .RepairConfirm
+    {
+        .ant-result-subtitle
+        {
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+        }
+        table
+        {
+            text-align: left;
+            border    : 1px solid lightgray;
+            tr
+            {
+                border: 1px solid lightgray;
+            }
+            th
+            {
+                padding         : 16px 24px;
+                min-width       : 200px;
+                background-color: #fafafa;
+                border-right    : 1px solid lightgray;
+            }
+            td
+            {
+                padding  : 16px 24px;
+                min-width: 300px;
+                color    : rgb(72, 72, 72);
+            }
         }
     }
 }

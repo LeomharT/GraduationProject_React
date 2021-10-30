@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export declare interface HouseExhibitList
 {
     count: number;
@@ -96,7 +98,7 @@ export interface RepairOrderFormData
     repair_house: string;
     repair_name: string;
     repair_phone: string;
-    repair_time: string;
+    repair_time: Moment;
     repair_item: string;
     repair_detail: string;
 }
