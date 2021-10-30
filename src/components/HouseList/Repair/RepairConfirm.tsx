@@ -23,8 +23,8 @@ export default class RepairConfirm extends Component
                     title='请确认您的报修信息'
                     subTitle={
                         [
-                            <Alert message={'若报修信息乱填将不给予服务'} type='warning' closable showIcon />,
-                            <table>
+                            <Alert key='alert' message={'若报修信息乱填将不给予服务'} type='warning' closable showIcon />,
+                            <table key='table'>
                                 <tbody>
                                     <tr>
                                         <th>报修房屋</th>
