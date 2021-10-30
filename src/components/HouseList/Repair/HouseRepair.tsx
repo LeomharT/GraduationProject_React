@@ -24,6 +24,8 @@ class HouseRepair extends Component<HouseRepairProps, {}>
     rentInfo: UserRentListItem | string;
     async componentDidMount()
     {
+        this.RepairStore.currentStep = 0;
+
         this.rentInfo = (this.props.location.state as { rentInfo: UserRentListItem | string; }).rentInfo;
         this.rentInfo = JSON.parse(this.rentInfo as string);
         this.RepairStore.houseInfo = await this.HouseStore.InitHouseInfo((this.rentInfo as UserRentListItem).hId);
