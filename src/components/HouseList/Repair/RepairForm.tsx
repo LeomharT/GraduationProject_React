@@ -30,6 +30,20 @@ export default class RepairForm extends Component
                     }}
                 >
                     <Form.Item
+                        style={{ display: "none" }}
+                        label='报修房屋'
+                        initialValue={RepairStore.houseInfo.baseInfo.hId}
+                        name='repair_hId'>
+                        <Input size='large' disabled />
+                    </Form.Item>
+                    <Form.Item
+                        style={{ display: "none" }}
+                        label='报修房屋'
+                        initialValue={UserStore.GetCurrentUserId()}
+                        name='repair_userId'>
+                        <Input size='large' disabled />
+                    </Form.Item>
+                    <Form.Item
                         label='报修房屋'
                         initialValue={RepairStore.houseInfo.baseInfo.hTitle}
                         name='repair_house'

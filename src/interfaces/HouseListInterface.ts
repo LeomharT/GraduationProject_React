@@ -1,4 +1,5 @@
 import { Moment } from "moment";
+import { OrderState } from "./PaymentInterface";
 
 export declare interface HouseExhibitList
 {
@@ -95,10 +96,13 @@ export declare interface HouseComment
 }
 export interface RepairOrderFormData
 {
+    repair_hId: string;
+    repair_userId: string;
     repair_house: string;
     repair_name: string;
     repair_phone: string;
     repair_time: Moment;
     repair_item: string;
     repair_detail: string;
+    repair_state: OrderState;
 }

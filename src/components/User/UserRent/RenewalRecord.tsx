@@ -40,7 +40,8 @@ const TableColumns: ColumnType<DefaultRecordType>[] = [
         title: "起始时间",
         dataIndex: "checkInDate",
         key: "checkInDate",
-        render: (checkInDate: string) =>
+        //一共3个返回值参数,这条记录的对应字段,这一整行的记录,和索引值
+        render: (checkInDate: string, record, index) =>
         {
             return moment(checkInDate).format("YYYY/MM/DD");
         },

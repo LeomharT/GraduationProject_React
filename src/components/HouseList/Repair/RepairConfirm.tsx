@@ -1,17 +1,43 @@
-import { Alert, Button, Result } from 'antd';
+import { Alert, Button, message, Result } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { OrderState } from '../../../interfaces/PaymentInterface';
 import RepairStore from '../../../redux/RepairStore';
-
-export default class RepairConfirm extends Component
+import { CONST_HOST } from '../../Common/VariableGlobal';
+@observer
+class RepairConfirm extends Component<RouteComponentProps, {}>
 {
     RepairStore: RepairStore = RepairStore.GetInstance();
-    ConfirmRepairOrder = () =>
+    @observable checking: boolean = false;
+    ConfirmRepairOrder = async () =>
     {
-        Object.assign(this.RepairStore.repairFormData, {
-            repair_time: moment(this.RepairStore.repairFormData.repair_time).format('YYYY/MM/DD hh:mm:ss')
+        this.checking = true;
+        const { repairFormData } = this.RepairStore;
+
+        Object.assign(repairFormData, {
+            repair_time: repairFormData.repair_time instanceof moment
+                ? repairFormData.repair_time.format('YYYY-MM-DD hh:mm:ss')
+                : repairFormData.repair_time,
+            repair_state: OrderState.wating,
         });
-        console.log(JSON.stringify(this.RepairStore.repairFormData));
+        let res = await (await fetch(`${CONST_HOST}/AddRepairOrder`, {
+            method: "POST",
+            body: JSON.stringify(this.RepairStore.repairFormData),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        })).json();
+        if (res.affectedRows >= 1)
+        {
+            message.success("报修添加成功");
+            setTimeout(() =>
+            {
+                this.props.history.push('/User/RepairOrder');
+            }, 1000);
+        }
     };
     render()
     {
@@ -23,7 +49,7 @@ export default class RepairConfirm extends Component
                     title='请确认您的报修信息'
                     subTitle={
                         [
-                            <Alert key='alert' message={'若报修信息乱填将不给予服务'} type='warning' closable showIcon />,
+                            <Alert key='alert' message={'若故障描述太模糊将不给予维修'} type='warning' closable showIcon />,
                             <table key='table'>
                                 <tbody>
                                     <tr>
@@ -57,16 +83,18 @@ export default class RepairConfirm extends Component
                     extra={
                         [
                             <Button key='prev' children='上一步' onClick={this.RepairStore.Prev} />,
-                            <Button key='next' children='确定' type='primary' onClick={() =>
-                            {
-                                this.ConfirmRepairOrder();
-                            }} />,
+                            <Button key='next' children='确定'
+                                loading={this.checking}
+                                type='primary' onClick={async () =>
+                                {
+                                    await this.ConfirmRepairOrder();
+                                }} />,
                         ]
                     }
                 >
-
                 </Result>
             </div>
         );
     }
 }
+export default withRouter(RepairConfirm);
