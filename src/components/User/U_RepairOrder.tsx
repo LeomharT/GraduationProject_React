@@ -8,12 +8,14 @@ import { DefaultRecordType } from 'rc-table/lib/interface';
 import React, { Component } from 'react';
 import { RepairOrderFormData } from '../../interfaces/HouseListInterface';
 import { OrderState } from '../../interfaces/PaymentInterface';
+import UserStore from '../../redux/UserStore';
 import { StateIcon } from '../Common/AppIconTitle';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
 @observer
 export default class U_RepairOrder extends Component<{}, {}>
 {
+    UserStore: UserStore = UserStore.GetInstance();
     @observable repairList: RepairOrderFormData[] = [];
     COLUMNS: ColumnType<DefaultRecordType>[] = [
         {
@@ -74,7 +76,11 @@ export default class U_RepairOrder extends Component<{}, {}>
     {
         this.repairList = await (
             await fetch(`${CONST_HOST}/GetRepairOrders`, {
-                method: "POST"
+                method: "POST",
+                body: JSON.stringify({ uId: this.UserStore.GetCurrentUserId() }),
+                headers: {
+                    'Content-Type': "application/json;charset=utf-8",
+                }
             })
         ).json();
     };
