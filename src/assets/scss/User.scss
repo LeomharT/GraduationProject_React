@@ -296,3 +296,22 @@
         }
     }
 }
+.U_RepairOrder
+{
+    width : 100%;
+    height: 100%;
+    .ant-table-cell:nth-child(4)
+    {
+        max-width    : 150px;
+        overflow     : hidden;
+        white-space  : nowrap ;
+        text-overflow: ellipsis;
+    }
+    // .ant-table-cell:nth-child(3)
+    // {
+    //     max-width    : 100px;
+    //     overflow     : hidden;
+    //     white-space  : nowrap ;
+    //     text-overflow: ellipsis;
+    // }
+}

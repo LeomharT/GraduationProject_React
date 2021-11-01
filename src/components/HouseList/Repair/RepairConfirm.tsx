@@ -49,7 +49,7 @@ class RepairConfirm extends Component<RouteComponentProps, {}>
                     title='请确认您的报修信息'
                     subTitle={
                         [
-                            <Alert key='alert' message={'若故障描述太模糊将不给予维修'} type='warning' closable showIcon />,
+                            <Alert key='alert' message={'我们将会在[报修时间]内上门维系'} type='info' closable showIcon />,
                             <table key='table'>
                                 <tbody>
                                     <tr>

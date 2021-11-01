@@ -96,6 +96,7 @@ export declare interface HouseComment
 }
 export interface RepairOrderFormData
 {
+    id: string;
     repair_hId: string;
     repair_userId: string;
     repair_house: string;
