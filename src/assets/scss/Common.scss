@@ -118,8 +118,41 @@
 }
 .Footer
 {
-    width           : 100%;
-    height          : 200px;
+    width         : 100%;
+    max-width     : 1200px;
+    margin        : 0 auto;
+    display       : flex;
+    flex-direction: column;
+    >h1
+    {
+        font-weight: bold;
+        color      : rgb(34, 34, 34);
+        font-size  : 22px;
+    }
+    .F_Assure
+    {
+        display        : flex;
+        flex-direction : row;
+        >div
+        {
+            display     : flex;
+            align-items : center;
+            margin-right: 30px;
+            max-width   : 300px;
+            >img
+            {
+                margin-right: 10px;
+            }
+            p{
+                margin: 0;
+                span
+                {
+                    font-weight: bold;
+                    color      : rgb(72,72,72);
+                }
+            }
+        }
+    }
 }
 #nprogress {
     .bar{

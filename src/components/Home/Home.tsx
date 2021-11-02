@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import styled from 'styled-components';
 import '../../assets/scss/Home.scss';
+import Footer from '../Common/Footer';
 import Navigate from './Navigate';
 import Recommend from './Recommend';
 import SearchBar from './SearchBar';
@@ -27,6 +28,7 @@ class Home extends Component<HomeProps, {}>
                     <SearchBar />
                 </div>
                 <Recommend />
+                <Footer />
             </HomeWrapper>
         );
     }
