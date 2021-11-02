@@ -35,6 +35,7 @@ export default class Footer extends Component<{}, {}>
                     </div>
                 </div>
                 <Modal
+                    centered
                     width={1000}
                     className='FullSecurity'
                     visible={this.isFullSecurityOpen}
