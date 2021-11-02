@@ -129,6 +129,10 @@
         color      : rgb(34, 34, 34);
         font-size  : 22px;
     }
+    >button:hover span
+    {
+        text-decoration: underline;
+    }
     .F_Assure
     {
         display        : flex;
@@ -143,12 +147,104 @@
             {
                 margin-right: 10px;
             }
-            p{
+            p
+            {
                 margin: 0;
                 span
                 {
                     font-weight: bold;
                     color      : rgb(72,72,72);
+                }
+            }
+        }
+    }
+}
+.FullSecurity
+{
+    .ant-modal-content
+    {
+        box-sizing: border-box;
+        padding   : 30px;
+        .ant-modal-close
+        {
+            button
+            {
+                border-radius: 100%;
+                box-shadow   : 0 0 3px rgba(1,1,1,0.4);
+            }
+        }
+        .FullSecurityContent
+        {
+            max-height     : 550px;
+            overflow       : auto;
+            position       : relative;
+            scroll-behavior: smooth;
+            >h1
+            {
+                font-weight  : bold;
+                font-size    : 45px;
+                margin-bottom: 30px;
+                >p
+                {
+                    font-weight: normal;
+                    font-size  : 18px;
+                }
+            }
+            .ant-tabs
+            {
+                position        : sticky;
+                position        : -webkit-sticky;
+                top             : 0;
+                background-color: white;
+            }
+            .ant-tabs-tab-btn
+            {
+                font-weight: bold;
+            }
+            .TabHouseSecurity
+            {
+                display       : flex;
+                flex-direction: column;
+                >div
+                {
+                    display        : flex;
+                    width          : 100%;
+                    justify-content: space-between;
+                    margin-bottom  : 30px;
+                    >img
+                    {
+                        width : 400px;
+                        height: 320px;
+                    }
+                    >div
+                    {
+                        width         : 100%;
+                        display       : flex;
+                        flex-direction: column;
+                        >h1
+                        {
+                            font-size  : 24px;
+                            font-weight: bold;
+                            color      : rgb(72, 72, 72);
+                            >p
+                            {
+                                font-weight: normal;
+                                font-size  : 15px;
+                            }
+                        }
+                        >div
+                        {
+                            font-size    : 15px;
+                            color        : rgb(72, 72, 72);
+                            margin-bottom: 30px;
+                            >span
+                            {
+                                font-size  : 18px;
+                                font-weight: bold;
+                                display    : block;
+                            }
+                        }
+                    }
                 }
             }
         }
