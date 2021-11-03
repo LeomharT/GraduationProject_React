@@ -8,6 +8,7 @@ import Footer_Save from '../../assets/img/Footer_Save.svg';
 import fscs from '../../assets/img/fs-cs.png';
 import fshouse from '../../assets/img/fs-house.png';
 import fssafety from '../../assets/img/fs-safety.png';
+import { AppIconTitle } from './AppIconTitle';
 
 const { TabPane } = Tabs;
 @observer
@@ -44,22 +45,20 @@ export default class Footer extends Component<{}, {}>
                     maskClosable
                 >
                     <div className='FullSecurityContent'
-                        onScroll={(e) =>
+                        onScroll={(e: React.UIEvent<HTMLDivElement, UIEvent>) =>
                         {
-                            const el = e.target as HTMLDivElement;
-                            if (el.scrollTop < 350)
+                            const els = document.querySelector('.TabHouseSecurity')?.childNodes;
+                            const scrollTop = (e.target as HTMLDivElement).scrollTop;
+                            for (let e of els as NodeListOf<HTMLDivElement>)
                             {
-                                this.currentTagsIndex = 1;
+                                if (scrollTop + 400 >= e.offsetTop)
+                                {
+                                    this.currentTagsIndex = parseInt(e.getAttribute("data-tagindex") as string);
+                                } else
+                                {
+                                    break;
+                                }
                             }
-                            if (el.scrollTop >= 550)
-                            {
-                                this.currentTagsIndex = 2;
-                            }
-                            if (el.scrollTop >= 850)
-                            {
-                                this.currentTagsIndex = 3;
-                            }
-                            console.log(this.currentTagsIndex);
                         }}
                     >
                         <h1>
@@ -78,7 +77,7 @@ export default class Footer extends Component<{}, {}>
                             <TabPane tab="居住安全保障" key="3" />
                         </Tabs>
                         <div className='TabHouseSecurity'>
-                            <div id='tabInfo1'>
+                            <div id='tabInfo1' data-tagindex='1'>
                                 <img alt='房源保障' src={fshouse} />
                                 <div>
                                     <h1>
@@ -99,7 +98,7 @@ export default class Footer extends Component<{}, {}>
                                     </div>
                                 </div>
                             </div>
-                            <div id='tabInfo2'>
+                            <div id='tabInfo2' data-tagindex='2'>
                                 <div>
                                     <h1>
                                         专业中文客服
@@ -120,7 +119,7 @@ export default class Footer extends Component<{}, {}>
                                 </div>
                                 <img alt='专业客服' src={fscs} />
                             </div>
-                            <div id='tabInfo3'>
+                            <div id='tabInfo3' data-tagindex='3'>
                                 <img alt='安全保障' src={fssafety} />
                                 <div>
                                     <h1>
@@ -151,6 +150,11 @@ export default class Footer extends Component<{}, {}>
                     type='link'
                     onClick={() => this.isFullSecurityOpen = !this.isFullSecurityOpen} />
                 <Divider style={{ marginTop: "100px" }} />
+                <div className='FooterInfo'>
+                    <AppIconTitle />
+                    福建工程学院_1801大数据_3188125111_廖正扬
+                </div>
+                <Divider />
             </div>
         );
     }
