@@ -147,6 +147,11 @@ $_WIDTH:1200px;
                 display: block;
                 margin : 0 auto
             }
+            .w-e-text blockquote
+            {
+                color      : #646464;
+                border-left: 3px solid #d3d3d3;
+            }
         }
     }
     .ArticleContent
@@ -168,6 +173,11 @@ $_WIDTH:1200px;
             {
                 display: block;
                 margin : 0 auto;
+            }
+            blockquote
+            {
+                color      : #646464;
+                border-left: 3px solid #d3d3d3;
             }
         }
         .A_Comment

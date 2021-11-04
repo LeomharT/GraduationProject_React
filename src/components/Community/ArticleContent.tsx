@@ -49,7 +49,7 @@ class ArticleContent extends Component<RouteComponentProps, {}>
                         {articleContent?.user}
                     </div>
                 </div>
-                <div ref={this.contentRef} className='A_Content' />
+                <div ref={this.contentRef} className='A_Content w-e-text' />
                 <Divider />
                 <div className='A_Comment'>
                     <CommentInput
