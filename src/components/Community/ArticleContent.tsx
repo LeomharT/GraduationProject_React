@@ -49,7 +49,7 @@ class ArticleContent extends Component<RouteComponentProps, {}>
                         <Avatar size='large' src={articleContent?.avatar} style={{ marginRight: '10px' }} />
                         <div>
                             <div style={{ fontWeight: "bold", fontSize: "20px" }}>{articleContent?.user}</div>
-                            <div>{moment(articleContent?.postdate).format("YYYY年MM月DD日")}</div>
+                            <div style={{ color: "#909090" }}>{moment(articleContent?.postdate).format("YYYY年MM月DD日")}</div>
                         </div>
                     </div>
                     <h1 style={{ fontWeight: "bold" }}>
