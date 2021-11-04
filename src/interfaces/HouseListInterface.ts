@@ -86,13 +86,12 @@ export declare interface HouseVRPosition
 export declare interface HouseComment
 {
     id: string,
+    uId: string,
     hId: string,
-    author: string,
     content: string,
     images: string,
     parentId: string;
     commentDate: Date;
-    photo: string;
 }
 export interface RepairOrderFormData
 {

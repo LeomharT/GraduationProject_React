@@ -1,5 +1,6 @@
 import { CloseSquareOutlined, CommentOutlined, DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined, PictureOutlined, SmileOutlined } from '@ant-design/icons';
 import { Avatar, Button, Comment, Divider, Empty, Image, message, Popover, Tooltip } from 'antd';
+import { User } from 'authing-js-sdk';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -91,7 +92,6 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
         let formData = new FormData();
         formData.set("hId", this.props.hId);
         formData.set('uId', this.UserStore.GetCurrentUserId());
-        formData.set("author", this.UserStore.RenderUserName() as string);
         formData.set('content', this.messageTextArea.current!.value);
         this.imgArray.forEach((v: string) =>
         {
@@ -99,7 +99,6 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
         });
         formData.set('parentId', parentId.toString());
         formData.set('commentDate', new Date().toLocaleString('chinese', { hour12: false }));
-        formData.set('photo', this.UserStore.authInfo?.userInfo?.photo ?? "https://files.authing.co/authing-console/default-user-avatar.png");
         let res = await (await fetch(`${CONST_HOST}${this.props.url}`, {
             method: "POST",
             body: formData
@@ -215,6 +214,7 @@ export class CommentItem extends React.Component<CommentItemProps, {}>
     @observable liked: string = "";
     @observable showReplay: boolean = false;
     @observable replays: HouseComment[] = [];
+    @observable commentUser: User;
     InitReplay = async () =>
     {
         const { commentItem } = this.props;
@@ -222,13 +222,21 @@ export class CommentItem extends React.Component<CommentItemProps, {}>
             (await fetch(`${CONST_HOST}${this.props.url}?hId=${commentItem.hId}&parentId=${commentItem.id}`)).json()
         ) as HouseComment[];
     };
+    InitCommentUser = async (): Promise<void> =>
+    {
+        this.commentUser = await this.UserStore.managementClient.users.detail(
+            this.props.commentItem.uId
+        );
+    };
     async componentDidMount()
     {
         await this.InitReplay();
+        await this.InitCommentUser();
     }
     render()
     {
         const { commentItem } = this.props;
+        const { commentUser } = this;
         const actions = [
             <Tooltip title='赞'>
                 <span onClick={() =>
@@ -274,16 +282,17 @@ export class CommentItem extends React.Component<CommentItemProps, {}>
                 return null;
             }
         };
+        if (!commentUser) return null;
         return (
             <div className='CommentItem'>
                 <Comment
                     actions={actions}
-                    author={<span>{commentItem.author}</span>}
+                    author={<span>{commentUser.username}</span>}
                     avatar={
                         <Avatar
                             size={46}
                             shape='circle'
-                            src={commentItem.photo}
+                            src={commentUser.photo}
                         />
                     }
                     content={
