@@ -1,4 +1,4 @@
-import { AuthenticationClient } from "authing-js-sdk";
+import { AuthenticationClient, ManagementClient } from "authing-js-sdk";
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
 import { RangeValue } from 'rc-picker/lib/interface';
@@ -12,11 +12,13 @@ export default class UserStore
     constructor()
     {
         this.InitAuthInfo();
+        this.InitAuthManagementClient();
     }
     AuthStore: AuthStore = AuthStore.GetInstance();
     @observable authInfo: any = {};
-    authenticationClient!: AuthenticationClient;
-    socketIo = io("ws://localhost:3066"); //创建socket.io实例
+    authenticationClient!: AuthenticationClient;   //用户认证模块
+    managementClient!: ManagementClient;           //管理模块
+    socketIo = io("ws://localhost:3066");          //socket.io实例
     @observable showChat: boolean = false;
     @observable renewalRecordList: RenewalOrderRecord[] = [];
     InitAuthInfo = async () =>
@@ -28,7 +30,19 @@ export default class UserStore
         if (this.authInfo.session === null) return;
         this.authenticationClient = await this.AuthStore.InitAuthenticationClient();
         if (this.authenticationClient)
-            this.authenticationClient.getCurrentUser();  //需要获取当前用户才能修改信息,合理
+        {
+            //需要获取当前用户才能修改信息,合理
+            this.authenticationClient.getCurrentUser();
+        }
+    };
+    InitAuthManagementClient = () =>
+    {
+        this.managementClient = new ManagementClient(
+            {
+                userPoolId: "5fbe0ca1703b99990cf8f4d0",
+                secret: "eb309ef3664f4cb3a3ff67cc7ab2cc4c",
+            }
+        );
     };
     RenderUserName = (): String =>
     {
@@ -108,6 +122,8 @@ export default class UserStore
         }
         return res;
     };
+
+
     private static _SingleInstance: UserStore;
     static GetInstance()
     {

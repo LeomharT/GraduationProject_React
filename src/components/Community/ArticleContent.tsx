@@ -1,10 +1,12 @@
 import { Avatar, Divider } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import moment from 'moment';
 import React, { Component, RefObject } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { ArticleItem } from '../../interfaces/CommunityInterface';
 import { HouseComment } from '../../interfaces/HouseListInterface';
+import UserStore from '../../redux/UserStore';
 import { CONST_HOST } from '../Common/VariableGlobal';
 import { CommentInput, CommentItem } from '../HouseList/HComment';
 
@@ -14,6 +16,7 @@ import { CommentInput, CommentItem } from '../HouseList/HComment';
 @observer
 class ArticleContent extends Component<RouteComponentProps, {}>
 {
+    UsetStore: UserStore = UserStore.GetInstance();
     contentRef: RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>();
     @observable articleContent: ArticleItem;
     @observable commentList: HouseComment[] = [];
@@ -34,6 +37,7 @@ class ArticleContent extends Component<RouteComponentProps, {}>
         ).json())[0];
         this.contentRef.current!.innerHTML = this.articleContent.content;
         await this.InitComment(id);
+
     }
     render()
     {
@@ -41,13 +45,16 @@ class ArticleContent extends Component<RouteComponentProps, {}>
         return (
             <div className='ArticleContent'>
                 <div className='A_Title'>
+                    <div>
+                        <Avatar size='large' src={articleContent?.avatar} style={{ marginRight: '10px' }} />
+                        <div>
+                            <div style={{ fontWeight: "bold", fontSize: "20px" }}>{articleContent?.user}</div>
+                            <div>{moment(articleContent?.postdate).format("YYYY年MM月DD日")}</div>
+                        </div>
+                    </div>
                     <h1 style={{ fontWeight: "bold" }}>
                         {articleContent?.title}
                     </h1>
-                    <div>
-                        <Avatar src={articleContent?.avatar} style={{ marginRight: '10px' }} />
-                        {articleContent?.user}
-                    </div>
                 </div>
                 <div ref={this.contentRef} className='A_Content w-e-text' />
                 <Divider />
