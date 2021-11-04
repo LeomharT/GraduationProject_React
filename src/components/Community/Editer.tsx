@@ -3,7 +3,6 @@ import { Button, Input, message } from 'antd';
 import * as H from 'history';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import moment from 'moment';
 import React, { Component, RefObject } from 'react';
 import { Prompt, RouteComponentProps, withRouter } from 'react-router-dom';
 import E from 'wangeditor';
@@ -72,7 +71,7 @@ class Editer extends Component<RouteComponentProps, {}> {
             return;
         }
         const data = new FormData();
-        data.set('postdate', moment(Date.now()).format("YYYY-MM-DD hh:mm:ss"));
+        data.set('postdate', new Date().toLocaleString('chinese', { hour12: false }));
         data.set('uId', this.UserStore.authInfo?.userInfo?.id);
         data.set('title', this.title.current!.state.value);
         data.set('adverting', this.advertBase64);
