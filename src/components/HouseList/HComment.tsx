@@ -90,6 +90,7 @@ export class CommentInput extends React.Component<CommentInputProps, {}>
         if (this.messageTextArea.current!.value === '' && this.imgArray.length === 0) return;
         let formData = new FormData();
         formData.set("hId", this.props.hId);
+        formData.set('uId', this.UserStore.GetCurrentUserId());
         formData.set("author", this.UserStore.RenderUserName() as string);
         formData.set('content', this.messageTextArea.current!.value);
         this.imgArray.forEach((v: string) =>
