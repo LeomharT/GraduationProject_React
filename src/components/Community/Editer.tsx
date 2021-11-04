@@ -72,10 +72,8 @@ class Editer extends Component<RouteComponentProps, {}> {
             return;
         }
         const data = new FormData();
-        data.set('avatar', this.UserStore.authInfo?.userInfo?.photo ?? "https://files.authing.co/authing-console/default-user-avatar.png");
         data.set('postdate', moment(Date.now()).format("YYYY-MM-DD hh:mm:ss"));
         data.set('uId', this.UserStore.authInfo?.userInfo?.id);
-        data.set('user', this.UserStore.RenderUserName().toString());
         data.set('title', this.title.current!.state.value);
         data.set('adverting', this.advertBase64);
         data.set('content', this.editer.txt.html() as string);

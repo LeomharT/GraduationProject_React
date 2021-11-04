@@ -1,4 +1,5 @@
 import { Avatar, Divider } from 'antd';
+import { User } from 'authing-js-sdk';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -16,11 +17,12 @@ import { CommentInput, CommentItem } from '../HouseList/HComment';
 @observer
 class ArticleContent extends Component<RouteComponentProps, {}>
 {
-    UsetStore: UserStore = UserStore.GetInstance();
+    UserStore: UserStore = UserStore.GetInstance();
     contentRef: RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>();
     @observable articleContent: ArticleItem;
     @observable commentList: HouseComment[] = [];
     @observable loading: boolean = false;
+    @observable articleAuthor: User;
     InitComment = async (hId: string) =>
     {
         this.loading = true;
@@ -28,6 +30,12 @@ class ArticleContent extends Component<RouteComponentProps, {}>
             (await fetch(`${CONST_HOST}/GetArticleComment?hId=${hId}&parentId=0`)).json()
         ) as HouseComment[];
         this.loading = false;
+    };
+    InitArticleAuthor = async () =>
+    {
+        this.articleAuthor = await this.UserStore.managementClient.users.detail(
+            this.articleContent.uId
+        );
     };
     async componentDidMount()
     {
@@ -37,18 +45,18 @@ class ArticleContent extends Component<RouteComponentProps, {}>
         ).json())[0];
         this.contentRef.current!.innerHTML = this.articleContent.content;
         await this.InitComment(id);
-
+        await this.InitArticleAuthor();
     }
     render()
     {
-        const { articleContent } = this;
+        const { articleContent, articleAuthor } = this;
         return (
             <div className='ArticleContent'>
                 <div className='A_Title'>
                     <div>
-                        <Avatar size='large' src={articleContent?.avatar} style={{ marginRight: '10px' }} />
+                        <Avatar size='large' src={articleAuthor?.photo} style={{ marginRight: '10px' }} />
                         <div>
-                            <div style={{ fontWeight: "bold", fontSize: "20px" }}>{articleContent?.user}</div>
+                            <div style={{ fontWeight: "bold", fontSize: "20px" }}>{articleAuthor?.username}</div>
                             <div style={{ color: "#909090" }}>{moment(articleContent?.postdate).format("YYYY年MM月DD日")}</div>
                         </div>
                     </div>
