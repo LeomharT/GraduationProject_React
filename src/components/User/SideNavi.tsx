@@ -8,7 +8,7 @@ import AuthStore from '../../redux/AuthStore';
 import UserStore from '../../redux/UserStore';
 
 const UserNaviMenu: MenuType[] = [
-    { title: "关注的房源", link: "/User/UserCollection", icon: <TagOutlined /> },
+    { title: "心愿单", link: "/User/UserCollection", icon: <TagOutlined /> },
     { title: "我的租约", link: "/User/UserRents", icon: <AuditOutlined /> },
     { title: "编辑资料", link: "/User/EditUserInfo", icon: <FormOutlined /> },
     { title: "我的文章", link: "/User/ArticleManage", icon: <ReadOutlined /> },

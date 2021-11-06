@@ -1,8 +1,9 @@
-import { DeleteOutlined, ExclamationOutlined } from '@ant-design/icons';
+import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined';
+import ExclamationOutlined from '@ant-design/icons/lib/icons/ExclamationOutlined';
 import { Button, Empty, Popconfirm } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import React, { Component } from 'react';
+import React, { Component, createRef, RefObject } from 'react';
 import { HouseBaseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
@@ -14,15 +15,26 @@ export default class U_UserCollect extends Component
 {
     UserStore: UserStore = UserStore.GetInstance();
     HouseStore: HouseStore = HouseStore.GetInstance();
+    tMapRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     @observable userCollections: HouseBaseInfo[] = [];
     InitUserCollections = async () =>
     {
         const { id } = this.UserStore?.authInfo?.userInfo;
         this.userCollections = (await (await fetch(`${CONST_HOST}/GetAllUserCollections?id=${id}`)).json()) as HouseBaseInfo[];
     };
+    InitMap = () =>
+    {
+        const map = new TMap.Map(this.tMapRef.current, {
+            zoom: 18,
+            pitch: 43.5,
+            rotation: 45,
+            viewMode: "2D"
+        });
+    };
     async componentDidMount()
     {
         await this.InitUserCollections();
+        this.InitMap();
     }
     render()
     {
@@ -67,6 +79,7 @@ export default class U_UserCollect extends Component
                         );
                     })
                 }
+                <div ref={this.tMapRef} style={{ width: "50%" }} />
             </div>
         );
     }
