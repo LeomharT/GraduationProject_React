@@ -39,6 +39,7 @@ export default class U_UserCollect extends Component
     render()
     {
         const { userCollections, UserStore, HouseStore } = this;
+        if (!this.UserStore.CheckForIsLogin()) return null;
         if (!userCollections.length) return (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='暂时没有收藏任何房源' />);
         return (
             <div className='U_Collections'>

@@ -41,7 +41,6 @@ const route: RouteType[] = [
     {
         title: 'User', path: "/User", components: User, childRoute: [
             { title: "EditUserInfo", path: '/User/EditUserInfo', components: U_EditUserInfo },
-            { title: "UserCollection", path: '/User/UserCollection', components: U_UserCollect },
             { title: "UserRents", path: '/User/UserRents', components: U_UserRents },
             { title: "ArticleManage", path: '/User/ArticleManage', components: U_ArticleManage },
             { title: "ArticleManage", path: '/User/RepairOrder', components: U_RepairOrder },
@@ -57,6 +56,7 @@ const route: RouteType[] = [
         ]
     },
     { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },
+    { title: "UserCollection", path: '/UserCollection', components: U_UserCollect },
 ];
 
 
