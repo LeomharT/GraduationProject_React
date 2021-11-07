@@ -53,7 +53,7 @@ export default class HouseStore
         {
             message.error("删除收藏失败");
         }
-        callback();
+        await callback();
     };
     private static _SingleInstance: HouseStore;
     static GetInstance(): HouseStore
