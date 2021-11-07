@@ -75,27 +75,6 @@
                 width: 250px !important;
             }
         }
-        .U_Collections
-        {
-            width  : 100%;
-            // display: flex;
-            // flex-direction: row;
-            .U_CollectWrapper
-            {
-                position:relative;
-            }
-            //因为被徽标包裹了,只需要缩小徽标包裹的元素
-            .ant-ribbon-wrapper
-            {
-                transform: scale(90%);
-            }
-            .DeleteCollectBtn
-            {
-                position: absolute;
-                top     : 20px;
-                right   : 0;
-            }
-        }
         .U_ArticleManage
         {
             width: 100%;

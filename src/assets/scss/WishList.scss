@@ -1,0 +1,63 @@
+.U_Collections
+{
+    width         : 100%;
+    height        : 100vh;
+    display       : flex;
+    flex-direction: column;
+    .WishList
+    {
+        display         : flex;
+        width           : 100%;
+        height          : 100%;
+        justify-content : space-between;
+        .ListContent
+        {
+            >h1
+            {
+                display    : flex;
+                align-items: center;
+                font-weight: bold;
+                >button
+                {
+                    margin-right: 20px;
+                }
+            }
+            width         : 100%;
+            height        : 100%;
+            display       : flex;
+            flex-direction: column;
+            box-sizing    : border-box;
+            padding: 30px ;
+            overflow: auto;
+            .U_CollectWrapper
+            {
+                position: relative;
+                .HRent
+                {
+                    font-size: 22px;
+                }
+            }
+            //因为被徽标包裹了,只需要缩小徽标包裹的元素
+            // .ant-ribbon-wrapper
+            // {
+            //     // transform: scale(10%);
+            // }
+        }
+        .MapArea
+        {
+            width      : 100%;
+            height     : 100%;
+            box-sizing : border-box;
+            margin-left: 20px;
+            position   : sticky;
+            top        : 0;
+        }
+    }
+
+    .DeleteCollectBtn
+    {
+        position: absolute;
+        top     : 20px;
+        right   : 0;
+    }
+}
