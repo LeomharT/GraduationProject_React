@@ -35,7 +35,18 @@ export default class Navigate extends Component<{}, {}>
                         {
                             return (
                                 <Menu.Item icon={item.icon} key={item.title}>
-                                    <Link to={item.link}>
+                                    <Link to={item.link}
+                                        onClick={(e: React.MouseEvent) =>
+                                        {
+                                            if (item.title === '心愿单' || item.title === '行程')
+                                            {
+                                                if (!this.UserStore.CheckForIsLogin())
+                                                {
+                                                    e.preventDefault();
+                                                }
+                                            }
+                                        }}
+                                    >
                                         {item.title}
                                     </Link>
                                 </Menu.Item>

@@ -24,6 +24,7 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
             { title: "主页", link: "/Home" },
             { title: "租房", link: "/HouseList/Exhibits" },
             { title: "心愿单", link: "/UserCollection" },
+            { title: "行程", link: "/Journey" },
             { title: "You+社区", link: "/Community" },
         ];
         const dropDownMenu = (
@@ -57,7 +58,20 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
                         {
                             return (
                                 <li key={index}>
-                                    <Link to={menu.link}>{menu.title}</Link>
+                                    <Link to={menu.link}
+                                        onClick={(e: React.MouseEvent) =>
+                                        {
+                                            if (menu.title === '心愿单' || menu.title === '行程')
+                                            {
+                                                if (!this.UserStore.CheckForIsLogin())
+                                                {
+                                                    e.preventDefault();
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        {menu.title}
+                                    </Link>
                                 </li>
                             );
                         })}
