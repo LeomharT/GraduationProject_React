@@ -163,6 +163,27 @@
         display        : flex;
         align-items    : center;
     }
+    .YoudeMeiDe
+    {
+        width         : 100%;
+        display       : flex;
+        flex-direction: row;
+        justify-content: space-around;
+        >div
+        {
+            h4
+            {
+                font-weight: bold;
+                text-align: center;
+            }
+            display       : flex;
+            flex-direction: column;
+            >button
+            {
+                font-weight: bold;
+            }
+        }
+    }
 }
 .FullSecurity
 {

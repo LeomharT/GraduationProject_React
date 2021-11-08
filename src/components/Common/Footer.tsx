@@ -150,6 +150,35 @@ export default class Footer extends Component<{}, {}>
                     type='link'
                     onClick={() => this.isFullSecurityOpen = !this.isFullSecurityOpen} />
                 <Divider style={{ marginTop: "100px" }} />
+                <div className='YoudeMeiDe'>
+                    <div>
+                        <h4>优区生活</h4>
+                        <Button type='link' children='新闻' />
+                        <Button type='link' children='政策' />
+                        <Button type='link' children='多元化与归属感' />
+                        <Button type='link' children='无障碍社区' />
+                    </div>
+                    <div>
+                        <h4>发现</h4>
+                        <Button type='link' children='信任与安全' />
+                        <Button type='link' children='邀请好友' />
+                        <Button type='link' children='商务之旅' />
+                    </div>
+                    <div>
+                        <h4>出租</h4>
+                        <Button type='link' children='为什么要出租' />
+                        <Button type='link' children='待客之道' />
+                        <Button type='link' children='房东义务' />
+                        <Button type='link' children='开展体验' />
+                        <Button type='link' children='资源中心' />
+                    </div>
+                    <div>
+                        <h4>客服支持</h4>
+                        <Button type='link' children='帮助' />
+                        <Button type='link' children='邻里支持' />
+                    </div>
+                </div>、
+                <Divider />
                 <div className='FooterInfo'>
                     <AppIconTitle />
                     福建工程学院_1801大数据_3188125111_廖正扬
