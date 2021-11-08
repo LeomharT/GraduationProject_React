@@ -1,10 +1,21 @@
 import { Tabs } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import JourneyWhenEmptyPng from '../../assets/img/JourneyWhenEmpty.png';
 import '../../assets/scss/Journey.scss';
+import { UserRentListItem } from '../../interfaces/UserInferface';
+import UserStore from '../../redux/UserStore';
 import HeadNavigate from '../Common/HeadNavigate';
+@observer
 export default class Journey extends Component
 {
+    UserStore: UserStore = UserStore.GetInstance();
+    @observable userRentList: UserRentListItem[] = [];
+    async componentDidMount()
+    {
+        this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
+    }
     render()
     {
         return (
@@ -15,7 +26,7 @@ export default class Journey extends Component
                         <h1>行程</h1>
                         <Tabs size='large'>
                             <Tabs.TabPane tab='即将开始的行程' key='1'>
-                                <CommingJourney />
+                                <CommingJourney userRentList={this.userRentList} />
                             </Tabs.TabPane>
                             <Tabs.TabPane tab='过往行程' key='2'>
                                 <PastJourney />
@@ -27,15 +38,28 @@ export default class Journey extends Component
         );
     }
 }
-class CommingJourney extends Component<{}, {}>
+class CommingJourney extends Component<{ userRentList: UserRentListItem[]; }, {}>
 {
     render()
     {
-        return (
-            <div className='CommingJourney'>
-                <JourneyWhenEmpty info='当您准备好开始规划下一次行程时，我们会随时为您提供帮助。' />
-            </div>
-        );
+        console.log(this.props.userRentList);
+        if (this.props.userRentList)
+        {
+            return (
+                <div>
+                    我有数据哦
+                </div>
+            );
+        }
+        else
+        {
+            return (
+                <div className='CommingJourney'>
+                    <JourneyWhenEmpty info='当您准备好开始规划下一次行程时，我们会随时为您提供帮助。' />
+                </div>
+            );
+
+        }
     }
 }
 class PastJourney extends Component<{}, {}>

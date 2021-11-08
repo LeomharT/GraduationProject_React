@@ -33,7 +33,7 @@ class U_UserCollect extends Component<RouteComponentProps, {}>
     {
         const map = new TMap.Map(this.tMapRef.current, {
             center: new TMap.LatLng(26.100271, 119.295624),
-            zoom: 11,
+            zoom: 12,
             pitch: 43.5,
             rotation: 45,
             viewMode: "2D"
