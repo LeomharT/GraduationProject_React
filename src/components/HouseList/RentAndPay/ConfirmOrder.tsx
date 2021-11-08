@@ -29,7 +29,7 @@ const DisableDate = (current: Moment): boolean =>
 };
 export const IconFont = createFromIconfontCN({
     scriptUrl: [
-        '//at.alicdn.com/t/font_2860849_r4qjplayk8m.js'
+        '//at.alicdn.com/t/font_2860849_ddvr2vdqfme.js'
     ]
 });
 declare interface ConfirmOrderProps extends RouteComponentProps

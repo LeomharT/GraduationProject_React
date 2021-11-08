@@ -161,9 +161,15 @@ class U_UserCollect extends Component<RouteComponentProps, {}>
                     : <div className='WishList'>
                         <div className='ListContent'>
                             <h1>
-                                <Button icon={<LeftOutlined />} type='link' />
+                                <Button icon={<LeftOutlined />} type='link'
+                                    onClick={() =>
+                                    {
+                                        this.props.history.push("/Home");
+                                    }}
+                                />
                                 心愿单
                             </h1>
+                            <Divider />
                             {userCollections.map((h: HouseBaseInfo) =>
                             {
                                 return (

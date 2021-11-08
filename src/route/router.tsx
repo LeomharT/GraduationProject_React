@@ -11,6 +11,7 @@ import ConfirmOrder from "../components/HouseList/RentAndPay/ConfirmOrder";
 import PaymentSuccess from "../components/HouseList/RentAndPay/PaymentSuccess";
 import RefundOrder from "../components/HouseList/RentAndPay/RefundOrder";
 import HouseRepair from "../components/HouseList/Repair/HouseRepair";
+import Journey from "../components/Journey/Journey";
 import U_UserCollect from "../components/Journey/U_UserCollect";
 import User from "../components/User/User";
 import U_UserRents from "../components/User/UserRent/U_UserRents";
@@ -57,6 +58,7 @@ const route: RouteType[] = [
     },
     { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },
     { title: "UserCollection", path: '/UserCollection', components: U_UserCollect },
+    { title: "Journey", path: '/Journey', components: Journey },
 ];
 
 
