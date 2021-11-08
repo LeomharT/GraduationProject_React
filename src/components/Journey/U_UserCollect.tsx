@@ -2,7 +2,7 @@ import { LeftOutlined } from '@ant-design/icons';
 import DeleteOutlined from '@ant-design/icons/lib/icons/DeleteOutlined';
 import ExclamationOutlined from '@ant-design/icons/lib/icons/ExclamationOutlined';
 import ProfileOutlined from '@ant-design/icons/lib/icons/ProfileOutlined';
-import { Button, Carousel, Empty, Popconfirm } from 'antd';
+import { Button, Carousel, Divider, Empty, Popconfirm } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component, createRef, RefObject } from 'react';
@@ -200,6 +200,7 @@ class U_UserCollect extends Component<RouteComponentProps, {}>
                                                     <DeleteOutlined />
                                                 } />
                                         </Popconfirm>
+                                        <Divider />
                                     </div>
                                 );
                             })}
