@@ -1,6 +1,33 @@
 .Journey
 {
-    width     : 100%;
-    min-height: 100vh;
-    max-height: 100vh;
+    width           : 100%;
+    height          : 100vh;
+    .JourneyContentWrapper
+    {
+        width : 100%;
+        height: 100%;
+        .JourneyContent
+        {
+            width         : 1200px;
+            display       : flex;
+            box-sizing    : border-box;
+            margin        : 0 auto;
+            padding-top   : 20px;
+            display       : flex;
+            flex-direction: column;
+            >h1
+            {
+                font-weight: bold;
+            }
+        }
+        .JourneyWhenEmpty
+        {
+            width : 1200px;
+            >img
+            {
+                width : 100%;
+                height: 440px;
+            }
+        }
+    }
 }

@@ -32,16 +32,14 @@ class SideNavi extends Component<RouteComponentProps, {}>
         const currentCompontent = pathname.substr(pathname.lastIndexOf("/") + 1);
         switch (currentCompontent)
         {
-            case MenuIndex.UserCollection:
-                return '0';
             case MenuIndex.UserRents:
-                return '1';
+                return '0';
             case MenuIndex.EditUserInfo:
-                return '2';
+                return '1';
             case MenuIndex.ArticleManage:
-                return '3';
+                return '2';
             case MenuIndex.RepairOrder:
-                return '4';
+                return '3';
             default:
                 return '';
         }
