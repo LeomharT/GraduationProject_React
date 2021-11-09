@@ -80,10 +80,10 @@ export default class UserStore
         }
         return true;
     };
-    InitCurrentUserRentList = async (uId: string): Promise<UserRentListItem[]> =>
+    InitCurrentUserRentList = async (uId: string, isEnd: boolean = false): Promise<UserRentListItem[]> =>
     {
         return await (
-            await fetch(`${CONST_HOST}/GetCurrentUserHouseRentList?uId=${uId}`)
+            await fetch(`${CONST_HOST}/GetCurrentUserHouseRentList?uId=${uId}&isEnd=${isEnd}`)
         ).json();
     };
     InitRenewalOrderList = async (id: string, dataRange?: RangeValue<Moment>) =>

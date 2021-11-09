@@ -11,10 +11,10 @@ import HeadNavigate from '../Common/HeadNavigate';
 export default class Journey extends Component
 {
     UserStore: UserStore = UserStore.GetInstance();
-    @observable userRentList: UserRentListItem[] = [];
+    @observable userJourneyList: UserRentListItem[] = [];
     async componentDidMount()
     {
-        this.userRentList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
+        this.userJourneyList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId(), true);
     }
     render()
     {
@@ -26,7 +26,7 @@ export default class Journey extends Component
                         <h1>行程</h1>
                         <Tabs size='large'>
                             <Tabs.TabPane tab='即将开始的行程' key='1'>
-                                <CommingJourney userRentList={this.userRentList} />
+                                <CommingJourney userJourneyList={this.userJourneyList} />
                             </Tabs.TabPane>
                             <Tabs.TabPane tab='过往行程' key='2'>
                                 <PastJourney />
@@ -38,12 +38,12 @@ export default class Journey extends Component
         );
     }
 }
-class CommingJourney extends Component<{ userRentList: UserRentListItem[]; }, {}>
+class CommingJourney extends Component<{ userJourneyList: UserRentListItem[]; }, {}>
 {
     render()
     {
-        console.log(this.props.userRentList);
-        if (this.props.userRentList)
+        console.log(this.props.userJourneyList);
+        if (this.props.userJourneyList)
         {
             return (
                 <div>
