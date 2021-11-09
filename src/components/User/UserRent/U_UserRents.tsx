@@ -12,6 +12,7 @@ import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { Render404, StateIcon } from '../../Common/AppIconTitle';
+import { CONST_HOST, LANGUAGE_REFER } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
 import CostDetail, { FormatNum } from './CostDetail';
 import PositionInfo from './PositionInfo';
@@ -203,6 +204,22 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                 </div>
                             </div>
                             <Divider />
+                            <div className='FurnitureState'>
+                                {Object.keys(LANGUAGE_REFER).map((key: string) =>
+                                {
+                                    return (
+                                        <FurnitureItem
+                                            id={key}
+                                            key={key}
+                                            //@ts-ignore
+                                            value={LANGUAGE_REFER[key]}
+                                            //@ts-ignore
+                                            type={LANGUAGE_REFER[key]}
+                                        />
+                                    );
+                                })}
+                            </div>
+                            <Divider />
                             <Tabs size='large' defaultActiveKey='1' tabBarExtraContent={{
                                 right:
                                     <>
@@ -234,3 +251,38 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
     }
 }
 export default withRouter(U_UserRents);
+
+
+
+
+function FurnitureItem(props: { id: string, value: string; type: LANGUAGE_REFER, onChange?: React.ChangeEventHandler<HTMLInputElement>; }): JSX.Element
+{
+    const FindKey = (value: LANGUAGE_REFER) =>
+    {
+        return (
+            Object.keys(LANGUAGE_REFER).find((key: string) =>
+            {
+                return (
+                    //@ts-ignore
+                    LANGUAGE_REFER[key] === value
+                );
+            })
+        );
+    };
+    return (
+        <div className='FurnitureItem'>
+            <input type='checkbox' value={props.value} id={props.id} onChange={props.onChange} />
+            <label htmlFor={props.id}>
+                <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}IconNone.jpg`} />
+                <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}Icon.jpg`} />
+                {props.type}
+            </label>
+            <div className='StateIcon' style={{ justifyContent: "center" }}>
+                <span />
+            </div>
+            <div className='StateIconError' style={{ justifyContent: "center" }}>
+                <span />
+            </div>
+        </div>
+    );
+}
