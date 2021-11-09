@@ -1,5 +1,5 @@
-import { ProfileOutlined } from '@ant-design/icons';
-import { Button, Carousel } from 'antd';
+import { CloseOutlined, ProfileOutlined } from '@ant-design/icons';
+import { Button, Carousel, Divider } from 'antd';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import ReactDOM from 'react-dom';
@@ -151,12 +151,35 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     }
     render()
     {
+        const { rInfo: rentInfo, hInfo } = this.state;
         return (
             <div className='JourneyDetail'>
                 <HeadNavigate />
                 <div className='JourneyDetailContentWrapper' >
                     <div className='JourneyDetailInfo'>
-
+                        <div>
+                            <div className='JourneyDetailInfoTitle'>
+                                <Button type='link' size='large' icon={<CloseOutlined />} />
+                                <span>您的房源预定</span>
+                            </div>
+                            <Divider />
+                            <h2>{moment(rentInfo.checkInDate).format("YYYY年MM月DD日") + '-' + moment(rentInfo.checkOutDate).format("YYYY年MM月DD日")}</h2>
+                            <h1>您入住了{hInfo.baseInfo.hTitle}</h1>
+                            <Divider />
+                            <div className='JourneyDetailInfoCarousel'>
+                                <Carousel autoplay>
+                                    {hInfo.carousel.map((c: HouseCarousel) =>
+                                    {
+                                        return (
+                                            <img key={c.id} alt={c.id} src={`${CONST_HOST}/${c.url}`} />
+                                        );
+                                    })}
+                                </Carousel>
+                            </div>
+                            <p style={{ fontWeight: "bold", fontSize: "25px", margin: "15px 0" }}>
+                                {hInfo.baseInfo.hTitle}/{hInfo.baseInfo.hMethod}/{hInfo.baseInfo.hFeature}
+                            </p>
+                        </div>
                     </div>
                     <div ref={this.tMapRef} />
                 </div>
