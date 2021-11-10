@@ -209,12 +209,10 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                 ]
             });
             message.success({ content: "规划成功", key: 'makeRoute', duration: 2 });
+            document.body.removeChild(scriptfn);
+            document.body.removeChild(script);
         }, 2000);
 
-    };
-    DrawLine = (ret: any) =>
-    {
-        console.log(ret);
     };
     componentDidMount()
     {
