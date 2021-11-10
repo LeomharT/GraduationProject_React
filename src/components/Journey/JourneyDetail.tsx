@@ -1,5 +1,6 @@
 import { CloseOutlined, CopyOutlined, EnvironmentOutlined, ExclamationCircleOutlined, FileTextOutlined, PlusCircleOutlined, PrinterOutlined, ProfileOutlined, QuestionCircleOutlined, ReconciliationOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Carousel, Divider } from 'antd';
+import { Button, Carousel, Divider, message } from 'antd';
+import jsPDF from 'jspdf';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import ReactDOM from 'react-dom';
@@ -198,7 +199,12 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         <div>
                                             <PrinterOutlined />打印详情
                                         </div>
-                                        <Button type='text' icon={<RightOutlined />} />
+                                        <Button type='text' icon={<RightOutlined />} onClick={() =>
+                                        {
+                                            const jspdfObj = new jsPDF();
+                                            jspdfObj.text(JSON.stringify(rentInfo).split(','), 10, 10);
+                                            jspdfObj.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
+                                        }} />
                                     </div>
                                     <div>
                                         <div>
@@ -223,7 +229,8 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         <Button type='text' icon={<RightOutlined />} onClick={async () =>
                                         {
                                             const clipboardObj = navigator.clipboard;
-                                            await clipboardObj.writeText(` 福建省福州市${hInfo.baseInfo.hRegion}`);
+                                            await clipboardObj.writeText(`福建省福州市${hInfo.baseInfo.hRegion}`);
+                                            message.success("复制成功");
                                         }} />
                                     </div>
                                     <div>
