@@ -6,6 +6,7 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo; }, {
 {
     tMap: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     map: any;
+    pngMarker: any;
     InitTMap = (houseDetailInfo: HouseInfo): void =>
     {
         if (!houseDetailInfo?.baseInfo) return;
@@ -19,18 +20,18 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo; }, {
             viewMode: "2D"
         });
         const { map } = this;
-        new TMap.MultiMarker({
+        this.pngMarker = new TMap.MultiMarker({
             map: map,
-            style: {
-                markerStyle: new TMap.MarkerStyle({
-                    width: 25,
-                    height: 35,
-                    anchor: { x: 16, y: 32 }
+            styles: {
+                'startMark': new TMap.MarkerStyle({
+                    "width": 25,
+                    "height": 35,
+                    "anchor": { x: 16, y: 32 },
+                    "src": 'https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/start.png'
                 })
             },
             geometries: [{
                 id: "1",
-                styled: "markerStyle",
                 position: new TMap.LatLng(
                     parseFloat(houseDetailInfo.detailInfo.hLatitude),
                     parseFloat(houseDetailInfo.detailInfo.hLongitude)),
@@ -103,9 +104,28 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo; }, {
             message.success({ content: "规划成功", key: 'makeRoute', duration: 2 });
             document.body.removeChild(scriptfn);
             document.body.removeChild(script);
-
+            this.map.easeTo({
+                center: new TMap.LatLng(
+                    parseFloat(start.split(",")[0]),
+                    parseFloat(start.split(",")[1]))
+            });
         }, 2000);
 
+    };
+    MarkStart = (start: string) =>
+    {
+        this.pngMarker.add([
+            {
+                id: "startPoint",
+                styleId: 'startMark',
+                position: new TMap.LatLng(
+                    parseFloat(start.split(",")[0]),
+                    parseFloat(start.split(",")[1])),
+                properties: {
+                    title: "startPoint"
+                }
+            },]
+        );
     };
     componentDidMount()
     {
@@ -131,6 +151,7 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo; }, {
                         {
                             console.log(e.coords.latitude, e.coords.longitude);
                             await this.MakeJourneyRoute(e.coords.latitude + ',' + e.coords.longitude);
+                            this.MarkStart(e.coords.latitude + ',' + e.coords.longitude);
                         }, (err) =>
                         {
                             console.log(err);
