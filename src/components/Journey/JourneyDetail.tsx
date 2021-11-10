@@ -1,4 +1,4 @@
-import { CloseOutlined, ProfileOutlined } from '@ant-design/icons';
+import { CloseOutlined, CopyOutlined, EnvironmentOutlined, ExclamationCircleOutlined, FileTextOutlined, PlusCircleOutlined, PrinterOutlined, ProfileOutlined, QuestionCircleOutlined, ReconciliationOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Divider } from 'antd';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
@@ -179,6 +179,119 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                             <p style={{ fontWeight: "bold", fontSize: "25px", margin: "15px 0" }}>
                                 {hInfo.baseInfo.hTitle}/{hInfo.baseInfo.hMethod}/{hInfo.baseInfo.hFeature}
                             </p>
+                            <div className='JourneyChekeInOut'>
+                                <div>
+                                    <h2>入住</h2>
+                                    {moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm")}
+                                </div>
+                                <Divider type='vertical' />
+                                <div>
+                                    <h2>退房</h2>
+                                    {moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm")}
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className='JourneyInfoItem'>
+                                <h1>订单详情</h1>
+                                <div className='Options'>
+                                    <div>
+                                        <div>
+                                            <PrinterOutlined />打印详情
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <FileTextOutlined />获取收据
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className='JourneyInfoItem'>
+                                <h1>如何前往</h1>
+                                <div className='InfoEtc'>
+                                    <h2>地址</h2>
+                                    福建省福州市{hInfo.baseInfo.hRegion}
+                                </div>
+                                <div className='Options'>
+                                    <div>
+                                        <div>
+                                            <CopyOutlined />复制地址
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <EnvironmentOutlined />查看路线
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className='JourneyInfoItem'>
+                                <h1>您的住宿</h1>
+                                <div className='InfoEtc'>
+                                    <h2>房屋使用指南</h2>
+                                    智能刷卡门锁，房屋有安全锁扣，房屋内插卡取电，内置设施齐全，一房一宽带。
+                                </div>
+                                <div className='Options'>
+                                    <div>
+                                        <div>
+                                            <ProfileOutlined />显示房源
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />}
+                                            onClick={() =>
+                                            {
+                                                this.props.history.push(`/HouseList/DetailInfo/${hInfo.detailInfo.hId}`);
+
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className='JourneyInfoItem'>
+                                <h1>付款信息</h1>
+                                <div className='InfoEtc'>
+                                    <h2>总费用</h2>
+                                    &yen;{rentInfo.totalAmount}
+                                </div>
+                                <div className='Options'>
+                                    <div>
+                                        <div>
+                                            <PlusCircleOutlined />备注您本次旅程的详细信息
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <ReconciliationOutlined />获取收据
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                </div>
+                            </div>
+                            <Divider />
+                            <div className='JourneyInfoItem'>
+                                <h1>用户支持</h1>
+                                <div className='Options'>
+                                    <div>
+                                        <div>
+                                            <QuestionCircleOutlined />帮助中心
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <ExclamationCircleOutlined />调解中心
+                                        </div>
+                                        <Button type='text' icon={<RightOutlined />} />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div ref={this.tMapRef} />
