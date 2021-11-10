@@ -15,6 +15,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     tMapRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     state: { rInfo: UserRentListItem, hInfo: HouseInfo; } = this.props.location.state as { rInfo: UserRentListItem, hInfo: HouseInfo; };
     map: any;
+    pngMarker: any;
     InitMap = () =>
     {
         this.map = new TMap.Map(this.tMapRef.current, {
@@ -27,11 +28,11 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
             viewMode: "2D"
         });
         const { map } = this;
-        const pngMarker = this.AddMapMarks(map);
+        this.pngMarker = this.AddMapMarks(map);
         const infoWindow = this.AddInfoWindow(map);
         this.AddLabelInfo(map, this.state.rInfo);
 
-        pngMarker.add({
+        this.pngMarker.add({
             id: "1",
             styleId: "marker",
             position: new TMap.LatLng(
@@ -42,7 +43,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
             }
         });
 
-        pngMarker.addListener('click', async (e: any) =>
+        this.pngMarker.addListener('click', async (e: any) =>
         {
             map.easeTo({ center: new TMap.LatLng(e.geometry.position.lat, e.geometry.position.lng) });
             const houseInfo: HouseInfo = this.state.hInfo;
@@ -92,6 +93,14 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     {
         const markers = new TMap.MultiMarker({
             map,
+            styles: {
+                "startMark": new TMap.MarkerStyle({
+                    "width": 25,
+                    "height": 35,
+                    "anchor": { x: 16, y: 32 },
+                    "src": 'https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/start.png'
+                }),
+            },
         });
         return markers;
     };
@@ -211,8 +220,28 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
             message.success({ content: "规划成功", key: 'makeRoute', duration: 2 });
             document.body.removeChild(scriptfn);
             document.body.removeChild(script);
+            this.map.easeTo({
+                center: new TMap.LatLng(
+                    parseFloat(start.split(",")[0]),
+                    parseFloat(start.split(",")[1]))
+            });
         }, 2000);
 
+    };
+    MarkStart = (start: string) =>
+    {
+        this.pngMarker.add([
+            {
+                id: "startPoint",
+                styleId: 'startMark',
+                position: new TMap.LatLng(
+                    parseFloat(start.split(",")[0]),
+                    parseFloat(start.split(",")[1])),
+                properties: {
+                    title: "startPoint"
+                }
+            },]
+        );
     };
     componentDidMount()
     {
@@ -313,6 +342,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                                 console.log("我获取了你的位置");
                                                 console.log(e.coords.latitude);
                                                 await this.MakeJourneyRoute(e.coords.latitude + ',' + e.coords.longitude);
+                                                this.MarkStart(e.coords.latitude + ',' + e.coords.longitude);
                                             }, (err) =>
                                             {
                                                 console.log(err);
