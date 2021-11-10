@@ -180,6 +180,8 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
         script.src = url;
         document.body.appendChild(script);
 
+        message.loading({ content: "正在为您规划路线", key: 'makeRoute' });
+
         setTimeout(() =>
         {
             //@ts-ignore
@@ -206,7 +208,8 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                     }
                 ]
             });
-        }, 1000);
+            message.success({ content: "规划成功", key: 'makeRoute', duration: 2 });
+        }, 2000);
 
     };
     DrawLine = (ret: any) =>
