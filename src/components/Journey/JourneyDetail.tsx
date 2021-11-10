@@ -220,7 +220,11 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         <div>
                                             <CopyOutlined />复制地址
                                         </div>
-                                        <Button type='text' icon={<RightOutlined />} />
+                                        <Button type='text' icon={<RightOutlined />} onClick={async () =>
+                                        {
+                                            const clipboardObj = navigator.clipboard;
+                                            await clipboardObj.writeText(` 福建省福州市${hInfo.baseInfo.hRegion}`);
+                                        }} />
                                     </div>
                                     <div>
                                         <div>
