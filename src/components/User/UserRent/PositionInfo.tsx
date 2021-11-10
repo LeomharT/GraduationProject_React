@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React, { Component, createRef, RefObject } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 
@@ -48,6 +49,16 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo; }, {
     {
         return (
             <div ref={this.tMap}>
+                <Button children='显示路线'
+                    style={{
+                        position: "absolute", top: "0", left: '0',
+                        zIndex: 9999,
+                    }}
+                    onClick={(e) =>
+                    {
+                        e.stopPropagation();
+
+                    }} />
             </div>
         );
     }
