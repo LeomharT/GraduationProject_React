@@ -4,7 +4,7 @@ import React from "react";
 import { HouseInfo } from "../interfaces/HouseListInterface";
 import { UserRentListItem } from "../interfaces/UserInferface";
 
-export default class MapStore
+export default class MapUtil
 {
     InitMap = (mapEl: React.RefObject<HTMLDivElement>, hInfo: HouseInfo): any =>
     {
@@ -176,11 +176,11 @@ export default class MapStore
             ]
         );
     };
-    private static _SingleInstance: MapStore;
+    private static _SingleInstance: MapUtil;
     static GetInstance()
     {
         if (this._SingleInstance) return this._SingleInstance;
-        this._SingleInstance = new MapStore();
+        this._SingleInstance = new MapUtil();
         return this._SingleInstance;
     }
 }

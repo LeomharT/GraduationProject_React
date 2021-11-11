@@ -2,19 +2,19 @@ import { Button } from 'antd';
 import React, { Component, createRef, RefObject } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
-import MapStore from '../../../redux/MapStore';
+import MapUtil from '../../../util/MapUtil';
 
 export default class PositionInfo extends Component<{ houseInfo: HouseInfo, rentInfo: UserRentListItem; }, {}>
 {
-    MapStore: MapStore = MapStore.GetInstance();
+    MapUtil: MapUtil = MapUtil.GetInstance();
     tMap: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     map: any;
     pngMarker: any;
     SetUpMap = () =>
     {
-        const { MapStore, tMap } = this;
-        this.map = MapStore.InitMap(tMap, this.props.houseInfo);
-        this.pngMarker = MapStore.InitMarkers(this.map);
+        const { MapUtil, tMap } = this;
+        this.map = MapUtil.InitMap(tMap, this.props.houseInfo);
+        this.pngMarker = MapUtil.InitMarkers(this.map);
         this.pngMarker.add([
             {
                 id: "1",
@@ -27,7 +27,7 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo, rent
                 }
             }
         ]);
-        MapStore.AddLabelInfo(this.map, this.props.rentInfo, this.props.houseInfo);
+        MapUtil.AddLabelInfo(this.map, this.props.rentInfo, this.props.houseInfo);
     };
     componentDidMount()
     {
@@ -38,7 +38,7 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo, rent
     }
     render()
     {
-        const { MapStore } = this;
+        const { MapUtil } = this;
         return (
             <div ref={this.tMap}>
                 <Button children='显示路线'
@@ -53,8 +53,8 @@ export default class PositionInfo extends Component<{ houseInfo: HouseInfo, rent
                         userLocation.getCurrentPosition(async (e) =>
                         {
                             console.log(e.coords.latitude, e.coords.longitude);
-                            await MapStore.MakeJourneyRoute(this.map, e.coords.latitude + ',' + e.coords.longitude, this.props.houseInfo);
-                            MapStore.MarkStart(e.coords.latitude + ',' + e.coords.longitude, this.pngMarker);
+                            await MapUtil.MakeJourneyRoute(this.map, e.coords.latitude + ',' + e.coords.longitude, this.props.houseInfo);
+                            MapUtil.MarkStart(e.coords.latitude + ',' + e.coords.longitude, this.pngMarker);
                         }, (err) =>
                         {
                             console.log(err);

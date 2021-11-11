@@ -7,23 +7,23 @@ import ReactDOM from 'react-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../interfaces/UserInferface';
-import MapStore from '../../redux/MapStore';
+import MapUtil from '../../util/MapUtil';
 import HeadNavigate from '../Common/HeadNavigate';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
 class JourneyDetail extends Component<RouteComponentProps, {}>
 {
-    MapStore: MapStore = MapStore.GetInstance();
+    MapUtil: MapUtil = MapUtil.GetInstance();
     tMapRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     state: { rInfo: UserRentListItem, hInfo: HouseInfo; } = this.props.location.state as { rInfo: UserRentListItem, hInfo: HouseInfo; };
     map: any;
     pngMarker: any;
     SetUpTMap = (): void =>
     {
-        const { MapStore, tMapRef } = this;
-        this.map = MapStore.InitMap(tMapRef, this.state.hInfo);
-        this.pngMarker = MapStore.InitMarkers(this.map);
-        const infoWindow = MapStore.InitInfoWindow(this.map);
+        const { MapUtil, tMapRef } = this;
+        this.map = MapUtil.InitMap(tMapRef, this.state.hInfo);
+        this.pngMarker = MapUtil.InitMarkers(this.map);
+        const infoWindow = MapUtil.InitInfoWindow(this.map);
         this.pngMarker.add([
             {
                 id: "1",
@@ -80,7 +80,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
             );
             ReactDOM.render(iwChild, iw);
         });
-        MapStore.AddLabelInfo(this.map, this.state.rInfo, this.state.hInfo);
+        MapUtil.AddLabelInfo(this.map, this.state.rInfo, this.state.hInfo);
     };
     componentDidMount()
     {
@@ -89,7 +89,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     }
     render()
     {
-        const { MapStore } = this;
+        const { MapUtil } = this;
         const { rInfo: rentInfo, hInfo } = this.state;
         return (
             <div className='JourneyDetail'>
@@ -182,8 +182,8 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                             {
                                                 console.log("我获取了你的位置");
                                                 console.log(e.coords.latitude);
-                                                await MapStore.MakeJourneyRoute(this.map, e.coords.latitude + ',' + e.coords.longitude, hInfo);
-                                                MapStore.MarkStart(e.coords.latitude + ',' + e.coords.longitude, this.pngMarker);
+                                                await MapUtil.MakeJourneyRoute(this.map, e.coords.latitude + ',' + e.coords.longitude, hInfo);
+                                                MapUtil.MarkStart(e.coords.latitude + ',' + e.coords.longitude, this.pngMarker);
                                             }, (err) =>
                                             {
                                                 console.log(err);
