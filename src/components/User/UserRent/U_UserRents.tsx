@@ -234,7 +234,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     <CostDetail rentInfo={rentInfo} />
                                 </TabPane>
                                 <TabPane key='2' tab='位置信息'>
-                                    <PositionInfo houseInfo={this.houseInfo} />
+                                    <PositionInfo houseInfo={this.houseInfo} rentInfo={rentInfo} />
                                 </TabPane>
                                 <TabPane key='3' tab='续约记录'>
                                     <RenewalRecord id={rentInfo.id} />
