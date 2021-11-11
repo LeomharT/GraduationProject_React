@@ -98,7 +98,12 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                     <div className='JourneyDetailInfo'>
                         <div>
                             <div className='JourneyDetailInfoTitle'>
-                                <Button type='link' size='large' icon={<CloseOutlined />} />
+                                <Button type='link' size='large' icon={<CloseOutlined />}
+                                    onClick={() =>
+                                    {
+                                        this.props.history.goBack();
+                                    }}
+                                />
                                 <span>您的房源预定</span>
                             </div>
                             <Divider />

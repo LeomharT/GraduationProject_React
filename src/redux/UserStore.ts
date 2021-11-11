@@ -103,7 +103,7 @@ export default class UserStore
         ).json() as RenewalOrderRecord[];
         for (let r of res)
         {
-            if (moment(r.checkInDate) < moment(Date.now()))
+            if (moment(r.checkInDate) < moment(Date.now()) && moment(r.checkOutDate) > moment(Date.now()))
             {
                 Object.assign(r, {
                     hState: OrderState.processing

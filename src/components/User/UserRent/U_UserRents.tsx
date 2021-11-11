@@ -144,7 +144,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                     <Divider type='vertical' />
                                     {(() =>
                                     {
-                                        if (moment(rentInfo.checkInDate) < moment(Date.now()))
+                                        if (moment(rentInfo.checkInDate) < moment(Date.now()) && moment(rentInfo.checkOutDate) > moment(Date.now()))
                                         {
                                             return (<StateIcon state={OrderState.processing} />);
                                         } else if (moment(rentInfo.checkOutDate) < moment(Date.now()))
