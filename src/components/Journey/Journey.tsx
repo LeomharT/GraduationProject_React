@@ -13,9 +13,11 @@ export default class Journey extends Component
 {
     UserStore: UserStore = UserStore.GetInstance();
     @observable userJourneyList: UserRentListItem[] = [];
+    @observable commingJourneyList: UserRentListItem[] = [];
     async componentDidMount()
     {
         this.userJourneyList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId(), true);
+        this.commingJourneyList = await this.UserStore.InitCurrentUserRentList(this.UserStore.GetCurrentUserId());
     }
     render()
     {
@@ -27,7 +29,7 @@ export default class Journey extends Component
                         <h1>行程</h1>
                         <Tabs size='large' defaultActiveKey='2'>
                             <Tabs.TabPane tab='即将开始的行程' key='1'>
-                                <CommingJourney />
+                                <CommingJourney commingJourneyList={this.commingJourneyList} />
                             </Tabs.TabPane>
                             <Tabs.TabPane tab='过往行程' key='2'>
                                 <PastJourney userJourneyList={this.userJourneyList} />
@@ -39,24 +41,40 @@ export default class Journey extends Component
         );
     }
 }
-class CommingJourney extends Component<{}, {}>
+class CommingJourney extends Component<{ commingJourneyList: UserRentListItem[]; }, {}>
 {
     render()
     {
-
-        return (
-            <div className='CommingJourney'>
-                <JourneyWhenEmpty info='当您准备好开始规划下一次行程时，我们会随时为您提供帮助。' />
-            </div>
-        );
-
+        if (!this.props.commingJourneyList.length)
+        {
+            return (
+                <div className='PassJourney'>
+                    <JourneyWhenEmpty info='当您准备好开始规划下一次行程时，我们会随时为您提供帮助。' />
+                </div>
+            );
+        }
+        else
+        {
+            return (
+                <div className='PassJourney'>
+                    {
+                        this.props.commingJourneyList.map((v: UserRentListItem) =>
+                        {
+                            return (
+                                <JourneyItem key={v.id} rentInfo={v} />
+                            );
+                        })
+                    }
+                </div>
+            );
+        }
     }
 }
 class PastJourney extends Component<{ userJourneyList: UserRentListItem[]; }, {}>
 {
     render()
     {
-        if (!this.props.userJourneyList)
+        if (!this.props.userJourneyList.length)
         {
             return (
                 <div className='PassJourney'>
