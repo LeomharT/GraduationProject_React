@@ -1,10 +1,11 @@
 import { PayCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import { Button, Divider, Progress } from 'antd';
-import React, { Component } from 'react';
+import * as echarts from 'echarts';
+import React, { Component, createRef, RefObject } from 'react';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import { IconFont } from '../../HouseList/RentAndPay/ConfirmOrder';
 
-export const FormatNum = (str: string) =>
+export const FormatNum = (str: string): string =>
 {
     let newStr = "";
     let count = 0;
@@ -43,8 +44,51 @@ export const FormatNum = (str: string) =>
         return str;
     }
 };
+
 export default class CostDetail extends Component<{ rentInfo: UserRentListItem; }, {}>
 {
+    echartsEl: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
+    InitEchart = (): void =>
+    {
+        const echart = echarts.init(this.echartsEl.current as HTMLElement);
+        const option: echarts.EChartsOption = {
+            title: {
+                text: '费用详情'
+            },
+            tooltip: {
+                show: true,
+                trigger: 'item',
+            },
+            series: [
+                {
+                    type: 'pie',
+                    data: [
+                        {
+                            value: parseInt(this.props.rentInfo.totalAmount),
+                            name: "房租",
+                        },
+                        {
+                            value: 200,
+                            name: '水费'
+                        },
+                        {
+                            value: 300,
+                            name: '电费'
+                        },
+                        {
+                            value: 400,
+                            name: '停车费'
+                        },
+                    ],
+                }
+            ],
+        };
+        echart.setOption(option);
+    };
+    componentDidMount()
+    {
+        this.InitEchart();
+    }
     render()
     {
         const { rentInfo } = this.props;
@@ -76,6 +120,9 @@ export default class CostDetail extends Component<{ rentInfo: UserRentListItem; 
                     <span>停车费</span>
                     <Progress percent={70} size='default' />
                     <div>&yen;70/&yen;100<Button children='缴费' type='link' /></div>
+                </div>
+                <div className='EchartsArea' ref={this.echartsEl}>
+
                 </div>
             </div>
         );
