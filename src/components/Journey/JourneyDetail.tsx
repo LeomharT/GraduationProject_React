@@ -1,6 +1,8 @@
 import { CloseOutlined, CopyOutlined, EnvironmentOutlined, ExclamationCircleOutlined, FileTextOutlined, PlusCircleOutlined, PrinterOutlined, ProfileOutlined, QuestionCircleOutlined, ReconciliationOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Carousel, Divider, message } from 'antd';
+import { Badge, Button, Carousel, Divider, message } from 'antd';
 import jsPDF from 'jspdf';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import ReactDOM from 'react-dom';
@@ -11,6 +13,7 @@ import MapUtil from '../../util/MapUtil';
 import HeadNavigate from '../Common/HeadNavigate';
 import { CONST_HOST } from '../Common/VariableGlobal';
 
+@observer
 class JourneyDetail extends Component<RouteComponentProps, {}>
 {
     MapUtil: MapUtil = MapUtil.GetInstance();
@@ -18,6 +21,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     state: { rInfo: UserRentListItem, hInfo: HouseInfo; } = this.props.location.state as { rInfo: UserRentListItem, hInfo: HouseInfo; };
     map: any;
     pngMarker: any;
+    @observable isRefunded: boolean = false;
     SetUpTMap = (): void =>
     {
         const { MapUtil, tMapRef } = this;
@@ -82,10 +86,26 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
         });
         MapUtil.AddLabelInfo(this.map, this.state.rInfo, this.state.hInfo);
     };
+    QueryOrderState = async (): Promise<void> =>
+    {
+        const res = await (await (fetch(`${CONST_HOST}/QueryOrderRefund`, {
+            method: "POST",
+            body: JSON.stringify(this.state.rInfo),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            }
+        }))).text();
+        const orderState = await (await (fetch(res))).json();
+        if (orderState.alipay_trade_fastpay_refund_query_response.code === '10000' && orderState.alipay_trade_fastpay_refund_query_response.trade_no)
+        {
+            this.isRefunded = true;
+        }
+    };
     componentDidMount()
     {
-        // this.InitMap();
         this.SetUpTMap();
+        this.QueryOrderState();
+        console.log(this.state.rInfo.trade_no);
     }
     render()
     {
@@ -108,7 +128,9 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                             </div>
                             <Divider />
                             <h2>{moment(rentInfo.checkInDate).format("YYYY年MM月DD日") + '-' + moment(rentInfo.checkOutDate).format("YYYY年MM月DD日")}</h2>
-                            <h1>您入住了{hInfo.baseInfo.hTitle}</h1>
+                            <Badge.Ribbon text={this.isRefunded ? "已退款" : "已完成"} color={this.isRefunded ? "blue" : "green"}>
+                                <h1>您入住了{hInfo.baseInfo.hTitle}</h1>
+                            </Badge.Ribbon>
                             <Divider />
                             <div className='JourneyDetailInfoCarousel'>
                                 <Carousel autoplay>
@@ -223,7 +245,7 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                             <div className='JourneyInfoItem'>
                                 <h1>付款信息</h1>
                                 <div className='InfoEtc'>
-                                    <h2>总费用</h2>
+                                    <h2>{this.isRefunded ? "退款金额" : "总费用"}</h2>
                                     &yen;{rentInfo.totalAmount}
                                 </div>
                                 <div className='Options'>

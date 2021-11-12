@@ -365,7 +365,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         </div>
                         <Divider orientation="left" className="DividerHouseInfo">确认支付</Divider>
                         <div className='OrderInfo_Content_Item'>
-                            <Checkbox value={this.agreeProtocol} style={{ marginRight: "10px" }}
+                            <Checkbox checked={this.agreeProtocol} style={{ marginRight: "10px" }}
                                 id='AgreeProtocol'
                                 onChange={() =>
                                 {
@@ -460,17 +460,6 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <span style={{ color: "#52c41a" }}>
                                     &yen;{CountTotalRent()}
                                 </span>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: "row-reverse" }}>
-                                <Checkbox style={{ fontWeight: "bold", fontSize: "16px" }}
-                                    checked={this.payFully}
-                                    onChange={(e) =>
-                                    {
-                                        this.payFully = !this.payFully;
-                                    }}
-                                >
-                                    一次性付清
-                                </Checkbox>
                             </div>
                         </div>
                     </div>
