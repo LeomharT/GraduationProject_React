@@ -1,5 +1,5 @@
 import { AlipayOutlined, createFromIconfontCN, LeftOutlined, PayCircleOutlined } from '@ant-design/icons';
-import { Affix, Button, DatePicker, Divider, Drawer, InputNumber, message, Modal, notification, Popover, Select, Spin } from 'antd';
+import { Affix, Button, Checkbox, DatePicker, Divider, Drawer, InputNumber, message, Modal, notification, Popover, Select, Spin } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -47,6 +47,8 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     @observable checking: boolean = false;  //验证支付状态
     @observable isRenewal: boolean = false; //是续租还是预定
     order: Order;
+    @observable payFully: boolean = true;
+    @observable agreeProtocol: boolean = false;
     CloseDrawer = (): void =>
     {
         this.isDrawerOpen = false;
@@ -228,6 +230,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <div>
                                     入住日期：
                                     <DatePicker
+                                        style={{ marginRight: "15px" }}
                                         disabled={this.isRenewal}
                                         locale={locale}
                                         disabledDate={DisableDate}
@@ -362,10 +365,28 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         </div>
                         <Divider orientation="left" className="DividerHouseInfo">确认支付</Divider>
                         <div className='OrderInfo_Content_Item'>
-                            点击下方按钮即代表我同意房东的入住须知、优区生活针对新冠肺炎疫情的安全要求和房客退款政策。
+                            <Checkbox value={this.agreeProtocol} style={{ marginRight: "10px" }}
+                                id='AgreeProtocol'
+                                onChange={() =>
+                                {
+                                    this.agreeProtocol = !this.agreeProtocol;
+                                }}
+                            >
+                            </Checkbox>
+                            <label htmlFor='AgreeProtocol' style={{ cursor: 'pointer' }}>
+                                点击按钮即代表我同意房东的<Button style={{ padding: '0' }} type='link' children='入住须知' size='large' />、优区生活针对新冠肺炎疫情的<Button style={{ padding: '0' }} type='link' children='安全要求' size='large' />和<Button style={{ padding: '0' }} type='link' children='房客退款政策' size='large' />。
+                            </label>
                         </div>
                         <Button
-                            onClick={async () => { await this.MakeOrder(); }}
+                            onClick={async () =>
+                            {
+                                if (!this.agreeProtocol)
+                                {
+                                    message.error("请勾选同意条款");
+                                    return;
+                                }
+                                await this.MakeOrder();
+                            }}
                             size='large'
                             type='primary'
                             icon={<PayCircleOutlined />}
@@ -439,6 +460,17 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                                 <span style={{ color: "#52c41a" }}>
                                     &yen;{CountTotalRent()}
                                 </span>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: "row-reverse" }}>
+                                <Checkbox style={{ fontWeight: "bold", fontSize: "16px" }}
+                                    checked={this.payFully}
+                                    onChange={(e) =>
+                                    {
+                                        this.payFully = !this.payFully;
+                                    }}
+                                >
+                                    一次性付清
+                                </Checkbox>
                             </div>
                         </div>
                     </div>
