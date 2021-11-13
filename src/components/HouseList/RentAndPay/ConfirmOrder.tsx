@@ -57,12 +57,15 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
     {
         if (!this.order.tenantInfo)
         {
-            notification.open({
-                message: "支付失败",
-                description: "请您输入入住人员身份信息",
-                type: "error",
-            });
-            return;
+            if (this.order instanceof OrderReserve)
+            {
+                notification.open({
+                    message: "支付失败",
+                    description: "请您输入入住人员身份信息",
+                    type: "error",
+                });
+                return;
+            }
         }
         const res = await (
             await (fetch(`${CONST_HOST}/OpenAliPayPage`, {

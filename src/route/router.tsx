@@ -1,4 +1,5 @@
 import BackStage from "../components/BackStage/BackStage";
+import AdminConsult from "../components/BackStage/components/AdminConsult";
 import ArticleContent from "../components/Community/ArticleContent";
 import ArticleList from "../components/Community/ArticleList";
 import Community from "../components/Community/Community";
@@ -64,7 +65,8 @@ const route: RouteType[] = [
     { title: "JourneyDetail", path: '/JourneyDetail', components: JourneyDetail },
     {
         title: "BackStage", path: '/BackStage', components: BackStage, childRoute: [
-            { title: "DashBoard", path: '/DashBoard', components: JourneyDetail },
+            { title: "DashBoard", path: '/BackStage/DashBoard', components: JourneyDetail },
+            { title: "DashBoard", path: '/BackStage/AdminConsult', components: AdminConsult },
         ]
     },
 ];
