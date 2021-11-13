@@ -1,3 +1,4 @@
+import BackStage from "../components/BackStage/BackStage";
 import ArticleContent from "../components/Community/ArticleContent";
 import ArticleList from "../components/Community/ArticleList";
 import Community from "../components/Community/Community";
@@ -61,6 +62,11 @@ const route: RouteType[] = [
     { title: "UserCollection", path: '/UserCollection', components: U_UserCollect },
     { title: "Journey", path: '/Journey', components: Journey },
     { title: "JourneyDetail", path: '/JourneyDetail', components: JourneyDetail },
+    {
+        title: "BackStage", path: '/BackStage', components: BackStage, childRoute: [
+            { title: "DashBoard", path: '/DashBoard', components: JourneyDetail },
+        ]
+    },
 ];
 
 

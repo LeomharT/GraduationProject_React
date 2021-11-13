@@ -197,7 +197,8 @@ class HConsult extends Component<HConsultProps, {}>
     }
     render()
     {
-        if (this.props.history.location.pathname.includes("VRScene")) return (null);
+        if (this.props.history.location.pathname.includes("VRScene") || this.props.history.location.pathname.includes("BackStage"))
+            return (null);
         const { UserStore } = this;
         const RenderHouseInfoTag = () =>
         {
