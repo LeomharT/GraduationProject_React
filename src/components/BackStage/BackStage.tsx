@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
-import { Switch } from 'react-router';
+import React from 'react';
+import { Provider } from 'react-redux';
 import '../../assets/scss/BackStage.scss';
-import route, { RouteType } from '../../route/router';
-export default class BackStage extends Component
+import Aside from './Aside';
+import Headers from './Headers';
+import { globalStore } from './redux/Global/Global_Store';
+export default function BackStage()
 {
-    render()
-    {
-        return (
-            <Switch>
-                {route[route.length - 1].childRoute!.map((r: RouteType) =>
-                {
-                    console.log(r);
-                })}
-            </Switch>
-        );
-    }
+    return (
+        <Provider store={globalStore}>
+            <div className='BackStage'>
+                <Aside />
+                <main>
+                    <Headers />
+                </main>
+            </div>
+        </Provider>
+    );
 }

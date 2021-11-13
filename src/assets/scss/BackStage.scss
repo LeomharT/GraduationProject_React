@@ -1,0 +1,40 @@
+.BackStage
+{
+    width           : 100%;
+    min-height      : 100vh;
+    overflow        : auto;
+    background-color: #f0f2f5;
+    display: flex;
+    main
+    {
+        width   : 100%;
+        height  : 100vh;
+        overflow: auto;
+        .Headers
+        {
+            width           : 100%;
+            height          : 50px;
+            box-shadow      : 0 1px 4px rgba(1, 1, 1, .3) ;
+            background-color: white;
+            display         : flex;
+            flex-direction  : row;
+            align-items     : center;
+        }
+    }
+    .Aside
+    {
+        max-width : 230px;
+        min-height: 100vh;
+        overflow  : hidden;
+        .AppIconTitle
+        {
+            width          : 100%;
+            box-sizing     : border-box;
+            padding        : 10px 15px;
+            justify-content: flex-start;
+            >span{
+                margin-left: 15px;
+            }
+        }
+    }
+}
