@@ -24,13 +24,13 @@
             align-items     : center;
             .HeadersOptions
             {
-                width           : 300px;
-                height          : 100%;
-                box-sizing: border-box;
-                padding-right: 30px;
-                display         : flex;
-                justify-content : space-around;
-                align-items     : center;
+                width          : 300px;
+                height         : 100%;
+                box-sizing     : border-box;
+                padding-right  : 30px;
+                display        : flex;
+                justify-content: space-around;
+                align-items    : center;
             }
         }
         .MainContent
@@ -195,6 +195,25 @@
                     color: rgb(123, 152, 182);
                 }
             }
+        }
+    }
+}
+.HouseMaintain
+{
+    width  : 100%;
+    height : 100%;
+    padding: 20px;
+    .TableOptions
+    {
+        width         : 100%;
+        height        : 50px;
+        background    : white;
+        display       : flex;
+        align-items   : center;
+        flex-direction: row-reverse;
+        >button
+        {
+            margin-right: 20px;
         }
     }
 }
