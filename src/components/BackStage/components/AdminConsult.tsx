@@ -87,9 +87,19 @@ export default function AdminConsult()
                         content={<EmojiList messageInput={messageInput} />}
                     ><Button icon={<SmileOutlined />} size='large' type='text' />
                     </Popover>
-                    <input ref={messageInput} placeholder="撰写消息" />
+                    <input ref={messageInput} placeholder="撰写消息" onKeyDown={(e: React.KeyboardEvent) =>
+                    {
+                        e.stopPropagation();
+                        if (e.key === 'Enter')
+                        {
+                            if (!messageInput.current!.value) return;
+                            socketStore.SocketSendStringMessage(messageInput.current!.value, DisplayMessage);
+                            messageInput.current!.value = "";
+                        }
+                    }} />
                     <Button icon={<SendOutlined />} size='large' type='link' onClick={() =>
                     {
+                        if (!messageInput.current!.value) return;
                         socketStore.SocketSendStringMessage(messageInput.current!.value, DisplayMessage);
                         messageInput.current!.value = "";
                     }} />

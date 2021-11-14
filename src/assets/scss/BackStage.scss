@@ -20,7 +20,18 @@
             background-color: white;
             display         : flex;
             flex-direction  : row;
+            justify-content : space-between;
             align-items     : center;
+            .HeadersOptions
+            {
+                width           : 300px;
+                height          : 100%;
+                box-sizing: border-box;
+                padding-right: 30px;
+                display         : flex;
+                justify-content : space-around;
+                align-items     : center;
+            }
         }
         .MainContent
         {
