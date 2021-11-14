@@ -1,5 +1,5 @@
 import { BellOutlined, EllipsisOutlined, MoneyCollectOutlined, SettingOutlined, ToolOutlined, TransactionOutlined } from '@ant-design/icons';
-import { Badge, Button, DatePicker, Divider, Dropdown, Menu, Spin, Tabs } from 'antd';
+import { Badge, Button, DatePicker, Divider, Dropdown, Menu, Popover, Spin, Tabs } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -101,9 +101,57 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                         {RenderTags(houseInfo.baseInfo.hTags.split(","))}
                                     </div>
                                     <div>
-                                        <Badge dot offset={[-15, 10]}>
-                                            <Button type='link' icon={<BellOutlined />} />
-                                        </Badge>
+                                        <Popover placement='bottom'
+                                            trigger={['click']}
+                                            content={
+                                                <div className='RentTip'>
+                                                    <ul>
+                                                        <li>
+                                                            <img src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png" alt="infoIcon" />
+                                                            <div>
+                                                                <div>
+                                                                    十月份水电费用详情
+                                                                </div>
+                                                                <div>
+                                                                    {moment(Date.now()).fromNow()}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <img src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png" alt="infoIcon" />
+                                                            <div>
+                                                                <div>
+                                                                    房屋马上到期请及时交付
+                                                                </div>
+                                                                <div>
+                                                                    {moment(Date.now()).fromNow()}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <img src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png" alt="infoIcon" />
+                                                            <div>
+                                                                <div>
+                                                                    通知通知通知
+                                                                </div>
+                                                                <div>
+                                                                    {moment(Date.now()).fromNow()}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <div>
+                                                        <Button size='large' type='text' children='清空通知' />
+                                                        <Divider type='vertical' />
+                                                        <Button size='large' type='text' children='查看更多' />
+                                                    </div>
+                                                </div>
+                                            }
+                                        >
+                                            <Badge dot offset={[-15, 10]}>
+                                                <Button type='link' icon={<BellOutlined />} />
+                                            </Badge>
+                                        </Popover>
                                         <Dropdown trigger={['click']} overlay={
                                             <Menu>
                                                 <Menu.Item key='1'
