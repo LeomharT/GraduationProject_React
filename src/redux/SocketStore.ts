@@ -1,8 +1,14 @@
 import { io } from "socket.io-client";
+import { MessageType } from "../components/HConsult/HConsult";
 
 export default class SocketStore
 {
-    socketIo = io("ws://localhost:3066");          //socket.io实例
+    socketIo = io("ws://localhost:3066");//socket.io实例
+    SocketSendStringMessage = (message: string, callBack: Function) =>
+    {
+        this.socketIo.send(message);
+        callBack(message, MessageType.MyMessage);
+    };
     private static _SingleInstance: SocketStore;
     static GetInstance()
     {

@@ -154,12 +154,6 @@ class HConsult extends Component<HConsultProps, {}>
         // );
         this.ScrollToButtom();
     };
-    SocketSendStringMessage = (message: string) =>
-    {
-        const { socketIo } = this.SocketStore;
-        socketIo.send(message);
-        this.DisplayMessage(message, MessageType.MyMessage);
-    };
     SocketSendVoiceMessage = (message: Blob) =>
     {
         const { socketIo } = this.SocketStore;
@@ -300,7 +294,7 @@ class HConsult extends Component<HConsultProps, {}>
                                         if (e.key === 'Enter')
                                         {
                                             if (!this.messageInput.current!.value) return;
-                                            this.SocketSendStringMessage(this.messageInput.current!.value);
+                                            this.SocketStore.SocketSendStringMessage(this.messageInput.current!.value, this.DisplayMessage);
                                             this.messageInput.current!.value = "";
                                         }
                                     }} />
@@ -311,7 +305,7 @@ class HConsult extends Component<HConsultProps, {}>
                                     onClick={() =>
                                     {
                                         if (!this.messageInput.current!.value) return;
-                                        this.SocketSendStringMessage(this.messageInput.current!.value);
+                                        this.SocketStore.SocketSendStringMessage(this.messageInput.current!.value, this.DisplayMessage);
                                         this.messageInput.current!.value = "";
                                     }} />
                                 {/* Emoji */}
