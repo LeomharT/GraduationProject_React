@@ -2,7 +2,6 @@ import { AuthenticationClient, ManagementClient } from "authing-js-sdk";
 import { observable } from "mobx";
 import moment, { Moment } from "moment";
 import { RangeValue } from 'rc-picker/lib/interface';
-import { io } from "socket.io-client";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
 import { OrderState } from "../interfaces/PaymentInterface";
 import { RenewalOrderRecord, UserRentListItem } from "../interfaces/UserInferface";
@@ -18,7 +17,6 @@ export default class UserStore
     @observable authInfo: any = {};
     authenticationClient!: AuthenticationClient;   //用户认证模块
     managementClient!: ManagementClient;           //管理模块
-    socketIo = io("ws://localhost:3066");          //socket.io实例
     @observable showChat: boolean = false;
     @observable renewalRecordList: RenewalOrderRecord[] = [];
     InitAuthInfo = async () =>

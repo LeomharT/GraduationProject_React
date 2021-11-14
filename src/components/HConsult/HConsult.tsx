@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import '../../assets/scss/HConsult.scss';
 import { HouseInfo } from '../../interfaces/HouseListInterface';
+import SocketStore from '../../redux/SocketStore';
 import UserStore from '../../redux/UserStore';
 import { CONST_HOST } from '../Common/VariableGlobal';
 import EmojiList from './EmojiList';
@@ -28,6 +29,7 @@ declare interface HConsultProps extends RouteComponentProps
 class HConsult extends Component<HConsultProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
+    SocketStore: SocketStore = SocketStore.GetInstance();
     @observable messageInput = React.createRef<HTMLInputElement>();
     messageDisplayArea = React.createRef<HTMLUListElement>();
     voiceMessage = React.createRef<HTMLAudioElement>();
@@ -35,7 +37,7 @@ class HConsult extends Component<HConsultProps, {}>
     @observable tagVisible: boolean = true;
     InitSocketIo = () =>
     {
-        const { socketIo } = this.UserStore;
+        const { socketIo } = this.SocketStore;
         socketIo.on('connect', () =>
         {
             console.log(socketIo.id);
@@ -154,18 +156,18 @@ class HConsult extends Component<HConsultProps, {}>
     };
     SocketSendStringMessage = (message: string) =>
     {
-        const { socketIo } = this.UserStore;
+        const { socketIo } = this.SocketStore;
         socketIo.send(message);
         this.DisplayMessage(message, MessageType.MyMessage);
     };
     SocketSendVoiceMessage = (message: Blob) =>
     {
-        const { socketIo } = this.UserStore;
+        const { socketIo } = this.SocketStore;
         socketIo.emit("voice-message", message);
     };
     SocketSendHouseMessage = async (hId: string) =>
     {
-        const { socketIo } = this.UserStore;
+        const { socketIo } = this.SocketStore;
         socketIo.emit("house-message", hId);
         await this.DisPlayHouseMessage(hId, MessageType.MyMessage);
     };

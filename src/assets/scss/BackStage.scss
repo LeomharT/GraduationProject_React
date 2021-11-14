@@ -89,8 +89,69 @@
         flex-direction  : column;
         .ContentArea
         {
-            width: 100%;
-            height: 100%;
+            width     : 100%;
+            height    : 100%;
+            overflow-y: auto;
+            padding: 20px;
+            &::-webkit-scrollbar{
+                width: 0;
+            }
+            >audio{
+                display: none;
+            }
+            ul >li{
+                clear        : both;
+                box-sizing   : border-box;
+                padding      : 10px;
+                margin-bottom: 10px;
+                max-width    : 250px;
+            }
+            .MyMessage{
+                float           : right;
+                border-radius   : 10px 0 10px 10px;
+                background-color: rgb(57, 106, 255);
+                color           : white;
+            }
+            .OtherMessage{
+                float           : left;
+                border-radius   : 0 10px 10px 10px;
+                background-color: rgb(234, 240, 246);
+            }
+            .SystemMessage{
+                font-size: 14px;
+                color    : rgb(123, 152, 182);
+            }
+            .VoiceIcon{
+                font-family: 'FontAwesome';
+                box-sizing : border-box;
+                padding    : 10px 40px;
+                &::before{
+                    content:"\f028";
+                }
+            }
+            .HouseMessage{
+                display       : flex;
+                flex-direction: column;
+                >div{
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: space-around;
+                    user-select    : none;
+                    cursor         : pointer;
+                    margin-top     : 10px;
+                    >p{
+                        margin: 0;
+                    }
+                    & >p:nth-child(1){
+                        font-weight: bold;
+                        font-size  : 16px;
+                    }
+                    & >p:nth-child(3){
+                        font-size  : 16px;
+                        color      : #fe615a;
+                    }
+                }
+            }
         }
         .InputArea
         {
