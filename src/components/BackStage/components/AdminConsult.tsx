@@ -28,6 +28,13 @@ export default function AdminConsult()
             userStore.showChat = true;
             DisplayMessage(message, MessageType.OtherMessage);
         });
+        socketIo.on("receive-voicemessage", (message) =>
+        {
+            let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
+            let url = window.URL.createObjectURL(blob);
+            userStore.showChat = true;
+            DisPlayVoiceMessage(url, MessageType.OtherMessage);
+        });
         socketIo.on("receive-housemessage", (hId) =>
         {
             userStore.showChat = true;
@@ -54,7 +61,38 @@ export default function AdminConsult()
         }
         li.innerText = message;
         messageDisplayArea.current?.appendChild(li);
-        // this.ScrollToButtom();
+        ScrollToButtom();
+    };
+    const DisPlayVoiceMessage = (url: string, type: MessageType) =>
+    {
+        const li = document.createElement("li");
+        li.classList.add("VoiceIcon");
+        switch (type)
+        {
+            case MessageType.MyMessage: {
+                li.classList.add('MyMessage');
+                break;
+            }
+            case MessageType.OtherMessage: {
+                li.classList.add("OtherMessage");
+                break;
+            }
+            default: break;
+        }
+        li.setAttribute("data-url", url);
+        li.addEventListener('click', (e: MouseEvent) =>
+        {
+            voiceMessage.current!.src = li.getAttribute("data-url") as string;
+            voiceMessage.current!.play();
+        });
+        messageDisplayArea.current?.appendChild(li);
+        ScrollToButtom();
+    };
+    const ScrollToButtom = () =>
+    {
+        let scroll = document.getElementsByClassName("ContentArea")[0] as HTMLDivElement;
+        if (scroll)
+            scroll.scrollTop = scroll.scrollHeight;
     };
     InitSocketIo();
     return (
