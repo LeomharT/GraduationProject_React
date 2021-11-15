@@ -7,3 +7,7 @@ export const SelectHouseListApi = async (): Promise<HouseInfo[] | undefined> =>
         await (await fetch(`${CONST_HOST}/SelectHouseDetailList`)).json()
     );
 };
+export const UpdateHouseListApi = async (payload: any): Promise<any | undefined> =>
+{
+    console.log(payload);
+};

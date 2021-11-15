@@ -10,7 +10,7 @@ import { HouseBaseInfo, HouseDetailInfo } from '../../../interfaces/HouseListInt
 import { OrderState } from '../../../interfaces/PaymentInterface';
 import { StateIcon } from '../../Common/AppIconTitle';
 import { RenderTags } from '../../HouseList/HouseItem';
-import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
+import { SelectHouseListAction, UpdateHosueListAction } from '../redux/HouseMainTain/House_Actions';
 import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
 
 export default function HouseMaintain()
@@ -78,6 +78,7 @@ export default function HouseMaintain()
                     <Button children='配置' type='link' onClick={(e) =>
                     {
                         setshowModal(true);
+                        setupdateData(record as HouseBaseInfo & HouseDetailInfo);
                         console.log(record);
                     }} />
                 );
@@ -143,9 +144,14 @@ export default function HouseMaintain()
                 okText='确认' cancelText='取消'
                 onOk={(e) =>
                 {
-                    setupdateing(true);
+                    // setupdateing(true);
+                    dispatch(UpdateHosueListAction({ hTitle: "大house" } as HouseBaseInfo & HouseDetailInfo));
                 }}
+                title={`维护${updateData.hTitle}`}
             >
+                <div>
+
+                </div>
             </Modal>
         </div >
     );

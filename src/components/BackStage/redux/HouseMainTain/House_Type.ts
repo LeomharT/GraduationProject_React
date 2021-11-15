@@ -1,4 +1,3 @@
-import { HouseInfo } from "../../../../interfaces/HouseListInterface";
 import { ActionProps } from "../Global/Global_Type";
 
 export enum HouseListEnum
@@ -8,4 +7,4 @@ export enum HouseListEnum
     DELETE = 'DELETE',
     INSERT = 'INSERT'
 }
-export type HouseListType = ActionProps<HouseListEnum | string, HouseInfo[]>;
+export type HouseListType = ActionProps<string, any>;
