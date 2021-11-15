@@ -3,6 +3,7 @@ import { Button, Dropdown, Menu, Table, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
 import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
 
 export default function HouseMaintain()
@@ -12,7 +13,7 @@ export default function HouseMaintain()
     const dispatch = useDispatch();
     useEffect(() =>
     {
-        // dispatch({ type: HouseListEnum.SELECT });
+        dispatch(SelectHouseListAction([]));
     }, [dispatch]);
     console.log(selectHouseListSelector.length);
     return (

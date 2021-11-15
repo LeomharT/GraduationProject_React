@@ -8,4 +8,4 @@ export enum HouseListEnum
     DELETE = 'DELETE',
     INSERT = 'INSERT'
 }
-export type HouseListType = ActionProps<HouseListEnum, HouseInfo[]>;
+export type HouseListType = ActionProps<HouseListEnum | string, HouseInfo[]>;

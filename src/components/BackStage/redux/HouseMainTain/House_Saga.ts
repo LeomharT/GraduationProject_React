@@ -22,7 +22,7 @@ export function* RootSagaHouseList()
     yield all([
         call(function* ()
         {
-            yield takeEvery(HouseListEnum.SELECT, SelectHouseList);
+            yield takeEvery('SelectHouseList', SelectHouseList);
         })
     ]);
 }
