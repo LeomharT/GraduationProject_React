@@ -1,5 +1,5 @@
 import { ColumnHeightOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Modal, Table, Tag, Tooltip } from 'antd';
+import { Button, Dropdown, Form, Input, Menu, Modal, Table, Tag, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import { HouseBaseInfo, HouseDetailInfo } from '../../../interfaces/HouseListInt
 import { OrderState } from '../../../interfaces/PaymentInterface';
 import { StateIcon } from '../../Common/AppIconTitle';
 import { RenderTags } from '../../HouseList/HouseItem';
-import { SelectHouseListAction, UpdateHosueListAction } from '../redux/HouseMainTain/House_Actions';
+import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
 import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
 
 export default function HouseMaintain()
@@ -79,7 +79,6 @@ export default function HouseMaintain()
                     {
                         setshowModal(true);
                         setupdateData(record as HouseBaseInfo & HouseDetailInfo);
-                        console.log(record);
                     }} />
                 );
             }
@@ -141,16 +140,45 @@ export default function HouseMaintain()
                 centered
                 visible={showModal}
                 onCancel={() => { setshowModal(false); }}
-                okText='确认' cancelText='取消'
-                onOk={(e) =>
-                {
-                    // setupdateing(true);
-                    dispatch(UpdateHosueListAction({ hTitle: "大house" } as HouseBaseInfo & HouseDetailInfo));
-                }}
+                footer={null}
                 title={`维护${updateData.hTitle}`}
             >
-                <div>
+                <div className='UpdateHouseListDataPanel'>
+                    <Form onFinish={(e: HouseBaseInfo & HouseDetailInfo) =>
+                    {
+                        setupdateing(true);
+                        console.log(e);
+                        setupdateing(false);
+                    }} layout='vertical'>
+                        <Form.Item
+                            label='房屋名称:'
+                            name='hTitle'
+                            initialValue={updateData.hTitle}
+                            rules={[{ required: true, message: "请输入房屋名称" }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            label='租赁方式:'
+                            name='hMethod'
+                            initialValue={updateData.hTitle}
+                            rules={[{ required: true, message: "请选择租赁方式" }]}>
+                            <Input />
+                        </Form.Item>
 
+
+
+
+                        <Form.Item>
+                            <div style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
+
+                                <Button loading={updateing} children='取消' onClick={() =>
+                                {
+                                    setshowModal(false);
+                                }} />
+                                <Button loading={updateing} htmlType='submit' children='确定' type='primary' style={{ marginRight: "20px" }} />
+                            </div>
+                        </Form.Item>
+                    </Form>
                 </div>
             </Modal>
         </div >
