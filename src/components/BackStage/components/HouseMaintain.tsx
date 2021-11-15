@@ -2,6 +2,7 @@ import { ColumnHeightOutlined, ReloadOutlined, SettingOutlined } from '@ant-desi
 import { Button, Dropdown, Menu, Modal, Table, Tag, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import { ColumnType } from 'antd/lib/table';
+import moment from 'moment';
 import { DefaultRecordType } from 'rc-table/lib/interface';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,6 +62,13 @@ export default function HouseMaintain()
 
                 );
             },
+        },
+        {
+            title: '维护时间', dataIndex: 'Maintain', key: 'Maintain',
+            render: (value: Date) =>
+            {
+                return (moment(value).format("YYYY年MM月DD日 hh:mm:ss"));
+            }
         },
         {
             title: "操作", dataIndex: "options", key: "options",
