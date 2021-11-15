@@ -9,5 +9,13 @@ export const SelectHouseListApi = async (): Promise<HouseInfo[] | undefined> =>
 };
 export const UpdateHouseListApi = async (payload: any): Promise<any | undefined> =>
 {
-    console.log(payload);
+    return (
+        await (await fetch(`${CONST_HOST}/UpdateHouseDetail`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            }
+        })).json()
+    );
 };

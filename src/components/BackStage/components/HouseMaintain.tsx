@@ -147,7 +147,6 @@ export default function HouseMaintain()
                     <Form onFinish={(e: HouseBaseInfo & HouseDetailInfo) =>
                     {
                         setupdateing(true);
-                        console.log(e);
                         setupdateing(false);
                     }} layout='vertical'>
                         <Form.Item
