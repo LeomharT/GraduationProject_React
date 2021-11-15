@@ -1,10 +1,73 @@
 import { ColumnHeightOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Table, Tooltip } from 'antd';
+import { Button, Dropdown, Menu, Table, Tag, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
+import { ColumnType } from 'antd/lib/table';
+import { DefaultRecordType } from 'rc-table/lib/interface';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { OrderState } from '../../../interfaces/PaymentInterface';
+import { StateIcon } from '../../Common/AppIconTitle';
+import { RenderTags } from '../../HouseList/HouseItem';
 import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
 import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
+
+
+const TABLECOLUMN: ColumnType<DefaultRecordType>[] = [
+    {
+        title: '房屋ID', dataIndex: 'hId', key: 'hId'
+    },
+    {
+        title: '房屋名称', dataIndex: 'hTitle', key: 'hTitle'
+    },
+    {
+        title: '房屋租金', dataIndex: 'hRent', key: 'hRent'
+    },
+    {
+        title: '租赁方式', dataIndex: 'hMethod', key: 'hMethod'
+    },
+    {
+        title: '房屋状态', dataIndex: 'hState', key: 'hState',
+        render: (state: OrderState) =>
+        {
+            return (<StateIcon state={state} />);
+        },
+    },
+    {
+        title: "房屋标签", dataIndex: "hTags", key: "hTags",
+        render: (value: string) =>
+        {
+            return RenderTags(value.split(','));
+        },
+    },
+    {
+        title: "房屋特色", dataIndex: "hFeature", key: "hFeature",
+        render: (value: string) =>
+        {
+            return (
+                value.split(",").map((f: string) =>
+                {
+                    return (
+                        <Tag key={f} color='default' style={{ height: "30px", lineHeight: "30px" }}>{f}</Tag>
+                    );
+                })
+
+            );
+        },
+    },
+    {
+        title: "操作", dataIndex: "options", key: "options",
+        render: (value, record, index) =>
+        {
+            return (
+                <Button children='配置' type='link' onClick={(e) =>
+                {
+                    console.log(record);
+                }} />
+            );
+        }
+    },
+];
+
 
 export default function HouseMaintain()
 {
@@ -15,11 +78,10 @@ export default function HouseMaintain()
     {
         dispatch(SelectHouseListAction([]));
     }, [dispatch]);
-    console.log(selectHouseListSelector.length);
     return (
         <div className='HouseMaintain'>
             <div className='TableOptions'>
-                <Tooltip title='刷新'>
+                <Tooltip title='设置'>
                     <Button icon={<SettingOutlined />} type='text' />
                 </Tooltip>
                 <Tooltip title='密度'>
@@ -49,12 +111,17 @@ export default function HouseMaintain()
                         <Button icon={<ColumnHeightOutlined />} type='text' />
                     </Dropdown>
                 </Tooltip>
-                <Tooltip title='设置'>
-                    <Button icon={<ReloadOutlined />} type='text' />
+                <Tooltip title='刷新'>
+                    <Button icon={<ReloadOutlined />} type='text' onClick={() =>
+                    {
+                        dispatch(SelectHouseListAction([]));
+                    }} />
                 </Tooltip>
             </div>
             <Table
+                columns={TABLECOLUMN}
                 size={tableSize}
+                dataSource={selectHouseListSelector}
             >
 
             </Table>

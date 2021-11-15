@@ -9,7 +9,7 @@ export function* SelectHouseList(): SagaIterator
     {
         yield put({
             type: HouseListEnum.SELECT,
-            payload: [yield call(SelectHouseListApi)],
+            payload: yield call(SelectHouseListApi),
         });
     } catch (err)
     {

@@ -29,6 +29,7 @@ export declare interface HouseBaseInfo
     hTags: string,
     isVRed: boolean,
     isRented: boolean,
+    hState: OrderState;
 }
 export declare interface HouseDetailInfo
 {

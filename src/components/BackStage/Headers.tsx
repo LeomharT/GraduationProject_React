@@ -21,7 +21,6 @@ export default function Headers()
                 <Button icon={<SearchOutlined />} type='link' />
                 <Button icon={<QuestionCircleOutlined />} type='link' />
                 <Button icon={<BellOutlined />} type='link' />
-                <Button icon={<BellOutlined />} type='link' />
                 <div>
                     <Avatar size='small' src={avatar} style={{ marginRight: "10px" }} />
                     Admin

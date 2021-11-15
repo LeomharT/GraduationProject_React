@@ -216,4 +216,12 @@
             margin-right: 20px;
         }
     }
+    .ant-table-wrapper
+    {
+        table{
+            *{
+                transition: all .3s ease;
+            }
+        }
+    }
 }
