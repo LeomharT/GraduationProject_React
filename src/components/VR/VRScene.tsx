@@ -63,6 +63,7 @@ class VRScene extends Component<VRSceneProps, {}>
     ];
     @observable currRoomScenes: string[] = [];
     @observable showSwitchRoom: boolean = false;
+    @observable zoomLevel: number = 90;
 
     /**
      * @description 初始化场景
@@ -268,6 +269,28 @@ class VRScene extends Component<VRSceneProps, {}>
             scene.add(...this.currPositons);
         }, 600);
     };
+    ZoomScene = () =>
+    {
+        //滚轮事件,而不是滚动条事件
+        this.css3DRenderer.domElement.onwheel = (e) =>
+        {
+            // console.log(this.zoomLevel);
+            //负100表示向上滚动,100表示向下滚动
+            if (e.deltaY > 0)
+            {
+                if (this.zoomLevel >= 90) return;
+                this.zoomLevel += 5;
+            } else
+            {
+                if (this.zoomLevel <= 60) return;
+
+                this.zoomLevel -= 5;
+            }
+            this.camera.fov = this.zoomLevel;
+            this.camera.updateProjectionMatrix();
+            this.camera.updateMatrixWorld(false);
+        };
+    };
     async componentDidMount()
     {
         //@ts-ignore
@@ -309,6 +332,7 @@ class VRScene extends Component<VRSceneProps, {}>
         // cssObj.position.setY(0);
         // cssObj.position.setZ(-20);
         // this.scene.add(cssObj);
+        this.ZoomScene();
     }
     render()
     {
