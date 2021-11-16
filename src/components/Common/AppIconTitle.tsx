@@ -130,7 +130,13 @@ export function SelfCheckBox(props: { id: string; label: string; color: string; 
     );
 }
 
-export function RepairItem(props: { id: string, value: string; type: LANGUAGE_REFER, onChange?: React.ChangeEventHandler<HTMLInputElement>; }): JSX.Element
+export function RepairItem(props: {
+    id: string,
+    value: string,
+    type: LANGUAGE_REFER,
+    checked?: boolean,
+    onChange?: React.ChangeEventHandler<HTMLInputElement>,
+}): JSX.Element
 {
     const FindKey = (value: LANGUAGE_REFER) =>
     {
@@ -146,7 +152,7 @@ export function RepairItem(props: { id: string, value: string; type: LANGUAGE_RE
     };
     return (
         <div className='RepairItem'>
-            <input type='checkbox' value={props.value} id={props.id} onChange={props.onChange} />
+            <input type='checkbox' checked={props.checked} value={props.value} id={props.id} onChange={props.onChange} />
             <label htmlFor={props.id}>
                 <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}IconNone.jpg`} />
                 <img draggable='false' alt={props.type} src={`${CONST_HOST}/img/HInfoIcons/${FindKey(props.type)}Icon.jpg`} />

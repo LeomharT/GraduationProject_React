@@ -180,11 +180,13 @@ export default function HouseMaintain()
                                 parser={value => value!.replace(/\$\s?|(,*)/g, '')}
                             />
                         </Form.Item>
+                        <label>配套设施</label>
                         <div className='AlterFacility'>
                             {Object.keys(LANGUAGE_REFER).map((key: string) =>
                             {
                                 return (
                                     <Form.Item
+                                        style={{ marginBottom: "0" }}
                                         key={key}
                                         name={`is${key}`}
                                         initialValue={updateData[`is${key}`]}
@@ -196,9 +198,10 @@ export default function HouseMaintain()
                                             value={LANGUAGE_REFER[key]}
                                             //@ts-ignore
                                             type={LANGUAGE_REFER[key]}
+                                            checked={updateData[`is${key}`]}
                                             onChange={(e) =>
                                             {
-                                                let obj = {};
+                                                let obj = {} as any;
                                                 if (e.target.checked)
                                                 {
                                                     //@ts-ignore
@@ -209,7 +212,9 @@ export default function HouseMaintain()
                                                     obj[`is${key}`] = 0;
                                                 }
                                                 formRef.current!.setFieldsValue(obj);
-                                                console.log(formRef.current!.getFieldValue(`is${key}`));
+                                                const copyObj = { ...updateData };
+                                                Object.assign({ ...copyObj, }, obj);
+                                                setupdateData(Object.assign({ ...updateData, }, obj));
                                             }}
                                         />
                                     </Form.Item>
