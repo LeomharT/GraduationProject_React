@@ -198,11 +198,7 @@ export default function HouseMaintain()
                                             type={LANGUAGE_REFER[key]}
                                             onChange={(e) =>
                                             {
-                                                console.log(formRef.current);
-                                                let field: string = `is${key}`;
-                                                formRef.current!.setFieldsValue({
-                                                    field: 1
-                                                });
+                                                console.log(formRef.current!.getFieldValue(`is${key}`));
                                             }}
                                         />
                                     </Form.Item>

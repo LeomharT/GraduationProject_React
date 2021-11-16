@@ -1,4 +1,5 @@
 import { AppstoreOutlined, QrcodeOutlined } from '@ant-design/icons';
+import * as TWEEN from '@tweenjs/tween.js';
 import { Avatar, Button, Popover, Spin } from 'antd';
 import gsap from 'gsap';
 import { observable } from 'mobx';
@@ -163,13 +164,16 @@ class VRScene extends Component<VRSceneProps, {}>
     /**
      * @description 无限循环执行渲染,每一帧在都执行
      */
-    LoopRender = () =>
+    LoopRender = (time?: any) =>
     {
         const { renderer, css3DRenderer, scene, camera, controler } = this;
         requestAnimationFrame(this.LoopRender);
         css3DRenderer.render(scene, camera);
         renderer.render(scene, camera);
         controler.update();
+        //需要执行update才能触发onupdate啊没毛病
+        //requestAnimationFrame还会回调一个参数作为时间戳啊🐂
+        TWEEN.update(time);
     };
     /**
      * @description 窗口放大缩小时要重新渲染
@@ -286,9 +290,18 @@ class VRScene extends Component<VRSceneProps, {}>
 
                 this.zoomLevel -= 5;
             }
-            this.camera.fov = this.zoomLevel;
-            this.camera.updateProjectionMatrix();
-            this.camera.updateMatrixWorld(false);
+            const cords = { fov: this.camera.fov };
+            new TWEEN.Tween(cords)
+                .to({ fov: this.zoomLevel })
+                //用缓冲来控制执行速度,和gasp不同,后者是用执行时间来判断的
+                .easing(TWEEN.Easing.Quintic.Out)
+                .onUpdate(() =>
+                {
+                    this.camera.fov = cords.fov;
+                    //在改变相机的任何属性后调用
+                    this.camera.updateProjectionMatrix();
+                })
+                .start();
         };
     };
     async componentDidMount()
@@ -301,6 +314,7 @@ class VRScene extends Component<VRSceneProps, {}>
         };
         this.InitThree();
         this.SetUpControl();
+        this.ZoomScene();
         //还需要提前获取当前House下的所有场景ID(嗯这数据结构真的垃圾啊)
         fetch(`${CONST_HOST}/GetHouseVrSceneArray?HouseId=${HouseId}`)
             .then(res => res.json())
@@ -332,7 +346,6 @@ class VRScene extends Component<VRSceneProps, {}>
         // cssObj.position.setY(0);
         // cssObj.position.setZ(-20);
         // this.scene.add(cssObj);
-        this.ZoomScene();
     }
     render()
     {
