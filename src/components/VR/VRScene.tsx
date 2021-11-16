@@ -12,13 +12,14 @@ import
     PerspectiveCamera, Scene, TextureLoader, WebGLRenderer
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { CSS3DRenderer, CSS3DSprite } from 'three/examples/jsm/renderers/CSS3DRenderer';
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import mustlook from '../../assets/img/mustlook.png';
 import '../../assets/scss/VR.scss';
 import { HouseInfo, HouseVRInfo } from '../../interfaces/HouseListInterface';
 import { CONST_HOST } from '../Common/VariableGlobal';
 import { RenderTags } from '../HouseList/HouseItem';
 import SwitchRoom from './SwitchRoom';
+
 
 
 declare interface VRSceneProps extends RouteComponentProps
@@ -35,7 +36,7 @@ class VRScene extends Component<VRSceneProps, {}>
         { antialias: true }
     );
     //CSS渲染器
-    css3DRenderer = new CSS3DRenderer();
+    css2DRenderer = new CSS2DRenderer();
     //场景
     scene = new Scene();
     //相机
@@ -45,14 +46,14 @@ class VRScene extends Component<VRSceneProps, {}>
         0.1,                                                    //近截面 小于不渲染
         1000                                                    //远截面 大于不不渲染
     );
-    controler = new OrbitControls(this.camera, this.css3DRenderer.domElement || this.renderer.domElement);
+    controler = new OrbitControls(this.camera, this.css2DRenderer.domElement || this.renderer.domElement);
     // arrowHelpers = {
     //     arrowHelperX: new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), 250, "#FF0000"),
     //     arrowHelperY: new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), 250, "#00FF00"),
     //     arrowHelperZ: new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), 250, "#0000FF"),
     // };
     @observable currScene: MeshBasicMaterial[] = new Array<MeshBasicMaterial>();
-    currPositons: CSS3DSprite[] = new Array<CSS3DSprite>();
+    currPositons: CSS2DObject[] = new Array<CSS2DObject>();
     VR_Cube: Mesh = new Mesh(new BoxGeometry(200, 200, 200));
     scene1: MeshBasicMaterial[] = [
         new MeshBasicMaterial({ transparent: true, opacity: 1, map: new TextureLoader().load(`${CONST_HOST}/img/HouseVRimg/House_1/right_1.png`) }),
@@ -71,7 +72,7 @@ class VRScene extends Component<VRSceneProps, {}>
      */
     InitThree = () =>
     {
-        const { renderer, css3DRenderer, scene, camera, VR_Scene } = this;
+        const { renderer, css2DRenderer, scene, camera, VR_Scene } = this;
 
         // scene.add(arrowHelpers.arrowHelperX);
         // scene.add(arrowHelpers.arrowHelperY);
@@ -86,9 +87,9 @@ class VRScene extends Component<VRSceneProps, {}>
         renderer.domElement.style.position = 'absolute';
         VR_Scene.current!.appendChild(renderer.domElement);
 
-        css3DRenderer.setSize(document.body.clientWidth, document.body.clientHeight);
-        css3DRenderer.domElement.style.position = 'absolute';
-        VR_Scene.current!.append(css3DRenderer.domElement);
+        css2DRenderer.setSize(document.body.clientWidth, document.body.clientHeight);
+        css2DRenderer.domElement.style.position = 'absolute';
+        VR_Scene.current!.append(css2DRenderer.domElement);
 
         this.LoopRender();
     };
@@ -132,7 +133,7 @@ class VRScene extends Component<VRSceneProps, {}>
                 await this.GetSceneAsync(HouseId, el.getAttribute("goToScene") as string);
             });
 
-            let cssObj = new CSS3DSprite(el);
+            let cssObj = new CSS2DObject(el);
             cssObj.position.setX(parseInt(p.x));
             cssObj.position.setY(parseInt(p.y));
             cssObj.position.setZ(parseInt(p.z));
@@ -166,9 +167,9 @@ class VRScene extends Component<VRSceneProps, {}>
      */
     LoopRender = (time?: any) =>
     {
-        const { renderer, css3DRenderer, scene, camera, controler } = this;
+        const { renderer, css2DRenderer, scene, camera, controler } = this;
         requestAnimationFrame(this.LoopRender);
-        css3DRenderer.render(scene, camera);
+        css2DRenderer.render(scene, camera);
         renderer.render(scene, camera);
         controler.update();
         //需要执行update才能触发onupdate啊没毛病
@@ -180,7 +181,7 @@ class VRScene extends Component<VRSceneProps, {}>
      */
     ReSize = () =>
     {
-        const { renderer, css3DRenderer, camera } = this;
+        const { renderer, css2DRenderer, camera } = this;
         const width = document.body.clientWidth;
         const height = document.body.clientHeight;
 
@@ -188,7 +189,7 @@ class VRScene extends Component<VRSceneProps, {}>
         camera.updateProjectionMatrix();
 
         renderer.setSize(width, height);
-        css3DRenderer.setSize(width, height);
+        css2DRenderer.setSize(width, height);
     };
 
     /**
@@ -260,7 +261,7 @@ class VRScene extends Component<VRSceneProps, {}>
                 await this.GetSceneAsync(HouseId, el.getAttribute("goToScene") as string);
             });
 
-            let cssObj = new CSS3DSprite(el);
+            let cssObj = new CSS2DObject(el);
             cssObj.position.setX(parseInt(p.x));
             cssObj.position.setY(parseInt(p.y));
             cssObj.position.setZ(parseInt(p.z));
@@ -276,7 +277,7 @@ class VRScene extends Component<VRSceneProps, {}>
     ZoomScene = () =>
     {
         //滚轮事件,而不是滚动条事件
-        this.css3DRenderer.domElement.onwheel = (e) =>
+        this.css2DRenderer.domElement.onwheel = (e) =>
         {
             // console.log(this.zoomLevel);
             //负100表示向上滚动,100表示向下滚动
