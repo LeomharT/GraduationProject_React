@@ -198,6 +198,17 @@ export default function HouseMaintain()
                                             type={LANGUAGE_REFER[key]}
                                             onChange={(e) =>
                                             {
+                                                let obj = {};
+                                                if (e.target.checked)
+                                                {
+                                                    //@ts-ignore
+                                                    obj[`is${key}`] = 1;
+                                                } else
+                                                {
+                                                    //@ts-ignore
+                                                    obj[`is${key}`] = 0;
+                                                }
+                                                formRef.current!.setFieldsValue(obj);
                                                 console.log(formRef.current!.getFieldValue(`is${key}`));
                                             }}
                                         />
