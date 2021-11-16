@@ -224,6 +224,7 @@
             }
         }
     }
+
 }
 .ant-modal-body
 {
@@ -233,5 +234,12 @@
 .UpdateHouseListDataPanel
 {
     width     : 100%;
-
+    .AlterFacility
+    {
+        width           : 100%;
+        height          : 300px;
+        display         : flex;
+        flex-direction  : row;
+        flex-wrap       : wrap;
+    }
 }

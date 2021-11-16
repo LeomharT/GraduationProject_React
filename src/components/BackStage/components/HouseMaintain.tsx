@@ -1,14 +1,15 @@
 import { ColumnHeightOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Form, Input, Menu, Modal, Table, Tag, Tooltip } from 'antd';
+import { Button, Dropdown, Form, FormInstance, Input, InputNumber, Menu, Modal, Select, Table, Tag, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import { DefaultRecordType } from 'rc-table/lib/interface';
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HouseBaseInfo, HouseDetailInfo } from '../../../interfaces/HouseListInterface';
 import { OrderState } from '../../../interfaces/PaymentInterface';
-import { StateIcon } from '../../Common/AppIconTitle';
+import { RepairItem, StateIcon } from '../../Common/AppIconTitle';
+import { LANGUAGE_REFER } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
 import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
 import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
@@ -21,6 +22,7 @@ export default function HouseMaintain()
     const [updateData, setupdateData] = useState<HouseBaseInfo & HouseDetailInfo>({} as HouseBaseInfo & HouseDetailInfo);
     const selectHouseListSelector = useSelector(SelectHouseListSelector);
     const dispatch = useDispatch();
+    const formRef: RefObject<FormInstance> = useRef<FormInstance>(null);
     const TABLECOLUMN: ColumnType<DefaultRecordType>[] = [
         {
             title: '房屋ID', dataIndex: 'hId', key: 'hId'
@@ -144,9 +146,10 @@ export default function HouseMaintain()
                 title={`维护${updateData.hTitle}`}
             >
                 <div className='UpdateHouseListDataPanel'>
-                    <Form onFinish={(e: HouseBaseInfo & HouseDetailInfo) =>
+                    <Form ref={formRef} onFinish={(e: HouseBaseInfo & HouseDetailInfo) =>
                     {
                         setupdateing(true);
+                        console.log(e);
                         setupdateing(false);
                     }} layout='vertical'>
                         <Form.Item
@@ -159,12 +162,53 @@ export default function HouseMaintain()
                         <Form.Item
                             label='租赁方式:'
                             name='hMethod'
-                            initialValue={updateData.hTitle}
+                            initialValue={updateData.hMethod}
                             rules={[{ required: true, message: "请选择租赁方式" }]}>
-                            <Input />
+                            <Select>
+                                <Select.Option value={'整租'} title={'整租'} children={'整租'} />
+                                <Select.Option value={'合租'} title={'合租'} children={'合租'} />
+                            </Select>
                         </Form.Item>
-
-
+                        <Form.Item
+                            label='房屋租金'
+                            name='hRent'
+                            initialValue={updateData.hRent}
+                            rules={[{ required: true, message: "请输入租金" }]}>
+                            <InputNumber
+                                style={{ width: "100%" }}
+                                formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+                            />
+                        </Form.Item>
+                        <div className='AlterFacility'>
+                            {Object.keys(LANGUAGE_REFER).map((key: string) =>
+                            {
+                                return (
+                                    <Form.Item
+                                        key={key}
+                                        name={`is${key}`}
+                                        initialValue={updateData[`is${key}`]}
+                                    >
+                                        <RepairItem
+                                            id={key}
+                                            key={key}
+                                            //@ts-ignore
+                                            value={LANGUAGE_REFER[key]}
+                                            //@ts-ignore
+                                            type={LANGUAGE_REFER[key]}
+                                            onChange={(e) =>
+                                            {
+                                                console.log(formRef.current);
+                                                let field: string = `is${key}`;
+                                                formRef.current!.setFieldsValue({
+                                                    field: 1
+                                                });
+                                            }}
+                                        />
+                                    </Form.Item>
+                                );
+                            })}
+                        </div>
 
 
                         <Form.Item>
