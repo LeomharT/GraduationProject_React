@@ -6,7 +6,6 @@ import route, { RouteType } from '../../route/router';
 import Aside from './Aside';
 import Headers from './Headers';
 import { globalStore } from './redux/Global/Global_Store';
-import { HouseListStore } from './redux/HouseMainTain/House_Store';
 export default function BackStage()
 {
     return (
@@ -16,19 +15,17 @@ export default function BackStage()
                 <main>
                     <Headers />
                     <div className='MainContent'>
-                        <Provider store={HouseListStore}>
-                            <Switch>
-                                {route[10].childRoute?.map((r: RouteType) =>
-                                {
-                                    return (
-                                        <Route key={r.path} exact={true} path={r.path} component={r.components} />
-                                    );
-                                })}
-                            </Switch>
-                        </Provider>
+                        <Switch>
+                            {route[10].childRoute?.map((r: RouteType) =>
+                            {
+                                return (
+                                    <Route key={r.path} exact={true} path={r.path} component={r.components} />
+                                );
+                            })}
+                        </Switch>
                     </div>
                 </main>
-            </div>
-        </Provider>
+            </div >
+        </Provider >
     );
 }

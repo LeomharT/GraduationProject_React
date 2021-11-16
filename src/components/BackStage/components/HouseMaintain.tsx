@@ -11,8 +11,8 @@ import { OrderState } from '../../../interfaces/PaymentInterface';
 import { RepairItem, StateIcon } from '../../Common/AppIconTitle';
 import { LANGUAGE_REFER } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
-import { SelectHouseListAction } from '../redux/HouseMainTain/House_Actions';
-import { SelectHouseListSelector } from '../redux/HouseMainTain/House_Selector';
+import { SelectHouseListAction } from '../redux/Global/Global_Actions';
+import { SelectHouseListSelector } from '../redux/Global/Global_Selectro';
 
 export default function HouseMaintain()
 {

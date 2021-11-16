@@ -1,7 +1,7 @@
 import createSagaMiddleware, { SagaIterator } from 'redux-saga';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { SelectHouseListApi } from './House_Api';
-import { HouseListEnum } from './House_Type';
+import { SelectHouseListApi } from './Global_Api';
+import { HouseListEnum } from './Global_Type';
 
 export function* SelectHouseList(): SagaIterator
 {
