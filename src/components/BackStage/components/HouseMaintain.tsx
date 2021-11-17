@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HouseBaseInfo, HouseDetailInfo } from '../../../interfaces/HouseListInterface';
 import { OrderState } from '../../../interfaces/PaymentInterface';
 import { RepairItem, StateIcon } from '../../Common/AppIconTitle';
-import { LANGUAGE_REFER } from '../../Common/VariableGlobal';
+import { CONST_HOST, DataRowState, LANGUAGE_REFER } from '../../Common/VariableGlobal';
 import { RenderTags } from '../../HouseList/HouseItem';
 import { SelectHouseListAction } from '../redux/Global/Global_Actions';
 import { SelectHouseListSelector } from '../redux/Global/Global_Selectro';
@@ -129,6 +129,17 @@ export default function HouseMaintain()
             }
         },
     ];
+    const UpDateHouse = async (data: HouseBaseInfo & HouseDetailInfo) =>
+    {
+        let res = await (await (fetch(`${CONST_HOST}/UpdateHouseDetail`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": 'application/json;charset=utf-8',
+            }
+        }))).json() as DataRowState;
+        console.log(res);
+    };
     useEffect(() =>
     {
         dispatch(SelectHouseListAction([]));
@@ -195,10 +206,10 @@ export default function HouseMaintain()
                 title={`维护${updateData.hTitle}`}
             >
                 <div className='UpdateHouseListDataPanel'>
-                    <Form ref={formRef} onFinish={(e: HouseBaseInfo & HouseDetailInfo) =>
+                    <Form ref={formRef} onFinish={async (e: HouseBaseInfo & HouseDetailInfo) =>
                     {
                         setupdateing(true);
-                        console.log(e);
+                        await UpDateHouse(e);
                         setupdateing(false);
                     }} layout='vertical'>
                         <Form.Item name='hId' initialValue={updateData.hId} style={{ display: 'none' }} >
