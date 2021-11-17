@@ -24,7 +24,6 @@ export default function HouseMaintain()
     const dispatch = useDispatch();
     const formRef: RefObject<FormInstance> = useRef<FormInstance>(null);
     const mapEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-    const [map, setmap] = useState(undefined);
     const TABLECOLUMN: ColumnType<DefaultRecordType>[] = [
         {
             title: '房屋ID', dataIndex: 'hId', key: 'hId'
@@ -85,13 +84,13 @@ export default function HouseMaintain()
                         setupdateData(record as HouseBaseInfo & HouseDetailInfo);
                         setTimeout(() =>
                         {
-                            setmap(new TMap.Map(mapEl.current, {
+                            new TMap.Map(mapEl.current, {
                                 center: new TMap.LatLng(26.082068, 119.297079),
                                 zoom: 18,
                                 pitch: 43.5,
                                 rotation: 45,
                                 viewMode: "2D"
-                            }));
+                            });
                         }, 1000);
                     }} />
                 );
@@ -238,15 +237,15 @@ export default function HouseMaintain()
                             })}
                         </div>
                         <Form.Item label='房屋特点:'
+                            tooltip='多个请用逗号隔开最后一个不要加'
                             name='hFeature'
                             initialValue={updateData.hFeature}
                             rules={[{ required: true, message: "请输入房屋特点" }]}
                         >
                             <Input />
                         </Form.Item>
-                        <div ref={mapEl} className='SetHousePosition' id='SetHousePosition'>
-
-                        </div>
+                        <label>重新定位:</label>
+                        <div ref={mapEl} className='SetHousePosition' id='SetHousePosition' />
                         <Form.Item>
                             <div style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
 
