@@ -18,6 +18,8 @@ export default function Aside()
                 return ['1'];
             case 'HouseMaintain':
                 return ['2'];
+            case 'RepairManage':
+                return ['3'];
             default:
                 return ['1'];
         }
@@ -37,6 +39,9 @@ export default function Aside()
             </Menu.Item>
             <Menu.Item key="2" icon={<FormOutlined />}>
                 <Link to='/BackStage/HouseMaintain'>房源维护</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<FormOutlined />}>
+                <Link to='/BackStage/RepairManage'>报修订单</Link>
             </Menu.Item>
         </Menu>
     );
