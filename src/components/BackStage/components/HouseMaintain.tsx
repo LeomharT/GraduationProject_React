@@ -14,6 +14,7 @@ import { RenderTags } from '../../HouseList/HouseItem';
 import { SelectHouseListAction } from '../redux/Global/Global_Actions';
 import { SelectHouseListSelector } from '../redux/Global/Global_Selectro';
 
+
 export default function HouseMaintain()
 {
     const [tableSize, settableSize] = useState<SizeType>('middle');
@@ -24,6 +25,8 @@ export default function HouseMaintain()
     const dispatch = useDispatch();
     const formRef: RefObject<FormInstance> = useRef<FormInstance>(null);
     const mapEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+    let map: any = undefined;
+    let marker: any = undefined;
     const TABLECOLUMN: ColumnType<DefaultRecordType>[] = [
         {
             title: '房屋ID', dataIndex: 'hId', key: 'hId'
@@ -84,12 +87,41 @@ export default function HouseMaintain()
                         setupdateData(record as HouseBaseInfo & HouseDetailInfo);
                         setTimeout(() =>
                         {
-                            new TMap.Map(mapEl.current, {
-                                center: new TMap.LatLng(26.082068, 119.297079),
+                            map = new TMap.Map(mapEl.current, {
+                                center: new TMap.LatLng(record.hLatitude, record.hLongitude),
                                 zoom: 18,
                                 pitch: 43.5,
                                 rotation: 45,
                                 viewMode: "2D"
+                            });
+                            marker = new TMap.MultiMarker({
+                                map: map,
+                                styles: {
+                                    marker: new TMap.MarkerStyle({
+                                        width: 20,
+                                        height: 30,
+                                        anchor: { x: 10, y: 30 },
+                                        src: 'https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png', // 标记路径
+                                    }),
+                                },
+                                geometries: [
+                                    {
+                                        position: new TMap.LatLng(record.hLatitude, record.hLongitude),
+                                    },
+                                ],
+                            });
+                            map.on('click', (e: any) =>
+                            {
+                                const obj = {
+                                    hLatitude: e.latLng.getLat().toFixed(6),
+                                    hLongitude: e.latLng.getLng().toFixed(6)
+                                };
+                                formRef.current!.setFieldsValue({ ...obj });
+                                marker.setGeometries([]);
+                                marker.add({
+                                    position: new TMap.LatLng(formRef.current!.getFieldValue('hLatitude'),
+                                        formRef.current!.getFieldValue('hLongitude')),
+                                });
                             });
                         }, 1000);
                     }} />
@@ -153,7 +185,12 @@ export default function HouseMaintain()
                 confirmLoading={updateing}
                 centered
                 visible={showModal}
-                onCancel={() => { setshowModal(false); }}
+                onCancel={() =>
+                {
+                    setshowModal(false);
+                    map = null;
+                    marker = null;
+                }}
                 footer={null}
                 title={`维护${updateData.hTitle}`}
             >
@@ -246,6 +283,16 @@ export default function HouseMaintain()
                         </Form.Item>
                         <label>重新定位:</label>
                         <div ref={mapEl} className='SetHousePosition' id='SetHousePosition' />
+                        <Form.Item initialValue={updateData.hLatitude} name='hLatitude'
+                            style={{ display: 'none' }}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item initialValue={updateData.hLongitude} name='hLongitude'
+                            style={{ display: 'none' }}
+                        >
+                            <Input />
+                        </Form.Item>
                         <Form.Item>
                             <div style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
 
