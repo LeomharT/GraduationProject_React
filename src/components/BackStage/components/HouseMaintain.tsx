@@ -211,6 +211,8 @@ export default function HouseMaintain()
                         setupdateing(true);
                         await UpDateHouse(e);
                         setupdateing(false);
+                        setshowModal(false);
+                        dispatch(SelectHouseListAction([]));
                     }} layout='vertical'>
                         <Form.Item name='hId' initialValue={updateData.hId} style={{ display: 'none' }} >
                             <Input />
@@ -220,7 +222,7 @@ export default function HouseMaintain()
                             name='hTitle'
                             initialValue={updateData.hTitle}
                             rules={[{ required: true, message: "请输入房屋名称" }]}>
-                            <Input />
+                            <Input autoComplete='off' />
                         </Form.Item>
                         <Form.Item
                             label='租赁方式:'
