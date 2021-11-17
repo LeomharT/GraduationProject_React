@@ -23,6 +23,8 @@ export default function HouseMaintain()
     const selectHouseListSelector = useSelector(SelectHouseListSelector);
     const dispatch = useDispatch();
     const formRef: RefObject<FormInstance> = useRef<FormInstance>(null);
+    const mapEl: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+    const [map, setmap] = useState(undefined);
     const TABLECOLUMN: ColumnType<DefaultRecordType>[] = [
         {
             title: '房屋ID', dataIndex: 'hId', key: 'hId'
@@ -81,6 +83,16 @@ export default function HouseMaintain()
                     {
                         setshowModal(true);
                         setupdateData(record as HouseBaseInfo & HouseDetailInfo);
+                        setTimeout(() =>
+                        {
+                            setmap(new TMap.Map(mapEl.current, {
+                                center: new TMap.LatLng(26.082068, 119.297079),
+                                zoom: 18,
+                                pitch: 43.5,
+                                rotation: 45,
+                                viewMode: "2D"
+                            }));
+                        }, 1000);
                     }} />
                 );
             }
@@ -138,6 +150,7 @@ export default function HouseMaintain()
 
             </Table>
             <Modal
+                destroyOnClose={true}
                 confirmLoading={updateing}
                 centered
                 visible={showModal}
@@ -152,6 +165,9 @@ export default function HouseMaintain()
                         console.log(e);
                         setupdateing(false);
                     }} layout='vertical'>
+                        <Form.Item name='hId' initialValue={updateData.hId} style={{ display: 'none' }} >
+                            <Input />
+                        </Form.Item>
                         <Form.Item
                             label='房屋名称:'
                             name='hTitle'
@@ -180,7 +196,7 @@ export default function HouseMaintain()
                                 parser={value => value!.replace(/\$\s?|(,*)/g, '')}
                             />
                         </Form.Item>
-                        <label>配套设施</label>
+                        <label>配套设施:</label>
                         <div className='AlterFacility'>
                             {Object.keys(LANGUAGE_REFER).map((key: string) =>
                             {
@@ -221,8 +237,16 @@ export default function HouseMaintain()
                                 );
                             })}
                         </div>
+                        <Form.Item label='房屋特点:'
+                            name='hFeature'
+                            initialValue={updateData.hFeature}
+                            rules={[{ required: true, message: "请输入房屋特点" }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <div ref={mapEl} className='SetHousePosition' id='SetHousePosition'>
 
-
+                        </div>
                         <Form.Item>
                             <div style={{ width: "100%", display: "flex", flexDirection: "row-reverse" }}>
 
@@ -233,6 +257,7 @@ export default function HouseMaintain()
                                 <Button loading={updateing} htmlType='submit' children='确定' type='primary' style={{ marginRight: "20px" }} />
                             </div>
                         </Form.Item>
+
                     </Form>
                 </div>
             </Modal>
