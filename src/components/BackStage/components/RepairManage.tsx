@@ -1,4 +1,4 @@
-import { Button, Space, Tooltip } from 'antd';
+import { Button, message, Space, Tooltip } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import { DefaultRecordType } from 'rc-table/lib/interface';
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RepairOrderFormData } from '../../../interfaces/HouseListInterface';
 import { OrderState } from '../../../interfaces/PaymentInterface';
 import { StateIcon } from '../../Common/AppIconTitle';
+import { CONST_HOST, DataRowState } from '../../Common/VariableGlobal';
 import { SelectRepairListAction } from '../redux/Global/Global_Actions';
 import { SelectRepairListSelector } from '../redux/Global/Global_Selectro';
 
@@ -55,14 +56,18 @@ export default function RepairManage()
             {
                 return (
                     <Space size='small'>
-                        <Button type='link' children='完成' size='small' onClick={async () =>
+                        <Button type='link' children='工作中' size='small' onClick={async () =>
                         {
+                            await ChangeState(OrderState.processing, record.id);
                         }} />
-                        <Button type='link' children='异常' danger size='small' onClick={async () =>
+                        <Button type='link' style={{ color: "purple" }} children='异常' danger size='small' onClick={async () =>
                         {
+                            await ChangeState(OrderState.error, record.id);
+
                         }} />
                         <Button type='link' children='关闭' danger size='small' onClick={async () =>
                         {
+                            await ChangeState(OrderState.close, record.id);
                         }} />
                     </Space>
                 );
@@ -71,12 +76,24 @@ export default function RepairManage()
     ];
     const selectRepairListSelector = useSelector(SelectRepairListSelector);
     const dispatch = useDispatch();
+    const ChangeState = async (state: OrderState, id: number | string): Promise<void> =>
+    {
+        let res = await (
+            await fetch(`${CONST_HOST}/UpdateRepairOrder?state=${state}&id=${id}`)
+        ).json() as DataRowState;
+        if (res.affectedRows >= 1)
+        {
+            message.success("更新成功");
+        } else
+        {
+            message.error("出错了");
+        }
+        dispatch(SelectRepairListAction([]));
+    };
     useEffect(() =>
     {
         dispatch(SelectRepairListAction([]));
-        console.log(1);
     }, [dispatch]);
-    console.log(selectRepairListSelector);
     return (
         <Table
             pagination={false}
