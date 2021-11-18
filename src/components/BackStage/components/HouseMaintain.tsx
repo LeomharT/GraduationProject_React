@@ -51,6 +51,7 @@ export default function HouseMaintain()
             title: "房屋标签", dataIndex: "hTags", key: "hTags",
             render: (value: string) =>
             {
+                if (!value) return;
                 return RenderTags(value.split(','));
             },
         },
@@ -58,6 +59,7 @@ export default function HouseMaintain()
             title: "房屋特色", dataIndex: "hFeature", key: "hFeature",
             render: (value: string) =>
             {
+                if (!value) return;
                 return (
                     value.split(",").map((f: string) =>
                     {

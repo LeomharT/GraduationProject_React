@@ -20,3 +20,11 @@ export enum HouseListEnum
     INSERT = 'INSERT'
 }
 export type HouseListType = ActionProps<string, any>;
+
+
+export enum RepairListEnum
+{
+    SELECT = 'SELECT',
+    UPDATE = 'UPDATE',
+}
+export type RepairListType = ActionProps<string, any>;

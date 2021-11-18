@@ -1,7 +1,7 @@
 import { Reducer } from "react";
 import { Action, combineReducers } from 'redux';
-import { HouseInfo } from "../../../../interfaces/HouseListInterface";
-import { ActionProps, HouseListEnum, IsAsideFoldedEnum } from "./Global_Type";
+import { HouseInfo, RepairOrderFormData } from "../../../../interfaces/HouseListInterface";
+import { ActionProps, HouseListEnum, IsAsideFoldedEnum, RepairListEnum } from "./Global_Type";
 
 //侧边栏是否折叠
 export const IsAsideFoldedReducer: Reducer<boolean, Action<IsAsideFoldedEnum>> =
@@ -36,8 +36,27 @@ export const SelectHouseListReducer: Reducer<HouseInfo[], ActionProps<HouseListE
                 return state;
         }
     };
+//获取报修列表
+export const SelectRepairReducer: Reducer<RepairOrderFormData[], ActionProps<RepairListEnum, RepairOrderFormData[]>> =
+    (state: RepairOrderFormData[], action: ActionProps<RepairListEnum, RepairOrderFormData[]>): RepairOrderFormData[] =>
+    {
+        if (typeof state === 'undefined') return [];
+        switch (action.type)
+        {
+            case RepairListEnum.SELECT: {
+                if (action.payload)
+                {
+                    state = action.payload;
+                }
+                return state;
+            }
+            default:
+                return state;
+        }
+    };
 export const RootReducerGlobal = combineReducers({
     IsAsideFoldedReducer,
     SelectHouseListReducer,
+    SelectRepairReducer,
 });
 export type RootStateGlobal = ReturnType<typeof RootReducerGlobal>;
