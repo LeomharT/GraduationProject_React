@@ -7,8 +7,10 @@ import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
+import '../../assets/js/FontStylelighter-normal';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../interfaces/UserInferface';
+import UserStore from '../../redux/UserStore';
 import MapUtil from '../../util/MapUtil';
 import HeadNavigate from '../Common/HeadNavigate';
 import { CONST_HOST } from '../Common/VariableGlobal';
@@ -16,6 +18,7 @@ import { CONST_HOST } from '../Common/VariableGlobal';
 @observer
 class JourneyDetail extends Component<RouteComponentProps, {}>
 {
+    UserStore: UserStore = UserStore.GetInstance();
     MapUtil: MapUtil = MapUtil.GetInstance();
     tMapRef: RefObject<HTMLDivElement> = createRef<HTMLDivElement>();
     state: { rInfo: UserRentListItem, hInfo: HouseInfo; } = this.props.location.state as { rInfo: UserRentListItem, hInfo: HouseInfo; };
@@ -164,10 +167,17 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         <div>
                                             <PrinterOutlined />打印详情
                                         </div>
-                                        <Button type='text' icon={<RightOutlined />} onClick={() =>
+                                        <Button type='text' icon={<RightOutlined />} onClick={async () =>
                                         {
                                             const jspdfObj = new jsPDF();
-                                            jspdfObj.text(JSON.stringify(rentInfo).split(','), 10, 10);
+                                            jspdfObj.setFont('FontStylelighter', 'normal');
+                                            jspdfObj.text([
+                                                `订单编号:${rentInfo.trade_no}`,
+                                                `订单金额:${rentInfo.totalAmount}元`,
+                                                `付款时间:${moment(rentInfo.sendPayDate).format("YYYY年MM月DD日")}`,
+                                                `入住日期:${moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
+                                                `退房日期:${moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
+                                            ], 10, 10);
                                             jspdfObj.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
                                         }} />
                                     </div>
