@@ -1,5 +1,5 @@
 import { ColumnHeightOutlined, ReloadOutlined, SettingOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Form, FormInstance, Input, InputNumber, Menu, Modal, Select, Table, Tag, Tooltip } from 'antd';
+import { Button, Dropdown, Form, FormInstance, Input, InputNumber, Menu, message, Modal, Select, Table, Tag, Tooltip } from 'antd';
 import { SizeType } from 'antd/lib/config-provider/SizeContext';
 import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
@@ -138,7 +138,10 @@ export default function HouseMaintain()
                 "Content-Type": 'application/json;charset=utf-8',
             }
         }))).json() as DataRowState;
-        console.log(res);
+        if (res.affectedRows >= 1)
+        {
+            message.success("更新成功了");
+        }
     };
     useEffect(() =>
     {
