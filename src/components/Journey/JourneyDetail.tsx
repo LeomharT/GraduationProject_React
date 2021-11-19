@@ -107,15 +107,23 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
     {
         const jspdf = new jsPDF();
         const canvas = document.createElement('canvas') as HTMLCanvasElement;
+        canvas.width = 800;
+        canvas.height = 800;
+        canvas.style.width = "400px";
+        canvas.style.height = "400px";
         const ctx = canvas.getContext('2d');
         ctx!.font = "40px bold 黑体";
         ctx!.fillStyle = "black";
         ctx!.textAlign = "left";
         ctx!.textBaseline = "middle";
-        ctx!.fillText("😀了🐂阿", 20, 20);
-        ctx!.fillText("😀了🐂阿", 50, 50);
-        jspdf.addImage(canvas.toDataURL(), 'JPEG', 15, 40, 250, 250);
-        jspdf.save("any.pdf");
+        ctx!.fillText(`订单编号:${rentInfo.trade_no}`, 0, 50);
+        ctx!.fillText(`用户昵称:${this.UserStore.RenderUserName()}`, 0, 100);
+        ctx!.fillText(`订单金额:${rentInfo.totalAmount}元`, 0, 150);
+        ctx!.fillText(`支付时间:${moment(rentInfo.sendPayDate).format("YYYY年MM月DD日 hh:mm:ss")}`, 0, 200);
+        ctx!.fillText(`入住时间:${moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm:ss")}元`, 0, 250);
+        ctx!.fillText(`退租时间:${moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm:ss")}元`, 0, 300);
+        jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 100, 100);
+        jspdf.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
     };
     componentDidMount()
     {
@@ -182,17 +190,6 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         </div>
                                         <Button type='text' icon={<RightOutlined />} onClick={async () =>
                                         {
-                                            // const jspdfObj = new jsPDF();
-                                            // jspdfObj.setFont('FontStylelighter', 'normal');
-                                            // jspdfObj.text([
-                                            //     `订单编号:${rentInfo.trade_no}`,
-                                            //     `订单金额:${rentInfo.totalAmount}元`,
-                                            //     `付款时间:${moment(rentInfo.sendPayDate).format("YYYY年MM月DD日")}`,
-                                            //     `入住日期:${moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
-                                            //     `退房日期:${moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
-                                            // ], 10, 10);
-                                            // jspdfObj.text(JSON.stringify(rentInfo).split(','), 10, 10);
-                                            // jspdfObj.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
                                             this.ExportOrderDetialAsPDF(rentInfo);
                                         }} />
                                     </div>
