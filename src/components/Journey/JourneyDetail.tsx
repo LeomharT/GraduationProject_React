@@ -7,7 +7,6 @@ import moment from 'moment';
 import React, { Component, createRef, RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import { RouteComponentProps, withRouter } from 'react-router';
-import '../../assets/js/FontStylelighter-normal';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../interfaces/UserInferface';
 import UserStore from '../../redux/UserStore';
@@ -171,13 +170,14 @@ class JourneyDetail extends Component<RouteComponentProps, {}>
                                         {
                                             const jspdfObj = new jsPDF();
                                             jspdfObj.setFont('FontStylelighter', 'normal');
-                                            jspdfObj.text([
-                                                `订单编号:${rentInfo.trade_no}`,
-                                                `订单金额:${rentInfo.totalAmount}元`,
-                                                `付款时间:${moment(rentInfo.sendPayDate).format("YYYY年MM月DD日")}`,
-                                                `入住日期:${moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
-                                                `退房日期:${moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
-                                            ], 10, 10);
+                                            // jspdfObj.text([
+                                            //     `订单编号:${rentInfo.trade_no}`,
+                                            //     `订单金额:${rentInfo.totalAmount}元`,
+                                            //     `付款时间:${moment(rentInfo.sendPayDate).format("YYYY年MM月DD日")}`,
+                                            //     `入住日期:${moment(rentInfo.checkInDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
+                                            //     `退房日期:${moment(rentInfo.checkOutDate).format("YYYY年MM月DD日 hh:mm:ss")}`,
+                                            // ], 10, 10);
+                                            jspdfObj.text(JSON.stringify(rentInfo).split(','), 10, 10);
                                             jspdfObj.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
                                         }} />
                                     </div>
