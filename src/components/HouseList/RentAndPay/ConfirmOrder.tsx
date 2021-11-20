@@ -364,7 +364,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                         </div>
                         <Divider orientation="left" className="DividerHouseInfo">取消政策</Divider>
                         <div className='OrderInfo_Content_Item'>
-                            {order.checkInDate.format("MM月DD日")}下午六点前取消,扣除{parseInt(houseInfo.baseInfo.hRent) * 0.05}元服务费后,退还剩余所有房费。
+                            {order.checkInDate.format("MM月DD日")}前取消,退还所有房费。
                         </div>
                         <Divider orientation="left" className="DividerHouseInfo">确认支付</Divider>
                         <div className='OrderInfo_Content_Item'>
