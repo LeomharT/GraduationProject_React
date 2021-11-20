@@ -2,8 +2,10 @@ import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, Popover } from 'antd';
 import moment from 'moment';
 import React, { useRef } from 'react';
+import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import SocketStore from '../../../redux/SocketStore';
 import UserStore from '../../../redux/UserStore';
+import { CONST_HOST } from '../../Common/VariableGlobal';
 import EmojiList from '../../HConsult/EmojiList';
 import { MessageType } from '../../HConsult/HConsult';
 
@@ -38,7 +40,7 @@ export default function AdminConsult()
         socketIo.on("receive-housemessage", (hId) =>
         {
             userStore.showChat = true;
-            // DisPlayHouseMessage(hId, MessageType.OtherMessage);
+            DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
         //如果连不上就算了
         setTimeout(() =>
@@ -84,6 +86,31 @@ export default function AdminConsult()
         {
             voiceMessage.current!.src = li.getAttribute("data-url") as string;
             voiceMessage.current!.play();
+        });
+        messageDisplayArea.current?.appendChild(li);
+        ScrollToButtom();
+    };
+    const DisPlayHouseMessage = async (hId: string, type: MessageType) =>
+    {
+        let res = await (
+            await
+                fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
+        ).json() as HouseInfo;
+        const li = document.createElement("li");
+        li.classList.add(type, 'HouseMessage');
+        const img = new Image();
+        img.alt = 'cover';
+        img.src = `${CONST_HOST}/${res.baseInfo.hExhibitImg}`;
+        const div = document.createElement('div');
+        let p1 = document.createElement("p"); p1.textContent = `${res.baseInfo.hMethod}·${res.baseInfo.hTitle}`;
+        let p2 = document.createElement("p"); p2.textContent = `${res.baseInfo.hLayout}/${res.detailInfo.Area}/${res.baseInfo.hTowards}`;
+        let p3 = document.createElement("p"); p3.textContent = `￥${res.baseInfo.hRent}元/月`;
+        div.appendChild(p1); div.appendChild(p2); div.appendChild(p3);
+        li.appendChild(img);
+        li.appendChild(div);
+        li.addEventListener("click", () =>
+        {
+            window.open(`/HouseList/DetailInfo/${hId}`);
         });
         messageDisplayArea.current?.appendChild(li);
         ScrollToButtom();
