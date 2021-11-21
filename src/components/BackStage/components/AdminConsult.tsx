@@ -9,6 +9,11 @@ import { CONST_HOST } from '../../Common/VariableGlobal';
 import EmojiList from '../../HConsult/EmojiList';
 import { MessageType } from '../../HConsult/HConsult';
 
+interface MessageStore
+{
+    socketId: string;
+    message: string;
+}
 export default function AdminConsult()
 {
     //还有一个初始值，填入初始值才能获取到RefObject啊🐂。
@@ -25,9 +30,10 @@ export default function AdminConsult()
             console.log(socketIo.id);
             socketStore.socketIo.emit("sendAdminRoom", socketStore.socketIo.id);
         });
-        socketIo.on("receive-message", (message) =>
+        socketIo.on("receive-message", (message, userId) =>
         {
             userStore.showChat = true;
+            console.log(userId);
             DisplayMessage(message, MessageType.OtherMessage);
         });
         socketIo.on("receive-voicemessage", (message) =>
@@ -50,7 +56,8 @@ export default function AdminConsult()
                 socketIo.disconnect();
             }
         }, 3000);
-    }, []);
+    }, [socketStore]);
+
     const DisplayMessage = (message: string, type: MessageType) =>
     {
         let li = document.createElement("li");

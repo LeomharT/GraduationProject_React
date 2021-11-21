@@ -4,11 +4,11 @@ import { MessageType } from "../components/HConsult/HConsult";
 export default class SocketStore
 {
     socketIo = io("ws://localhost:3066");//socket.io实例
-    SocketSendStringMessage = (message: string, callBack: Function, room?: string) =>
+    SocketSendStringMessage = (message: string, callBack: Function, room?: string, userId?: string) =>
     {
         if (room)
         {
-            this.socketIo.send(message, room);
+            this.socketIo.send(message, room, userId);
         } else
         {
             this.socketIo.send(message);
