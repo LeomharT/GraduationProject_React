@@ -1,7 +1,7 @@
 import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
-import { Button, Divider, Input, Popover } from 'antd';
+import { Button, Divider, Empty, Input, Popover } from 'antd';
 import moment from 'moment';
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import SocketStore from '../../../redux/SocketStore';
 import UserStore from '../../../redux/UserStore';
@@ -17,13 +17,13 @@ export default function AdminConsult()
     const messageDisplayArea = useRef<HTMLUListElement>(null);
     const socketStore: SocketStore = SocketStore.GetInstance();
     const userStore: UserStore = UserStore.GetInstance();
-    const InitSocketIo = () =>
+    const InitSocketIo = useCallback(() =>
     {
-
         const { socketIo } = socketStore;
         socketIo.on('connect', () =>
         {
             console.log(socketIo.id);
+            socketStore.socketIo.emit("sendAdminRoom", socketStore.socketIo.id);
         });
         socketIo.on("receive-message", (message) =>
         {
@@ -50,7 +50,7 @@ export default function AdminConsult()
                 socketIo.disconnect();
             }
         }, 3000);
-    };
+    }, []);
     const DisplayMessage = (message: string, type: MessageType) =>
     {
         let li = document.createElement("li");
@@ -121,7 +121,10 @@ export default function AdminConsult()
         if (scroll)
             scroll.scrollTop = scroll.scrollHeight;
     };
-    InitSocketIo();
+    useEffect(() =>
+    {
+        InitSocketIo();
+    }, [InitSocketIo]);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -129,7 +132,8 @@ export default function AdminConsult()
                     <Input bordered={false} prefix={<SearchOutlined />} placeholder='搜索用户' />
                 </div>
                 <div className='ConsultUserList'>
-
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description="暂无咨询" />
                 </div>
             </div>
             <div className='ConsultContent'>
@@ -158,14 +162,20 @@ export default function AdminConsult()
                         if (e.key === 'Enter')
                         {
                             if (!messageInput.current!.value) return;
-                            socketStore.SocketSendStringMessage(messageInput.current!.value, DisplayMessage);
+                            socketStore.SocketSendStringMessage(
+                                messageInput.current!.value,
+                                DisplayMessage
+                            );
                             messageInput.current!.value = "";
                         }
                     }} />
                     <Button icon={<SendOutlined />} size='large' type='link' onClick={() =>
                     {
                         if (!messageInput.current!.value) return;
-                        socketStore.SocketSendStringMessage(messageInput.current!.value, DisplayMessage);
+                        socketStore.SocketSendStringMessage(
+                            messageInput.current!.value,
+                            DisplayMessage
+                        );
                         messageInput.current!.value = "";
                     }} />
                 </div>

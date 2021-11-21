@@ -35,6 +35,7 @@ class HConsult extends Component<HConsultProps, {}>
     voiceMessage = React.createRef<HTMLAudioElement>();
     @observable currentHouseInfo: HouseInfo | undefined;
     @observable tagVisible: boolean = true;
+    adminRoomId: string | undefined = undefined;
     InitSocketIo = () =>
     {
         const { socketIo } = this.SocketStore;
@@ -58,6 +59,14 @@ class HConsult extends Component<HConsultProps, {}>
         {
             this.UserStore.showChat = true;
             this.DisPlayHouseMessage(hId, MessageType.OtherMessage);
+        });
+        socketIo.on('receive-adminroom', (room) =>
+        {
+            console.log("AdminRoomId:" + room);
+            if (room)
+            {
+                this.adminRoomId = room;
+            }
         });
         //如果连不上就算了
         setTimeout(() =>
@@ -294,7 +303,11 @@ class HConsult extends Component<HConsultProps, {}>
                                         if (e.key === 'Enter')
                                         {
                                             if (!this.messageInput.current!.value) return;
-                                            this.SocketStore.SocketSendStringMessage(this.messageInput.current!.value, this.DisplayMessage);
+                                            this.SocketStore.SocketSendStringMessage(
+                                                this.messageInput.current!.value,
+                                                this.DisplayMessage,
+                                                this.adminRoomId,
+                                            );
                                             this.messageInput.current!.value = "";
                                         }
                                     }} />
@@ -305,7 +318,11 @@ class HConsult extends Component<HConsultProps, {}>
                                     onClick={() =>
                                     {
                                         if (!this.messageInput.current!.value) return;
-                                        this.SocketStore.SocketSendStringMessage(this.messageInput.current!.value, this.DisplayMessage);
+                                        this.SocketStore.SocketSendStringMessage(
+                                            this.messageInput.current!.value,
+                                            this.DisplayMessage,
+                                            this.adminRoomId,
+                                        );
                                         this.messageInput.current!.value = "";
                                     }} />
                                 {/* Emoji */}

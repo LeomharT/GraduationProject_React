@@ -4,9 +4,15 @@ import { MessageType } from "../components/HConsult/HConsult";
 export default class SocketStore
 {
     socketIo = io("ws://localhost:3066");//socket.io实例
-    SocketSendStringMessage = (message: string, callBack: Function) =>
+    SocketSendStringMessage = (message: string, callBack: Function, room?: string) =>
     {
-        this.socketIo.send(message);
+        if (room)
+        {
+            this.socketIo.send(message, room);
+        } else
+        {
+            this.socketIo.send(message);
+        }
         callBack(message, MessageType.MyMessage);
     };
     private static _SingleInstance: SocketStore;
