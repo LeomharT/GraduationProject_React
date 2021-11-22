@@ -1,7 +1,7 @@
 import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, Divider, Empty, Input, Popover } from 'antd';
 import moment from 'moment';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import SocketStore from '../../../redux/SocketStore';
 import UserStore from '../../../redux/UserStore';
@@ -9,7 +9,12 @@ import { CONST_HOST } from '../../Common/VariableGlobal';
 import EmojiList from '../../HConsult/EmojiList';
 import { MessageType } from '../../HConsult/HConsult';
 
-interface MessageStore
+interface SocketMessage
+{
+    [index: string]: any;
+    socketId: Messages[];
+}
+interface Messages
 {
     socketId: string;
     message: string;
@@ -22,6 +27,7 @@ export default function AdminConsult()
     const messageDisplayArea = useRef<HTMLUListElement>(null);
     const socketStore: SocketStore = SocketStore.GetInstance();
     const userStore: UserStore = UserStore.GetInstance();
+    const [messageStore, setmessageStore] = useState<SocketMessage>({} as SocketMessage);
     const InitSocketIo = useCallback(() =>
     {
         const { socketIo } = socketStore;
@@ -30,10 +36,21 @@ export default function AdminConsult()
             console.log(socketIo.id);
             socketStore.socketIo.emit("sendAdminRoom", socketStore.socketIo.id);
         });
-        socketIo.on("receive-message", (message, userId) =>
+        socketIo.on("receive-message", (message, socketId) =>
         {
             userStore.showChat = true;
-            console.log(userId);
+            setmessageStore((messageStore) =>
+            {
+                if (messageStore[socketId])
+                {
+                    messageStore[socketId].push({ socketId, message });
+                } else
+                {
+                    messageStore[socketId] = [{ socketId, message }];
+                }
+                return messageStore;
+            });
+            console.log(messageStore);
             DisplayMessage(message, MessageType.OtherMessage);
         });
         socketIo.on("receive-voicemessage", (message) =>
