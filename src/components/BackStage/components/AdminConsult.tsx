@@ -11,8 +11,8 @@ import { MessageType } from '../../HConsult/HConsult';
 
 interface SocketMessage
 {
-    [index: string]: any;
-    socketId: Messages[];
+    //这就是TS设置动态字段的方法啊
+    [index: string]: Messages[];
 }
 interface Messages
 {
