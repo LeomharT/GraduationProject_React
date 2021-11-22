@@ -157,19 +157,25 @@ export default function AdminConsult()
                     <Input bordered={false} prefix={<SearchOutlined />} placeholder='搜索用户' />
                 </div>
                 <div className='ConsultUserList'>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
-                        description="暂无咨询" />
-                    {Object.keys(messageStore).map((key: string) =>
                     {
-                        console.log(key);
-                        return (
-                            <div key={key} className='SwitchUserConsult'>
-                                <Avatar size='default' />
-                                {key}
-                                {moment.now()}
-                            </div>
-                        );
-                    })}
+                        Object.keys(messageStore).length
+                            ? Object.keys(messageStore).map((key: string) =>
+                            {
+                                return (
+                                    <div key={key} className='SwitchUserConsult'>
+                                        <Avatar size='large' src='https://joeschmoe.io/api/v1/random' />
+                                        <div>
+                                            {key.substr(0, 5)}
+                                        </div>
+                                        <div>
+                                            {moment(Date.now()).format("hh:ss")}
+                                        </div>
+                                    </div>
+                                );
+                            })
+                            : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                description="暂无咨询" />
+                    }
                 </div>
             </div>
             <div className='ConsultContent'>
