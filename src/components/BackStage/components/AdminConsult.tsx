@@ -1,5 +1,5 @@
 import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
-import { Button, Divider, Empty, Input, Popover } from 'antd';
+import { Avatar, Button, Divider, Empty, Input, Popover } from 'antd';
 import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
@@ -48,7 +48,7 @@ export default function AdminConsult()
                 {
                     messageStore[socketId] = [{ socketId, message }];
                 }
-                return messageStore;
+                return { ...messageStore };
             });
             console.log(messageStore);
             DisplayMessage(message, MessageType.OtherMessage);
@@ -149,6 +149,7 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
+    console.log(messageStore);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -158,6 +159,17 @@ export default function AdminConsult()
                 <div className='ConsultUserList'>
                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}
                         description="暂无咨询" />
+                    {Object.keys(messageStore).map((key: string) =>
+                    {
+                        console.log(key);
+                        return (
+                            <div key={key} className='SwitchUserConsult'>
+                                <Avatar size='default' />
+                                {key}
+                                {moment.now()}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
             <div className='ConsultContent'>
