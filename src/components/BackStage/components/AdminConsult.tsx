@@ -37,20 +37,20 @@ export default function AdminConsult()
         });
         socketIo.on("receive-message", (message, socketId) =>
         {
-            setmessageStore((messageStore) =>
+            let messages = JSON.parse(JSON.stringify(messageStore));
+            if (messages[socketId])
             {
-                if (messageStore[socketId])
-                {
-                    messageStore[socketId].push({ socketId, message });
-                } else
-                {
-                    messageStore[socketId] = [{ socketId, message }];
-                }
-                return { ...messageStore };
-            });
-            if (currUser === '')
-                setcurrUser(Object.keys(messageStore)[0]);
+                messages[socketId].push({ socketId, message });
+            } else
+            {
+                messages[socketId] = [{ socketId, message }];
+            }
+            console.log(messages);
+            setmessageStore({ ...messages });
+            // if (currUser === '')
+            //     setcurrUser(Object.keys(messageStore)[0]);
             // DisplayMessage(message, MessageType.OtherMessage);
+            console.log(messageStore);
         });
         socketIo.on("receive-voicemessage", (message) =>
         {
