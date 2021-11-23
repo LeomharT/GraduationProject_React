@@ -73,21 +73,6 @@ export default function AdminConsult()
             }
         }, 3000);
     }, [socketStore, userStore]);
-
-    const DisplayMessage = (message: string, type: MessageType) =>
-    {
-        let li = document.createElement("li");
-        if (type === MessageType.MyMessage)
-        {
-            li.classList.add("MyMessage");
-        } if (type === MessageType.OtherMessage)
-        {
-            li.classList.add("OtherMessage");
-        }
-        li.innerText = message;
-        messageDisplayArea.current?.appendChild(li);
-        ScrollToButtom();
-    };
     const DisPlayVoiceMessage = (url: string, type: MessageType) =>
     {
         const li = document.createElement("li");
@@ -148,7 +133,6 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
-    console.log(messageStore);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -161,7 +145,12 @@ export default function AdminConsult()
                             ? Object.keys(messageStore).map((key: string) =>
                             {
                                 return (
-                                    <div key={key} className='SwitchUserConsult'>
+                                    <div key={key} className='SwitchUserConsult'
+                                        onClick={() =>
+                                        {
+                                            setcurrUser(key);
+                                        }}
+                                    >
                                         <Badge color='green'>
                                             <Avatar style={{ background: "white" }} size='large' src={`https://joeschmoe.io/api/v1/random${key}`} />
                                         </Badge>
@@ -169,7 +158,7 @@ export default function AdminConsult()
                                             {key.substr(0, 5)}
                                         </div>
                                         <div style={{ display: "flex", flexDirection: "column" }}>
-                                            {moment(Date.now()).format("hh:ss")}
+                                            {moment(Date.now()).format("hh:mm")}
                                             <Badge size='small' count={1} />
                                         </div>
                                     </div>
@@ -192,8 +181,8 @@ export default function AdminConsult()
                         >{moment(new Date(Date.now())).format('hh:mm')}
                         </Divider>
                         {
-                            Object.keys(messageStore).length
-                                ? messageStore[Object.keys(messageStore)[0]].map((v: Messages, index: number) =>
+                            Object.keys(messageStore).length && currUser !== ''
+                                ? messageStore[currUser].map((v: Messages, index: number) =>
                                 {
                                     if (v.socketId === socketStore.socketIo.id)
                                     {
@@ -236,16 +225,12 @@ export default function AdminConsult()
                             socketStore.SocketSendStringMessage(
                                 messageInput.current!.value,
                             );
-                            setmessageStore((messageStore) =>
-                            {
-                                messageStore[currUser].push({
-                                    socketId: socketStore.socketIo.id,
-                                    message: messageInput.current!.value
-                                });
-                                return (
-                                    { ...messageStore }
-                                );
+                            let messages = { ...messageStore };
+                            messages[currUser].push({
+                                socketId: socketStore.socketIo.id,
+                                message: messageInput.current!.value,
                             });
+                            setmessageStore(messages);
                             messageInput.current!.value = "";
                         }
                     }} />
@@ -260,17 +245,12 @@ export default function AdminConsult()
                         socketStore.SocketSendStringMessage(
                             messageInput.current!.value,
                         );
-                        setmessageStore((messageStore) =>
-                        {
-                            messageStore[currUser].push({
-                                socketId: socketStore.socketIo.id,
-                                message: messageInput.current!.value
-                            });
-                            return (
-                                { ...messageStore }
-                            );
+                        let messages = { ...messageStore };
+                        messages[currUser].push({
+                            socketId: socketStore.socketIo.id,
+                            message: messageInput.current!.value,
                         });
-                        console.log(messageStore);
+                        setmessageStore(messages);
                         messageInput.current!.value = "";
                     }} />
                 </div>
