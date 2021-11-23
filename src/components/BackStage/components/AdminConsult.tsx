@@ -4,7 +4,6 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import SocketStore from '../../../redux/SocketStore';
-import UserStore from '../../../redux/UserStore';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import EmojiList from '../../HConsult/EmojiList';
 import { MessageType } from '../../HConsult/HConsult';
@@ -26,7 +25,6 @@ export default function AdminConsult()
     const voiceMessage = useRef<HTMLAudioElement>(null);
     const messageDisplayArea = useRef<HTMLUListElement>(null);
     const socketStore: SocketStore = SocketStore.GetInstance();
-    const userStore: UserStore = UserStore.GetInstance();
     const [messageStore, setmessageStore] = useState<SocketMessage>({} as SocketMessage);
     const [currUser, setcurrUser] = useState<string>('');
     const InitSocketIo = useCallback(() =>
@@ -72,7 +70,7 @@ export default function AdminConsult()
                 socketIo.disconnect();
             }
         }, 3000);
-    }, [socketStore, userStore]);
+    }, [socketStore]);
     const DisPlayVoiceMessage = (url: string, type: MessageType) =>
     {
         const li = document.createElement("li");
