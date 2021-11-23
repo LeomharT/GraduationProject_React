@@ -1,5 +1,5 @@
 import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Button, Divider, Empty, Input, Popover } from 'antd';
+import { Avatar, Badge, Button, Divider, Empty, Input, message, Popover } from 'antd';
 import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
@@ -28,6 +28,7 @@ export default function AdminConsult()
     const socketStore: SocketStore = SocketStore.GetInstance();
     const userStore: UserStore = UserStore.GetInstance();
     const [messageStore, setmessageStore] = useState<SocketMessage>({} as SocketMessage);
+    const [currUser, setcurrUser] = useState<string>('');
     const InitSocketIo = useCallback(() =>
     {
         const { socketIo } = socketStore;
@@ -50,7 +51,9 @@ export default function AdminConsult()
                 }
                 return { ...messageStore };
             });
-            DisplayMessage(message, MessageType.OtherMessage);
+            if (currUser === '')
+                setcurrUser(Object.keys(messageStore)[0]);
+            // DisplayMessage(message, MessageType.OtherMessage);
         });
         socketIo.on("receive-voicemessage", (message) =>
         {
@@ -148,6 +151,7 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
+    console.log(messageStore);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -190,6 +194,28 @@ export default function AdminConsult()
                             plain
                         >{moment(new Date(Date.now())).format('hh:mm')}
                         </Divider>
+                        {
+                            Object.keys(messageStore).length
+                                ? messageStore[Object.keys(messageStore)[0]].map((v: Messages, index: number) =>
+                                {
+                                    if (v.socketId === socketStore.socketIo.id)
+                                    {
+                                        return (
+                                            <li key={Date.now() + index} className='MyMessage'>
+                                                {v.message}
+                                            </li>
+                                        );
+                                    } else
+                                    {
+                                        return (
+                                            <li key={Date.now() + index} className='OtherMessage'>
+                                                {v.message}
+                                            </li>
+                                        );
+                                    }
+                                })
+                                : null
+                        }
                     </ul>
                 </div>
                 <div className='InputArea'>
@@ -205,20 +231,49 @@ export default function AdminConsult()
                         if (e.key === 'Enter')
                         {
                             if (!messageInput.current!.value) return;
+                            if (currUser === '')
+                            {
+                                message.error("没有选择用户");
+                                return;
+                            }
                             socketStore.SocketSendStringMessage(
                                 messageInput.current!.value,
-                                DisplayMessage
                             );
+                            setmessageStore((messageStore) =>
+                            {
+                                messageStore[currUser].push({
+                                    socketId: socketStore.socketIo.id,
+                                    message: messageInput.current!.value
+                                });
+                                return (
+                                    { ...messageStore }
+                                );
+                            });
                             messageInput.current!.value = "";
                         }
                     }} />
                     <Button icon={<SendOutlined />} size='large' type='link' onClick={() =>
                     {
                         if (!messageInput.current!.value) return;
+                        if (currUser === '')
+                        {
+                            message.error("没有选择用户");
+                            return;
+                        }
                         socketStore.SocketSendStringMessage(
                             messageInput.current!.value,
-                            DisplayMessage
                         );
+                        setmessageStore((messageStore) =>
+                        {
+                            messageStore[currUser].push({
+                                socketId: socketStore.socketIo.id,
+                                message: messageInput.current!.value
+                            });
+                            return (
+                                { ...messageStore }
+                            );
+                        });
+                        console.log(messageStore);
                         messageInput.current!.value = "";
                     }} />
                 </div>
