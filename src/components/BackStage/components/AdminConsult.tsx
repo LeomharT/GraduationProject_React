@@ -162,14 +162,14 @@ export default function AdminConsult()
                                 return (
                                     <div key={key} className='SwitchUserConsult'>
                                         <Badge color='green'>
-                                            <Avatar size='large' src={`https://joeschmoe.io/api/v1/random${key}`} />
+                                            <Avatar style={{ background: "white" }} size='large' src={`https://joeschmoe.io/api/v1/random${key}`} />
                                         </Badge>
-                                        <div>
+                                        <div style={{ userSelect: "none" }}>
                                             {key.substr(0, 5)}
                                         </div>
                                         <div style={{ display: "flex", flexDirection: "column" }}>
                                             {moment(Date.now()).format("hh:ss")}
-                                            <Badge size='small' color='blue' count={1} />
+                                            <Badge size='small' count={1} />
                                         </div>
                                     </div>
                                 );
