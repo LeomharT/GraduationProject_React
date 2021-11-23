@@ -39,7 +39,6 @@ export default function AdminConsult()
         });
         socketIo.on("receive-message", (message, socketId) =>
         {
-            userStore.showChat = true;
             setmessageStore((messageStore) =>
             {
                 if (messageStore[socketId])
@@ -59,12 +58,10 @@ export default function AdminConsult()
         {
             let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
             let url = window.URL.createObjectURL(blob);
-            userStore.showChat = true;
             DisPlayVoiceMessage(url, MessageType.OtherMessage);
         });
         socketIo.on("receive-housemessage", (hId) =>
         {
-            userStore.showChat = true;
             DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
         //如果连不上就算了
