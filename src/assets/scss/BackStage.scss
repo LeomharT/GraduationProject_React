@@ -88,11 +88,12 @@
             background-color: white;
             border-radius   : 15px;
             height          : 100%;
+            padding         : 0 10px;
             .SwitchUserConsult
             {
                 width           : 100%;
                 height          : 50px;
-                border-radius   : 15px;
+                border-radius   : 25px;
                 background-color: #f0f2f5 ;
                 display         : flex;
                 flex-direction  : row;
@@ -101,6 +102,9 @@
                 font-size       : 12px;
                 margin          : 10px 0px;
                 padding         : 0 20px;
+                &:hover{
+                    background-color: white;
+                }
             }
         }
     }

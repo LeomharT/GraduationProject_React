@@ -1,5 +1,5 @@
 import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, Empty, Input, Popover } from 'antd';
+import { Avatar, Badge, Button, Divider, Empty, Input, Popover } from 'antd';
 import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
@@ -50,7 +50,6 @@ export default function AdminConsult()
                 }
                 return { ...messageStore };
             });
-            console.log(messageStore);
             DisplayMessage(message, MessageType.OtherMessage);
         });
         socketIo.on("receive-voicemessage", (message) =>
@@ -73,7 +72,7 @@ export default function AdminConsult()
                 socketIo.disconnect();
             }
         }, 3000);
-    }, [socketStore]);
+    }, [socketStore, userStore]);
 
     const DisplayMessage = (message: string, type: MessageType) =>
     {
@@ -149,7 +148,6 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
-    console.log(messageStore);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -163,12 +161,15 @@ export default function AdminConsult()
                             {
                                 return (
                                     <div key={key} className='SwitchUserConsult'>
-                                        <Avatar size='large' src='https://joeschmoe.io/api/v1/random' />
+                                        <Badge color='green'>
+                                            <Avatar size='large' src={`https://joeschmoe.io/api/v1/random${key}`} />
+                                        </Badge>
                                         <div>
                                             {key.substr(0, 5)}
                                         </div>
-                                        <div>
+                                        <div style={{ display: "flex", flexDirection: "column" }}>
                                             {moment(Date.now()).format("hh:ss")}
+                                            <Badge size='small' color='blue' count={1} />
                                         </div>
                                     </div>
                                 );
