@@ -137,24 +137,44 @@ export default function AdminConsult()
             await
                 fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
         ).json() as HouseInfo;
-        const li = document.createElement("li");
-        li.classList.add(type, 'HouseMessage');
-        const img = new Image();
-        img.alt = 'cover';
-        img.src = `${CONST_HOST}/${res.baseInfo.hExhibitImg}`;
-        const div = document.createElement('div');
-        let p1 = document.createElement("p"); p1.textContent = `${res.baseInfo.hMethod}·${res.baseInfo.hTitle}`;
-        let p2 = document.createElement("p"); p2.textContent = `${res.baseInfo.hLayout}/${res.detailInfo.Area}/${res.baseInfo.hTowards}`;
-        let p3 = document.createElement("p"); p3.textContent = `￥${res.baseInfo.hRent}元/月`;
-        div.appendChild(p1); div.appendChild(p2); div.appendChild(p3);
-        li.appendChild(img);
-        li.appendChild(div);
-        li.addEventListener("click", () =>
-        {
-            window.open(`/HouseList/DetailInfo/${hId}`);
-        });
-        messageDisplayArea.current?.appendChild(li);
-        ScrollToButtom();
+
+        return React.createElement(
+            'li',
+            {
+                className: `${type} HouseMessage`,
+                onClick: (e) =>
+                {
+                    window.open(`/HouseList/DetailInfo/${hId}`);
+                },
+            },
+            <>
+                <img src={`${CONST_HOST}/${res.baseInfo.hExhibitImg}`} alt='cover' />
+                <div>
+                    <p>{res.baseInfo.hMethod}·{res.baseInfo.hTitle}</p>
+                    <p>{res.baseInfo.hLayout}/{res.detailInfo.Area}/{res.baseInfo.hTowards}</p>
+                    <p>￥{res.baseInfo.hRent}元/月</p>
+                </div>
+            </>
+        );
+
+        // const li = document.createElement("li");
+        // li.classList.add(type, 'HouseMessage');
+        // const img = new Image();
+        // img.alt = 'cover';
+        // img.src = `${CONST_HOST}/${res.baseInfo.hExhibitImg}`;
+        // const div = document.createElement('div');
+        // let p1 = document.createElement("p"); p1.textContent = `${res.baseInfo.hMethod}·${res.baseInfo.hTitle}`;
+        // let p2 = document.createElement("p"); p2.textContent = `${res.baseInfo.hLayout}/${res.detailInfo.Area}/${res.baseInfo.hTowards}`;
+        // let p3 = document.createElement("p"); p3.textContent = `￥${res.baseInfo.hRent}元/月`;
+        // div.appendChild(p1); div.appendChild(p2); div.appendChild(p3);
+        // li.appendChild(img);
+        // li.appendChild(div);
+        // li.addEventListener("click", () =>
+        // {
+        //     window.open(`/HouseList/DetailInfo/${hId}`);
+        // });
+        // messageDisplayArea.current?.appendChild(li);
+        // ScrollToButtom();
     };
     const ScrollToButtom = () =>
     {
