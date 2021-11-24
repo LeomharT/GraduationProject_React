@@ -47,8 +47,9 @@ export default function AdminConsult()
                 {
                     temp[socketId] = [{ socketId, message }];
                 }
+                //与setState不同,必须手动合并不然会出现多次添加???
                 return (
-                    { ...prveMessageStore, ...temp }
+                    Object.assign({ ...prveMessageStore }, { ...temp })
                 );
             });
             // if (currUser === '')
