@@ -11,12 +11,11 @@ import { MessageType } from '../../HConsult/HConsult';
 interface SocketMessage
 {
     //这就是TS设置动态字段的方法啊
-    [index: string]: Messages[];
+    [index: string]: JSX.Element[];
 }
 interface Messages
 {
-    socketId: string;
-    message: string;
+    messageEl: HTMLLIElement;
 }
 export default function AdminConsult()
 {
@@ -39,13 +38,13 @@ export default function AdminConsult()
         {
             setmessageStore((prveMessageStore: SocketMessage) =>
             {
-                let temp = JSON.parse(JSON.stringify(prveMessageStore));
+                let temp = { ...prveMessageStore };
                 if (temp[socketId])
                 {
-                    temp[socketId] = temp[socketId].concat([{ socketId, message }]);
+                    temp[socketId] = temp[socketId].concat(DisplayMessage(message, MessageType.OtherMessage));
                 } else
                 {
-                    temp[socketId] = [{ socketId, message }];
+                    temp[socketId] = [DisplayMessage(message, MessageType.OtherMessage)];
                 }
                 //与setState不同,必须手动合并不然会出现多次添加???
                 return (
@@ -64,11 +63,34 @@ export default function AdminConsult()
 
             });
         });
-        socketIo.on("receive-voicemessage", (message) =>
+        socketIo.on("receive-voicemessage", (message, socketId) =>
         {
             let blob = new Blob([message], { type: "audio/webm;codecs=opus" });
             let url = window.URL.createObjectURL(blob);
-            DisPlayVoiceMessage(url, MessageType.OtherMessage);
+            setmessageStore((prveMessageStore: SocketMessage) =>
+            {
+                let temp = { ...prveMessageStore };
+                if (temp[socketId])
+                {
+                    temp[socketId] = temp[socketId].concat(DisPlayVoiceMessage(url, MessageType.OtherMessage));
+                } else
+                {
+                    temp[socketId] = [DisplayMessage(url, MessageType.OtherMessage)];
+                }
+                return (
+                    Object.assign({ ...prveMessageStore }, { ...temp })
+                );
+            });
+            setcurrUser((currUser) =>
+            {
+                if (currUser === '')
+                {
+                    return socketId;
+                } else
+                {
+                    return currUser;
+                }
+            });
         });
         socketIo.on("receive-housemessage", (hId) =>
         {
@@ -83,30 +105,31 @@ export default function AdminConsult()
             }
         }, 3000);
     }, [socketStore]);
+    const DisplayMessage = (message: string, type: MessageType) =>
+    {
+        const li = (
+            <li className={type} key={new Date().toLocaleString('chinese', { hour12: false })}>
+                {message}
+            </li>
+        );
+        return (li);
+    };
     const DisPlayVoiceMessage = (url: string, type: MessageType) =>
     {
-        const li = document.createElement("li");
-        li.classList.add("VoiceIcon");
-        switch (type)
-        {
-            case MessageType.MyMessage: {
-                li.classList.add('MyMessage');
-                break;
-            }
-            case MessageType.OtherMessage: {
-                li.classList.add("OtherMessage");
-                break;
-            }
-            default: break;
-        }
-        li.setAttribute("data-url", url);
-        li.addEventListener('click', (e: MouseEvent) =>
-        {
-            voiceMessage.current!.src = li.getAttribute("data-url") as string;
-            voiceMessage.current!.play();
-        });
-        messageDisplayArea.current?.appendChild(li);
-        ScrollToButtom();
+        const li = (
+            <li className={`VoiceIcon ${type}`}
+                key={new Date().toLocaleString('chinese', { hour12: false })}
+                data-url={url}
+                onClick={(e: React.MouseEvent) =>
+                {
+                    const el = e.target as HTMLLinkElement;
+                    voiceMessage.current!.src = el.getAttribute("data-url") as string;
+                    voiceMessage.current!.play();
+                }}
+            >
+            </li>
+        );
+        return li;
     };
     const DisPlayHouseMessage = async (hId: string, type: MessageType) =>
     {
@@ -192,23 +215,9 @@ export default function AdminConsult()
                         </Divider>
                         {
                             Object.keys(messageStore).length && currUser !== ''
-                                ? messageStore[currUser].map((v: Messages, index: number) =>
+                                ? messageStore[currUser].map((LiEl: JSX.Element, index: number) =>
                                 {
-                                    if (v.socketId === socketStore.socketIo.id)
-                                    {
-                                        return (
-                                            <li key={Date.now() + index} className='MyMessage'>
-                                                {v.message}
-                                            </li>
-                                        );
-                                    } else
-                                    {
-                                        return (
-                                            <li key={Date.now() + index} className='OtherMessage'>
-                                                {v.message}
-                                            </li>
-                                        );
-                                    }
+                                    return (LiEl);
                                 })
                                 : null
                         }
@@ -238,10 +247,12 @@ export default function AdminConsult()
                                 socketStore.socketIo.id,
                             );
                             let messages = { ...messageStore };
-                            messages[currUser].push({
-                                socketId: socketStore.socketIo.id,
-                                message: messageInput.current!.value,
-                            });
+                            messages[currUser].push(
+                                DisplayMessage(
+                                    messageInput.current!.value,
+                                    MessageType.MyMessage,
+                                )
+                            );
                             setmessageStore(messages);
                             messageInput.current!.value = "";
                         }
@@ -260,10 +271,12 @@ export default function AdminConsult()
                             socketStore.socketIo.id,
                         );
                         let messages = { ...messageStore };
-                        messages[currUser].push({
-                            socketId: socketStore.socketIo.id,
-                            message: messageInput.current!.value,
-                        });
+                        messages[currUser].push(
+                            DisplayMessage(
+                                messageInput.current!.value,
+                                MessageType.MyMessage,
+                            )
+                        );
                         setmessageStore(messages);
                         messageInput.current!.value = "";
                     }} />

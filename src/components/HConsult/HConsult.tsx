@@ -166,7 +166,13 @@ class HConsult extends Component<HConsultProps, {}>
     SocketSendVoiceMessage = (message: Blob) =>
     {
         const { socketIo } = this.SocketStore;
-        socketIo.emit("voice-message", message);
+        if (this.adminRoomId)
+        {
+            socketIo.emit("voice-message", message, this.adminRoomId, this.SocketStore.socketIo.id);
+        } else
+        {
+            socketIo.emit("voice-message", message);
+        }
     };
     SocketSendHouseMessage = async (hId: string) =>
     {
