@@ -305,9 +305,9 @@ class HConsult extends Component<HConsultProps, {}>
                                             if (!this.messageInput.current!.value) return;
                                             this.SocketStore.SocketSendStringMessage(
                                                 this.messageInput.current!.value,
-                                                this.DisplayMessage,
                                                 this.adminRoomId,
                                                 this.SocketStore.socketIo.id,
+                                                this.DisplayMessage,
                                             );
                                             this.messageInput.current!.value = "";
                                         }
@@ -321,9 +321,9 @@ class HConsult extends Component<HConsultProps, {}>
                                         if (!this.messageInput.current!.value) return;
                                         this.SocketStore.SocketSendStringMessage(
                                             this.messageInput.current!.value,
-                                            this.DisplayMessage,
                                             this.adminRoomId,
                                             this.SocketStore.socketIo.id,
+                                            this.DisplayMessage,
                                         );
                                         this.messageInput.current!.value = "";
                                     }} />

@@ -52,9 +52,17 @@ export default function AdminConsult()
                     Object.assign({ ...prveMessageStore }, { ...temp })
                 );
             });
-            // if (currUser === '')
-            //     setcurrUser(Object.keys(messageStore)[0]);
-            // DisplayMessage(message, MessageType.OtherMessage);
+            setcurrUser((currUser) =>
+            {
+                if (currUser === '')
+                {
+                    return socketId;
+                } else
+                {
+                    return currUser;
+                }
+
+            });
         });
         socketIo.on("receive-voicemessage", (message) =>
         {
@@ -226,6 +234,8 @@ export default function AdminConsult()
                             }
                             socketStore.SocketSendStringMessage(
                                 messageInput.current!.value,
+                                currUser,
+                                socketStore.socketIo.id,
                             );
                             let messages = { ...messageStore };
                             messages[currUser].push({
@@ -246,6 +256,8 @@ export default function AdminConsult()
                         }
                         socketStore.SocketSendStringMessage(
                             messageInput.current!.value,
+                            currUser,
+                            socketStore.socketIo.id,
                         );
                         let messages = { ...messageStore };
                         messages[currUser].push({
