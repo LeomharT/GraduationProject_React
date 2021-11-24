@@ -177,7 +177,14 @@ class HConsult extends Component<HConsultProps, {}>
     SocketSendHouseMessage = async (hId: string) =>
     {
         const { socketIo } = this.SocketStore;
-        socketIo.emit("house-message", hId);
+        if (this.adminRoomId)
+        {
+            socketIo.emit("house-message", hId, this.adminRoomId, this.SocketStore.socketIo.id);
+
+        } else
+        {
+            socketIo.emit("house-message", hId);
+        }
         await this.DisPlayHouseMessage(hId, MessageType.MyMessage);
     };
     GetHouseInfo = async () =>

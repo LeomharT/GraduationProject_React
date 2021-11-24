@@ -75,7 +75,7 @@ export default function AdminConsult()
                     temp[socketId] = temp[socketId].concat(DisPlayVoiceMessage(url, MessageType.OtherMessage));
                 } else
                 {
-                    temp[socketId] = [DisplayMessage(url, MessageType.OtherMessage)];
+                    temp[socketId] = [DisPlayVoiceMessage(url, MessageType.OtherMessage)];
                 }
                 return (
                     Object.assign({ ...prveMessageStore }, { ...temp })
@@ -92,8 +92,33 @@ export default function AdminConsult()
                 }
             });
         });
-        socketIo.on("receive-housemessage", (hId) =>
+        socketIo.on("receive-housemessage", async (hId, socketId) =>
         {
+            const li = await DisPlayHouseMessage(hId, MessageType.OtherMessage);
+            setmessageStore((prveMessageStore: SocketMessage) =>
+            {
+                let temp = { ...prveMessageStore };
+                if (temp[socketId])
+                {
+                    temp[socketId] = temp[socketId].concat(li);
+                } else
+                {
+                    temp[socketId] = [li];
+                }
+                return (
+                    Object.assign({ ...prveMessageStore }, { ...temp })
+                );
+            });
+            setcurrUser((currUser) =>
+            {
+                if (currUser === '')
+                {
+                    return socketId;
+                } else
+                {
+                    return currUser;
+                }
+            });
             DisPlayHouseMessage(hId, MessageType.OtherMessage);
         });
         //如果连不上就算了
