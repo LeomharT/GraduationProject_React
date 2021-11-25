@@ -1,5 +1,5 @@
 import { DollarCircleOutlined, FrownOutlined, HeartFilled, HeartOutlined, LeftOutlined, LinkOutlined, MehOutlined, PhoneOutlined, QuestionOutlined, SmileOutlined, WechatOutlined } from '@ant-design/icons';
-import { Affix, Anchor, BackTop, Badge, Button, Carousel, ConfigProvider, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
+import { Affix, Anchor, Avatar, BackTop, Badge, Button, Carousel, ConfigProvider, Divider, Image, message, Popover, Rate, Spin, Tag } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -11,7 +11,7 @@ import mustlook from '../../assets/img/mustlook.png';
 import { HouseCarousel, HouseInfo } from '../../interfaces/HouseListInterface';
 import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
-import { AppIconTitle, Render404, VerifyIcon } from '../Common/AppIconTitle';
+import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import Footer from '../Common/Footer';
 import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
 import HComment from './HComment';
@@ -244,7 +244,11 @@ class HouseDetail extends Component<DetailProps, {}>
                         <Badge.Ribbon text={houseDetailInfo.baseInfo.isRented ? "已租出" : "立即入住"} color={houseDetailInfo.baseInfo.isRented ? "" : "green"}>
                             <div className="ContactOnlineOrPhone">
                                 <div className="LandLordInfo">
-                                    <AppIconTitle />
+                                    <Avatar
+                                        size='large'
+                                        src='https://joeschmoe.io/api/v1/random'
+                                        style={{ marginRight: "20px" }}
+                                    />
                                     优区生活
                                 </div>
                                 <div>
