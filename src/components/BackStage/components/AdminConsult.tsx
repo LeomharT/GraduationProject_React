@@ -2,6 +2,7 @@ import { SearchOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Divider, Empty, Input, message, Popover } from 'antd';
 import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { generateUUID } from 'three/src/math/MathUtils';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import SocketStore from '../../../redux/SocketStore';
 import { CONST_HOST } from '../../Common/VariableGlobal';
@@ -62,6 +63,7 @@ export default function AdminConsult()
                 }
 
             });
+            ScrollToButtom();
         });
         socketIo.on("receive-voicemessage", (message, socketId) =>
         {
@@ -91,6 +93,7 @@ export default function AdminConsult()
                     return currUser;
                 }
             });
+            ScrollToButtom();
         });
         socketIo.on("receive-housemessage", async (hId, socketId) =>
         {
@@ -120,6 +123,7 @@ export default function AdminConsult()
                 }
             });
             DisPlayHouseMessage(hId, MessageType.OtherMessage);
+            ScrollToButtom();
         });
         //如果连不上就算了
         setTimeout(() =>
@@ -133,7 +137,7 @@ export default function AdminConsult()
     const DisplayMessage = (message: string, type: MessageType) =>
     {
         const li = (
-            <li className={type} key={new Date().toLocaleString('chinese', { hour12: false })}>
+            <li className={type} key={generateUUID()}>
                 {message}
             </li>
         );
@@ -300,6 +304,7 @@ export default function AdminConsult()
                             );
                             setmessageStore(messages);
                             messageInput.current!.value = "";
+                            ScrollToButtom();
                         }
                     }} />
                     <Button icon={<SendOutlined />} size='large' type='link' onClick={() =>
@@ -324,6 +329,7 @@ export default function AdminConsult()
                         );
                         setmessageStore(messages);
                         messageInput.current!.value = "";
+                        ScrollToButtom();
                     }} />
                 </div>
             </div>
