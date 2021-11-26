@@ -14,10 +14,6 @@ interface SocketMessage
     //这就是TS设置动态字段的方法啊
     [index: string]: JSX.Element[];
 }
-interface Messages
-{
-    messageEl: HTMLLIElement;
-}
 export default function AdminConsult()
 {
     //还有一个初始值，填入初始值才能获取到RefObject啊🐂。
