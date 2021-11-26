@@ -249,7 +249,7 @@ class HouseDetail extends Component<DetailProps, {}>
                                         src='https://joeschmoe.io/api/v1/random'
                                         style={{ marginRight: "20px" }}
                                     />
-                                    优区生活
+                                    {houseDetailInfo.baseInfo.hTitle.substr(0, 2)}社区
                                 </div>
                                 <div>
                                     <Button
