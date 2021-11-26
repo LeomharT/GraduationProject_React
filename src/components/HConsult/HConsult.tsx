@@ -210,13 +210,19 @@ class HConsult extends Component<HConsultProps, {}>
     };
     async componentDidMount()
     {
+        if (this.props.history.location.pathname.includes("VRScene") || this.props.history.location.pathname.includes("BackStage"))
+        {
+            return;
+        }
         this.InitSocketIo();
         await this.GetHouseInfo();
     }
     render()
     {
         if (this.props.history.location.pathname.includes("VRScene") || this.props.history.location.pathname.includes("BackStage"))
+        {
             return (null);
+        }
         const { UserStore } = this;
         const RenderHouseInfoTag = () =>
         {
