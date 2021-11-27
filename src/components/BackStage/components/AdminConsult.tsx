@@ -23,6 +23,7 @@ export default function AdminConsult()
     const socketStore: SocketStore = SocketStore.GetInstance();
     const [messageStore, setmessageStore] = useState<SocketMessage>({} as SocketMessage);
     const [currUser, setcurrUser] = useState<string>('');
+    const [messageCount, setmessageCount] = useState<{ [index: string]: number; }>({});
     const InitSocketIo = useCallback(() =>
     {
         const { socketIo } = socketStore;
@@ -46,6 +47,20 @@ export default function AdminConsult()
                 //与setState不同,必须手动合并不然会出现多次添加???
                 return (
                     Object.assign({ ...prveMessageStore }, { ...temp })
+                );
+            });
+            setmessageCount((prveCount) =>
+            {
+                let temp = { ...prveCount };
+                if (temp[socketId])
+                {
+                    temp[socketId] = temp[socketId] + 1;
+                } else
+                {
+                    temp[socketId] = 1;
+                }
+                return (
+                    Object.assign({ ...prveCount }, { ...temp })
                 );
             });
             setcurrUser((currUser) =>
@@ -211,6 +226,7 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
+    console.log(messageCount);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
@@ -227,6 +243,11 @@ export default function AdminConsult()
                                         onClick={() =>
                                         {
                                             setcurrUser(key);
+                                            setmessageCount((prveCount) =>
+                                            {
+                                                delete prveCount[key];
+                                                return { ...prveCount };
+                                            });
                                         }}
                                     >
                                         <Badge color='green'>
@@ -237,7 +258,7 @@ export default function AdminConsult()
                                         </div>
                                         <div style={{ display: "flex", flexDirection: "column" }}>
                                             {moment(Date.now()).format("hh:mm")}
-                                            <Badge size='small' count={1} />
+                                            <Badge size='small' count={messageCount[key]} />
                                         </div>
                                     </div>
                                 );
