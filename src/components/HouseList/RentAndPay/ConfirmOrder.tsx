@@ -497,7 +497,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 >
                     支付中请稍后
                     <Spin size='large' />
-                    <div style={{ width: "472px", height: "472px" }}>
+                    <div style={{ width: "432px", height: "432px" }}>
                         <img
                             alt='Paying'
                             src={CashPayment}
