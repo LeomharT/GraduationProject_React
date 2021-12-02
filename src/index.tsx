@@ -8,7 +8,6 @@ import HConsult from './components/HConsult/HConsult';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import route, { RouteType } from './route/router';
-// zhuchi
 //汉化时间
 moment.defineLocale('zh-cn', {
     relativeTime: {

@@ -226,7 +226,6 @@ export default function AdminConsult()
     {
         InitSocketIo();
     }, [InitSocketIo]);
-    console.log(messageCount);
     return (
         <div className='AdminConsult'>
             <div className='ConsultSide'>
