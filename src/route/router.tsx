@@ -2,6 +2,7 @@ import BackStage from "../components/BackStage/BackStage";
 import AdminConsult from "../components/BackStage/components/AdminConsult";
 import HouseMaintain from "../components/BackStage/components/HouseMaintain";
 import RepairManage from "../components/BackStage/components/RepairManage";
+import AircraftWar from "../components/Community/AircraftWar";
 import ArticleContent from "../components/Community/ArticleContent";
 import ArticleList from "../components/Community/ArticleList";
 import Community from "../components/Community/Community";
@@ -59,6 +60,7 @@ const route: RouteType[] = [
             { title: "Community", path: "/Community", components: ArticleList },
             { title: "PostArtcle", path: "/Community/PostArtcle", components: Editer },
             { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
+            { title: "AircraftWar", path: "/Community/AircraftWar", components: AircraftWar },
         ]
     },
     { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },
