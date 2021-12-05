@@ -2,9 +2,9 @@ import BackStage from "../components/BackStage/BackStage";
 import AdminConsult from "../components/BackStage/components/AdminConsult";
 import HouseMaintain from "../components/BackStage/components/HouseMaintain";
 import RepairManage from "../components/BackStage/components/RepairManage";
-import AircraftWar from "../components/Community/AircraftWar";
 import ArticleContent from "../components/Community/ArticleContent";
 import ArticleList from "../components/Community/ArticleList";
+import BirdFly from "../components/Community/BirdFly";
 import Community from "../components/Community/Community";
 import Editer from "../components/Community/Editer";
 import Home from "../components/Home/Home";
@@ -60,7 +60,7 @@ const route: RouteType[] = [
             { title: "Community", path: "/Community", components: ArticleList },
             { title: "PostArtcle", path: "/Community/PostArtcle", components: Editer },
             { title: "ArticleContent", path: "/Community/ArticleContent/:id", components: ArticleContent },
-            { title: "AircraftWar", path: "/Community/AircraftWar", components: AircraftWar },
+            { title: "BirdFly", path: "/Community/BirdFly", components: BirdFly },
         ]
     },
     { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },

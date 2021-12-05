@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class AircraftWar extends Component
+export default class BirdFly extends Component<{}, {}>
 {
     render()
     {
