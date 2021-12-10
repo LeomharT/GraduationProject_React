@@ -201,7 +201,8 @@ class VRScene extends Component<VRSceneProps, {}>
      */
     GetSceneAsync = async (HouseId: string, SceneId: string): Promise<void> =>
     {
-        const { scene, camera, VR_Cube, currPositons } = this;
+        const { scene, camera, VR_Cube, currPositons, controler } = this;
+        controler.enabled = false;
         let targetScene = new Array<MeshBasicMaterial>();
         let res = await fetch(`${CONST_HOST}/GetHouseVrSceneInfo?HouseId=${HouseId}&SceneId=${SceneId}`);
         const positionInfo = await res.json() as HouseVRInfo;
@@ -236,6 +237,7 @@ class VRScene extends Component<VRSceneProps, {}>
             VR_Cube.material = targetScene;
             VR_Cube.lookAt(camera.position);
             scene.remove(newCube);
+            controler.enabled = true;
         }, 600);
 
 
