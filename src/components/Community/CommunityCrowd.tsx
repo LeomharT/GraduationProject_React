@@ -8,14 +8,14 @@ import open_peeps from '../../assets/img/open-peeps-sheet-colorful.png';
 @observer
 export default class CommunityCrowd extends Component<{}, {}>
 {
-    @observable canvasRef: RefObject<HTMLCanvasElement> = React.createRef<HTMLCanvasElement>();
+    canvasRef: RefObject<HTMLCanvasElement> = React.createRef<HTMLCanvasElement>();
     ctx: CanvasRenderingContext2D;
     config = {
         src: open_peeps,
         rows: 15,
         cols: 7
     };
-    @observable img = new Image();
+    img = new Image();
     @observable allPeeps: Peep[] = [];
     @observable availablePeeps: Peep[] = [];
     @observable stage = { width: 0, height: 0 };
