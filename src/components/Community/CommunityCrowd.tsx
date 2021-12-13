@@ -83,7 +83,7 @@ export default class CommunityCrowd extends Component<{}, {}>
         }, 0);
         return tl;
     };
-    @observable walks: any = [
+    walks: any = [
         this.NormalWalk,
     ];
     CreatePeep = () =>
