@@ -1,4 +1,4 @@
-import { AppstoreOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, FullscreenOutlined, QrcodeOutlined } from '@ant-design/icons';
 import * as TWEEN from '@tweenjs/tween.js';
 import { Avatar, Button, Popover, Spin } from 'antd';
 import gsap from 'gsap';
@@ -400,6 +400,16 @@ class VRScene extends Component<VRSceneProps, {}>
                             style={{ backgroundColor: " rgba(0,0,0,0.3)", color: "white" }}
                         />
                     </Popover>
+                    <Button
+                        size='large'
+                        type='text'
+                        icon={<FullscreenOutlined />}
+                        style={{ backgroundColor: " rgba(0,0,0,0.3)", color: "white" }}
+                        onClick={() =>
+                        {
+                            (document.querySelector(".Masking") as HTMLDivElement).requestFullscreen();
+                        }}
+                    />
                 </div>
 
                 <div className="VRScene" ref={this.VR_Scene} />
