@@ -156,7 +156,7 @@ export default class CommunityCrowd extends Component<{}, {}>
 
         return peep;
     };
-    RemovePeepFromCrowd = (peep: any) =>
+    RemovePeepFromCrowd = (peep: Peep) =>
     {
         this.RemoveItemFromArray(this.crowd, peep);
         this.availablePeeps.push(peep);
@@ -204,25 +204,25 @@ export default class CommunityCrowd extends Component<{}, {}>
 }
 
 
-
+type PeepConstructorProps = { image: HTMLImageElement, rect: number[]; };
 class Peep
 {
-    constructor({ image, rect }: any)
+    constructor({ image, rect }: PeepConstructorProps)
     {
         this.image = image;
         this.setRect(rect);
     }
-    image: any;
-    rect: any;
+    image: HTMLImageElement;
+    rect: number[];
     x: number = 0;
     y: number = 0;
     width: number;
     height: number;
     anchorY: number = 0;
     scaleX: number = 1;
-    walk: any;
+    walk: TimelineLite;
     drawArgs: any[] = [];
-    setRect = (rect: any) =>
+    setRect = (rect: number[]) =>
     {
         this.rect = rect;
         this.width = rect[2];
