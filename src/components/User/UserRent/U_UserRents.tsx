@@ -1,4 +1,4 @@
-import { BellOutlined, EllipsisOutlined, MoneyCollectOutlined, SettingOutlined, ToolOutlined, TransactionOutlined } from '@ant-design/icons';
+import { AuditOutlined, BellOutlined, EllipsisOutlined, MoneyCollectOutlined, ProfileOutlined, SettingOutlined, ToolOutlined, TransactionOutlined } from '@ant-design/icons';
 import { Badge, Button, DatePicker, Divider, Dropdown, Menu, Popover, Spin, Tabs } from 'antd';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { observable } from 'mobx';
@@ -156,7 +156,11 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                             <Menu>
                                                 <Menu.Item key='1'
                                                     onClick={() => this.props.history.push(`/HouseList/DetailInfo/${houseInfo.baseInfo.hId}`)}
-                                                >详细信息
+                                                ><ProfileOutlined /> 详细信息
+                                                </Menu.Item>
+                                                <Menu.Item key='2'
+                                                    onClick={() => { this.props.history.push(`/HouseContract`); }}
+                                                ><AuditOutlined /> 房屋合同
                                                 </Menu.Item>
                                             </Menu>
                                         }><Button type='link' icon={<EllipsisOutlined />} />

@@ -20,6 +20,7 @@ import Journey from "../components/Journey/Journey";
 import JourneyDetail from "../components/Journey/JourneyDetail";
 import U_UserCollect from "../components/Journey/U_UserCollect";
 import User from "../components/User/User";
+import HouseContract from "../components/User/UserRent/HouseContract";
 import U_UserRents from "../components/User/UserRent/U_UserRents";
 import U_ArticleManage from "../components/User/U_ArticleManage";
 import U_EditUserInfo from "../components/User/U_EditUserInfo";
@@ -76,6 +77,7 @@ const route: RouteType[] = [
 
         ]
     },
+    { title: "HouseContract", path: "/HouseContract", components: HouseContract },
 ];
 
 
