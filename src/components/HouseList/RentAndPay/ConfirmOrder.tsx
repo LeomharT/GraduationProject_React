@@ -119,6 +119,8 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                 orderFormData.set('trade_no', res.alipay_trade_query_response.trade_no);
                 orderFormData.set('checkInDate', moment(order.checkInDate).format('YYYY-MM-DD hh:mm:ss'));
                 orderFormData.set('checkOutDate', moment(order.checkOutDate).format('YYYY-MM-DD hh:mm:ss'));
+                orderFormData.set('realName', this.order.tenantInfo.tenant_name);
+                orderFormData.set('realId', this.order.tenantInfo.tenant_num);
                 const result = await (await fetch(`${CONST_HOST}/AddHouseToUser`, {
                     method: "POST",
                     body: orderFormData

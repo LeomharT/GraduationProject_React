@@ -159,7 +159,7 @@ class U_UserRents extends Component<U_UserRentsProps, {}>
                                                 ><ProfileOutlined /> 详细信息
                                                 </Menu.Item>
                                                 <Menu.Item key='2'
-                                                    onClick={() => { this.props.history.push(`/HouseContract`); }}
+                                                    onClick={() => { this.props.history.push(`/HouseContract`, { state: rentInfo }); }}
                                                 ><AuditOutlined /> 房屋合同
                                                 </Menu.Item>
                                             </Menu>

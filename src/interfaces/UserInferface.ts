@@ -29,6 +29,8 @@ export declare interface UserRentListItem
     trade_no: string,
     checkInDate: Date,
     checkOutDate: Date,
+    realName: string,
+    realId: string;
 }
 export declare interface RenewalOrderRecord
 {
