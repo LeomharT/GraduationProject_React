@@ -396,6 +396,60 @@
 }
 .HouseContract
 {
-    width: 1200px;
+    width : 900px;
     margin: 0 auto;
+    .ContractHeader
+    {
+        position: relative;
+    }
+    .ContractContent
+    {
+        position   : relative;
+        font-weight: bold;
+        >p
+        {
+            margin-bottom: 0;
+        }
+        .ContractItem
+        {
+            .ContractItemTitle
+            {
+                font-weight: bolder;
+            }
+            >p
+            {
+                margin-bottom: 0;
+            }
+            margin-bottom: 10px;
+        }
+        .Part1
+        {
+            >p:nth-last-child(4)
+            {
+                display: flex;
+                gap    : 5px;
+            }
+            >p:nth-last-child(1)
+            {
+                >p
+                {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .ContractSignature
+        {
+            display        : flex;
+            width          : 100%;
+            flex-direction : row;
+            justify-content: space-between;
+            position       : relative;
+            font-size      : 14px;
+            p
+            {
+                margin-bottom: 0;
+            }
+        }
+    }
+
 }
