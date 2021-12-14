@@ -1,11 +1,30 @@
-import { Divider } from 'antd';
+import { Divider, Spin } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { HouseInfo } from '../../../interfaces/HouseListInterface';
+import { UserRentListItem } from '../../../interfaces/UserInferface';
+import HouseStore from '../../../redux/HouseStore';
 import { AppIconTitle } from '../../Common/AppIconTitle';
 
-export default class HouseContract extends Component<{}, {}>
+@observer
+class HouseContract extends Component<RouteComponentProps, {}>
 {
+    HouseStore: HouseStore = HouseStore.GetInstance();
+    @observable houseInfo: HouseInfo;
+    @observable loadingContract: boolean = false;
+    async componentDidMount()
+    {
+        this.loadingContract = true;
+        const { contractInfo } = this.props.location.state as { contractInfo: UserRentListItem; };
+        this.houseInfo = await this.HouseStore.InitHouseInfo(contractInfo.hId);
+        console.log(this.houseInfo);
+        this.loadingContract = false;
+    }
     render()
     {
+        if (this.loadingContract) return <Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />;
         return (
             <div className='HouseContract'>
                 <AppIconTitle title='优区生活' />
@@ -16,3 +35,4 @@ export default class HouseContract extends Component<{}, {}>
         );
     }
 }
+export default withRouter(HouseContract);
