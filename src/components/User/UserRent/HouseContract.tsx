@@ -7,6 +7,7 @@ import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import { AppIconTitle } from '../../Common/AppIconTitle';
+import { SpinStyle } from '../../Common/VariableGlobal';
 
 @observer
 class HouseContract extends Component<RouteComponentProps, {}>
@@ -19,12 +20,12 @@ class HouseContract extends Component<RouteComponentProps, {}>
         this.loadingContract = true;
         const { contractInfo } = this.props.location.state as { contractInfo: UserRentListItem; };
         this.houseInfo = await this.HouseStore.InitHouseInfo(contractInfo.hId);
-        console.log(this.houseInfo);
+
         this.loadingContract = false;
     }
     render()
     {
-        if (this.loadingContract) return <Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />;
+        if (this.loadingContract) return <Spin size='large' style={SpinStyle} />;
         return (
             <div className='HouseContract'>
                 <AppIconTitle title='优区生活' />

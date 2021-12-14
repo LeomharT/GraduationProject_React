@@ -13,7 +13,7 @@ import HouseStore from '../../redux/HouseStore';
 import UserStore from '../../redux/UserStore';
 import { Render404, VerifyIcon } from '../Common/AppIconTitle';
 import Footer from '../Common/Footer';
-import { CONST_HOST, LANGUAGE_REFER } from '../Common/VariableGlobal';
+import { CONST_HOST, LANGUAGE_REFER, SpinStyle } from '../Common/VariableGlobal';
 import HComment from './HComment';
 import { RenderTags } from './HouseItem';
 
@@ -129,7 +129,7 @@ class HouseDetail extends Component<DetailProps, {}>
     {
         const { history } = this.props;
         const { houseDetailInfo, isCollected, UserStore, HouseStore } = this;
-        if (!houseDetailInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
+        if (!houseDetailInfo) return (<Spin size='large' style={SpinStyle} />);
         if (!houseDetailInfo?.baseInfo) return (<Render404 title='404!未找到该房源' subTitle='您寻找的房源编号不存在,请返回列表页.' />);
         return (
             <div className='HouseDetailInfo'>

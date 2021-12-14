@@ -10,7 +10,7 @@ import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { SelfCheckBox } from '../../Common/AppIconTitle';
-import { CONST_HOST } from '../../Common/VariableGlobal';
+import { CONST_HOST, SpinStyle } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import OrderRefund from './OrderRefund';
 
@@ -99,7 +99,7 @@ class RefundOrder extends Component<RefundOrderProps, {}>
     render()
     {
         const { houseInfo } = this;
-        if (!houseInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
+        if (!houseInfo) return (<Spin size='large' style={SpinStyle} />);
         return (
             <div className='RefundOrder'>
                 <Alert

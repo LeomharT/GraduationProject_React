@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import RepairStore from '../../../redux/RepairStore';
+import { SpinStyle } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import RepairConfirm from './RepairConfirm';
 import RepairForm from './RepairForm';
@@ -33,7 +34,7 @@ class HouseRepair extends Component<HouseRepairProps, {}>
     render()
     {
         const { houseInfo, currentStep } = this.RepairStore;
-        if (!houseInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
+        if (!houseInfo) return (<Spin size='large' style={SpinStyle} />);
         return (
             <div className='HouseRepair'>
                 <h1>

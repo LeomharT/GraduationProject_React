@@ -11,7 +11,7 @@ import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { AliPayOrderState, PayChannel } from '../../../interfaces/PaymentInterface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
-import { CONST_HOST } from '../../Common/VariableGlobal';
+import { CONST_HOST, SpinStyle } from '../../Common/VariableGlobal';
 import HouseItem from '../HouseItem';
 import AddTenantInfo from './AddTenantInfo';
 import Order from './Order';
@@ -211,7 +211,7 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
             order.finalRent = finalRent;
             return finalRent.toString();
         };
-        if (!houseInfo) return (<Spin size='large' style={{ position: "absolute", top: '40%', left: '50%', marginLeft: "-20px" }} />);
+        if (!houseInfo) return (<Spin size='large' style={SpinStyle} />);
         return (
             <div className='ConfirmOrder'>
                 <div className='OrderInfo'>

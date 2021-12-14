@@ -1,3 +1,5 @@
+import { CSSProperties } from "styled-components";
+
 export const CONST_HOST = "http://localhost:3065";
 export enum LANGUAGE_REFER
 {
@@ -24,3 +26,9 @@ export interface DataRowState
     serverStatus: number;
     warningCount: number;
 }
+export const SpinStyle: CSSProperties = {
+    position: "absolute",
+    top: '40%',
+    left: '50%',
+    marginLeft: "-20px",
+};
