@@ -35,7 +35,7 @@ export const SpinStyle: CSSProperties = {
 export const toChinesNum = (num: string | number) =>
 {
     let changeNum = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-    let unit = ["", "十", "百", "千", "万"];
+    let unit = ["", "拾", "佰", "仟", "萬"];
     num = parseInt(num as string);
     let getWan = (temp: any) =>
     {
