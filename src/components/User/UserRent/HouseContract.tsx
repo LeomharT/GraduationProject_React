@@ -1,4 +1,6 @@
-import { Divider, Spin } from 'antd';
+import { Button, Divider, Spin } from 'antd';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import moment from 'moment';
@@ -19,6 +21,23 @@ class HouseContract extends Component<RouteComponentProps, {}>
     HouseStore: HouseStore = HouseStore.GetInstance();
     contractInfo = (this.props.location.state as { contractInfo: UserRentListItem; }).contractInfo;
     @observable houseInfo: HouseInfo;
+    ExportPDF = async () =>
+    {
+        const canvas = await html2canvas(document.querySelector('.HouseContract') as HTMLDivElement);
+        const jspdf = new jsPDF();
+        const pdfPageHeigh = 841.89;
+        const canvasHeight = canvas.height;
+        if (canvasHeight > pdfPageHeigh)
+        {
+            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, pdfPageHeigh);
+            jspdf.addPage();
+            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, canvasHeight - pdfPageHeigh);
+        } else
+        {
+            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, canvasHeight);
+        }
+        jspdf.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
+    };
     async componentDidMount()
     {
         this.houseInfo = await this.HouseStore.InitHouseInfo(this.contractInfo.hId);
@@ -29,6 +48,7 @@ class HouseContract extends Component<RouteComponentProps, {}>
         if (!this.houseInfo) return <Spin size='large' style={SpinStyle} />;
         return (
             <div className='HouseContract'>
+                <Button type='link' children='导出为PDF' onClick={this.ExportPDF} />
                 <div className='ContractHeader'>
                     <AppIconTitle title='优区生活' />
                     <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
