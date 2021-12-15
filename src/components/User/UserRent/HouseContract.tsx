@@ -1,4 +1,4 @@
-import { Button, Divider, Spin } from 'antd';
+import { Button, Divider, message, Spin } from 'antd';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { observable } from 'mobx';
@@ -23,12 +23,14 @@ class HouseContract extends Component<RouteComponentProps, {}>
     @observable houseInfo: HouseInfo;
     ExportPDF = async () =>
     {
+        message.loading({ content: "正在为您导出", key: "ExportPDF" });
         const canvas = await html2canvas(document.querySelector('.HouseContract') as HTMLDivElement);
         const jspdf = new jsPDF();
         jspdf.addImage(canvas.toDataURL(), 'JPEG', 25, 0, 150, 400);
         jspdf.addPage();
         jspdf.addImage(canvas.toDataURL(), 'JPEG', 25, -297, 150, 400);
         jspdf.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
+        message.success({ content: "导出成功", key: "ExportPDF" });
     };
     async componentDidMount()
     {
