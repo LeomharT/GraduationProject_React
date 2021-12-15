@@ -25,17 +25,9 @@ class HouseContract extends Component<RouteComponentProps, {}>
     {
         const canvas = await html2canvas(document.querySelector('.HouseContract') as HTMLDivElement);
         const jspdf = new jsPDF();
-        const pdfPageHeigh = 841.89;
-        const canvasHeight = canvas.height;
-        if (canvasHeight > pdfPageHeigh)
-        {
-            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, pdfPageHeigh);
-            jspdf.addPage();
-            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, canvasHeight - pdfPageHeigh);
-        } else
-        {
-            jspdf.addImage(canvas.toDataURL(), 'JPEG', 0, 0, 200, canvasHeight);
-        }
+        jspdf.addImage(canvas.toDataURL(), 'JPEG', 25, 0, 150, 400);
+        jspdf.addPage();
+        jspdf.addImage(canvas.toDataURL(), 'JPEG', 25, -297, 150, 400);
         jspdf.save(`${new Date().toLocaleString('chinese', { hour12: false })}`);
     };
     async componentDidMount()
