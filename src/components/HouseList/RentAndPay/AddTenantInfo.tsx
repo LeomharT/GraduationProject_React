@@ -19,6 +19,31 @@ interface BaiduToken
     session_key: string,
     session_secret: string,
 }
+interface BaiduIDAnalysisResult
+{
+    idcard_number_type: string,
+    image_status: string,
+    log_id: number,
+    words_result:
+    {
+        住址: BaiduIDAnalysisResultInnerCoontent,
+        公民身份号码: BaiduIDAnalysisResultInnerCoontent,
+        出生: BaiduIDAnalysisResultInnerCoontent,
+        姓名: BaiduIDAnalysisResultInnerCoontent,
+        性别: BaiduIDAnalysisResultInnerCoontent,
+        民族: BaiduIDAnalysisResultInnerCoontent,
+    },
+    words_result_num: number,
+}
+type BaiduIDAnalysisResultInnerCoontent = {
+    location: {
+        height: number;
+        left: number;
+        top: number;
+        width: number;
+    },
+    words: string,
+};
 const { Item } = Form;
 export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
 {
@@ -35,7 +60,7 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         }
     };
     GetToken = async (): Promise<BaiduToken> => await (await fetch(`${CONST_HOST}/FetchBaiduToken`)).json();
-    GetBaiDuIDAnalysisResult = async (): Promise<void> =>
+    GetBaiDuIDAnalysisResult = async (): Promise<BaiduIDAnalysisResult> =>
     {
         const token = await this.GetToken();
         const res = await (
@@ -51,7 +76,7 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
     };
     async componentDidMount()
     {
-        console.log(await this.GetBaiDuIDAnalysisResult());
+        console.log(await (await this.GetBaiDuIDAnalysisResult()).words_result.公民身份号码);
     }
     render()
     {
