@@ -165,7 +165,7 @@ class VRScene extends Component<VRSceneProps, {}>
     /**
      * @description 无限循环执行渲染,每一帧在都执行
      */
-    LoopRender = (time?: any) =>
+    LoopRender = (time?: number) =>
     {
         const { renderer, css2DRenderer, scene, camera, controler } = this;
         requestAnimationFrame(this.LoopRender);
