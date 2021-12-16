@@ -1,6 +1,7 @@
 import { Button, Form, Input, message, Select } from 'antd';
 import React, { Component } from 'react';
 import { TenantInfo } from '../../../interfaces/UserInferface';
+import { CONST_HOST } from '../../Common/VariableGlobal';
 import Order from './Order';
 
 
@@ -8,6 +9,15 @@ declare interface AddTenantInfoProps
 {
     order: Order;
     CloseDrawer: Function;
+}
+interface BaiduToken
+{
+    access_token: string;
+    expires_in: number,
+    refresh_token: string,
+    scope: string,
+    session_key: string,
+    session_secret: string,
 }
 const { Item } = Form;
 export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
@@ -24,6 +34,25 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
             message.error('请输入正确的身份证号码');
         }
     };
+    GetToken = async (): Promise<BaiduToken> => await (await fetch(`${CONST_HOST}/FetchBaiduToken`)).json();
+    GetBaiDuIDAnalysisResult = async (): Promise<void> =>
+    {
+        const token = await this.GetToken();
+        const res = await (
+            await fetch(`https://aip.baidubce.com/rest/2.0/ocr/v1/idcard?access_token=${token.access_token}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'url=https://baidu-ai.bj.bcebos.com/ocr/idcard.jpeg&id_card_side=front',
+            })
+        ).json();
+        return res;
+    };
+    async componentDidMount()
+    {
+        console.log(await this.GetBaiDuIDAnalysisResult());
+    }
     render()
     {
         return (
