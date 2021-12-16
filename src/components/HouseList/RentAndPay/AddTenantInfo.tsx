@@ -1,4 +1,7 @@
-import { Button, Form, Input, message, Select } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Select, Upload } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import { TenantInfo } from '../../../interfaces/UserInferface';
 import { CONST_HOST } from '../../Common/VariableGlobal';
@@ -45,8 +48,11 @@ type BaiduIDAnalysisResultInnerCoontent = {
     words: string,
 };
 const { Item } = Form;
+@observer
 export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
 {
+    @observable loading: boolean = false;
+    @observable imageUrl: string = '';
     ConfirmTenantInfo = (tInfo: TenantInfo) =>
     {
         const reg: RegExp = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
@@ -81,6 +87,16 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
     }
     render()
     {
+        const { loading, imageUrl } = this;
+        const uploadButton = (title?: string) =>
+        {
+            return (
+                <div>
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <div style={{ marginTop: 8 }}>{title ?? "Upload"}</div>
+                </div>
+            );
+        };
         return (
             <div className='AddTenantInfo'>
                 <Form onFinish={this.ConfirmTenantInfo} layout='vertical'>
@@ -119,6 +135,18 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
                         rules={[{ required: true, message: '请输入身份证号码' }]}
                     >
                         <Input autoComplete='off' size='large' placeholder='请输入身份证号码' />
+                    </Item>
+                    <Item
+                        label="身份证(正面)"
+                        name="tenant_num"
+                    >
+                        <Upload
+                            listType="picture-card"
+                            className="avatar-uploader"
+                            showUploadList={false}
+                        >
+                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton('身份证正面')}
+                        </Upload>
                     </Item>
                     <Item>
                         <Button
