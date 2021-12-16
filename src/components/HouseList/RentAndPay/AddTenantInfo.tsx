@@ -76,7 +76,8 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
     };
     async componentDidMount()
     {
-        console.log(await (await this.GetBaiDuIDAnalysisResult()).words_result.公民身份号码);
+        const result = await this.GetBaiDuIDAnalysisResult();
+        console.log(result.words_result.住址);
     }
     render()
     {
