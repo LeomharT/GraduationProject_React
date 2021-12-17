@@ -1,5 +1,6 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Select, Upload } from 'antd';
+import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
@@ -66,25 +67,34 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         }
     };
     GetToken = async (): Promise<BaiduToken> => await (await fetch(`${CONST_HOST}/FetchBaiduToken`)).json();
-    GetBaiDuIDAnalysisResult = async (): Promise<BaiduIDAnalysisResult> =>
+    GetBaiDuIDAnalysisResult = async (base64: string): Promise<BaiduIDAnalysisResult> =>
     {
         const token = await this.GetToken();
+        base64 = base64.split(',')[1];
+
         const res = await (
             await fetch(`https://aip.baidubce.com/rest/2.0/ocr/v1/idcard?access_token=${token.access_token}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'url=https://baidu-ai.bj.bcebos.com/ocr/idcard.jpeg&id_card_side=front',
+                //根据百度那边的接口转义
+                body: `image=${encodeURIComponent(base64)}&id_card_side=front`,
             })
         ).json();
         return res;
     };
-    async componentDidMount()
+    ReadFileFromUploader = (e: UploadChangeParam<UploadFile<any>>) =>
     {
-        const result = await this.GetBaiDuIDAnalysisResult();
-        console.log(result.words_result.住址);
-    }
+        const { file } = e;
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file.originFileObj as File);
+        fileReader.onload = async (reader) =>
+        {
+            const result = await this.GetBaiDuIDAnalysisResult(reader.target?.result as string);
+            console.log(result);
+        };
+    };
     render()
     {
         const { loading, imageUrl } = this;
@@ -136,18 +146,17 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
                     >
                         <Input autoComplete='off' size='large' placeholder='请输入身份证号码' />
                     </Item>
-                    <Item
-                        label="身份证(正面)"
-                        name="tenant_num"
+
+                    <Upload
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        method='POST'
+                        action={`${CONST_HOST}/FormatImageToBase64`}
+                        onChange={this.ReadFileFromUploader}
                     >
-                        <Upload
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                        >
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton('身份证正面')}
-                        </Upload>
-                    </Item>
+                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton('身份证正面')}
+                    </Upload>
                     <Item>
                         <Button
                             htmlType='submit'
