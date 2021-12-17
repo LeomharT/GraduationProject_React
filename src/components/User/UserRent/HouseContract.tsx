@@ -11,8 +11,9 @@ import stamp from '../../../assets/img/stamp.png';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
+import toChineseNumber from '../../../util/toChineseNumber';
 import { AppIconTitle } from '../../Common/AppIconTitle';
-import { LANGUAGE_REFER, SpinStyle, toChinesNum } from '../../Common/VariableGlobal';
+import { LANGUAGE_REFER, SpinStyle } from '../../Common/VariableGlobal';
 import { FormatNum } from './CostDetail';
 
 @observer
@@ -133,8 +134,8 @@ class HouseContract extends Component<RouteComponentProps, {}>
                                 （一）租金标准及支付：
                             </p>
                             <p style={{ textIndent: "2rem" }}>
-                                1、月租金为人民币（小写） {FormatNum(houseInfo.baseInfo.hRent)}，（大写） {toChinesNum(houseInfo.baseInfo.hRent)}元，
-                                租金共计人民币（小写） {FormatNum(parseFloat(contractInfo.totalAmount).toFixed(2))} ，(大写) {toChinesNum(parseFloat(contractInfo.totalAmount).toFixed(2))} 。租金乙方按照 月 向甲方支付。
+                                1、月租金为人民币（小写） {FormatNum(houseInfo.baseInfo.hRent)}，（大写） {toChineseNumber(houseInfo.baseInfo.hRent)}，
+                                租金共计人民币（小写） {FormatNum(parseFloat(contractInfo.totalAmount).toFixed(2))} ，(大写) {toChineseNumber(parseFloat(contractInfo.totalAmount).toFixed(2))} 。租金乙方按照 月 向甲方支付。
                             </p>
                             <p>
                                 2、租金支付方式和时间：
@@ -216,18 +217,18 @@ class HouseContract extends Component<RouteComponentProps, {}>
                             </h4>
                             <p>
                                 （一）甲方有第七条第三款约定的情形之一导致乙方解除合同或提前收回房屋的，应向乙方支付违约金，违约金标准为 本
-                                合同第四条第（一）款约定的一个月租金 人民币（小写） 2,700.00 ，（大写） 贰仟柒佰元整 ；若由此给乙方造成损
+                                合同第四条第（一）款约定的一个月租金 人民币（小写）  {FormatNum(String(Number.parseFloat(houseInfo.baseInfo.hRent) * 2))} ，（大写） {toChineseNumber(Number.parseFloat(houseInfo.baseInfo.hRent) * 2)} ；若由此给乙方造成损
                                 失，且甲方所支付的违约金不足抵付实际损失的，甲方还应向乙方支付造成实际损失与违约金的差额部分
                             </p>
                             <p>
                                 （二）乙方有第九条第四款约定的情形之一导致甲方解除合同或提前退租的，应向甲方支付违约金，违约金标准为 本合
-                                同第四条第（一）款约定的一个月租金 人民币（小写） 2,700.00 ，（大写） 贰仟柒佰元整 ；若由此给甲方造成损
+                                同第四条第（一）款约定的一个月租金 人民币（小写） {FormatNum(String(Number.parseFloat(houseInfo.baseInfo.hRent) * 2))} ，（大写） {toChineseNumber(Number.parseFloat(houseInfo.baseInfo.hRent) * 2)} ；若由此给甲方造成损
                                 失，且乙方所支付的违约金不足抵付实际损失的，乙方还应向甲方支付造成实际损失与违约金的差额部分。
                             </p>
                             <p>
                                 （三）合同期内，任一方未经对方书面同意（包括但不限于微信、短信、邮件等）提前终止本合同的，则视为该方违约，
                                 违约方除应提前30日告知守约方外，还须按照 本合同第四条第（一）款约定的一个月的租金标准 人民币（小写）
-                                2,700.00 ，（大写） 贰仟柒佰元整 向守约方支付违约金；若由此给守约方造成损失，且违约方所支付的违约金不足抵付
+                                {FormatNum(String(Number.parseFloat(houseInfo.baseInfo.hRent) * 2))}  ，（大写）  {toChineseNumber(Number.parseFloat(houseInfo.baseInfo.hRent) * 2)}  向守约方支付违约金；若由此给守约方造成损失，且违约方所支付的违约金不足抵付
                                 守约方实际损失的，则违约方还应向守约方支付造成实际损失与违约金的差额部分，但合同另有约定除外。
                             </p>
                             <p>

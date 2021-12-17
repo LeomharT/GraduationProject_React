@@ -32,25 +32,3 @@ export const SpinStyle: CSSProperties = {
     left: '50%',
     marginLeft: "-20px",
 };
-export const toChinesNum = (num: string | number) =>
-{
-    let changeNum = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-    let unit = ["", "拾", "佰", "仟", "萬"];
-    num = parseInt(num as string);
-    let getWan = (temp: any) =>
-    {
-        let strArr = temp.toString().split("").reverse();
-        let newNum = "";
-        for (var i = 0; i < strArr.length; i++)
-        {
-            newNum = (i === 0 && strArr[i] === 0 ? "" : (i > 0 && strArr[i] === 0 && strArr[i - 1] === 0 ? "" : changeNum[strArr[i]] + (strArr[i] === 0 ? unit[0] : unit[i]))) + newNum;
-        }
-        return newNum;
-    };
-    let overWan = Math.floor(num / 10000);
-    let noWan = num % 10000;
-    //@ts-ignore
-    if (noWan.toString().length < 4) noWan = "0" + noWan;
-    return overWan ? getWan(overWan) + "万" + getWan(noWan) : getWan(num);
-
-};
