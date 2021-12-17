@@ -1,9 +1,9 @@
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Select, Upload } from 'antd';
+import { LoadingOutlined, PlusOutlined, QuestionOutlined } from '@ant-design/icons';
+import { Badge, Button, Form, FormInstance, Input, message, Popover, Select, Upload } from 'antd';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import React, { Component } from 'react';
+import React, { Component, createRef, RefObject } from 'react';
 import { TenantInfo } from '../../../interfaces/UserInferface';
 import { CONST_HOST } from '../../Common/VariableGlobal';
 import Order from './Order';
@@ -52,6 +52,7 @@ const { Item } = Form;
 @observer
 export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
 {
+    formRef: RefObject<FormInstance<TenantInfo>> = createRef<FormInstance<TenantInfo>>();
     @observable loading: boolean = false;
     @observable imageUrlFront: string = '';
     @observable imageUrlBack: string = '';
@@ -60,9 +61,8 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         const reg: RegExp = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
         if (reg.test(tInfo.tenant_num))
         {
-            if (!this.imageUrlFront && !this.imageUrlBack)
+            if (!this.imageUrlFront || !this.imageUrlBack)
             {
-
                 message.error('请上传身份证照片');
                 return;
             }
@@ -106,6 +106,10 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
                 if (side === 'front')
                 {
                     this.imageUrlFront = reader.target!.result as string;
+                    this.formRef.current!.setFieldsValue({
+                        tenant_name: result.words_result.姓名.words,
+                        tenant_num: result.words_result.公民身份号码.words,
+                    });
                 } else
                 {
                     this.imageUrlBack = reader.target!.result as string;
@@ -118,7 +122,6 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
             {
                 message.error({ content: "请上传正确的身份证照片", key: "ImageUploading" });
             }
-            console.log(result);
         };
     };
     render()
@@ -135,13 +138,16 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         };
         return (
             <div className='AddTenantInfo'>
-                <Form onFinish={this.ConfirmTenantInfo} layout='vertical'>
+                <Form onFinish={this.ConfirmTenantInfo}
+                    layout='vertical'
+                    ref={this.formRef}
+                >
                     <Item
                         label="姓名："
                         name="tenant_name"
                         rules={[{ required: true, message: '请输入您的姓名' }]}
                     >
-                        <Input autoComplete='off' size='large' placeholder='请输入您的姓名' />
+                        <Input disabled={Boolean(this.imageUrlFront)} autoComplete='off' size='large' placeholder='请输入您的姓名' />
                     </Item>
                     <Item
                         label="国家地区："
@@ -170,9 +176,20 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
                         name="tenant_num"
                         rules={[{ required: true, message: '请输入身份证号码' }]}
                     >
-                        <Input autoComplete='off' size='large' placeholder='请输入身份证号码' />
+                        <Input disabled={Boolean(this.imageUrlFront)} autoComplete='off' size='large' placeholder='请输入身份证号码' />
                     </Item>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                    <Popover content={'上传后可自动识别'} placement='topLeft'>
+                        <Badge count={<QuestionOutlined />}
+                            style={{
+                                fontSize: "12px",
+                                background: '#f8f9ff',
+                                padding: '5px',
+                                borderRadius: "50%",
+                            }}
+                        >
+                        </Badge>
+                    </Popover>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: "10px" }}>
                         <Upload
                             listType="picture-card"
                             className="avatar-uploader"
