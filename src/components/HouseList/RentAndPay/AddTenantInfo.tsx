@@ -60,12 +60,19 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         const reg: RegExp = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
         if (reg.test(tInfo.tenant_num))
         {
+            if (!this.imageUrlFront && !this.imageUrlBack)
+            {
+
+                message.error('请上传身份证照片');
+                return;
+            }
             this.props.order.tenantInfo = tInfo;
             this.props.CloseDrawer();
         } else
         {
             message.error('请输入正确的身份证号码');
         }
+
     };
     GetToken = async (): Promise<BaiduToken> => await (await fetch(`${CONST_HOST}/FetchBaiduToken`)).json();
     GetBaiDuIDAnalysisResult = async (base64: string, side: 'front' | 'back'): Promise<BaiduIDAnalysisResult> =>
@@ -92,13 +99,24 @@ export default class AddTenantInfo extends Component<AddTenantInfoProps, {}>
         fileReader.readAsDataURL(file.originFileObj as File);
         fileReader.onload = async (reader) =>
         {
+            message.loading({ content: "上传中", key: "ImageUploading" });
             const result = await this.GetBaiDuIDAnalysisResult(reader.target?.result as string, side);
-            if (side === 'front')
+            if (result?.image_status === "normal")
             {
-                this.imageUrlFront = reader.target!.result as string;
+                if (side === 'front')
+                {
+                    this.imageUrlFront = reader.target!.result as string;
+                } else
+                {
+                    this.imageUrlBack = reader.target!.result as string;
+                }
+                message.success({ content: "上传成功", key: "ImageUploading" });
+            } else if (result?.image_status === "reversed_side")
+            {
+                message.error({ content: "请检查正反面是否正确", key: "ImageUploading" });
             } else
             {
-                this.imageUrlBack = reader.target!.result as string;
+                message.error({ content: "请上传正确的身份证照片", key: "ImageUploading" });
             }
             console.log(result);
         };
