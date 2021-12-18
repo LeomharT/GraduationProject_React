@@ -188,7 +188,7 @@ class RefundOrder extends Component<RefundOrderProps, {}>
 export default withRouter(RefundOrder);
 
 
-function OtherRule()
+export function OtherRule()
 {
     return (
         <div className='OtherRule'>

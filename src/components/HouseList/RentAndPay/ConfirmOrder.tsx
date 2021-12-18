@@ -9,6 +9,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import CashPayment from '../../../assets/img/CashPayment.gif';
 import { HouseInfo } from '../../../interfaces/HouseListInterface';
 import { AliPayOrderState, PayChannel } from '../../../interfaces/PaymentInterface';
+import { UserRentListItem } from '../../../interfaces/UserInferface';
 import HouseStore from '../../../redux/HouseStore';
 import UserStore from '../../../redux/UserStore';
 import { CONST_HOST, SpinStyle } from '../../Common/VariableGlobal';
@@ -379,7 +380,26 @@ class ConfirmOrder extends Component<ConfirmOrderProps, {}>
                             >
                             </Checkbox>
                             <label htmlFor='AgreeProtocol' style={{ cursor: 'pointer' }}>
-                                点击按钮即代表我同意房东的<Button style={{ padding: '0' }} type='link' children='入住须知' size='large' />、优区生活针对新冠肺炎疫情的<Button style={{ padding: '0' }} type='link' children='安全要求' size='large' />和<Button style={{ padding: '0' }} type='link' children='房客退款政策' size='large' />。
+                                点击按钮即代表我同意房东的
+                                <Button style={{ padding: '0' }} type='link' children='入住须知' size='large' onClick={() =>
+                                {
+                                    const contractInfo = {
+                                        sendPayDate: new Date(),
+                                        realName: this.order.tenantInfo?.tenant_name ?? '用户',
+                                        hId: this.order.housebaseInfo.hId,
+                                        checkInDate: this.order.checkInDate.toDate(),
+                                        checkOutDate: this.order.checkOutDate.toDate(),
+                                        totalAmount: this.order.finalRent.toString(),
+                                    } as UserRentListItem;
+                                    this.props.history.push('/HouseContract', { contractInfo });
+                                }} />
+                                、优区生活针对新冠肺炎疫情的
+                                <Button style={{ padding: '0' }} type='link' children='安全要求' size='large' />
+                                和
+                                <Button style={{ padding: '0' }} type='link' children='房客退款政策' size='large' onClick={() =>
+                                {
+                                    window.open("/StaticPage/StaticRefund");
+                                }} />。
                             </label>
                         </div>
                         <Button

@@ -16,6 +16,11 @@ import { AppIconTitle } from '../../Common/AppIconTitle';
 import { LANGUAGE_REFER, SpinStyle } from '../../Common/VariableGlobal';
 import { FormatNum } from './CostDetail';
 
+export const spanLineStyle: CSSProperties = {
+    display: 'inline-block',
+    width: '150px',
+    borderBottom: "2px solid black",
+};
 @observer
 class HouseContract extends Component<RouteComponentProps, {}>
 {
@@ -295,9 +300,4 @@ class HouseContract extends Component<RouteComponentProps, {}>
         );
     }
 }
-const spanLineStyle: CSSProperties = {
-    display: 'inline-block',
-    width: '150px',
-    borderBottom: "2px solid black",
-};
 export default withRouter(HouseContract);
