@@ -112,7 +112,7 @@ class HouseDetail extends Component<DetailProps, {}>
 
     async componentDidMount()
     {
-        this.houseDetailInfo = await this.HouseStore.InitHouseInfo((this.props.match.params as any).HouseId);
+        this.houseDetailInfo = await this.HouseStore.InitHouseInfoIfetch((this.props.match.params as any).HouseId);
         if (!this.houseDetailInfo?.baseInfo) return;
         this.InitMap();
         this.CheckForCurrentHouseIsCollected();

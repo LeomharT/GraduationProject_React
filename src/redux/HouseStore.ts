@@ -3,6 +3,7 @@ import { observable } from "mobx";
 import NProgress from "nprogress";
 import { CONST_HOST } from "../components/Common/VariableGlobal";
 import { HouseExhibitList, HouseInfo, HouseParams } from "../interfaces/HouseListInterface";
+import IFetch from "../util/FetchUtil";
 
 export default class HouseStore
 {
@@ -33,6 +34,12 @@ export default class HouseStore
                 await
                     fetch(`${CONST_HOST}/GetHouseDetailInfo?hId=${hId}`)
             ).json()
+        );
+    };
+    InitHouseInfoIfetch = async (hId: string): Promise<HouseInfo> =>
+    {
+        return (
+            await IFetch<HouseInfo>({ url: `${CONST_HOST}/GetHouseDetailInfo?hId=${hId}` }) as HouseInfo
         );
     };
     /**
