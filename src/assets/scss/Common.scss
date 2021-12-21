@@ -191,6 +191,10 @@
     {
         box-sizing: border-box;
         padding   : 30px;
+        .ant-modal-body
+        {
+            overflow:hidden;
+        }
         .ant-modal-close
         {
             button
