@@ -3,10 +3,8 @@ import { auth } from "../sso/Authing";
 export default class AuthStore
 {
     auth = auth; //SSO单点登录的API
-    GetAuthInfo = async () =>
-    {
-        return await this.auth.trackSession();
-    };
+    GetAuthInfo = async () => await this.auth.trackSession();
+
     InitAuthenticationClient = async (): Promise<AuthenticationClient> =>
     {
         let authInfo = await this.GetAuthInfo();
