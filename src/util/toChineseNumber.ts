@@ -28,7 +28,7 @@ const NumToText = (num: string | number) =>
     return { integer, decimal };
 };
 
-const toChineseNum = (num: string | number) =>
+const toChineseNumber = (num: string | number) =>
 {
     const { integer, decimal } = NumToText(num);
 
@@ -81,4 +81,4 @@ const toChineseNum = (num: string | number) =>
 
     return `${_integer}${_decimal || '整'}`;
 };
-export default toChineseNum;
+export default toChineseNumber;
