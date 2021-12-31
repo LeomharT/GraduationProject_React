@@ -1,74 +1,84 @@
-const chineseNumberArr: string[] = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
-const unit: string[] = ["", "拾", "佰", "仟"];
-const level: string[] = ['', '萬', '億'];
+interface ChineseNumConfig
+{
+    [key: string]: any;
+    CN_num: string[];
+    CN_unit: string[];
+    level: string[];
+}
 
-/**
- * @param num 需要转化的数字或者字符串
- * @returns
- */
-const ConverNumToStr = (num: number | string): { integer: string[], decimal: string[]; } =>
+
+const config: ChineseNumConfig = {
+    CN_num: ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'],
+    CN_unit: ['', '拾', '佰', '仟'],
+    level: ['', '萬', '億', '兆'],
+};
+
+const NumToText = (num: string | number) =>
 {
     if (typeof num === 'string')
     {
-        num = parseFloat(num);
+        num = Number.parseFloat(num);
     }
-    //将数字拆分为两个数组(如果有的话).[0].[1]
-    const numbers = num.toFixed(2).split('.');
-    //小数点之前的数
+    const numbers = num.toFixed(2).split(".");
+
     const integer = numbers[0].split('');
-    //小数点之后的数
+
     const decimal = Number(numbers[1]) === 0 ? [] : numbers[1].split('');
-    return ({ integer, decimal });
+
+    return { integer, decimal };
 };
 
-const toChineseNumber = (num: string | number) =>
+const toChineseNum = (num: string | number) =>
 {
-    const { integer, decimal } = ConverNumToStr(num);
-    const levels = integer.reverse().reduce((pre: string[], curr: string, index: number) =>
+    const { integer, decimal } = NumToText(num);
+
+    const levels = integer.reverse().reduce((prve: string[][], curr: string, index: number) =>
     {
-        let level = pre[0] && pre[0].length < 4 ? pre[0] : [];
+        //没装满四个就继续装,装满了就变为一个空数组
+        const level: string[] = prve[0] && prve[0].length < 4 ? prve[0] : [];
+        //判断数字是否为0,不为0则添加上单位
+        const value = curr === '0' ? config.CN_num[Number.parseInt(curr)] : config.CN_num[Number.parseInt(curr)] + config.CN_unit[index % 4];
 
-        let value = curr === '0'
-            ? chineseNumberArr[Number.parseInt(curr)]
-            : chineseNumberArr[Number.parseInt(curr)] + unit[index % 4];
-
-        (level as any[]).unshift(value);
+        level.unshift(value);
 
         if (level.length === 1)
         {
-            pre.unshift(level as string);
+            prve.unshift(level);
         } else
         {
-            pre[0] = level as string;
+            prve[0] = level;
         }
-        return pre;
+        return prve;
     }, []);
-    const _integer = levels.reduce((pre: string, item: string | string[], index: number) =>
+    const _integer = levels.reduce((prve, curr, index) =>
     {
-        let _level = level[levels.length - index - 1];
-        let _item = (item as string[]).join("").replace(/(零)\1+/g, "$1");;
-        if (_item === "零")
-        {
-            _item = "";
-            _level = "";
+        let _level = config.level[levels.length - index - 1];
 
-            // 否则如果末尾为零字，则去掉这个零字
-        } else if (_item[_item.length - 1] === "零")
+        //连续两个零的话换为一个零
+        let items = curr.join('').replace(/(零)\1+/g, '$1');
+
+        if (items === '零')
         {
-            _item = _item.slice(0, _item.length - 1);
+            _level = '';
+            items = '';
         }
-        return pre + _item + _level;
-    }, "");
-    let _decimal = decimal.map((item: string, index: number) =>
+        if (items[items.length - 1] === '零')
+        {
+            items = items.slice(0, items.length - 1);
+        }
+
+        return prve + items + _level;
+    }, '');
+
+    const _decimal = decimal.map((v, index) =>
     {
-        const unit = ["分", "角"];
-        const _unit = item !== "0" ? unit[unit.length - index - 1] : "";
+        const unit = ['分', '角'];
 
-        return `${chineseNumberArr[Number.parseInt(item)]}${_unit}`;
-    })
-        .join("");
-    return `${_integer}元` + (_decimal || "整");
+        const _unti = v !== '0' ? unit[unit.length - index - 1] : '';
+
+        return `${config.CN_num[Number.parseInt(v)]}${_unti}`;
+    }).join('');
+
+    return `${_integer}${_decimal || '整'}`;
 };
-
-
-export default toChineseNumber;
+export default toChineseNum;
