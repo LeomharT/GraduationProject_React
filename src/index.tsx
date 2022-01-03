@@ -8,6 +8,7 @@ import HConsult from './components/HConsult/HConsult';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import route, { RouteType } from './route/router';
+import toChineseNumber from './util/toChineseNumber';
 //汉化时间
 moment.defineLocale('zh-cn', {
     relativeTime: {
@@ -25,6 +26,13 @@ moment.defineLocale('zh-cn', {
         y: '1 年',
         yy: '%d 年',
     },
+});
+
+Object.defineProperty(String, 'toChineseNumber', {
+    value: toChineseNumber,
+    enumerable: true,
+    configurable: false,
+    writable: false,
 });
 ReactDOM.render(
     <React.StrictMode>
