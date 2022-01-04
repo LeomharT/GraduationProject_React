@@ -8,7 +8,3 @@ declare interface MultiMarker
     position: any;
     properties: any;
 }
-declare interface String extends String
-{
-    toChineseNumber: Function;
-}
