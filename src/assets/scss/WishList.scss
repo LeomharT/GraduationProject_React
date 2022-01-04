@@ -70,6 +70,37 @@
     height        : 100vh;
     .FolderList
     {
-
+        width  : 100%;
+        height : 100%;
+        padding: 20px 50px;
+        .FolderItem
+        {
+            width           : 430px;
+            height          : 250px;
+            border-radius   : 15px;
+            background-color: white;
+            overflow        : hidden;
+            display         : flex;
+            flex-direction  : row;
+            justify-content : space-between;
+            .FolderLeft
+            {
+                width           : 255px;
+                height          : 100%;
+            }
+            .FolderRight
+            {
+                width           : 170px;
+                height          : 100%;
+                display         : flex;
+                flex-direction  : column;
+                gap             : 3px;
+                >div
+                {
+                    width : 100%;
+                    height: 100%;
+                }
+            }
+        }
     }
 }
