@@ -19,7 +19,7 @@ import HouseRepair from "../components/HouseList/Repair/HouseRepair";
 import StaticRefund from "../components/HouseList/StaticPage/StaticRefund";
 import Journey from "../components/Journey/Journey";
 import JourneyDetail from "../components/Journey/JourneyDetail";
-import U_UserCollect from "../components/Journey/U_UserCollect";
+import U_UserCollect from "../components/Journey/WishList/U_UserCollect";
 import User from "../components/User/User";
 import HouseContract from "../components/User/UserRent/HouseContract";
 import U_UserRents from "../components/User/UserRent/U_UserRents";
