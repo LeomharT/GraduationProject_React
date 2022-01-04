@@ -14,7 +14,7 @@ import { IconFont } from '../HouseList/RentAndPay/ConfirmOrder';
 const menuItem: MenuType[] = [
     { title: '浏览房源', link: '/HouseList/Exhibits', icon: <HomeOutlined /> },
     // { title: '成为房东', link: '/HouseRental', icon: <MoneyCollectOutlined /> },
-    { title: '心愿单', link: '/UserCollection', icon: <HeartOutlined /> },
+    { title: '心愿单', link: '/WishListFolder', icon: <HeartOutlined /> },
     { title: '行程', link: '/Journey', icon: <IconFont type='icon-houserentlishihangcheng' /> },
     { title: "You+社区", link: '/Community', icon: <YahooOutlined /> },
 ];

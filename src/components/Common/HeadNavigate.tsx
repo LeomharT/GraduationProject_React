@@ -23,7 +23,7 @@ class HeadNavigate extends Component<HeadNavigateProps, {}>
         const menuItem: MenuType[] = [
             { title: "主页", link: "/Home" },
             { title: "租房", link: "/HouseList/Exhibits" },
-            { title: "心愿单", link: "/UserCollection" },
+            { title: "心愿单", link: "/WishListFolder" },
             { title: "行程", link: "/Journey" },
             { title: "You+社区", link: "/Community" },
         ];

@@ -63,3 +63,13 @@
         right   : 0;
     }
 }
+.WishListFolder
+{
+    display       : flex;
+    flex-direction: column;
+    height        : 100vh;
+    .FolderList
+    {
+
+    }
+}
