@@ -1,5 +1,7 @@
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
+import { CheckCircleOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Card, Input } from 'antd';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -36,17 +38,27 @@ interface FolderItemProps
     folderID: string,
     folderName: string,
 }
+@observer
 class FolderItem extends Component<FolderItemProps, {}>
 {
     UserStore: UserStore = UserStore.GetInstance();
+    @observable editing: boolean = false;
     render(): React.ReactNode
     {
         return (
             <Card className='FolderItem'
                 actions={
                     [
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" />,
+                        <SettingOutlined disabled />,
+                        this.editing
+                            ? <CheckCircleOutlined key="edit" onClick={() =>
+                            {
+                                this.editing = !this.editing;
+                            }} />
+                            : <EditOutlined key="edit" onClick={() =>
+                            {
+                                this.editing = !this.editing;
+                            }} />,
                         <EllipsisOutlined key="ellipsis" />,
                     ]
                 }
@@ -73,7 +85,9 @@ class FolderItem extends Component<FolderItemProps, {}>
                     </div>
                 }
             >
-                <Card.Meta title='默认文件夹'
+                <Card.Meta title={
+                    this.editing ? <Input size='small' /> : "默认文件夹"
+                }
                     description={"创建于:" + moment(this.UserStore.authInfo?.userInfo?.createdAt as Date).format('YYYY年MM月DD日 hh时mm分ss秒')} />
             </Card>
         );
