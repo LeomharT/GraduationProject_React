@@ -76,6 +76,9 @@ const toChineseNumber = (num: string | number) =>
 
         const _unti = v !== '0' ? unit[unit.length - index - 1] : '';
 
+        let value = `${config.CN_num[Number.parseInt(v)]}${_unti}`;
+        if (value[value.length - 1] === '零') value = value.slice(0, value.length - 1);
+
         return `${config.CN_num[Number.parseInt(v)]}${_unti}`;
     }).join('');
 

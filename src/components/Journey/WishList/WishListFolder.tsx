@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import HeadNavigate from '../../Common/HeadNavigate';
-
 class WishListFolder extends Component<RouteComponentProps, {}>
 {
     render()
