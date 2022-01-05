@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { CheckOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Card, Input } from 'antd';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -51,12 +51,22 @@ class FolderItem extends Component<FolderItemProps, {}>
                     [
                         <SettingOutlined disabled />,
                         this.editing
-                            ? <CheckCircleOutlined key="edit" onClick={() =>
+                            ? <CheckOutlined key="edit" onClick={(e) =>
                             {
+                                if (this.props.folderID === '0')
+                                {
+                                    e.preventDefault();
+                                    return;
+                                }
                                 this.editing = !this.editing;
                             }} />
-                            : <EditOutlined key="edit" onClick={() =>
+                            : <EditOutlined key="edit" onClick={(e) =>
                             {
+                                if (this.props.folderID === '0')
+                                {
+                                    e.preventDefault();
+                                    return;
+                                }
                                 this.editing = !this.editing;
                             }} />,
                         <EllipsisOutlined key="ellipsis" />,
