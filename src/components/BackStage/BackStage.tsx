@@ -16,7 +16,7 @@ export default function BackStage()
                     <Headers />
                     <div className='MainContent'>
                         <Switch>
-                            {route[10].childRoute?.map((r: RouteType) =>
+                            {route[11].childRoute?.map((r: RouteType) =>
                             {
                                 return (
                                     <Route key={r.path} exact={true} path={r.path} component={r.components} />
