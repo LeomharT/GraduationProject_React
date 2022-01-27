@@ -146,6 +146,7 @@ class U_UserCollect extends Component<RouteComponentProps, {}>
     };
     async componentDidMount()
     {
+        console.log(this.props);
         if (!this.UserStore.CheckForIsLogin()) return;
         await this.InitUserCollections();
         this.InitMap();

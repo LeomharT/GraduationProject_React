@@ -67,7 +67,7 @@ const route: RouteType[] = [
         ]
     },
     { title: "PaymentSuccess", path: "/PaymentSuccess", components: PaymentSuccess },
-    { title: "UserCollection", path: '/UserCollection', components: U_UserCollect },
+    { title: "UserCollection", path: '/UserCollection/:id?', components: U_UserCollect },
     { title: "WishListFolder", path: '/WishListFolder', components: WishListFolder },
     { title: "Journey", path: '/Journey', components: Journey },
     { title: "JourneyDetail", path: '/JourneyDetail', components: JourneyDetail },
