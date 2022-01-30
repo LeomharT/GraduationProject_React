@@ -15,6 +15,9 @@ class WishListFolder extends Component<RouteComponentProps, {}>
     {
         return (
             <div className='WishListFolder'>
+                <div>
+                    anything
+                </div>
                 <HeadNavigate />
                 <h1 style={{ fontSize: "30px", fontWeight: "bold", padding: "0 80px", paddingTop: "20px" }}>
                     心愿单
